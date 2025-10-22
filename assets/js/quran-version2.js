@@ -257,8 +257,7 @@
     }
   }
   window.addEventListener('load', checkUrlParams);
-</script>
-<script>
+
 /**
  * Advanced Al Quran Online Tool
  * Version: 2.0.0
