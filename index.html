@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Al-Quran Online - Read and listen to the complete Quran with translation and audio recitation. All 114 Surahs with ayahs, multiple reciters, and translations.">
+    <meta name="keywords" content="Quran, Al-Quran, Islam, Quran Online, Islamic, Arabic, Translation, Recitation, Surah, Ayah">
+    <meta name="author" content="ilmualam.com">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Al-Quran Online | Read & Listen">
+    <meta property="og:description" content="Complete Al-Quran with audio recitation and translations. Read and listen to all 114 Surahs.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ilmualam.github.io/quran/">
+    <meta property="og:image" content="https://ilmualam.github.io/quran/assets/images/quran-og.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Al-Quran Online | Read & Listen">
+    <meta name="twitter:description" content="Complete Al-Quran with audio recitation and translations">
+    
+    <title>Al-Quran Online | Read & Listen with Translation</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E📖%3C/text%3E%3C/svg%3E">
+    
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg: #f5f7fa;
+            --ink: #2c3e50;
+            --brand: #3498db;
+            --card-bg: #ffffff;
+            --border: #e1e8ed;
+            --hover: #ecf0f1;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+        }
+
+        /* Night Mode Variables */
+        body.night {
+            --bg: #0f1115;
+            --ink: #e6e9ee;
+            --card-bg: #1a1d23;
+            --border: #2d3139;
+            --hover: #252930;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Header */
+        header {
+            background: var(--card-bg);
+            box-shadow: 0 2px 8px var(--shadow);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--brand);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Controls Section */
+        .controls {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            margin: 1.5rem auto;
+            max-width: 1200px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .control-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .control-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--ink);
+        }
+
+        select, input[type="text"] {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--ink);
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        select:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--brand);
+        }
+
+        /* Buttons */
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--brand);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .audio-controls button {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        /* Toggle Switches */
+        .toggle-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Search Section */
+        .search-section {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .search-section input {
+            flex: 1;
+        }
+
+        #searchResults {
+            margin-top: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .search-result-item {
+            padding: 1rem;
+            background: var(--hover);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-result-item:hover {
+            background: var(--border);
+            transform: translateX(5px);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        #quranDisplay {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--shadow);
+            min-height: 400px;
+        }
+
+        /* Surah Info */
+        .surah-info {
+            text-align: center;
+            padding: 2rem 0;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .surah-name-ar {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand);
+            margin-bottom: 0.5rem;
+            font-family: 'Traditional Arabic', 'Arial Unicode MS', serif;
+        }
+
+        .surah-name-en {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--ink);
+            margin-bottom: 0.5rem;
+        }
+
+        .surah-meta {
+            font-size: 1rem;
+            color: #7f8c8d;
+        }
+
+        .bismillah {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--brand);
+            margin: 2rem 0;
+            padding: 1rem;
+            background: var(--hover);
+            border-radius: 8px;
+            font-family: 'Traditional Arabic', 'Arial Unicode MS', serif;
+        }
+
+        /* Ayah Container */
+        .ayah-container {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg);
+            transition: all 0.3s;
+        }
+
+        .ayah-container:hover {
+            border-color: var(--brand);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .ayah-container.playing {
+            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), transparent);
+            border-color: var(--brand);
+            border-left-width: 4px;
+        }
+
+        .ayah-content {
+            margin-bottom: 1rem;
+        }
+
+        .ayah-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--brand);
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .ayah-text-ar {
+            font-size: 1.8rem;
+            line-height: 2.5;
+            text-align: right;
+            direction: rtl;
+            color: var(--ink);
+            margin-bottom: 1rem;
+            font-family: 'Traditional Arabic', 'Arial Unicode MS', serif;
+        }
+
+        .ayah-translation {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #555;
+            padding: 1rem;
+            background: var(--hover);
+            border-radius: 8px;
+            border-left: 3px solid var(--brand);
+        }
+
+        body.night .ayah-translation {
+            color: #bbb;
+        }
+
+        /* Ayah Actions */
+        .ayah-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .action-ibtn {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            background: var(--hover);
+            color: var(--ink);
+            border: 1px solid var(--border);
+        }
+
+        .action-ibtn:hover {
+            background: var(--brand);
+            color: white;
+            border-color: var(--brand);
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: var(--brand);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            border: 3px solid #e6eef7;
+            border-top-color: var(--brand);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        /* Share Modal */
+        #shareModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            place-items: center;
+        }
+
+        .share-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .share-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        #shareText {
+            padding: 1rem;
+            background: var(--hover);
+            border-radius: 8px;
+            margin: 1rem 0;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+            box-shadow: 0 -2px 8px var(--shadow);
+        }
+
+        footer p {
+            color: #7f8c8d;
+            margin: 0.5rem 0;
+        }
+
+        footer a {
+            color: var(--brand);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .control-group {
+                grid-template-columns: 1fr;
+            }
+
+            .ayah-text-ar {
+                font-size: 1.5rem;
+            }
+
+            .audio-controls {
+                flex-direction: column;
+            }
+
+            .audio-controls button {
+                width: 100%;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            header, .controls, .ayah-actions, footer {
+                display: none;
+            }
+            
+            .ayah-container {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1>
+                <span>📖</span>
+                <span>Al-Quran Online</span>
+            </h1>
+            <p style="color: #7f8c8d; font-size: 0.9rem;">Read and listen to the complete Quran with translation</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Controls Section -->
+        <section class="controls">
+            <div class="control-group">
+                <div class="control-item">
+                    <label for="surahSelect">Select Surah:</label>
+                    <select id="surahSelect">
+                        <option value="">Loading surahs...</option>
+                    </select>
+                </div>
+                
+                <div class="control-item">
+                    <label for="reciterSelect">Select Reciter:</label>
+                    <select id="reciterSelect">
+                        <option value="ar.alafasy">Mishary Rashid Alafasy</option>
+                        <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
+                        <option value="ar.minshawi">Muhammad Siddiq Al-Minshawi</option>
+                        <option value="ar.abdulbasit">Abdul Basit</option>
+                    </select>
+                </div>
+                
+                <div class="control-item">
+                    <label for="translationSelect">Select Translation:</label>
+                    <select id="translationSelect">
+                        <option value="en.sahih">English - Saheeh International</option>
+                        <option value="en.asad">English - Muhammad Asad</option>
+                        <option value="en.pickthall">English - Pickthall</option>
+                        <option value="en.yusufali">English - Yusuf Ali</option>
+                        <option value="ms.basmeih">Malay - Abdullah Basmeih</option>
+                        <option value="id.indonesian">Indonesian</option>
+                        <option value="ur.jalandhry">Urdu - Jalandhry</option>
+                    </select>
+                </div>
+                
+                <div class="control-item">
+                    <label for="fontSizeSelect">Font Size:</label>
+                    <select id="fontSizeSelect">
+                        <option value="small">Small</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="large">Large</option>
+                        <option value="xlarge">Extra Large</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Audio Controls -->
+            <div class="audio-controls">
+                <button id="playibtn" title="Play">▶️ Play</button>
+                <button id="pauseibtn" title="Pause">⏸️ Pause</button>
+                <button id="stopibtn" title="Stop">⏹️ Stop</button>
+                <button id="prevAyahibtn" title="Previous Ayah">⏮️ Previous</button>
+                <button id="nextAyahibtn" title="Next Ayah">⏭️ Next</button>
+            </div>
+
+            <!-- Toggle Options -->
+            <div class="toggle-group">
+                <div class="toggle-item">
+                    <input type="checkbox" id="translationToggle" checked>
+                    <label for="translationToggle">Show Translation</label>
+                </div>
+                <div class="toggle-item">
+                    <input type="checkbox" id="highlightToggle" checked>
+                    <label for="highlightToggle">Highlight Playing Ayah</label>
+                </div>
+                <div class="toggle-item">
+                    <input type="checkbox" id="autoPlayCheck" checked>
+                    <label for="autoPlayCheck">Auto Play Next</label>
+                </div>
+                <div class="toggle-item">
+                    <input type="checkbox" id="repeatToggle">
+                    <label for="repeatToggle">Repeat Ayah</label>
+                </div>
+                <div class="toggle-item">
+                    <input type="checkbox" id="nightModeToggle">
+                    <label for="nightModeToggle">🌙 Night Mode</label>
+                </div>
+            </div>
+
+            <!-- Search Section -->
+            <div class="search-section">
+                <input type="text" id="searchInput" placeholder="Search in Quran..." aria-label="Search in Quran">
+                <button id="searchibtn">🔍 Search</button>
+            </div>
+            <div id="searchResults"></div>
+        </section>
+
+        <!-- Quran Display Area -->
+        <section id="quranDisplay">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                Loading Quran...
+            </div>
+        </section>
+    </main>
+
+    <!-- Share Modal -->
+    <div id="shareModal" onclick="if(event.target === this) closeShareModal()">
+        <div class="share-content">
+            <h3 style="margin-bottom: 1rem;">Share Ayah</h3>
+            <div id="shareText"></div>
+            <div class="share-buttons">
+                <button onclick="shareOn('whatsapp')" style="background: #25D366;">📱 WhatsApp</button>
+                <button onclick="shareOn('facebook')" style="background: #1877F2;">👍 Facebook</button>
+                <button onclick="shareOn('twitter')" style="background: #1DA1F2;">🐦 Twitter</button>
+                <button onclick="shareOn('telegram')" style="background: #0088cc;">✈️ Telegram</button>
+            </div>
+            <button onclick="closeShareModal()" style="margin-top: 1rem; width: 100%; background: #95a5a6;">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Al-Quran Online</strong></p>
+        <p>Created with ❤️ for Malaysian Muslims and worldwide community</p>
+        <p>Data provided by <a href="https://alquran.cloud" target="_blank" rel="noopener">AlQuran Cloud API</a></p>
+        <p>© 2025 <a href="https://ilmualam.com" target="_blank" rel="noopener">ilmualam.com</a> | All Rights Reserved</p>
+        <p style="font-size: 0.8rem; margin-top: 1rem;">
+            <kbd>Space</kbd> Play/Pause | <kbd>←</kbd> Previous | <kbd>→</kbd> Next
+        </p>
+    </footer>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" id="qa-jsonld">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Al-Quran Online",
+        "url": "https://ilmualam.github.io/quran/",
+        "description": "Read and listen to the complete Al-Quran with translation and audio recitation. All 114 Surahs with multiple reciters and translations.",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "ilmualam.com",
+            "url": "https://ilmualam.com"
+        }
+    }
+    </script>
+
+    <!-- Load the Quran Application Script -->
+    <script src="assets/js/quran-version2.js"></script>
+</body>
+</html>
