@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Quran Online - Baca, Dengar & Kongsi</title>
+    <style>
+        /* ===== SCOPED STYLES - NO THEME CONFLICTS ===== */
+        .alquran-container {
+            --primary-color: #249749;
+            --primary-dark: #1a7035;
+            --primary-light: #2eae57;
+            --text-color: #2c3e50;
+            --bg-light: #f8f9fa;
+            --border-color: #dee2e6;
+            --shadow: 0 2px 8px rgba(36, 151, 73, 0.1);
+            
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            line-height: 1.6;
+        }
+
+        .alquran-container * {
+            box-sizing: border-box;
+        }
+
+        /* Header Section */
+        .alquran-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .alquran-header h1 {
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        .alquran-header p {
+            color: #6c757d;
+            margin: 5px 0;
+        }
+
+        /* Controls Section */
+        .alquran-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: 8px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+
+        .control-group select,
+        .control-group input {
+            padding: 10px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .control-group select:focus,
+        .control-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(36, 151, 73, 0.1);
+        }
+
+        .control-group select:disabled,
+        .control-group input:disabled {
+            background: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        /* Button Styles */
+        .alquran-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(36, 151, 73, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Verse Display */
+        .alquran-display {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            min-height: 400px;
+        }
+
+        .verse-container {
+            margin-bottom: 30px;
+        }
+
+        .verse-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--bg-light);
+        }
+
+        .verse-reference {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1em;
+        }
+
+        .verse-number {
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .verse-arabic {
+            font-family: 'Traditional Arabic', 'Al Qalam', 'Scheherazade', serif;
+            font-size: 2em;
+            line-height: 2.2;
+            text-align: right;
+            direction: rtl;
+            color: var(--text-color);
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: 8px;
+        }
+
+        .verse-translation {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #495057;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+        }
+
+        /* Loading & Error States */
+        .loading,
+        .error-message {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.1em;
+        }
+
+        .loading {
+            color: var(--primary-color);
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .error-message {
+            color: #dc3545;
+            background: #f8d7da;
+            border-radius: 8px;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .info-box strong {
+            color: #0c5460;
+        }
+
+        /* Audio Player */
+        .audio-player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .audio-progress {
+            flex: 1;
+            height: 8px;
+            background: #dee2e6;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .audio-progress-bar {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .alquran-container {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .alquran-header h1 {
+                font-size: 1.8em;
+            }
+
+            .alquran-controls {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+
+            .alquran-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .verse-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .verse-arabic {
+                font-size: 1.8em;
+                line-height: 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .alquran-header h1 {
+                font-size: 1.5em;
+            }
+
+            .verse-arabic {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Keyboard shortcuts hint */
+        .shortcuts-hint {
+            font-size: 0.85em;
+            color: #6c757d;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: var(--bg-light);
+            border-radius: 4px;
+        }
+
+        .shortcuts-hint kbd {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="alquran-container" id="alquranApp">
+        <!-- Header -->
+        <header class="alquran-header">
+            <h1>📖 Al-Quran Online</h1>
+            <p>Baca, Dengar & Kongsi - 30 Juzuk Lengkap dengan Terjemahan</p>
+        </header>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <strong>💡 Petua:</strong> Gunakan ← → untuk tukar ayat, <kbd>Space</kbd> untuk play/pause audio, atau <kbd>B</kbd> untuk bookmark.
+        </div>
+
+        <!-- Controls -->
+        <div class="alquran-controls">
+            <div class="control-group">
+                <label for="surahSelect">🕌 Pilih Surah</label>
+                <select id="surahSelect">
+                    <option value="">Memuatkan...</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="verseSelect">📄 Pilih Ayat</label>
+                <select id="verseSelect" disabled>
+                    <option value="">Pilih surah dahulu...</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="qariSelect">🎙️ Pilih Qari</label>
+                <select id="qariSelect">
+                    <option value="ar.alafasy">Mishary Rashid Al-Afasy</option>
+                    <option value="ar.abdulbasitmurattal">Abdul Basit (Murattal)</option>
+                    <option value="ar.husary">Mahmoud Khalil Al-Hussary</option>
+                    <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="searchSurah">🔍 Cari Surah</label>
+                <input type="text" id="searchSurah" placeholder="Contoh: Al-Baqarah, Yasin...">
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="alquran-actions">
+            <button class="btn btn-primary" id="playBtn" disabled>
+                ▶️ Play Audio
+            </button>
+            <button class="btn btn-secondary" id="copyBtn" disabled>
+                📋 Salin Ayat
+            </button>
+            <button class="btn btn-secondary" id="shareBtn" disabled>
+                🔗 Kongsi
+            </button>
+            <button class="btn btn-secondary" id="bookmarkBtn" disabled>
+                🔖 Simpan Bookmark
+            </button>
+            <button class="btn btn-secondary" id="loadBookmarkBtn">
+                📌 Buka Bookmark
+            </button>
+        </div>
+
+        <!-- Verse Display -->
+        <div class="alquran-display" id="verseDisplay">
+            <p class="loading">Sila pilih surah untuk bermula</p>
+        </div>
+
+        <!-- Audio Player (Hidden by default) -->
+        <div class="audio-player" id="audioPlayer" style="display: none;">
+            <button class="btn btn-primary" id="audioPlayPause">⏸️</button>
+            <div class="audio-progress" id="audioProgress">
+                <div class="audio-progress-bar" id="audioProgressBar"></div>
+            </div>
+            <span id="audioTime">0:00 / 0:00</span>
+        </div>
+
+        <!-- Keyboard Shortcuts Hint -->
+        <div class="shortcuts-hint">
+            <kbd>←</kbd> Ayat Sebelum | <kbd>→</kbd> Ayat Seterus | <kbd>Space</kbd> Play/Pause | <kbd>B</kbd> Bookmark
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Al-Quran Online Reader - v4.0 (Fixed Version)
+         * Using reliable API sources that comply with Google AdSense policies
+         */
+        (function() {
+            'use strict';
+
+            // ===== CONFIGURATION =====
+            const CONFIG = {
+                // Using Al-Quran Cloud API - free and reliable
+                apiBase: 'https://api.alquran.cloud/v1',
+                translationEdition: 'ms.basmeih', // Malay translation
+                audioEditions: {
+                    'ar.alafasy': 'ar.alafasy',
+                    'ar.abdulbasitmurattal': 'ar.abdulbasitmurattal',
+                    'ar.husary': 'ar.husary',
+                    'ar.minshawi': 'ar.minshawi'
+                },
+                cacheKey: 'alquran_cache_v4',
+                bookmarkKey: 'alquran_bookmark_v4'
+            };
+
+            // ===== STATE MANAGEMENT =====
+            const state = {
+                surahs: [],
+                currentSurah: null,
+                currentVerse: null,
+                audioElement: null,
+                isPlaying: false
+            };
+
+            // ===== DOM ELEMENTS =====
+            const elements = {
+                surahSelect: document.getElementById('surahSelect'),
+                verseSelect: document.getElementById('verseSelect'),
+                qariSelect: document.getElementById('qariSelect'),
+                searchSurah: document.getElementById('searchSurah'),
+                playBtn: document.getElementById('playBtn'),
+                copyBtn: document.getElementById('copyBtn'),
+                shareBtn: document.getElementById('shareBtn'),
+                bookmarkBtn: document.getElementById('bookmarkBtn'),
+                loadBookmarkBtn: document.getElementById('loadBookmarkBtn'),
+                verseDisplay: document.getElementById('verseDisplay'),
+                audioPlayer: document.getElementById('audioPlayer'),
+                audioPlayPause: document.getElementById('audioPlayPause'),
+                audioProgress: document.getElementById('audioProgress'),
+                audioProgressBar: document.getElementById('audioProgressBar'),
+                audioTime: document.getElementById('audioTime')
+            };
+
+            // ===== UTILITY FUNCTIONS =====
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            function formatTime(seconds) {
+                if (!seconds || isNaN(seconds)) return '0:00';
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            function showLoading(message = 'Memuatkan') {
+                elements.verseDisplay.innerHTML = `<p class="loading">${message}</p>`;
+            }
+
+            function showError(message) {
+                elements.verseDisplay.innerHTML = `<p class="error-message">❌ ${message}</p>`;
+            }
+
+            // ===== API FUNCTIONS =====
+            async function fetchAPI(endpoint) {
+                try {
+                    const response = await fetch(`${CONFIG.apiBase}${endpoint}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+                    if (data.code !== 200) {
+                        throw new Error(data.data || 'API Error');
+                    }
+                    return data.data;
+                } catch (error) {
+                    console.error('API Error:', error);
+                    throw error;
+                }
+            }
+
+            // ===== CORE FUNCTIONS =====
+            async function loadSurahs() {
+                try {
+                    showLoading('Memuatkan senarai surah');
+                    const data = await fetchAPI('/surah');
+                    state.surahs = data;
+
+                    elements.surahSelect.innerHTML = '<option value="">Pilih surah...</option>';
+                    state.surahs.forEach(surah =
+        const state = {
+            surahs: [],
+            juzs: Array.from({ length: 30 }, (_, i) => i + 1),
+            currentVerse: null,
+            currentMode: 'surah',
+            audioElement: null,
+            isPlaying: false
+        };
+
+        // ===== DOM ELEMENTS =====
+        const elements = {
+            viewMode: document.getElementById('viewMode'),
+            surahSelect: document.getElementById('surahSelect'),
+            juzSelect: document.getElementById('juzSelect'),
+            verseSelect: document.getElementById('verseSelect'),
+            qariSelect: document.getElementById('qariSelect'),
+            searchSurah: document.getElementById('searchSurah'),
+            playibtn: document.getElementById('playibtn'),
+            copyibtn: document.getElementById('copyibtn'),
+            shareibtn: document.getElementById('shareibtn'),
+            bookmarkibtn: document.getElementById('bookmarkibtn'),
+            loadBookmarkibtn: document.getElementById('loadBookmarkibtn'),
+            verseDisplay: document.getElementById('verseDisplay'),
+            audioPlayer: document.getElementById('audioPlayer'),
+            audioPlayPause: document.getElementById('audioPlayPause'),
+            audioProgress: document.getElementById('audioProgress'),
+            audioProgressBar: document.getElementById('audioProgressBar'),
+            audioTime: document.getElementById('audioTime')
+        };
+
+        // ===== UTILITY FUNCTIONS =====
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        const cache = {
+            set(key, data) {
+                try {
+                    const item = { data: data, timestamp: Date.now() };
+                    localStorage.setItem(key, JSON.stringify(item));
+                } catch (e) { console.error('Cache write error:', e); }
+            },
+            get(key) {
+                try {
+                    const item = localStorage.getItem(key);
+                    if (!item) return null;
+                    const parsed = JSON.parse(item);
+                    if (Date.now() - parsed.timestamp > CONFIG.cacheDuration) {
+                        localStorage.removeItem(key);
+                        return null;
+                    }
+                    return parsed.data;
+                } catch (e) { console.error('Cache read error:', e); return null; }
+            }
+        };
+
+        async function fetchAPI(endpoint, useCache = true) {
+            const cacheKey = `${CONFIG.cacheKey}_${endpoint}`;
+            if (useCache) {
+                const cached = cache.get(cacheKey);
+                if (cached) return cached;
+            }
+            try {
+                const response = await fetch(`${CONFIG.apiBase}${endpoint}`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const json = await response.json();
+                if (useCache) cache.set(cacheKey, json);
+                return json;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        function showLoading(message = 'Memuatkan') {
+            elements.verseDisplay.innerHTML = `<p class="loading">${message}</p>`;
+        }
+
+        function showError(message) {
+            elements.verseDisplay.innerHTML = `<p class="error-message">❌ ${message}</p>`;
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function getSurahInfo(id) {
+            return state.surahs.find(s => s.id === id);
+        }
+
+        // ===== INITIALIZATION =====
+        
+        async function loadSurahs() {
+            try {
+                const data = await fetchAPI('/chapters?language=ms');
+                state.surahs = data.chapters;
+                
+                elements.surahSelect.innerHTML = '<option value="">Pilih surah...</option>';
+                state.surahs.forEach(surah => {
+                    const option = document.createElement('option');
+                    option.value = surah.id;
+                    option.textContent = `${surah.id}. ${surah.name_simple} (${surah.translated_name.name}) - ${surah.verses_count} ayat`;
+                    elements.surahSelect.appendChild(option);
+                });
+
+                elements.juzSelect.innerHTML = '<option value="">Pilih juz...</option>';
+                state.juzs.forEach(juz => {
+                    const option = document.createElement('option');
+                    option.value = juz;
+                    option.textContent = `Juz ${juz}`;
+                    elements.juzSelect.appendChild(option);
+                });
+
+                handleHashNavigation();
+                
+            } catch (error) {
+                showError('Gagal memuatkan data Al-Quran. Sila muat semula halaman.');
+            }
+        }
+
+        // ===== CORE FUNCTIONS =====
+
+        async function loadSurahVerses(surahNumber) {
+            showLoading('Memuatkan ayat-ayat');
+            try {
+                const [arabicData, translationData] = await Promise.all([
+                    fetchAPI(`/quran/verses/uthmani?chapter_number=${surahNumber}`),
+                    fetchAPI(`/quran/translations/${CONFIG.translationID}?chapter_number=${surahNumber}`)
+                ]);
+
+                elements.verseSelect.innerHTML = '<option value="">Pilih ayat...</option>';
+                arabicData.verses.forEach((ayah, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `Ayat ${ayah.verse_number}`;
+                    elements.verseSelect.appendChild(option);
+                });
+
+                elements.verseSelect.disabled = false;
+                
+                state.currentSurah = {
+                    arabic: arabicData.verses,
+                    translation: translationData.translations
+                };
+
+                elements.verseSelect.value = '0';
+                displayVerse(0);
+                
+            } catch (error) {
+                showError('Gagal memuatkan ayat. Sila cuba lagi.');
+            }
+        }
+
+        async function loadJuzVerses(juzNumber) {
+            showLoading('Memuatkan juzuk');
+            try {
+                const [arabicData, translationData] = await Promise.all([
+                    fetchAPI(`/quran/verses/uthmani?juz_number=${juzNumber}`),
+                    fetchAPI(`/quran/translations/${CONFIG.translationID}?juz_number=${juzNumber}`)
+                ]);
+
+                elements.verseSelect.innerHTML = '<option value="">Pilih ayat...</option>';
+                arabicData.verses.forEach((ayah, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    const surahInfo = getSurahInfo(ayah.chapter_id);
+                    option.textContent = `${surahInfo.name_simple} - Ayat ${ayah.verse_number}`;
+                    elements.verseSelect.appendChild(option);
+                });
+
+                elements.verseSelect.disabled = false;
+                
+                state.currentJuz = {
+                    arabic: arabicData.verses,
+                    translation: translationData.translations
+                };
+
+                elements.verseSelect.value = '0';
+                displayVerse(0);
+                
+            } catch (error) {
+                console.error("Error in loadJuzVerses: ", error); // Added for debugging
+                showError('Gagal memuatkan juzuk. Sila cuba lagi.');
+            }
+        }
+
+        function displayVerse(index) {
+            const isJuzMode = state.currentMode === 'juz';
+            const source = isJuzMode ? state.currentJuz : state.currentSurah;
+            if (!source) return;
+
+            const arabicVerse = source.arabic[index];
+            const translationVerse = source.translation[index];
+
+            state.currentVerse = {
+                arabic: arabicVerse,
+                translation: translationVerse,
+                index: index
+            };
+
+            const surahInfo = getSurahInfo(arabicVerse.chapter_id);
+            const surahName = surahInfo.name_simple;
+            const surahEnglish = surahInfo.translated_name.name;
+            const verseNumber = arabicVerse.verse_number;
+
+            elements.verseDisplay.innerHTML = `
+                <div class="verse-container">
+                    <div class="verse-header">
+                        <div class="verse-reference">
+                            ${surahName} (${surahEnglish})
+                        </div>
+                        <div class="verse-number">Ayat ${verseNumber}</div>
+                    </div>
+                    <div class="verse-arabic">
+                        ${arabicVerse.text_uthmani}
+                    </div>
+                    <div class="verse-translation">
+                        <strong>Terjemahan:</strong> ${translationVerse.text}
+                    </div>
+                </div>
+            `;
+
+            elements.playibtn.disabled = false;
+            elements.copyibtn.disabled = false;
+            elements.shareibtn.disabled = false;
+            elements.bookmarkibtn.disabled = false;
+
+            window.location.hash = `surah/${arabicVerse.chapter_id}/ayah/${verseNumber}`;
+            trackEvent('verse_view', { surah: arabicVerse.chapter_id, ayah: verseNumber });
+        }
+
+        async function playAudio() {
+            if (!state.currentVerse) return;
+
+            const qariId = CONFIG.qariMap[elements.qariSelect.value];
+            const surahNumber = state.currentVerse.arabic.chapter_id;
+            const ayahNumber = state.currentVerse.arabic.verse_number;
+
+            try {
+                showLoading('Memuatkan audio');
+                
+                const audioData = await fetchAPI(`/recitations/${qariId}/by_verse_key/${surahNumber}:${ayahNumber}`);
+                const audioUrl = audioData.audio_file.audio_url;
+
+                if (!audioUrl) {
+                    showError('Audio tidak tersedia');
+                    return;
+                }
+
+                if (!state.audioElement) {
+                    state.audioElement = new Audio();
+                    setupAudioListeners();
+                }
+
+                state.audioElement.src = audioUrl;
+                state.audioElement.play();
+                state.isPlaying = true;
+
+                elements.audioPlayer.style.display = 'flex';
+                elements.playibtn.textContent = '⏸️ Pause Audio';
+                elements.audioPlayPause.textContent = '⏸️';
+
+                displayVerse(state.currentVerse.index);
+
+                trackEvent('audio_play', { surah: surahNumber, ayah: ayahNumber, qari: qariId });
+                
+            } catch (error) {
+                showError('Gagal memuatkan audio. Sila cuba qari lain.');
+            }
+        }
+
+        function setupAudioListeners() {
+            const audio = state.audioElement;
+            audio.addEventListener('timeupdate', () => {
+                if (audio.duration) {
+                    const progress = (audio.currentTime / audio.duration) * 100;
+                    elements.audioProgressBar.style.width = `${progress}%`;
+                    elements.audioTime.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+                }
+            });
+            audio.addEventListener('ended', () => {
+                state.isPlaying = false;
+                elements.playibtn.textContent = '▶️ Play Audio';
+                elements.audioPlayPause.textContent = '▶️';
+                elements.audioProgressBar.style.width = '0%';
+            });
+            audio.addEventListener('error', () => {
+                showError('Ralat audio. Sila cuba qari lain atau muat semula.');
+                state.isPlaying = false;
+            });
+        }
+
+        function toggleAudio() {
+            if (!state.audioElement || state.audioElement.src === "") {
+                playAudio();
+                return;
+            }
+            if (state.isPlaying) {
+                state.audioElement.pause();
+                state.isPlaying = false;
+                elements.playibtn.textContent = '▶️ Play Audio';
+                elements.audioPlayPause.textContent = '▶️';
+            } else {
+                state.audioElement.play();
+                state.isPlaying = true;
+                elements.playibtn.textContent = '⏸️ Pause Audio';
+                elements.audioPlayPause.textContent = '⏸️';
+            }
+        }
+
+        async function copyVerse() {
+            if (!state.currentVerse) return;
+            const surahInfo = getSurahInfo(state.currentVerse.arabic.chapter_id);
+            const text = `${state.currentVerse.arabic.text_uthmani}\n\n${state.currentVerse.translation.text}\n\n— ${surahInfo.name_simple}, Ayat ${state.currentVerse.arabic.verse_number}`;
+            try {
+                await navigator.clipboard.writeText(text);
+                elements.copyibtn.textContent = '✅ Disalin!';
+                setTimeout(() => { elements.copyibtn.textContent = '📋 Salin Ayat'; }, 2000);
+                trackEvent('verse_copy');
+            } catch (error) {
+                alert('Gagal menyalin. Sila salin secara manual.');
+            }
+        }
+
+        async function shareVerse() {
+            if (!state.currentVerse) return;
+            const url = window.location.href;
+            const surahInfo = getSurahInfo(state.currentVerse.arabic.chapter_id);
+            const text = `${surahInfo.name_simple}, Ayat ${state.currentVerse.arabic.verse_number}`;
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: 'Al-Quran Online', text: text, url: url });
+                    trackEvent('verse_share', { method: 'web_share' });
+                } catch (error) {}
+            } else {
+                try {
+                    await navigator.clipboard.writeText(url);
+                    elements.shareibtn.textContent = '✅ Pautan disalin!';
+                    setTimeout(() => { elements.shareibtn.textContent = '🔗 Kongsi'; }, 2000);
+                    trackEvent('verse_share', { method: 'copy_link' });
+                } catch (error) {
+                    alert(`Salin pautan ini untuk berkongsi:\n${url}`);
+                }
+            }
+        }
+
+        function saveBookmark() {
+            if (!state.currentVerse) return;
+            const bookmark = {
+                mode: state.currentMode,
+                surah: state.currentVerse.arabic.chapter_id,
+                ayah: state.currentVerse.arabic.verse_number,
+                index: state.currentVerse.index,
+                timestamp: Date.now()
+            };
+            localStorage.setItem(CONFIG.bookmarkKey, JSON.stringify(bookmark));
+            elements.bookmarkibtn.textContent = '✅ Tersimpan!';
+            setTimeout(() => { elements.bookmarkibtn.textContent = '🔖 Simpan Bookmark'; }, 2000);
+            trackEvent('bookmark_save');
+        }
+
+        async function loadBookmark() {
+            try {
+                const bookmark = localStorage.getItem(CONFIG.bookmarkKey);
+                if (!bookmark) {
+                    alert('Tiada bookmark disimpan.');
+                    return;
+                }
+                const data = JSON.parse(bookmark);
+                elements.viewMode.value = data.mode;
+                state.currentMode = data.mode;
+                toggleMode();
+
+                if (state.surahs.length === 0) await loadSurahs();
+
+                if (data.mode === 'surah') {
+                    elements.surahSelect.value = data.surah;
+                    await loadSurahVerses(data.surah);
+                    elements.verseSelect.value = data.index;
+                    displayVerse(data.index);
+                } else {
+                    elements.surahSelect.value = data.surah;
+                    await loadSurahVerses(data.surah);
+                    elements.verseSelect.value = data.index;
+                    displayVerse(data.index);
+                }
+                trackEvent('bookmark_load');
+            } catch (error) {
+                alert('Gagal memuatkan bookmark.');
+            }
+        }
+
+        function handleHashNavigation() {
+            const hash = window.location.hash;
+            if (!hash) return;
+
+            const match = hash.match(/#surah\/(\d+)\/ayah\/(\d+)/);
+            if (match) {
+                const [, surah, ayah] = match;
+                setTimeout(async () => {
+                    if (state.surahs.length === 0) await loadSurahs();
+                    elements.viewMode.value = 'surah';
+                    state.currentMode = 'surah';
+                    toggleMode();
+                    elements.surahSelect.value = surah;
+                    await loadSurahVerses(surah);
+                    
+                    const index = state.currentSurah.arabic.findIndex(
+                        v => v.verse_number === parseInt(ayah)
+                    );
+                    
+                    if (index >= 0) {
+                        elements.verseSelect.value = index;
+                        displayVerse(index);
+                    }
+                }, 500);
+            }
+        }
+
+        function toggleMode() {
+            state.currentMode = elements.viewMode.value;
+            if (state.currentMode === 'surah') {
+                elements.surahSelect.disabled = false;
+                elements.juzSelect.disabled = true;
+                elements.juzSelect.value = '';
+            } else {
+                elements.surahSelect.disabled = true;
+                elements.juzSelect.disabled = false;
+                elements.surahSelect.value = '';
+            }
+            elements.verseSelect.disabled = true;
+            elements.verseSelect.innerHTML = '<option value="">Pilih surah/juz dahulu...</option>';
+            elements.verseDisplay.innerHTML = '<p class="loading">Sila pilih surah atau juz</p>';
+            // --- THIS IS WHERE THE TYPO WAS ---
+        }
+
+        const searchSurah = debounce((query) => {
+            if (!query) {
+                Array.from(elements.surahSelect.options).forEach(opt => { opt.style.display = ''; });
+                return;
+            }
+            const searchTerm = query.toLowerCase();
+            Array.from(elements.surahSelect.options).forEach(opt => {
+                const text = opt.textContent.toLowerCase();
+                opt.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }, 300);
+
+        function nextVerse() {
+            const currentIndex = parseInt(elements.verseSelect.value);
+            const maxIndex = elements.verseSelect.options.length - 2;
+            if (!isNaN(currentIndex) && currentIndex < maxIndex) {
+                elements.verseSelect.value = currentIndex + 1;
+                displayVerse(currentIndex + 1);
+            }
+        }
+
+        function prevVerse() {
+            const currentIndex = parseInt(elements.verseSelect.value);
+            if (!isNaN(currentIndex) && currentIndex > 0) {
+                elements.verseSelect.value = currentIndex - 1;
+                displayVerse(currentIndex - 1);
+            }
+        }
+
+        function trackEvent(eventName, params = {}) {
+            // console.log('Track:', eventName, params);
+        }
+
+        // ===== EVENT LISTENERS =====
+        
+        elements.viewMode.addEventListener('change', toggleMode);
+        
+        elements.surahSelect.addEventListener('change', (e) => {
+            const surah = e.target.value;
+            if (surah) loadSurahVerses(surah);
+        });
+
+        elements.juzSelect.addEventListener('change', (e) => {
+            const juz = e.target.value;
+            if (juz) loadJuzVerses(juz);
+        });
+
+        elements.verseSelect.addEventListener('change', (e) => {
+            const index = parseInt(e.target.value);
+            if (!isNaN(index)) displayVerse(index);
+        });
+
+fs
+        elements.searchSurah.addEventListener('input', (e) => {
+            searchSurah(e.target.value);
+        });
+
+        elements.playibtn.addEventListener('click', toggleAudio);
+        elements.audioPlayPause.addEventListener('click', toggleAudio);
+        elements.copyibtn.addEventListener('click', copyVerse);
+        elements.shareibtn.addEventListener('click', shareVerse);
+        elements.bookmarkibtn.addEventListener('click', saveBookmark);
+        elements.loadBookmarkibtn.addEventListener('click', loadBookmark);
+
+        elements.audioProgress.addEventListener('click', (e) => {
+            if (!state.audioElement || !state.audioElement.duration) return;
+            const rect = elements.audioProgress.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            state.audioElement.currentTime = state.audioElement.duration * percent;
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+            switch(e.key) {
+                case 'ArrowLeft': e.preventDefault(); prevVerse(); break;
+                case 'ArrowRight': e.preventDefault(); nextVerse(); break;
+                case ' ': e.preventDefault(); toggleAudio(); break;
+                case 'b': case 'B': e.preventDefault(); saveBookmark(); break;
+            }
+        });
+
+        // ===== KICK OFF THE APP =====
+        loadSurahs();
+
+    } // End of initAlQuranApp()
+
+    // ===== INITIALIZE APP =====
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAlQuranApp);
+    } else {
+        initAlQuranApp();
+    }
+</script>
