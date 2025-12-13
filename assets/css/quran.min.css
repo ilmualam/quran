@@ -138,7 +138,7 @@
 .ilmq .set input[type="range"]::-webkit-slider-thumb {-webkit-appearance:none; appearance:none; width:22px; height:22px; border-radius:999px; background:linear-gradient(135deg, var(--g), var(--d)); border:2px solid rgba(255,255,255,.75); box-shadow:0 10px 18px rgba(0, 0, 0, .18); margin-top:-7px; cursor:pointer;}
 .ilmq .set input[type="range"]::-moz-range-track {height:10px; border-radius:999px; background:rgba(36,151,73,.18); border:1px solid rgba(12, 56, 8, .14);}
 .ilmq .set input[type="range"]::-moz-range-thumb {width:22px; height:22px; border-radius:999px; background:linear-gradient(135deg, var(--g), var(--d)); border:2px solid rgba(255,255,255,.75); box-shadow:0 10px 18px rgba(0, 0, 0, .18); cursor:pointer;}
-
+.ilmq .set input[type="range"]{all:revert; -webkit-appearance:none; appearance:none;}
 @media (max-width:768px) {
 .ilmq .set input[type="range"] {width:180px}
 }
