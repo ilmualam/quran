@@ -1,0 +1,142 @@
+/* IlmuAlam Quran Engine (Enterprise) © 2025 ilmualam.com */
+:where(.ilmq){
+  --g:#249749; --d:#0c3808;
+  --bg:#ffffff; --card:#ffffff; --muted:#f5fbf6;
+  --text:#0c3808; --sub:rgba(12,56,8,.75);
+  --bd:rgba(12,56,8,.12);
+  --sh:0 10px 22px rgba(0,0,0,.06);
+  --r:16px; --r2:14px; --pad:14px;
+  --fzA:30px; --fzT:16px;
+  max-width:920px; margin:18px auto; position:relative;
+  font-family:-apple-system,BlinkMacSystemFont,"Inter",Roboto,Oxygen,Ubuntu,Cantarell,"Segoe UI",sans-serif;
+  line-height:1.6; color:var(--text);
+}
+@media (prefers-color-scheme:dark){
+  :where(.ilmq){--bg:#071d12; --card:#0a2517; --muted:#092216; --text:#e8fff0; --sub:rgba(232,255,240,.78); --bd:rgba(232,255,240,.14); --sh:0 16px 40px rgba(0,0,0,.35)}
+}
+:where(.ilmq[data-mode="light"]){--bg:#ffffff;--card:#ffffff;--muted:#f5fbf6;--text:#0c3808;--sub:rgba(12,56,8,.75);--bd:rgba(12,56,8,.12);--sh:0 10px 22px rgba(0,0,0,.06)}
+:where(.ilmq[data-mode="dark"]){--bg:#071d12;--card:#0a2517;--muted:#092216;--text:#e8fff0;--sub:rgba(232,255,240,.78);--bd:rgba(232,255,240,.14);--sh:0 16px 40px rgba(0,0,0,.35)}
+
+.ilmq *{box-sizing:border-box}
+.ilmq a{color:inherit}
+.ilmq .sr{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+
+.ilmq .hdr{
+  background:linear-gradient(135deg,var(--g),var(--d));
+  color:#fff; border-radius:var(--r);
+  padding:16px; box-shadow:0 12px 26px rgba(12,56,8,.18)
+}
+.ilmq .hdr h2{margin:0;font-size:1.85rem;letter-spacing:.3px}
+.ilmq .hdr .ms{font-weight:900;margin-top:2px}
+.ilmq .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.ilmq .pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);padding:6px 10px;border-radius:999px;font-size:.92rem}
+
+.ilmq .hero{
+  margin:14px 0; padding:16px; border-radius:var(--r);
+  background:linear-gradient(135deg,var(--g),#1a7038);
+  color:#fff; text-align:center
+}
+.ilmq .hero h3{margin:0 0 6px;font-size:1.15rem}
+.ilmq .hero p{margin:0 auto 10px;max-width:70ch;opacity:.98}
+.ilmq .hero .cta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.ilmq .btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#fff;color:var(--g);text-decoration:none;
+  font-weight:900;padding:10px 14px;border-radius:14px;border:0;
+  box-shadow:0 12px 22px rgba(0,0,0,.14); cursor:pointer
+}
+.ilmq .btn:active{transform:translateY(1px)}
+.ilmq .btn.ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.22);box-shadow:none}
+
+.ilmq .player{
+  display:flex;gap:12px;align-items:center;
+  margin:14px 0; padding:12px;
+  border-radius:var(--r); border:1px solid rgba(36,151,73,.25);
+  background:var(--muted); position:sticky; top:10px; z-index:20;
+  backdrop-filter:saturate(120%) blur(8px)
+}
+.ilmq .pp{
+  width:46px;height:46px;border-radius:14px;border:0;
+  background:linear-gradient(135deg,var(--g),var(--d));
+  color:#fff;display:grid;place-items:center;
+  box-shadow:0 12px 22px rgba(12,56,8,.18);cursor:pointer
+}
+.ilmq .info{flex:1;min-width:160px}
+.ilmq .bar{height:10px;background:rgba(12,56,8,.14);border-radius:999px;overflow:hidden;cursor:pointer}
+.ilmq .bar > i{display:block;height:100%;width:0%}
+.ilmq .tmeta{display:flex;justify-content:space-between;margin-top:6px;font-size:.92rem;color:var(--sub)}
+.ilmq select{
+  border-radius:14px;border:1px solid var(--bd);
+  padding:10px;background:var(--card);color:var(--text);min-width:210px
+}
+
+.ilmq .tools{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+  margin:10px 0 12px
+}
+.ilmq .tabs{display:flex;gap:8px;flex-wrap:wrap}
+.ilmq .tab{
+  border:1px solid var(--bd); background:var(--card); color:var(--text);
+  padding:9px 12px;border-radius:999px;font-weight:900;cursor:pointer
+}
+.ilmq .tab[aria-selected="true"]{
+  background:linear-gradient(135deg,var(--g),var(--d));
+  border-color:transparent; color:#fff
+}
+.ilmq .act{display:flex;gap:8px;flex-wrap:wrap}
+.ilmq .chip{
+  border:1px solid var(--bd); background:var(--card); color:var(--text);
+  padding:9px 12px;border-radius:14px;font-weight:900;cursor:pointer
+}
+
+.ilmq .set{
+  margin:10px 0 16px; border:1px solid var(--bd); background:var(--card);
+  border-radius:var(--r); padding:12px
+}
+.ilmq .set summary{cursor:pointer;font-weight:900}
+.ilmq .set .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:10px;color:var(--sub)}
+.ilmq input[type="range"]{width:220px}
+.ilmq label{font-weight:800}
+
+.ilmq .verses{display:flex;flex-direction:column;gap:10px}
+.ilmq .loading{
+  padding:14px;border-radius:var(--r); background:var(--muted);
+  border:1px dashed rgba(36,151,73,.35); color:var(--sub)
+}
+.ilmq .v{
+  background:var(--card); border:1px solid var(--bd); border-radius:18px;
+  padding:12px; box-shadow:var(--sh)
+}
+.ilmq .top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ilmq .no{font-weight:950;background:rgba(36,151,73,.15);padding:6px 10px;border-radius:999px;border:1px solid rgba(36,151,73,.25)}
+.ilmq .va{display:flex;gap:8px;align-items:center}
+.ilmq .vbtn{border:1px solid var(--bd);background:var(--card);color:var(--text);border-radius:14px;padding:8px 10px;font-weight:950;cursor:pointer}
+.ilmq .vbtn.p{background:linear-gradient(135deg,var(--g),var(--d));color:#fff;border:0}
+.ilmq .arab{direction:rtl;text-align:right;font-weight:950;margin:10px 0 6px;font-size:var(--fzA);line-height:1.9}
+.ilmq .rumi{margin:0 0 8px;font-style:italic;color:var(--sub);font-size:calc(var(--fzT) * 1px)}
+.ilmq .mal{margin:0;color:var(--text);font-size:calc(var(--fzT) * 1px)}
+.ilmq .v.playing{outline:2px solid rgba(36,151,73,.55)}
+.ilmq .v.playing .no{background:linear-gradient(135deg,var(--g),var(--d));color:#fff;border-color:transparent}
+
+.ilmq .foot{
+  margin:14px 0 0; padding:12px; border-radius:var(--r);
+  border:1px solid var(--bd); background:var(--card); color:var(--sub);
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center
+}
+.ilmq .wm{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+
+.ilmq .toast{
+  position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+  background:var(--d); color:#fff; padding:10px 12px; border-radius:14px;
+  box-shadow:0 16px 30px rgba(0,0,0,.22); opacity:0; pointer-events:none;
+  transition:opacity .2s ease; z-index:9999
+}
+.ilmq .toast.on{opacity:1}
+
+@media (max-width:768px){
+  :where(.ilmq){margin:12px auto}
+  .ilmq .player{top:6px;padding:10px}
+  .ilmq select{min-width:150px}
+  .ilmq input[type="range"]{width:180px}
+  .ilmq .arab{font-size:28px}
+}
