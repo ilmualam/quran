@@ -1,0 +1,58 @@
+/* Micro Quran Trainer v1 | ilmualam.com | CSS (scoped) */
+.ilmqt{--g:#249749;--d:#0c3808;--bg:#f7fbf8;--card:#fff;--txt:#0c3808;--mut:#5c6b62;--line:rgba(12,56,8,.12);--shadow:0 18px 40px rgba(0,0,0,.10);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--txt)}
+.ilmqt .wrap{max-width:860px;margin:8px auto;padding:6px}
+.ilmqt .card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.ilmqt .hero{background:linear-gradient(135deg,var(--g) 0%,var(--d) 100%);color:#fff;padding:16px 14px}
+.ilmqt .hero .t{display:flex;gap:10px;align-items:flex-start}
+.ilmqt .hero h2{margin:0;font-size:clamp(1.05rem,2.8vw,1.25rem);line-height:1.2}
+.ilmqt .hero p{margin:6px 0 0;opacity:.92;line-height:1.45;font-size:clamp(.92rem,2.6vw,1.02rem)}
+.ilmqt .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);padding:6px 10px;border-radius:999px;font-weight:900;margin-top:10px;font-size:.92rem}
+.ilmqt .topbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--bg);border-bottom:1px solid var(--line)}
+.ilmqt .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ilmqt .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--txt);padding:10px 12px;border-radius:999px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.ilmqt .btn.primary{background:linear-gradient(135deg,var(--g),var(--d));border-color:transparent;color:#fff}
+.ilmqt .btn.ghost{background:transparent}
+.ilmqt .btn:active{transform:translateY(1px)}
+.ilmqt .toggle{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);padding:8px 10px;border-radius:999px;font-weight:900}
+.ilmqt .toggle input{appearance:auto;-webkit-appearance:auto;width:18px;height:18px;accent-color:var(--g)}
+.ilmqt .select{appearance:auto;-webkit-appearance:auto;background:#fff;border:1px solid var(--line);padding:10px 12px;border-radius:999px;font-weight:900;max-width:180px}
+.ilmqt .player{display:flex;gap:10px;align-items:center;flex:1;min-width:240px}
+.ilmqt .pp{width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer}
+.ilmqt .pp svg{width:22px;height:22px}
+.ilmqt .prog{flex:1;min-width:140px}
+.ilmqt .bar{height:10px;background:rgba(36,151,73,.18);border:1px solid rgba(12,56,8,.14);border-radius:999px;overflow:hidden}
+.ilmqt .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g),var(--d))}
+.ilmqt .meta{display:flex;justify-content:space-between;font-weight:900;font-size:.95rem;margin-top:6px;color:var(--mut)}
+.ilmqt .tabs{display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px}
+.ilmqt .pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 12px;font-weight:950;cursor:pointer}
+.ilmqt .pill.on{background:linear-gradient(135deg,var(--g),var(--d));color:#fff;border-color:transparent}
+.ilmqt .stage{padding:0 14px 14px}
+.ilmqt .ayahbox{border:1px solid var(--line);border-radius:18px;background:#fff;padding:14px;position:relative}
+.ilmqt .dots{display:flex;gap:6px;justify-content:center;margin:10px 0 2px}
+.ilmqt .dot{width:8px;height:8px;border-radius:99px;background:rgba(12,56,8,.18)}
+.ilmqt .dot.on{background:linear-gradient(135deg,var(--g),var(--d))}
+.ilmqt .ayahno{display:inline-flex;align-items:center;gap:8px;font-weight:1000;background:rgba(36,151,73,.10);border:1px solid rgba(36,151,73,.22);padding:8px 12px;border-radius:999px}
+.ilmqt .actrow{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:10px}
+.ilmqt .mini{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ilmqt .iconbtn{width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer;display:grid;place-items:center}
+.ilmqt .iconbtn svg{width:20px;height:20px}
+.ilmqt .arab{font-size:2.15rem;line-height:1.7;text-align:center;margin:12px 0 6px;font-family:"Amiri","Scheherazade New",serif}
+.ilmqt .rumi,.ilmqt .ms{font-size:1.05rem;line-height:1.7;margin:8px auto;color:var(--txt);max-width:680px}
+.ilmqt .ms{color:#233}
+.ilmqt .hint{color:var(--mut);font-weight:900;margin:10px 0 0;text-align:center;font-size:.95rem}
+.ilmqt .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;background:rgba(12,56,8,.92);color:#fff;padding:10px 12px;border-radius:12px;font-weight:950;max-width:92vw;z-index:9999;display:none}
+.ilmqt .mark{position:absolute;right:10px;top:10px;font-weight:1000;font-size:.85rem;color:rgba(12,56,8,.55)}
+.ilmqt .hl{outline:3px solid rgba(36,151,73,.20);box-shadow:0 14px 30px rgba(36,151,73,.14)}
+.ilmqt .footer{padding:10px 14px;border-top:1px solid var(--line);background:var(--bg);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--mut);font-weight:900;font-size:.92rem}
+.ilmqt .a{color:inherit;text-decoration:underline}
+.ilmqt.night{--bg:#0b1510;--card:#0f1d16;--txt:#e9f7ef;--mut:#b9d3c5;--line:rgba(233,247,239,.14)}
+.ilmqt.night .hero{background:linear-gradient(135deg,#0f3e25 0%,#062412 100%)}
+.ilmqt.kids .arab{font-size:2.6rem}
+.ilmqt.kids .rumi,.ilmqt.kids .ms{font-size:1.12rem}
+.ilmqt.kids .hint{font-size:1.02rem}
+@media(max-width:520px){
+  .ilmqt .wrap{padding:10px}
+  .ilmqt .player{min-width:0;flex:1}
+  .ilmqt .select{max-width:150px}
+  .ilmqt .arab{font-size:2.05rem}
+           }
