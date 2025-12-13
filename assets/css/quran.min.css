@@ -112,7 +112,7 @@
 .ilmq .va{display:flex;gap:8px;align-items:center}
 .ilmq .vbtn{border:1px solid var(--bd);background:var(--card);color:var(--text);border-radius:14px;padding:8px 10px;font-weight:950;cursor:pointer}
 .ilmq .vbtn.p{background:linear-gradient(135deg,var(--g),var(--d));color:#fff;border:0}
-.ilmq .arab{direction:rtl;font-family:'Amiri','Traditional Arabic',;text-align:right;font-weight:600;margin:10px 0 6px;font-size:var(--fzA);line-height:2.2}
+.ilmq .arab{direction:rtl;font-family:'Amiri','Traditional Arabic',;text-align:right;font-weight:600;margin:10px 0 6px;font-size:var(--fzA);line-height:1.8;}
 .ilmq .rumi{margin:0 0 8px;font-style:italic;color:var(--sub);font-size:calc(var(--fzT) * 1px)}
 .ilmq .mal{margin:0;color:var(--text);font-size:calc(var(--fzT) * 1px)}
 .ilmq .v.playing{outline:2px solid rgba(36,151,73,.55)}
@@ -168,4 +168,27 @@
   .ilmq select{min-width:150px}
   .ilmq input[type="range"]{width:180px}
   .ilmq .arab{font-size:28px}
+}
+/* ==== Qari select: force compact on mobile + prevent overflow ==== */
+.ilmq .player{flex-wrap:wrap}
+
+.ilmq .player select,
+.ilmq .player select[data-bind="qari"]{
+  flex:0 1 170px;     /* penting: jangan paksa lebar gila */
+  min-width:120px;
+  max-width:170px;
+  width:170px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+/* Kalau screen super kecil, lagi kecil */
+@media (max-width:360px){
+  .ilmq .player select,
+  .ilmq .player select[data-bind="qari"]{
+    flex-basis:150px;
+    max-width:150px;
+    width:150px;
+  }
 }
