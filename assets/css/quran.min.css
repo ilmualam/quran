@@ -6,10 +6,10 @@
   --bd:rgba(12,56,8,.12);
   --sh:0 10px 22px rgba(0,0,0,.06);
   --r:16px; --r2:14px; --pad:14px;
-  --fzA:30px; --fzT:16px;
+  --fzA:28px; --fzT:16px;
   max-width:920px; margin:18px auto; position:relative;
   font-family:-apple-system,BlinkMacSystemFont,"Inter",Roboto,Oxygen,Ubuntu,Cantarell,"Inter",sans-serif;
-  line-height:1.6; color:var(--text);
+  line-height:1.5; color:var(--text);
 }
 @media (prefers-color-scheme:dark){
   :where(.ilmq){--bg:#071d12; --card:#0a2517; --muted:#092216; --text:#e8fff0; --sub:rgba(232,255,240,.78); --bd:rgba(232,255,240,.14); --sh:0 16px 40px rgba(0,0,0,.35)}
@@ -112,7 +112,7 @@
 .ilmq .va{display:flex;gap:8px;align-items:center}
 .ilmq .vbtn{border:1px solid var(--bd);background:var(--card);color:var(--text);border-radius:14px;padding:8px 10px;font-weight:950;cursor:pointer}
 .ilmq .vbtn.p{background:linear-gradient(135deg,var(--g),var(--d));color:#fff;border:0}
-.ilmq .arab{direction:rtl;font-family:'Amiri','Traditional Arabic',;text-align:right;font-weight:600;margin:10px 0 6px;font-size:var(--fzA);line-height:1.8;}
+.ilmq .arab{direction:rtl;font-family:'Amiri',Traditional Arabic,;text-align:right;font-weight:500;margin:10px 0 6px;font-size:var(--fzA);line-height:1.8;}
 .ilmq .rumi{margin:0 0 8px;font-style:italic;color:var(--sub);font-size:calc(var(--fzT) * 1px)}
 .ilmq .mal{margin:0;color:var(--text);font-size:calc(var(--fzT) * 1px)}
 .ilmq .v.playing{outline:2px solid rgba(36,151,73,.55)}
