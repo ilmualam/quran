@@ -1,4 +1,4 @@
-.ilmEngine{--g:#249749;--d:#0c3808;--t:#0c3808;--m:#51645a;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--t);max-width:900px;margin:14px auto;padding:0 10px}
+.ilmEngine{--g:#249749;--d:#0c3808;--t:#0c3808;--m:#51645a;font-family:system-ui,-apple-system,'Inter',Roboto,Arial,sans-serif;color:var(--t);max-width:900px;margin:14px auto;padding:0 10px}
 .ilmEngine .ilm-card{border:1px solid rgba(12,56,8,.12);border-radius:16px;overflow:hidden;box-shadow:0 12px 28px rgba(0,0,0,.08);background:#fff}
 .ilmEngine .ilm-top{background:linear-gradient(135deg,var(--g),var(--d));color:#fff;padding:14px 14px}
 .ilmEngine .ilm-top h2{margin:0;font-size:1.12rem;line-height:1.25}
