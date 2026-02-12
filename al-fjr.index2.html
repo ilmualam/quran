@@ -1,113 +1,75 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<div class="ilmx-wrapper">
-<div class="ilmx-container">
-<style>
-/* Inline CSS - Lightweight &amp; Mobile-First */
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+/* Inline CSS - Lightweight & Mobile-First */
 .ilmx-wrapper {box-sizing:border-box; max-width:100%; background:#fff; padding:10px; border-radius:12px; margin-bottom:15px; box-shadow:0 2px 8px rgba(0,0,0,.05)}
 .ilmx-container {max-width:1200px; margin:0 auto; padding:0 auto; font-family:-apple-system, BlinkMacSystemFont, 'Inter', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; line-height:1.5; color:#0c3808}
 .ilmx-container h2 {color:#0c3808; font-size:1.35rem; margin:0 0 15px; padding-bottom:10px; border-bottom:3px solid #249749; font-weight:600}
 .ilmx-hero {background:linear-gradient(135deg,#0c5c27 0,#249749 50%,#1b7a3a 100%); color:#fff; padding:40px 24px; text-align:center; border-radius:20px; margin:0 auto; position:relative; overflow:hidden}
 .ilmx-hero::before {content:''; position:absolute; top:0; left:0; right:0; bottom:0; background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
 .ilmx-hero .arabic-main {font-family:'Amiri', 'Traditional Arabic', serif; font-size:2.5rem; margin-bottom:12px; text-shadow:0 4px 8px rgba(0,0,0,.2)}
-.ilmx-hero h2 {font-size:1.5rem; margin:0 0 8px 0; font-weight:700;color:#fff;}
+.ilmx-hero h2 {font-size:1.5rem; margin:0 0 8px 0; font-weight:700; color:#fff}
 .ilmx-hero .tagline {font-size:14px; opacity:.95; margin-bottom:16px}
 .ilmx-hero .badges {display:flex; justify-content:center; gap:6px; flex-wrap:wrap}
 .ilmx-hero .badge {background:rgba(255,255,255,.2); padding:4px 8px; border-radius:999px; font-size:0.75rem; backdrop-filter:blur(4px)}
 .ilmx-section {margin:35px 0}
-.ilmx-section h2 {color:#0c3808; font-size:1.35rem; margin:0 0 15px;margin-top:10px;padding-bottom:10px; border-bottom:3px solid #249749; font-weight:600}
+.ilmx-section h2 {color:#0c3808; font-size:1.35rem; margin:0 0 15px; margin-top:10px; padding-bottom:10px; border-bottom:3px solid #249749; font-weight:600}
 .ilmx-section h3 {color:#249749; font-size:1.25rem; margin:25px 0 12px; font-weight:600}
 .ilmx-section p {margin:0 0 15px; text-align:left}
 .ilmx-section ul {margin:15px 0; padding-left:25px}
 .ilmx-section li {margin:8px 0}
-.ilmx-table {width:100%;border-collapse:collapse; margin:20px 0; overflow-x:auto; display:block;font-size:13px;}
-.ilmx-table td, .ilmx-table th {padding:12px; text-align:left; border:1px solid #ddd;}
-.ilmx-table th {background:#249749; color:#fff!important; font-weight:600}
+.ilmx-table {width:100%; border-collapse:collapse; margin:20px 0; overflow-x:auto; display:block; font-size:13px}
+.ilmx-table td, .ilmx-table th {padding:12px; text-align:left; border:1px solid #ddd}
+.ilmx-table th {background:#249749; color:#fff !important; font-weight:600}
 .ilmx-table tr:nth-child(even) {background:#f8f9fa}
-.ilmx-fakta{background:#fff5e6;border-left:4px solid #ff9800;padding:1rem;margin:1.5rem 0;border-radius:6px}
-.ilmx-petua{margin-top:1.5rem;padding:1rem;background:#f0f9ff;border-left:4px solid #3b82f6;border-radius:6px;}
-.ilmx-petua p{margin:0;font-size:0.9rem;}
-.ilmx-kelebihan{background:linear-gradient(135deg,#f3e5f5,#e1bee7);padding:1.5rem;border-radius:10px;margin-bottom:1.5rem;border:2px solid #9c27b0;}
-.ilmx-kelebihan-item {padding:1.25rem;margin-bottom:1.5rem;border-radius:6px;}
-.box-orange{background:#fff3e0;border-left:4px solid #ff9800;padding:1.25rem;border-radius:6px;margin:1.5rem 0}
-.box-blue{background:#e3f2fd;border-left:4px solid #2196f3;padding:1rem;border-radius:6px;margin:1rem 0}
-.box-red{background:#ffebee;border-left:4px solid #f44336;padding:1.25rem;border-radius:6px;margin:1.5rem 0}
-.box-green{background:#e8f5e9;border-left:4px solid #4caf50;padding:1.25rem;border-radius:6px;margin:1.5rem 0}
-.box-purple{background:#f3e5f5;border-left:4px solid #9c27b0;padding:1.25rem;border-radius:6px;margin:1.5rem 0}
-.box-yellow{background:#fff9c4;border:2px solid #fbc02d;padding:1.25rem;border-radius:8px;margin-top:1.5rem}
-.ilmx-grid-fajr {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:1.5rem 0;}
-.ilmx-grid-fajr-card{background:#fff;border-left:4px solid #249749;padding:1.5rem;margin-bottom:1.5rem;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.ilmx-grid-fajr-card h4 {font-size:1.05rem;font-weight:600;color:#0c3808;margin-bottom:0.5rem;}
-
-/* ANSWER BOX */
-.ilmx-answer{
-  background:#f8fdf9;
-  border-left:4px solid #249749;
-  padding:1.25rem;
-  border-radius:6px;
-  margin-bottom:2rem;
-}
-
-/* VERSE */
-.ilmx-verse{
-  background:#f8fdf9;
-  padding:1.25rem;
-  border-radius:8px;
-  border-left:3px solid #249749;
-  margin-bottom:1rem;
-}
-.ilmx-verse-ar{
-  font-size:1.6rem;
-  text-align:right;
-  line-height:2.5;
-  direction:rtl;
-  color:#0c3808;
-}
-.ilmx-verse-ru{font-style:italic;color:#666}
-.ilmx-verse-ms{margin-top:.4rem}
-
-.verse-block{background:#f8fdf9;padding:1.5rem;border-radius:8px;border:1px solid #c8e6c9;margin-bottom:1.5rem}
-.verse-ar{font-size:1.25rem;text-align:right;line-height:2;direction:rtl;font-weight:600;margin-bottom:1rem}
-/* CTA */
-.ilmx-cta{
-  background:linear-gradient(135deg,#e8f5e9,#c8e6c9);
-  border:2px dashed #4caf50;
-  padding:1.25rem;
-  border-radius:10px;
-  text-align:center;
-  margin:2rem 0;
-}
-
-/* CTA Variants */
-.ilmx-cta-soft{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:2px dashed #4caf50;text-align:center}
-.ilmx-cta-lead{background:linear-gradient(135deg,#fff3e0,#ffe0b2);border:2px solid #ff9800;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-.ilmx-cta-product{background:#fff;border:2px solid #e0e0e0;box-shadow:0 4px 12px rgba(0,0,0,.1)}
-.ilmx-cta-premium{background:linear-gradient(135deg,#1a237e,#283593);color:#fff;box-shadow:0 6px 20px rgba(0,0,0,.15)}
-  
-/* FAQ */
-.ilmx-faq-item{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 6px rgba(0,0,0,.05)}
-
-/* Grid */
-.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.5rem 0}
-
-
-/* Buttons */
-.btn-primary{background:#249749;color:#fff;padding:.65rem 1.5rem;border-radius:6px;text-decoration:none;font-weight:600;display:inline-block}
-.btn-outline{background:#fff;border:2px solid #4caf50;color:#4caf50;padding:.6rem 1.1rem;border-radius:6px}
-
-/* Footer */
-.article-footer{background:#f8fdf9;padding:1.5rem;border-radius:10px;border-left:4px solid #249749;margin-top:3rem}
-</style>
-<!-- HEADER -->
+.ilmx-fakta {background:#fff5e6; border-left:4px solid #ff9800; padding:1rem; margin:1.5rem 0; border-radius:6px}
+.ilmx-petua {margin-top:1.5rem; padding:1rem; background:#f0f9ff; border-left:4px solid #3b82f6; border-radius:6px}
+.ilmx-petua p {margin:0; font-size:0.9rem}
+.ilmx-kelebihan {background:linear-gradient(135deg,#f3e5f5,#e1bee7); padding:1.5rem; border-radius:10px; margin-bottom:1.5rem; border:2px solid #9c27b0}
+.ilmx-kelebihan-item {padding:1.25rem; margin-bottom:1.5rem; border-radius:6px}
+.box-orange {background:#fff3e0; border-left:4px solid #ff9800; padding:1.25rem; border-radius:6px; margin:1.5rem 0}
+.box-blue {background:#e3f2fd; border-left:4px solid #2196f3; padding:1rem; border-radius:6px; margin:1rem 0}
+.box-red {background:#ffebee; border-left:4px solid #f44336; padding:1.25rem; border-radius:6px; margin:1.5rem 0}
+.box-green {background:#e8f5e9; border-left:4px solid #4caf50; padding:1.25rem; border-radius:6px; margin:1.5rem 0}
+.box-purple {background:#f3e5f5; border-left:4px solid #9c27b0; padding:1.25rem; border-radius:6px; margin:1.5rem 0}
+.box-yellow {background:#fff9c4; border:2px solid #fbc02d; padding:1.25rem; border-radius:8px; margin-top:1.5rem}
+.ilmx-grid-fajr {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem; margin:1.5rem 0}
+.ilmx-grid-fajr-card {background:#fff; border-left:4px solid #249749; padding:1.5rem; margin-bottom:1.5rem; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.ilmx-grid-fajr-card h4 {font-size:1.05rem; font-weight:600; color:#0c3808; margin-bottom:0.5rem}
+.ilmx-answer {background:#f8fdf9; border-left:4px solid #249749; padding:1.25rem; border-radius:6px; margin-bottom:2rem}
+.ilmx-verse {background:#f8fdf9; padding:1.25rem; border-radius:8px; border-left:3px solid #249749; margin-bottom:1rem}
+.ilmx-verse-ar {font-size:1.6rem; text-align:right; line-height:2.5; direction:rtl; color:#0c3808}
+.ilmx-verse-ru {font-style:italic; color:#666}
+.ilmx-verse-ms {margin-top:.4rem}
+.verse-block {background:#f8fdf9; padding:1.5rem; border-radius:8px; border:1px solid #c8e6c9; margin-bottom:1.5rem}
+.verse-ar {font-size:1.25rem; text-align:right; line-height:2; direction:rtl; font-weight:600; margin-bottom:1rem}
+.ilmx-cta {background:linear-gradient(135deg,#e8f5e9,#c8e6c9); border:2px dashed #4caf50; padding:1.25rem; border-radius:10px; text-align:center; margin:2rem 0}
+.ilmx-cta-soft {background:linear-gradient(135deg,#e8f5e9,#c8e6c9); border:2px dashed #4caf50; text-align:center; border-radius:10px; padding:1.25rem; margin:2rem 0}
+.ilmx-cta-lead {background:linear-gradient(135deg,#fff3e0,#ffe0b2); border:2px solid #ff9800; box-shadow:0 4px 12px rgba(0,0,0,.1); border-radius:12px; padding:1.5rem; margin:2rem 0}
+.ilmx-cta-product {background:#fff; border:2px solid #e0e0e0; box-shadow:0 4px 12px rgba(0,0,0,.1); border-radius:12px; margin:2rem 0; overflow:hidden}
+.ilmx-cta-premium {background:linear-gradient(135deg,#1a237e,#283593); color:#fff; box-shadow:0 6px 20px rgba(0,0,0,.15); border-radius:12px; padding:1.5rem; margin:2rem 0}
+.ilmx-faq-item {background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:1.25rem; margin-bottom:1rem; box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.grid-3 {display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; margin:1.5rem 0}
+.btn-primary {background:#249749; color:#fff; padding:.65rem 1.5rem; border-radius:6px; text-decoration:none; font-weight:600; display:inline-block}
+.btn-outline {background:#fff; border:2px solid #4caf50; color:#4caf50; padding:.6rem 1.1rem; border-radius:6px}
+.article-footer {background:#f8fdf9; padding:1.5rem; border-radius:10px; border-left:4px solid #249749; margin-top:3rem}
+.video-responsive {position:relative; padding-bottom:56.25%; height:0; overflow:hidden; margin:1.5rem 0; border-radius:8px}
+.video-responsive iframe {position:absolute; top:0; left:0; width:100%; height:100%; border:none}
+.faq-schema {margin:2rem 0}
+.faq-question {font-size:1.1rem; font-weight:600; color:#0c3808; margin:1.5rem 0 0.75rem; border-left:4px solid #249749; padding-left:1rem}
+.faq-answer {margin:0 0 1.5rem; color:#333; line-height:1.7}
+  </style>
 </head>
 <body>
+<div class="ilmx-wrapper">
+<div class="ilmx-container">
+<!-- HEADER -->
 <header>
 <div class="ilmx-hero">
-<div class="arabic-main" style="margin-top:10px;">سُورَةُ الفَجۡرِ</div>
+<div class="arabic-main" style="margin-top:10px">سُورَةُ الفَجۡرِ</div>
 <h2>Surah Al-Fajr: Bacaan, Terjemahan &amp; Tafsir Lengkap</h2>
 <div class="tagline">Surah ke-89 • 30 Ayat • Kisah Kehancuran Kaum Aad, Thamud &amp; Firaun</div>
 <div class="badges">
@@ -119,17 +81,17 @@
 </div>
 </div>
 </header>
-<!-- Quick Answer Box (Featured Snippet Optimized) -->
-<div class="ilmx-answer" style="background:#f8fdf9;border-left:4px solid #249749;padding:1.25rem;margin-bottom:2rem;border-radius:6px">
-<h2 style="font-size:1.1rem;font-weight:600;color:#0c3808;margin-bottom:0.75rem">💡 Ringkasan Pantas</h2>
+
+<!-- Quick Answer Box -->
+<div class="ilmx-answer">
+<h2 style="font-size:1.1rem; font-weight:600; color:#0c3808; margin-bottom:0.75rem">💡 Ringkasan Pantas</h2>
 <p><strong>Surah Al-Fajr</strong> bermaksud "Fajar" atau "Waktu Subuh", merupakan surah ke-89 dalam Al-Quran dengan 30 ayat yang diturunkan di Mekah. Surah ini mengisahkan tentang kehancuran kaum-kaum terdahulu seperti Aad, Thamud, dan Firaun sebagai pengajaran kepada manusia yang sombong dan lupa kepada Allah SWT. Tema utama berkisar tentang ujian kehidupan, bahaya materialisme, dan kepentingan mengutamakan akhirat berbanding dunia.</p>
-<p style="font-size:0.95rem;color:#555"><strong>Waktu terbaik:</strong> Dibaca pada waktu Subuh untuk mendapat keberkatan pagi hari.</p>
+<p style="font-size:0.95rem; color:#555"><strong>Waktu terbaik:</strong> Dibaca pada waktu Subuh untuk mendapat keberkatan pagi hari.</p>
 </div>
 
 <!-- H2 #1: Pengenalan -->
 <section class="ilmx-section">
 <h2>Pengenalan Surah Al-Fajr</h2>
-
 <p>Surah Al-Fajr (الفجر) merupakan salah satu surah Makkiyah yang diturunkan pada peringkat awal dakwah Rasulullah ﷺ di Mekah, ketika penganiayaan terhadap umat Islam baru semakin memuncak. Nama surah ini diambil daripada ayat pertamanya yang bermula dengan sumpah Allah SWT terhadap waktu fajar - satu masa yang penuh dengan keberkatan dan simbolisme mendalam dalam Islam.</p>
 
 <p>Dengan 30 ayat yang padat namun sarat makna, Surah Al-Fajr membawa mesej yang jelas: kehidupan dunia adalah ujian, dan manusia sering terpedaya dengan kemewahan material sehingga melupakan hakikat akhirat. Allah SWT mengingatkan kita melalui kisah kaum-kaum terdahulu yang musnah akibat kesombongan dan keingkaran mereka.</p>
@@ -175,101 +137,107 @@
 
 <h2>Video Bacaan Penuh Surah Al-Fajr &amp; Maksud Ayat</h2>
 <div class="video-responsive">
-	<iframe src="//www.youtube.com/embed/VjFVET-Gnd8" title="Surah Al-Fajr Full Video"> </iframe>
+  <iframe src="//www.youtube.com/embed/VjFVET-Gnd8" title="Surah Al-Fajr Full Video"></iframe>
 </div>
+
 <!-- Interactive Quran Reader Tool -->
 <h2>📖 Bacaan Lengkap Surah Al-Fajr (Alat Interaktif)</h2>
 <p>Dengar dan ikuti bacaan Surah Al-Fajr ayat demi ayat dengan tulisan Arab, transliterasi Rumi, dan terjemahan Bahasa Melayu. Gunakan alat interaktif di bawah untuk pengalaman bacaan yang lebih bermakna.</p>
 </section>
+
 <!-- INTERACTIVE QURAN READER TOOL -->
 <script>
-/* === site: Prevent AS === */
 (function(){
   let userInteracted = false;
-
-  // Detect real user intent
   ['click','touchstart','keydown'].forEach(evt=>{
-    window.addEventListener(evt,()=>userInteracted=true,{once:true});
+  window.addEventListener(evt,()=>userInteracted=true,{once:true});
   });
 
-  // Override scrollIntoView globally (safe)
   const _scrollIntoView = Element.prototype.scrollIntoView;
   Element.prototype.scrollIntoView = function(){
-    if(!userInteracted) return;
-    _scrollIntoView.apply(this, arguments);
+  if(!userInteracted) return;
+  _scrollIntoView.apply(this, arguments);
   };
 
-  // Kill hash jump on first load
   if(location.hash){
-    history.replaceState(null,'',location.pathname+location.search);
+  history.replaceState(null,'',location.pathname+location.search);
   }
 })();
 </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ilmualam/quran@main/assets/css/quran.min.css?v=20251213-1.2">
-	<script defer src="https://cdn.jsdelivr.net/gh/ilmualam/quran@main/assets/js/quran.min.js?v=20251213-1.2"></script>
-	<section class="ilmq" id="quran-tool" data-surah="894">
-		<header class="hdr">
-			<h2 style="text-align:center;font-size:2.5rem;">سُورَةُ الفَجۡرِ</h2>
-			<div class="ms" style="text-align:center;font-size:1.5rem;">Surah Al-Fajr</div>
-			<div class="meta"> <span class="pill"><strong>Ayat:</strong> <span data-bind="ayahCount">30</span></span> <span class="pill"><strong>Jenis:</strong> <span data-bind="revelation">Makkiyyah</span></span>
-			</div>
-		</header>
-		<div class="hero">			
-<h3 style="color:#fff;">🎧 Alat Bacaan Surah Interaktif</h3>
-			<p>Dilengkapkan dengan audio ayat demi ayat untuk memperbetulkan setiap sebutan, Jawi (Arab) + Rumi + terjemahan Melayu, bookmark &amp; sambung ayat terakhir atau untuk rujukan semula.</p>
-			<div class="cta"> <a class="btn" href="#tool">🕌 Mula</a> <a class="btn ghost" href="/p/quran-online.html" rel="internal" target="_blank">30 Juz</a> </div>
-		</div>
-		<div id="tool" class="player" aria-label="Player">
-			<button class="pp" data-action="playpause" aria-label="Play/Pause" aria-pressed="false">▶️</button>
-			<div class="info">
-				<div class="bar" data-action="seek" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
-				<div class="tmeta"> <span data-bind="currentVerse">Ayat 1</span> <span data-bind="time">0:00 / 0:00</span> </div>
-			</div>
-			<label class="sr" for="qari">Pilih Qari</label>
-			<select id="qari" data-bind="qari">
-				<option value="Alafasy_128kbps" selected>Mishary Rashid Alafasy</option>
-				<option value="Abdul_Basit_Murattal_192kbps">Abdul Basit</option>
-				<option value="Husary_128kbps">Mahmoud Khalil Al-Husary</option>
-				<option value="Abdurrahmaan_As-Sudais_192kbps">Abdul Rahman Al-Sudais</option>
-				<option value="Ghamadi_40kbps">Saad Al-Ghamadi</option>
-			</select>
-		</div>
-		<details class="set">
-			<summary>⚙️ Setting</summary>
-			<div class="row">
+<script defer src="https://cdn.jsdelivr.net/gh/ilmualam/quran@main/assets/js/quran.min.js?v=20251213-1.2"></script>
+
+<section class="ilmq" id="quran-tool" data-surah="894">
+<header class="hdr">
+<h2 style="text-align:center; font-size:2.5rem">سُورَةُ الفَجۡرِ</h2>
+<div class="ms" style="text-align:center; font-size:1.5rem">Surah Al-Fajr</div>
+<div class="meta"> 
+<span class="pill"><strong>Ayat:</strong> <span data-bind="ayahCount">30</span></span> 
+<span class="pill"><strong>Jenis:</strong> <span data-bind="revelation">Makkiyyah</span></span>
+</div>
+</header>
+<div class="hero">			
+<h3 style="color:#fff">🎧 Alat Bacaan Surah Interaktif</h3>
+<p>Dilengkapkan dengan audio ayat demi ayat untuk memperbetulkan setiap sebutan, Jawi (Arab) + Rumi + terjemahan Melayu, bookmark &amp; sambung ayat terakhir atau untuk rujukan semula.</p>
+<div class="cta"> 
+<a class="btn" href="#tool">🕌 Mula</a> 
+<a class="btn ghost" href="/p/quran-online.html" rel="internal" target="_blank">30 Juz</a> 
+</div>
+</div>
+<div id="tool" class="player" aria-label="Player">
+<button class="pp" data-action="playpause" aria-label="Play/Pause" aria-pressed="false">▶️</button>
+<div class="info">
+<div class="bar" data-action="seek" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+<div class="tmeta"> 
+<span data-bind="currentVerse">Ayat 1</span> 
+<span data-bind="time">0:00 / 0:00</span> 
+</div>
+</div>
+<label class="sr" for="qari">Pilih Qari</label>
+<select id="qari" data-bind="qari">
+<option value="Alafasy_128kbps" selected>Mishary Rashid Alafasy</option>
+<option value="Abdul_Basit_Murattal_192kbps">Abdul Basit</option>
+<option value="Husary_128kbps">Mahmoud Khalil Al-Husary</option>
+<option value="Abdurrahmaan_As-Sudais_192kbps">Abdul Rahman Al-Sudais</option>
+<option value="Ghamadi_40kbps">Saad Al-Ghamadi</option>
+</select>
+</div>
+<details class="set">
+<summary>⚙️ Setting</summary>
+<div class="row">
 <label>Saiz Arab
-					<input type="range" min="20" max="42" value="30" step="2" data-bind="arabicSize">
-				</label>
-				<label>Saiz BM
-					<input type="range" min="14" max="22" value="16" step="1" data-bind="translationSize">
-				</label>
-				<label>
-					<input type="checkbox" checked data-bind="autoScroll"> Auto-scroll</label>
-				<label>
-					<input type="checkbox" checked data-bind="autoNext"> Auto-next</label>
-			</div>
-		</details>
-		<div class="verses" data-bind="verses">
-			<div class="loading">Loading…</div>
-		</div>
-		<div class="toast" data-bind="toast" role="status" aria-live="polite"></div>
-		<audio data-bind="audio" preload="metadata" crossorigin="anonymous"></audio>
+<input type="range" min="20" max="42" value="30" step="2" data-bind="arabicSize">
+</label>
+<label>Saiz BM
+<input type="range" min="14" max="22" value="16" step="1" data-bind="translationSize">
+</label>
+<label>
+<input type="checkbox" checked data-bind="autoScroll"> Auto-scroll</label>
+<label>
+<input type="checkbox" checked data-bind="autoNext"> Auto-next</label>
+</div>
+</details>
+<div class="verses" data-bind="verses">
+<div class="loading">Loading…</div>
+</div>
+<div class="toast" data-bind="toast" role="status" aria-live="polite"></div>
+<audio data-bind="audio" preload="metadata" crossorigin="anonymous"></audio>
 </section>
+
 <!-- End of Interactive Tool -->
 <section class="ilmx-section">
 <div class="ilmx-petua">
 <p><strong>💡 Petua:</strong> Gunakan butang ⚙️ Tetapan untuk menyesuaikan kelajuan bacaan dan mengaktifkan mod ulangan untuk tujuan hafalan. Auto-scroll akan membantu anda mengikuti bacaan dengan lebih mudah.</p>
 </div>
+
 <!-- H2 #3: Asbabun Nuzul -->
 <h2>📜 Asbabun Nuzul: Sejarah Turunnya Surah Al-Fajr</h2>
-
 <p>Berdasarkan kajian para mufassirin seperti Ibnu Katsir dan Al-Qurtubi, Surah Al-Fajr diturunkan di Mekah pada peringkat awal dakwah Nabi Muhammad ﷺ, ketika beliau dan para sahabat menghadapi penganiayaan hebat daripada kaum Quraisy. Konteks sejarah ini sangat penting untuk memahami mesej yang ingin disampaikan oleh Allah SWT.</p>
 
 <h3>Latar Belakang Turunnya Surah</h3>
-
 <p>Pada masa pewahyuan surah ini, umat Islam masih kecil bilangannya dan menghadapi tekanan yang amat besar dari pihak kaum musyrikin Mekah. Para pemimpin Quraisy seperti Abu Jahal, Abu Lahab, dan lain-lain menggunakan pelbagai cara untuk menghalang penyebaran Islam, termasuk:</p>
 
-<ul style="margin:1rem 0 1rem 1.5rem;list-style-type:disc">
+<ul style="margin:1rem 0 1rem 1.5rem; list-style-type:disc">
 <li style="margin-bottom:0.5rem">Menyiksa para sahabat yang lemah seperti Bilal bin Rabah, Ammar bin Yasir, dan keluarganya</li>
 <li style="margin-bottom:0.5rem">Mengenakan sekatan ekonomi terhadap Bani Hashim dan Bani Abdul Muttalib</li>
 <li style="margin-bottom:0.5rem">Menyebarkan fitnah dan penghinaan terhadap Nabi Muhammad ﷺ</li>
@@ -278,22 +246,21 @@
 
 <p>Dalam situasi yang mencabar ini, Allah SWT menurunkan Surah Al-Fajr untuk memberi pengajaran dan penghiburan kepada Rasulullah ﷺ serta para sahabat. Melalui kisah kaum-kaum terdahulu yang binasa akibat kesombongan dan penindasan, Allah mengingatkan bahawa kekuatan dan kekayaan material tidak kekal, dan balasan yang sebenar adalah di akhirat.</p>
 
-<div style="background:#fff3e0;border-left:4px solid #ff9800;padding:1.25rem;margin:1.5rem 0;border-radius:6px">
-<h4 style="font-size:1.1rem;font-weight:600;color:#e65100;margin-bottom:0.75rem">⚠️ Pengajaran Sejarah</h4>
+<div class="box-orange">
+<h4 style="font-size:1.1rem; font-weight:600; color:#e65100; margin-bottom:0.75rem">⚠️ Pengajaran Sejarah</h4>
 <p>Menurut Imam Maududi dalam Tafhim al-Quran, surah ini diturunkan untuk mengingatkan kaum Quraisy yang sombong dengan kekayaan dan kedudukan mereka bahawa Allah telah membinasakan bangsa-bangsa yang lebih kuat daripada mereka seperti:</p>
-<ul style="margin-left:1.5rem;list-style-type:disc">
+<ul style="margin-left:1.5rem; list-style-type:disc">
 <li style="margin-bottom:0.4rem"><strong>Kaum Aad:</strong> Penduduk Iram yang mempunyai bangunan tinggi dan kuat</li>
 <li style="margin-bottom:0.4rem"><strong>Kaum Thamud:</strong> Yang mahir memahat batu di lembah</li>
 <li style="margin-bottom:0.4rem"><strong>Firaun:</strong> Raja Mesir yang berkuasa mutlak</li>
 </ul>
-<p style="margin-top:0.75rem;margin-bottom:0">Kesemua mereka binasa kerana kesombongan dan kezaliman mereka, sekalipun mereka memiliki kekuatan yang luar biasa pada zaman mereka.</p>
+<p style="margin-top:0.75rem; margin-bottom:0">Kesemua mereka binasa kerana kesombongan dan kezaliman mereka, sekalipun mereka memiliki kekuatan yang luar biasa pada zaman mereka.</p>
 </div>
 
 <h3>Relevansi dengan Kehidupan Malaysia Moden</h3>
-
 <p>Pengajaran dari konteks turunnya surah ini sangat relevan dengan kehidupan Muslim Malaysia hari ini. Dalam era moden yang penuh dengan godaan materialisme, kita sering terdedah kepada ujian yang sama seperti yang dihadapi oleh kaum Quraisy:</p>
 
-<ul style="margin:1rem 0 1rem 1.5rem;list-style-type:disc">
+<ul style="margin:1rem 0 1rem 1.5rem; list-style-type:disc">
 <li style="margin-bottom:0.5rem">Terlalu mengagungkan kekayaan dan kedudukan sehingga lupa tanggungjawab terhadap Allah</li>
 <li style="margin-bottom:0.5rem">Mengutamakan kemewahan dunia berbanding persediaan untuk akhirat</li>
 <li style="margin-bottom:0.5rem">Menjadi sombong apabila diberi kemudahan rezeki, dan putus asa apabila diuji dengan kesempitan</li>
@@ -304,32 +271,29 @@
 </section>
 
 <!-- CTA #1: Soft Engagement -->
-<div class="ilmx-cta-soft" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border-radius:10px;padding:1.25rem;margin:2rem 0;text-align:center;border:2px dashed #4caf50">
-<p style="font-size:1.05rem;font-weight:600;color:#2e7d32;margin-bottom:0.75rem">💚 Manfaat Daripada Artikel Ini?</p>
-<p style="font-size:0.9rem;color:#1b5e20;margin-bottom:1rem">Simpan artikel ini untuk rujukan harian dan kongsikan dengan keluarga tersayang</p>
-<div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
-<button onclick="ilmxShare.bookmark()" style="background:#4caf50;border:none;padding:0.6rem 1.1rem;border-radius:6px;color:#fff;font-size:0.85rem;cursor:pointer;transition:all 0.2s">
+<div class="ilmx-cta-soft">
+<p style="font-size:1.05rem; font-weight:600; color:#2e7d32; margin-bottom:0.75rem">💚 Manfaat Daripada Artikel Ini?</p>
+<p style="font-size:0.9rem; color:#1b5e20; margin-bottom:1rem">Simpan artikel ini untuk rujukan harian dan kongsikan dengan keluarga tersayang</p>
+<div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap">
+<button onclick="ilmxShare.bookmark()" style="background:#4caf50; border:none; padding:0.6rem 1.1rem; border-radius:6px; color:#fff; font-size:0.85rem; cursor:pointer; transition:all 0.2s">
 📌 Simpan Artikel
 </button>
-<button onclick="ilmxShare.share()" style="background:#fff;border:2px solid #4caf50;padding:0.6rem 1.1rem;border-radius:6px;color:#4caf50;font-size:0.85rem;cursor:pointer;transition:all 0.2s">
+<button onclick="ilmxShare.share()" style="background:#fff; border:2px solid #4caf50; padding:0.6rem 1.1rem; border-radius:6px; color:#4caf50; font-size:0.85rem; cursor:pointer; transition:all 0.2s">
 📤 Kongsi WhatsApp
 </button>
 </div>
 </div>
 
-<!-- H2 #4: Tafsir &amp; Makna -->
+<!-- H2 #4: Tafsir & Makna -->
 <section class="ilmx-section">
 <h2>📚 Tafsir &amp; Makna Mendalam Surah Al-Fajr</h2>
-
 <p>Surah Al-Fajr boleh dibahagikan kepada beberapa bahagian utama, setiap satunya membawa pengajaran yang mendalam untuk kita renungkan. Mari kita teliti tafsir berdasarkan pandangan ulama muktabar seperti Ibnu Katsir, Al-Qurtubi, dan As-Sa'di.</p>
 
 <h3>Bahagian 1: Sumpah Allah (Ayat 1-5)</h3>
 
-<div style="background:#f8fdf9;padding:1.5rem;border-radius:8px;margin-bottom:1.5rem;border:1px solid #c8e6c9">
-<p style="font-size:1.3rem;text-align:right;line-height:2.2;color:#0c3808;font-weight:600;margin-bottom:1rem;direction:rtl">
-وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ ۝ وَالشَّفْعِ وَالْوَتْرِ ۝ وَاللَّيْلِ إِذَا يَسْرِ
-</p>
-<p style="font-style:italic;color:#555;margin-bottom:0.75rem">
+<div class="verse-block">
+<p class="verse-ar">وَالْفَجْرِ ۝ وَلَيَالٍ عَشْرٍ ۝ وَالشَّفْعِ وَالْوَتْرِ ۝ وَاللَّيْلِ إِذَا يَسْرِ</p>
+<p style="font-style:italic; color:#555; margin-bottom:0.75rem">
 <strong>Rumi:</strong> Wal-fajr. Wa layaalin 'asyr. Wasy-syaf'i wal-watr. Wal-laili izaa yasr.
 </p>
 <p style="margin:0">
@@ -341,39 +305,39 @@
 
 <p><strong>Makna Mendalam:</strong> Sumpah dengan waktu fajar bukan sekadar symbolic, tetapi membawa makna bahawa setiap permulaan (fajar) dalam hidup kita adalah peluang untuk memperbaiki diri. Bagi umat Islam Malaysia yang sibuk dengan rutin kerja, waktu fajar (Subuh) adalah masa yang paling diberkati untuk memulakan hari dengan penuh keberkatan melalui solat Subuh dan membaca Al-Quran.</p>
 
-<div style="background:#e3f2fd;padding:1rem;border-left:4px solid #2196f3;margin:1rem 0;border-radius:6px">
-<p style="margin:0;font-size:0.9rem"><strong>📖 Nota Ulama:</strong> Al-Qurtubi menjelaskan bahawa "sepuluh malam" merujuk kepada 10 hari pertama Zulhijjah, yang mana Rasulullah ﷺ bersabda: "Tidak ada hari-hari yang amal soleh lebih dicintai Allah melainkan pada sepuluh hari ini." (Riwayat Bukhari)</p>
+<div class="box-blue">
+<p style="margin:0; font-size:0.9rem"><strong>📖 Nota Ulama:</strong> Al-Qurtubi menjelaskan bahawa "sepuluh malam" merujuk kepada 10 hari pertama Zulhijjah, yang mana Rasulullah ﷺ bersabda: "Tidak ada hari-hari yang amal soleh lebih dicintai Allah melainkan pada sepuluh hari ini." (Riwayat Bukhari)</p>
 </div>
 
-<h3 style="font-size:1.3rem;font-weight:600;color:#0c3808;margin:2rem 0 1rem;border-left:4px solid #249749;padding-left:1rem">Bahagian 2: Kisah Kaum Terdahulu (Ayat 6-14)</h3>
+<h3 style="font-size:1.3rem; font-weight:600; color:#0c3808; margin:2rem 0 1rem; border-left:4px solid #249749; padding-left:1rem">Bahagian 2: Kisah Kaum Terdahulu (Ayat 6-14)</h3>
 
 <p>Selepas sumpah di ayat-ayat awal, Allah SWT mengemukakan soalan retorik kepada manusia: "Tidakkah engkau perhatikan bagaimana Tuhanmu telah melakukan terhadap kaum Aad, Thamud, dan Firaun?"</p>
 
-<div style="background:#fff8e1;padding:1.25rem;border-radius:8px;margin:1.5rem 0">
-<h4 style="font-size:1.1rem;font-weight:600;color:#f57c00;margin-bottom:1rem">🏛️ Tiga Bangsa yang Binasa</h4>
+<div class="box-yellow">
+<h4 style="font-size:1.1rem; font-weight:600; color:#f57c00; margin-bottom:1rem">🏛️ Tiga Bangsa yang Binasa</h4>
 
-<div>
-<p style="font-weight:600;color:#e65100;margin-bottom:0.5rem">1. Kaum Aad (Penduduk Iram)</p>
-<p style="margin-bottom:0;font-size:0.95rem">Mereka terkenal dengan bangunan-bangunan tinggi bertiang besar yang tidak pernah ada bandingannya pada masa itu. Namun kesombongan mereka membawa kepada kebinasaan melalui angin taufan yang dahsyat selama 7 malam 8 hari, sepertimana diceritakan dalam Surah Al-Haqqah.</p>
+<div style="margin-bottom:1rem">
+<p style="font-weight:600; color:#e65100; margin-bottom:0.5rem">1. Kaum Aad (Penduduk Iram)</p>
+<p style="margin-bottom:0; font-size:0.95rem">Mereka terkenal dengan bangunan-bangunan tinggi bertiang besar yang tidak pernah ada bandingannya pada masa itu. Namun kesombongan mereka membawa kepada kebinasaan melalui angin taufan yang dahsyat selama 7 malam 8 hari, sepertimana diceritakan dalam Surah Al-Haqqah.</p>
+</div>
+
+<div style="margin-bottom:1rem">
+<p style="font-weight:600; color:#e65100; margin-bottom:0.5rem">2. Kaum Thamud</p>
+<p style="margin-bottom:0; font-size:0.95rem">Mahir memahat batu-batu besar di lembah untuk dijadikan rumah kediaman. Mereka membunuh unta nabi Saleh AS dan menentang ajakan untuk beriman, lalu dimusnahkan dengan satu laungan yang dahsyat.</p>
 </div>
 
 <div>
-<p style="font-weight:600;color:#e65100;margin-bottom:0.5rem">2. Kaum Thamud</p>
-<p style="margin-bottom:0;font-size:0.95rem">Mahir memahat batu-batu besar di lembah untuk dijadikan rumah kediaman. Mereka membunuh unta nabi Saleh AS dan menentang ajakan untuk beriman, lalu dimusnahkan dengan satu laungan yang dahsyat.</p>
-</div>
-
-<div>
-<p style="font-weight:600;color:#e65100;margin-bottom:0.5rem">3. Firaun</p>
-<p style="margin-bottom:0;font-size:0.95rem">Raja Mesir yang memiliki bangunan-bangunan kukuh (pyramid, dsb) dan kekuasaan yang mutlak. Dia mendakwa dirinya tuhan, menyiksa Bani Israel, dan menentang Nabi Musa AS, akhirnya ditenggelamkan di Laut Merah.</p>
+<p style="font-weight:600; color:#e65100; margin-bottom:0.5rem">3. Firaun</p>
+<p style="margin-bottom:0; font-size:0.95rem">Raja Mesir yang memiliki bangunan-bangunan kukuh (pyramid, dsb) dan kekuasaan yang mutlak. Dia mendakwa dirinya tuhan, menyiksa Bani Israel, dan menentang Nabi Musa AS, akhirnya ditenggelamkan di Laut Merah.</p>
 </div>
 </div>
 
 <p><strong>Pengajaran untuk Malaysia:</strong> Kisah-kisah ini mengingatkan kita bahawa kekuatan ekonomi, pembangunan infrastruktur yang megah, atau kedudukan kuasa tidak akan kekal selamanya. Malaysia mungkin mempunyai KLCC, Putrajaya, dan pelbagai pembangunan moden, tetapi semua ini adalah ujian daripada Allah. Yang penting ialah bagaimana kita gunakan nikmat ini - untuk kebaikan atau kesombongan?</p>
 
-<h3 style="font-size:1.3rem;font-weight:600;color:#0c3808;margin:2rem 0 1rem;border-left:4px solid #249749;padding-left:1rem">Bahagian 3: Ujian Kehidupan (Ayat 15-20)</h3>
+<h3 style="font-size:1.3rem; font-weight:600; color:#0c3808; margin:2rem 0 1rem; border-left:4px solid #249749; padding-left:1rem">Bahagian 3: Ujian Kehidupan (Ayat 15-20)</h3>
 
-<div style="background:#f8fdf9;padding:1.5rem;border-radius:8px;margin-bottom:1.5rem;border:1px solid #c8e6c9">
-<p style="font-size:1.2rem;text-align:right;line-height:2;color:#0c3808;font-weight:600;margin-bottom:1rem;direction:rtl">
+<div class="verse-block">
+<p style="font-size:1.2rem; text-align:right; line-height:2; color:#0c3808; font-weight:600; margin-bottom:1rem; direction:rtl">
 فَأَمَّا الْإِنْسَانُ إِذَا مَا ابْتَلَاهُ رَبُّهُ فَأَكْرَمَهُ وَنَعَّمَهُ فَيَقُولُ رَبِّي أَكْرَمَنِ ۝ وَأَمَّا إِذَا مَا ابْتَلَاهُ فَقَدَرَ عَلَيْهِ رِزْقَهُ فَيَقُولُ رَبِّي أَهَانَنِ
 </p>
 <p style="margin:0">
@@ -387,29 +351,29 @@
 
 <p>Allah SWT mengingatkan dalam ayat-ayat seterusnya (17-20) bahawa masalah sebenar bukanlah kekayaan atau kemiskinan, tetapi:</p>
 
-<ul style="margin:1rem 0 1rem 1.5rem;list-style-type:disc">
+<ul style="margin:1rem 0 1rem 1.5rem; list-style-type:disc">
 <li style="margin-bottom:0.5rem">❌ <strong>Tidak memuliakan anak yatim</strong> - mengabaikan tanggungjawab terhadap golongan vulnerable</li>
 <li style="margin-bottom:0.5rem">❌ <strong>Tidak menggalakkan memberi makan orang miskin</strong> - sikap berkira dan tidak prihatin</li>
 <li style="margin-bottom:0.5rem">❌ <strong>Memakan harta pusaka secara rakus</strong> - tamak dan tidak adil dalam pembahagian harta</li>
 <li style="margin-bottom:0.5rem">❌ <strong>Mencintai harta dengan cinta yang berlebihan</strong> - materialisme yang melampau</li>
 </ul>
 
-<div style="background:#ffebee;padding:1.25rem;border-left:4px solid #f44336;margin:1.5rem 0;border-radius:6px">
-<p style="margin-bottom:0.75rem;font-weight:600;color:#c62828">⚠️ Amaran untuk Profesional Malaysia</p>
+<div class="box-red">
+<p style="margin-bottom:0.75rem; font-weight:600; color:#c62828">⚠️ Amaran untuk Profesional Malaysia</p>
 <p>Ramai profesional di bandar-bandar besar seperti KL, Penang, JB yang terlalu fokus mengejar karier dan kekayaan sehingga:</p>
-<ul style="margin-left:1.5rem;list-style-type:disc;font-size:0.95rem">
+<ul style="margin-left:1.5rem; list-style-type:disc; font-size:0.95rem">
 <li style="margin-bottom:0.4rem">Mengabaikan solat kerana "sibuk meeting"</li>
 <li style="margin-bottom:0.4rem">Jarang ziarah dan bantu ibu bapa atau saudara mara yang memerlukan</li>
 <li style="margin-bottom:0.4rem">Tidak sempat berzakat atau bersedekah walaupun berpendapatan tinggi</li>
 <li style="margin-bottom:0.4rem">Lupa bahawa rezeki yang banyak adalah ujian, bukan semata-mata ganjaran</li>
 </ul>
-<p style="margin-top:0.75rem;margin-bottom:0;font-size:0.95rem">Surah Al-Fajr mengingatkan kita untuk menyeimbangkan kehidupan dunia dan akhirat. Berjaya dalam karier dan kewangan adalah baik, tetapi jangan sampai melupakan tanggungjawab kepada Allah dan sesama manusia.</p>
+<p style="margin-top:0.75rem; margin-bottom:0; font-size:0.95rem">Surah Al-Fajr mengingatkan kita untuk menyeimbangkan kehidupan dunia dan akhirat. Berjaya dalam karier dan kewangan adalah baik, tetapi jangan sampai melupakan tanggungjawab kepada Allah dan sesama manusia.</p>
 </div>
 
-<h3 style="font-size:1.3rem;font-weight:600;color:#0c3808;margin:2rem 0 1rem;border-left:4px solid #249749;padding-left:1rem">Bahagian 4: Hari Kiamat &amp; Penyesalan (Ayat 21-26)</h3>
+<h3 style="font-size:1.3rem; font-weight:600; color:#0c3808; margin:2rem 0 1rem; border-left:4px solid #249749; padding-left:1rem">Bahagian 4: Hari Kiamat &amp; Penyesalan (Ayat 21-26)</h3>
 
-<div style="background:#f8fdf9;padding:1.5rem;border-radius:8px;margin-bottom:1.5rem;border:1px solid #c8e6c9">
-<p style="font-size:1.15rem;text-align:right;line-height:2;color:#0c3808;font-weight:600;margin-bottom:1rem;direction:rtl">
+<div class="verse-block">
+<p style="font-size:1.15rem; text-align:right; line-height:2; color:#0c3808; font-weight:600; margin-bottom:1rem; direction:rtl">
 كَلَّا إِذَا دُكَّتِ الْأَرْضُ دَكًّا دَكًّا ۝ وَجَاءَ رَبُّكَ وَالْمَلَكُ صَفًّا صَفًّا ۝ وَجِيءَ يَوْمَئِذٍ بِجَهَنَّمَ ۚ يَوْمَئِذٍ يَتَذَكَّرُ الْإِنْسَانُ وَأَنَّىٰ لَهُ الذِّكْرَىٰ
 </p>
 <p style="margin:0">
@@ -421,7 +385,7 @@
 
 <p>Ayat 24-26 menggambarkan penyesalan orang kafir:</p>
 
-<blockquote style="border-left:4px solid #9e9e9e;padding-left:1rem;margin:1.5rem 0;font-style:italic;color:#555">
+<blockquote style="border-left:4px solid #9e9e9e; padding-left:1rem; margin:1.5rem 0; font-style:italic; color:#555">
 <p style="margin-bottom:0.5rem">"Dia berkata: 'Alangkah baiknya kalau aku telah mengutamakan (amal soleh) untuk kehidupanku (yang kekal ini)!'"</p>
 <p style="margin-bottom:0.5rem">"Maka pada hari itu tiada seorang pun yang menyeksa seperti sesaknya Allah,"</p>
 <p style="margin:0">"Dan tiada seorang pun yang mengikat (dengan sekencang-kencangnya) seperti ikatan-Nya."</p>
@@ -429,13 +393,13 @@
 
 <p><strong>Refleksi untuk Kita:</strong> Bayangkan perasaan penyesalan yang amat sangat ketika kita nampak amalan-amalan kecil yang kita abaikan - solat Subuh yang ditinggalkan kerana lewat bangun, sedekah yang dipandang remeh, zikir yang dilupakan - ternyata sangat bernilai di akhirat. Masa untuk beramal adalah sekarang, bukan esok, bukan tahun depan, tetapi hari ini.</p>
 
-<h3 style="font-size:1.3rem;font-weight:600;color:#0c3808;margin:2rem 0 1rem;border-left:4px solid #249749;padding-left:1rem">Bahagian 5: Jiwa yang Tenang (Ayat 27-30)</h3>
+<h3 style="font-size:1.3rem; font-weight:600; color:#0c3808; margin:2rem 0 1rem; border-left:4px solid #249749; padding-left:1rem">Bahagian 5: Jiwa yang Tenang (Ayat 27-30)</h3>
 
-<div style="background:#e8f5e9;padding:1.5rem;border-radius:8px;margin-bottom:1.5rem;border:2px solid #4caf50">
-<p style="font-size:1.25rem;text-align:right;line-height:2.2;color:#1b5e20;font-weight:700;margin-bottom:1rem;direction:rtl">
+<div class="box-green">
+<p style="font-size:1.25rem; text-align:right; line-height:2.2; color:#1b5e20; font-weight:700; margin-bottom:1rem; direction:rtl">
 يَا أَيَّتُهَا النَّفْسُ الْمُطْمَئِنَّةُ ۝ ارْجِعِي إِلَىٰ رَبِّكِ رَاضِيَةً مَرْضِيَّةً ۝ فَادْخُلِي فِي عِبَادِي ۝ وَادْخُلِي جَنَّتِي
 </p>
-<p style="margin:0;font-size:1.05rem;line-height:1.8">
+<p style="margin:0; font-size:1.05rem; line-height:1.8">
 <strong>Terjemahan:</strong> "Wahai jiwa yang tenang! Kembalilah kepada Tuhanmu dengan rela dan diredai. Maka masuklah ke dalam golongan hamba-hamba-Ku, dan masuklah ke dalam syurga-Ku."
 </p>
 </div>
@@ -444,7 +408,7 @@
 
 <p><strong>Bagaimana Mencapai Jiwa yang Tenang dalam Konteks Malaysia?</strong></p>
 
-<ul style="margin:1rem 0 1rem 1.5rem;list-style-type:disc">
+<ul style="margin:1rem 0 1rem 1.5rem; list-style-type:disc">
 <li>
 <strong>Istiqamah dalam ibadah:</strong> Menjaga solat 5 waktu di masjid (untuk lelaki) atau di rumah (untuk wanita), konsisten dengan amalan harian seperti membaca Al-Quran, wirid, dan doa
 </li>
@@ -462,28 +426,28 @@
 </li>
 </ul>
 
-<div style="background:#e1f5fe;padding:1.25rem;border-radius:8px;margin:1.5rem 0">
-<p style="font-weight:600;color:#01579b;margin-bottom:0.75rem;font-size:1.05rem">💎 Ganjaran Jiwa yang Tenang</p>
-<p>Menurut Ibnu Abbas RA, apabila roh orang mukmin yang memiliki jiwa tenang ini hendak keluar dari jasad, malaikat akan menyambutnya dengan penuh kegembiraan dan membawa berita gembira:</p>
-<p style="margin-bottom:0.75rem;font-style:italic;color:#0277bd;font-size:0.95rem">"Wahai jiwa yang tenang, keluarlah dengan dipuji dan diredai, kepada rahmat dan keberkatan dari Tuhanmu." (Tafsir Ibn Kathir)</p>
+<div class="box-blue">
+<p style="font-weight:600; color:#01579b; margin-bottom:0.75rem; font-size:1.05rem">💎 Ganjaran Jiwa yang Tenang</p>
+<p>Menurut Ibnu Abbas RA, apabila roh orang mukmin yang memiliki jiwa tenang ini hendak keluar dari jasad, malaikat akan menyambutnya dengan penuh kegemiraan dan membawa berita gembira:</p>
+<p style="margin-bottom:0.75rem; font-style:italic; color:#0277bd; font-size:0.95rem">"Wahai jiwa yang tenang, keluarlah dengan dipuji dan diredai, kepada rahmat dan keberkatan dari Tuhanmu." (Tafsir Ibn Kathir)</p>
 <p>Inilah ganjaran tertinggi - bukan sekadar masuk syurga, tetapi masuk dengan diredai oleh Allah SWT dan ditempatkan bersama hamba-hamba pilihan-Nya.</p>
 </div>
 
 </section>
 
 <!-- CTA #2: Lead Magnet -->
-<div class="ilmx-cta-lead" style="background:linear-gradient(135deg,#fff3e0,#ffe0b2);border:2px solid #ff9800;border-radius:12px;padding:1.5rem;margin:2rem 0;box-shadow:0 4px 12px rgba(0,0,0,0.1)">
-<div style="text-align:center;margin-bottom:1rem">
-<div style="font-size:2.5rem;margin-bottom:0.5rem">📥</div>
-<h3 style="font-size:1.3rem;font-weight:700;color:#e65100;margin-bottom:0.5rem">Muat Turun Panduan Eksklusif (PERCUMA)</h3>
-<p style="font-size:0.95rem;color:#bf360c;margin-bottom:1.25rem">Tafsir Lengkap Surah Al-Fajr + 7 Surah Pilihan dengan Panduan Hafalan (Format PDF, 45 Halaman)</p>
+<div class="ilmx-cta-lead">
+<div style="text-align:center; margin-bottom:1rem">
+<div style="font-size:2.5rem; margin-bottom:0.5rem">📥</div>
+<h3 style="font-size:1.3rem; font-weight:700; color:#e65100; margin-bottom:0.5rem">Muat Turun Panduan Eksklusif (PERCUMA)</h3>
+<p style="font-size:0.95rem; color:#bf360c; margin-bottom:1.25rem">Tafsir Lengkap Surah Al-Fajr + 7 Surah Pilihan dengan Panduan Hafalan (Format PDF, 45 Halaman)</p>
 </div>
-<div style="max-width:400px;margin:0 auto">
-<input type="email" id="ilmx-email-input" placeholder="Masukkan email anda" style="width:100%;padding:0.75rem;border:2px solid #ff9800;border-radius:6px;font-size:0.95rem;margin-bottom:0.75rem">
-<button onclick="ilmxLead.submitEmail()" style="width:100%;background:#ff9800;border:none;padding:0.85rem;border-radius:6px;color:#fff;font-weight:600;font-size:1rem;cursor:pointer;transition:all 0.2s">
+<div style="max-width:400px; margin:0 auto">
+<input type="email" id="ilmx-email-input" placeholder="Masukkan email anda" style="width:100%; padding:0.75rem; border:2px solid #ff9800; border-radius:6px; font-size:0.95rem; margin-bottom:0.75rem">
+<button onclick="ilmxLead.submitEmail()" style="width:100%; background:#ff9800; border:none; padding:0.85rem; border-radius:6px; color:#fff; font-weight:600; font-size:1rem; cursor:pointer; transition:all 0.2s">
 ✅ Hantar ke Email Saya Sekarang
 </button>
-<p style="font-size:0.75rem;color:#666;text-align:center;margin-top:0.75rem">🔒 Kami hormati privasi anda. Tiada spam, cuma ilmu bermanfaat.</p>
+<p style="font-size:0.75rem; color:#666; text-align:center; margin-top:0.75rem">🔒 Kami hormati privasi anda. Tiada spam, cuma ilmu bermanfaat.</p>
 </div>
 </div>
 
@@ -493,24 +457,24 @@
 
 <p>Surah Al-Fajr membawa beberapa pengajaran penting yang sangat relevan dengan kehidupan Muslim Malaysia moden. Mari kita aplikasikan pengajaran-pengajaran ini dalam konteks kehidupan seharian kita.</p>
 
-<div style="background:#fff;border-left:4px solid #249749;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);border-radius:6px">
-<h3 style="color:#0c3808;margin-bottom:1rem">1. Kekayaan &amp; Kemiskinan Adalah Ujian</h3>
+<div style="background:#fff; border-left:4px solid #249749; padding:1.5rem; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-radius:6px">
+<h3 style="color:#0c3808; margin-bottom:1rem">1. Kekayaan &amp; Kemiskinan Adalah Ujian</h3>
 <p><strong>Ayat Rujukan:</strong> "Adapun manusia apabila Tuhannya mengujinya lalu memuliakannya dan memberinya kesenangan, maka dia berkata: 'Tuhanku telah memuliakanku.'" (89:15)</p>
 <p><strong>Pengajaran:</strong> Ramai Muslim Malaysia yang berpendapatan tinggi terlupa bahawa kekayaan mereka adalah ujian, bukan ganjaran. Begitu juga, mereka yang berpendapatan rendah tidak sepatutnya berputus asa, kerana kemiskinan juga adalah ujian.</p>
 <p><strong>Aplikasi Praktis:</strong></p>
-<ul style="margin-left:1.5rem;list-style-type:disc">
+<ul style="margin-left:1.5rem; list-style-type:disc">
 <li style="margin-bottom:0.4rem">Jika Allah kurniakan rezeki yang banyak, gunakan untuk kebaikan - perbanyakkan sedekah, bantu keluarga, sokong projek-projek dakwah</li>
 <li style="margin-bottom:0.4rem">Jika rezeki sempit, bersabar dan terus berusaha sambil tawakal kepada Allah. Jangan terlibat dengan riba, perjudian, atau cara haram lain</li>
 <li style="margin-bottom:0.4rem">Jangan jadikan kekayaan sebagai ukuran kejayaan hidup. Yang penting ialah ketaqwaan dan amal soleh</li>
 </ul>
 </div>
 
-<div style="background:#fff;border-left:4px solid #249749;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);border-radius:6px">
-<h3 style="color:#0c3808;margin-bottom:1rem">2. Tanggungjawab Sosial: Jaga Anak Yatim &amp; Orang Miskin</h3>
+<div style="background:#fff; border-left:4px solid #249749; padding:1.5rem; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-radius:6px">
+<h3 style="color:#0c3808; margin-bottom:1rem">2. Tanggungjawab Sosial: Jaga Anak Yatim &amp; Orang Miskin</h3>
 <p><strong>Ayat Rujukan:</strong> "Bahkan kamu tidak memuliakan anak yatim, dan kamu tidak menggalakkan untuk memberi makan orang miskin" (89:17-18)</p>
 <p><strong>Pengajaran:</strong> Islam bukan sekadar ritual ibadah peribadi, tetapi juga tanggungjawab sosial. Allah SWT mengecam keras mereka yang mengabaikan golongan vulnerable seperti anak yatim dan fakir miskin.</p>
 <p><strong>Aplikasi untuk Malaysia:</strong></p>
-<ul style="margin-left:1.5rem;list-style-type:disc">
+<ul style="margin-left:1.5rem; list-style-type:disc">
 <li style="margin-bottom:0.4rem">Sertai program kebajikan di masjid atau NGO Islam untuk membantu anak-anak yatim</li>
 <li style="margin-bottom:0.4rem">Jangan berkira untuk bersedekah kepada peminta-peminta di jalanan atau masjid. Walaupun RM5-10, ia bermakna besar untuk mereka</li>
 <li style="margin-bottom:0.4rem">Tunaikan zakat fitrah dan zakat harta dengan betul. Jangan cuba elak tanggungjawab ini</li>
@@ -518,26 +482,26 @@
 </ul>
 </div>
 
-<div style="background:#fff;border-left:4px solid #249749;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);border-radius:6px">
-<h3 style="color:#0c3808;margin-bottom:1rem">3. Elak Materialisme &amp; Tamak Haloba</h3>
+<div style="background:#fff; border-left:4px solid #249749; padding:1.5rem; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-radius:6px">
+<h3 style="color:#0c3808; margin-bottom:1rem">3. Elak Materialisme &amp; Tamak Haloba</h3>
 <p><strong>Ayat Rujukan:</strong> "Dan kamu sentiasa makan harta pusaka secara rakus, dan kamu pula sayangkan harta secara tamak haloba!" (89:19-20)</p>
 <p><strong>Pengajaran:</strong> Cinta yang berlebihan terhadap harta adalah penyakit hati yang membinasakan. Ia menyebabkan manusia sanggup melakukan apa sahaja - termasuk perkara haram - untuk mendapatkan kekayaan.</p>
 <p><strong>Bahaya Materialisme di Malaysia:</strong></p>
-<ul style="margin-left:1.5rem;list-style-type:disc">
+<ul style="margin-left:1.5rem; list-style-type:disc">
 <li style="margin-bottom:0.4rem">Rasuah dan penyelewengan kuasa kerana tamakkan wang</li>
 <li style="margin-bottom:0.4rem">Terlibat dengan skim cepat kaya (scam) atau pelaburan haram</li>
 <li style="margin-bottom:0.4rem">Hutang yang melampau kerana ingin membeli barang-barang mewah untuk "show off"</li>
 <li style="margin-bottom:0.4rem">Mengabaikan keluarga dan ibadah kerana terlalu fokus mengejar kekayaan</li>
 </ul>
-<p style="margin-top:0.75rem;margin-bottom:0"><strong>Solusi:</strong> Belajar hidup sederhana (qanaah), bersyukur dengan apa yang ada, dan fokus mengumpul harta akhirat yang lebih kekal.</p>
+<p style="margin-top:0.75rem; margin-bottom:0"><strong>Solusi:</strong> Belajar hidup sederhana (qanaah), bersyukur dengan apa yang ada, dan fokus mengumpul harta akhirat yang lebih kekal.</p>
 </div>
 
-<div style="background:#fff;border-left:4px solid #249749;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);border-radius:6px">
-<h3 style="color:#0c3808;margin-bottom:1rem">4. Ingat Mati &amp; Akhirat</h3>
+<div style="background:#fff; border-left:4px solid #249749; padding:1.5rem; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-radius:6px">
+<h3 style="color:#0c3808; margin-bottom:1rem">4. Ingat Mati &amp; Akhirat</h3>
 <p><strong>Ayat Rujukan:</strong> "Pada hari itu manusia akan ingat, tetapi apakah gunanya ingatan itu baginya? Dia berkata: 'Alangkah baiknya kalau aku telah mengutamakan (amal soleh) untuk kehidupanku!'" (89:23-24)</p>
 <p><strong>Pengajaran:</strong> Penyesalan yang paling besar adalah penyesalan di akhirat. Pada masa itu, tiada lagi peluang untuk memperbaiki diri atau beramal soleh.</p>
 <p><strong>Bagaimana Mengingati Mati dalam Kesibukan Hidup?</strong></p>
-<ul style="margin-left:1.5rem;list-style-type:disc">
+<ul style="margin-left:1.5rem; list-style-type:disc">
 <li style="margin-bottom:0.4rem">Ziarah kubur secara berkala untuk mengingatkan tentang hakikat kematian</li>
 <li style="margin-bottom:0.4rem">Sertai jenazah muslimin yang meninggal dunia di kawasan kita</li>
 <li style="margin-bottom:0.4rem">Buat semakan dalaman: Jika mati hari ini, adakah saya reda dengan amalan yang telah saya kumpulkan?</li>
@@ -545,8 +509,8 @@
 </ul>
 </div>
 
-<div style="background:#fff;border-left:4px solid #249749;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);border-radius:6px">
-<h3 style="color:#0c3808;margin-bottom:1rem">5. Bina Jiwa yang Tenang (An-Nafsul Muthmainnah)</h3>
+<div style="background:#fff; border-left:4px solid #249749; padding:1.5rem; margin-bottom:1.5rem; box-shadow:0 2px 8px rgba(0,0,0,0.06); border-radius:6px">
+<h3 style="color:#0c3808; margin-bottom:1rem">5. Bina Jiwa yang Tenang (An-Nafsul Muthmainnah)</h3>
 <p><strong>Ayat Rujukan:</strong> "Wahai jiwa yang tenang! Kembalilah kepada Tuhanmu dengan rela dan diredai." (89:27-28)</p>
 <p><strong>Pengajaran:</strong> Matlamat hidup seorang Muslim adalah mencapai tahap jiwa yang tenang - jiwa yang reda dengan ketentuan Allah, tidak tergoncang oleh ujian, dan sentiasa dalam keadaan ihsan.</p>
 <p><strong>Langkah Mencapai Jiwa Tenang:</strong></p>
@@ -560,14 +524,14 @@
 </ol>
 </div>
 
-<div style="background:#fff9c4;border:2px solid #fbc02d;padding:1.25rem;border-radius:8px;margin-top:1.5rem">
-<p style="margin-bottom:0.75rem;font-weight:600;color:#f57f17">📌 Kesimpulan Pengajaran</p>
+<div style="background:#fff9c4; border:2px solid #fbc02d; padding:1.25rem; border-radius:8px; margin-top:1.5rem">
+<p style="margin-bottom:0.75rem; font-weight:600; color:#f57f17">📌 Kesimpulan Pengajaran</p>
 <p>Surah Al-Fajr mengajar kita untuk menyeimbangkan kehidupan dunia dan akhirat. Kita boleh bekerja keras, berusaha mencari rezeki halal, dan menikmati nikmat yang Allah berikan. Tetapi jangan sekali-kali lupakan tujuan sebenar penciptaan kita - untuk beribadah kepada Allah dan mencari keredhaan-Nya. Bina jiwa yang tenang melalui amalan-amalan yang istiqamah, dan sentiasa ingat bahawa kehidupan dunia ini sementara, sementara akhirat kekal selama-lamanya.</p>
 </div>
 
 </section>
 
-<!-- H2 #6: Kelebihan &amp; Fadhilat -->
+<!-- H2 #6: Kelebihan & Fadhilat -->
 <section class="ilmx-section">
 <h2>✨ Kelebihan &amp; Fadhilat Membaca Surah Al-Fajr</h2>
 
@@ -575,51 +539,55 @@
 
 <div class="ilmx-kelebihan">
 <div class="ilmx-kelebihan-item">
-<h3 style="color:#4a148c;">1. Mendapat Pahala Membaca Al-Quran</h3>
+<h3 style="color:#4a148c">1. Mendapat Pahala Membaca Al-Quran</h3>
 <p>Rasulullah ﷺ bersabda:</p>
-<blockquote style="border-left:3px solid #9c27b0;padding-left:1rem;margin:0.75rem 0;font-style:italic;color:#6a1b9a">
+<blockquote style="border-left:3px solid #9c27b0; padding-left:1rem; margin:0.75rem 0; font-style:italic; color:#6a1b9a">
 "Sesiapa yang membaca satu huruf daripada Kitab Allah, maka baginya satu kebaikan, dan satu kebaikan itu dibalas dengan sepuluh kali ganda. Aku tidak mengatakan Alif Lam Mim itu satu huruf, tetapi Alif satu huruf, Lam satu huruf, dan Mim satu huruf." (Riwayat Tirmizi, sahih)
 </blockquote>
 <p>Surah Al-Fajr mengandungi 139 perkataan dan 584 huruf. Bayangkan ganjaran yang akan kita perolehi dengan membacanya!</p>
+</div>
 
-<div style="box-green">
-<h3 style="color:#1b5e20;">2. Pengajaran tentang Ujian Hidup</h3>
+<div class="ilmx-kelebihan-item box-green">
+<h3 style="color:#1b5e20">2. Pengajaran tentang Ujian Hidup</h3>
 <p>Membaca dan merenungi Surah Al-Fajr membantu kita memahami hakikat ujian kehidupan - sama ada kita diuji dengan kekayaan atau kemiskinan. Ini memberi ketabahan untuk menghadapi cabaran hidup dengan lebih tenang dan reda.</p>
 </div>
 
-<div class="box-blue">
-<h3 style="color:#01579b;">3. Peringatan tentang Akhirat</h3>
+<div class="ilmx-kelebihan-item box-blue">
+<h3 style="color:#01579b">3. Peringatan tentang Akhirat</h3>
 <p>Surah ini mengingatkan kita tentang Hari Kiamat dan akibat perbuatan kita. Bacaan berulang-ulang akan membantu kita lebih berhati-hati dalam bertindak dan sentiasa ingat kepada Allah.</p>
 </div>
 
-<div class="box-orange">
-<h3 style="color:#e65100;">4. Membersihkan Hati dari Sifat Tamak</h3>
+<div class="ilmx-kelebihan-item box-orange">
+<h3 style="color:#e65100">4. Membersihkan Hati dari Sifat Tamak</h3>
 <p>Surah Al-Fajr dengan keras mengecam sifat tamak dan cinta berlebihan terhadap harta. Membacanya dengan tadabbur boleh membantu membersihkan hati kita dari penyakit materialisme.</p>
 </div>
 
-<div class="box-box-purple">
-<h3 style="color:#4a148c;">5. Panduan Mencapai Jiwa Tenang</h3>
+<div class="ilmx-kelebihan-item box-purple">
+<h3 style="color:#4a148c">5. Panduan Mencapai Jiwa Tenang</h3>
 <p>Ayat terakhir surah ini memberikan gambaran tentang "jiwa yang tenang" (an-nafsul muthmainnah) - matlamat tertinggi seorang mukmin. Membaca dan memahami surah ini adalah langkah awal untuk mencapai tahap tersebut.</p>
-</div>
 </div>
 </div>
 
 <h3>Waktu Terbaik Membaca Surah Al-Fajr</h3>
 
 <div class="ilmx-grid-fajr">
-<div style="ilmx-grid-fajr-card">
+<div class="ilmx-grid-fajr-card">
 <h4>🌅 Waktu Fajar</h4>
 <p>Sesuai dibaca pada waktu Subuh, selaras dengan nama surah dan untuk mendapat keberkatan pagi.</p>
+</div>
 
+<div class="ilmx-grid-fajr-card">
 <h4>🌙 Selepas Maghrib</h4>
 <p>Masa yang baik untuk tadabbur dan renungan selepas seharian bekerja.</p>
+</div>
 
+<div class="ilmx-grid-fajr-card">
 <h4>✨ Malam Zulhijjah</h4>
 <p>Khususnya pada 10 malam pertama Zulhijjah yang disebut dalam surah ini.</p>
 </div>
 </div>
 
-<div style="background:#e8f5e9;padding:1.5rem;border-radius:10px;margin-top:2rem;border:2px dashed #4caf50">
+<div style="background:#e8f5e9; padding:1.5rem; border-radius:10px; margin-top:2rem; border:2px dashed #4caf50">
 <p><strong>💡 Nasihat Penting</strong></p>
 <p>Kelebihan membaca Al-Quran bukan sekadar pada bacaan, tetapi yang lebih penting ialah memahami, menghayati, dan mengamalkan isi kandungannya. Bacalah Surah Al-Fajr dengan perlahan, renungkan maknanya, dan cuba aplikasikan pengajaran yang terkandung di dalamnya dalam kehidupan seharian.</p>
 <p><strong>Rasulullah ﷺ bersabda:</strong> "Yang terbaik di kalangan kamu ialah orang yang mempelajari Al-Quran dan mengajarkannya." (Riwayat Bukhari)</p>
@@ -627,22 +595,22 @@
 
 </section>
 
-<!-- CTA #3: Affiliate/Product -->
-<div class="ilmx-cta-product" style="background:#fff;border:2px solid #e0e0e0;border-radius:12px;overflow:hidden;margin:2rem 0;box-shadow:0 4px 12px rgba(0,0,0,0.1)">
-<div style="display:grid;grid-template-columns:120px 1fr;gap:1.25rem;padding:1.25rem;align-items:center">
-<div style="background:#f5f5f5;border-radius:8px;padding:0.75rem;text-align:center">
-<div style="font-size:3rem;margin-bottom:0.25rem">📚</div>
-<p style="font-size:0.7rem;color:#666;margin:0">Disyorkan</p>
+<!-- CTA #3: Product -->
+<div class="ilmx-cta-product">
+<div style="display:grid; grid-template-columns:120px 1fr; gap:1.25rem; padding:1.25rem; align-items:center">
+<div style="background:#f5f5f5; border-radius:8px; padding:0.75rem; text-align:center">
+<div style="font-size:3rem; margin-bottom:0.25rem">📚</div>
+<p style="font-size:0.7rem; color:#666; margin:0">Disyorkan</p>
 </div>
 <div>
-<h3 style="font-size:1.15rem;font-weight:700;color:#0c3808;margin-bottom:0.5rem">Tafsir Al-Quran Juzuk Amma oleh Dr. MAZA</h3>
-<p style="font-size:0.9rem;color:#555;margin-bottom:0.75rem">Tafsir lengkap surah-surah pendek termasuk Al-Fajr dengan penjelasan mudah dan praktikal. Edisi Bahasa Melayu.</p>
-<div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
-<span style="font-size:1.3rem;font-weight:700;color:#d32f2f">RM45</span>
-<span style="font-size:0.85rem;color:#999;text-decoration:line-through">RM60</span>
-<span style="background:#4caf50;color:#fff;padding:0.3rem 0.7rem;border-radius:4px;font-size:0.75rem;font-weight:600">Jimat 25%</span>
+<h3 style="font-size:1.15rem; font-weight:700; color:#0c3808; margin-bottom:0.5rem">Tafsir Al-Quran Juzuk Amma oleh Dr. MAZA</h3>
+<p style="font-size:0.9rem; color:#555; margin-bottom:0.75rem">Tafsir lengkap surah-surah pendek termasuk Al-Fajr dengan penjelasan mudah dan praktikal. Edisi Bahasa Melayu.</p>
+<div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap">
+<span style="font-size:1.3rem; font-weight:700; color:#d32f2f">RM45</span>
+<span style="font-size:0.85rem; color:#999; text-decoration:line-through">RM60</span>
+<span style="background:#4caf50; color:#fff; padding:0.3rem 0.7rem; border-radius:4px; font-size:0.75rem; font-weight:600">Jimat 25%</span>
 </div>
-<a href="#" onclick="return false" style="display:inline-block;background:#249749;color:#fff;padding:0.65rem 1.5rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;margin-top:0.75rem;transition:all 0.2s">
+<a href="#" onclick="return false" style="display:inline-block; background:#249749; color:#fff; padding:0.65rem 1.5rem; border-radius:6px; text-decoration:none; font-weight:600; font-size:0.9rem; margin-top:0.75rem; transition:all 0.2s">
 🛒 Lihat Tawaran
 </a>
 </div>
@@ -657,8 +625,8 @@
 
 <h3>Langkah 1: Persediaan Mental &amp; Niat</h3>
 
-<div style="background:#f3e5f5;padding:1.25rem;border-radius:8px;margin-bottom:1.5rem">
-<ul style="margin:0 0 0 1.5rem;list-style-type:disc">
+<div style="background:#f3e5f5; padding:1.25rem; border-radius:8px; margin-bottom:1.5rem">
+<ul style="margin:0 0 0 1.5rem; list-style-type:disc">
 <li>
 <strong>Niatkan kerana Allah:</strong> Hafalan Al-Quran adalah ibadah yang sangat mulia. Pastikan niat murni kerana mencari keredhaan Allah, bukan untuk populariti atau pujian manusia.
 </li>
@@ -676,12 +644,12 @@
 
 <h3>Langkah 2: Kaedah Hafalan (Teknik 3R)</h3>
 
-<div style="background:#e8f5e9;padding:1.5rem;border-radius:10px;margin-bottom:1.5rem;border:2px solid #4caf50">
-<h4 style="font-size:1.15rem;font-weight:600;color:#1b5e20;margin-bottom:1rem">📖 Teknik 3R: Read, Repeat, Recall</h4>
+<div style="background:#e8f5e9; padding:1.5rem; border-radius:10px; margin-bottom:1.5rem; border:2px solid #4caf50">
+<h4 style="font-size:1.15rem; font-weight:600; color:#1b5e20; margin-bottom:1rem">📖 Teknik 3R: Read, Repeat, Recall</h4>
 
-<div style="background:#fff;padding:1rem;border-radius:6px;margin-bottom:1rem">
-<p style="font-weight:600;color:#2e7d32;margin-bottom:0.75rem">R1: READ (Baca dengan Betul)</p>
-<ul style="margin:0 0 0 1.5rem;font-size:0.95rem">
+<div style="background:#fff; padding:1rem; border-radius:6px; margin-bottom:1rem">
+<p style="font-weight:600; color:#2e7d32; margin-bottom:0.75rem">R1: READ (Baca dengan Betul)</p>
+<ul style="margin:0 0 0 1.5rem; font-size:0.95rem">
 <li style="margin-bottom:0.4rem">Baca ayat dengan tajwid yang betul 5-7 kali sambil melihat mushaf/skrin</li>
 <li style="margin-bottom:0.4rem">Gunakan audio qari pilihan anda (Mishary Alafasy atau Al-Husary disyorkan)</li>
 <li style="margin-bottom:0.4rem">Fahami maksud ayat dalam Bahasa Melayu - ini sangat membantu hafalan</li>
@@ -689,9 +657,9 @@
 </ul>
 </div>
 
-<div style="background:#fff;padding:1rem;border-radius:6px;margin-bottom:1rem">
-<p style="font-weight:600;color:#2e7d32;margin-bottom:0.75rem">R2: REPEAT (Ulang Berkali-kali)</p>
-<ul style="margin:0 0 0 1.5rem;font-size:0.95rem">
+<div style="background:#fff; padding:1rem; border-radius:6px; margin-bottom:1rem">
+<p style="font-weight:600; color:#2e7d32; margin-bottom:0.75rem">R2: REPEAT (Ulang Berkali-kali)</p>
+<ul style="margin:0 0 0 1.5rem; font-size:0.95rem">
 <li style="margin-bottom:0.4rem">Ulang ayat tersebut 10-15 kali tanpa melihat mushaf</li>
 <li style="margin-bottom:0.4rem">Jika tersalah, rujuk mushaf dan mulakan semula</li>
 <li style="margin-bottom:0.4rem">Rekod bacaan anda dan dengar semula untuk detect kesilapan</li>
@@ -699,9 +667,9 @@
 </ul>
 </div>
 
-<div style="background:#fff;padding:1rem;border-radius:6px">
-<p style="font-weight:600;color:#2e7d32;margin-bottom:0.75rem">R3: RECALL (Uji Hafalan)</p>
-<ul style="margin:0 0 0 1.5rem;font-size:0.95rem">
+<div style="background:#fff; padding:1rem; border-radius:6px">
+<p style="font-weight:600; color:#2e7d32; margin-bottom:0.75rem">R3: RECALL (Uji Hafalan)</p>
+<ul style="margin:0 0 0 1.5rem; font-size:0.95rem">
 <li style="margin-bottom:0.4rem">Tutup mushaf dan cuba ulang ayat dari ingatan</li>
 <li style="margin-bottom:0.4rem">Minta ahli keluarga untuk dengar dan betulkan jika ada kesilapan</li>
 <li style="margin-bottom:0.4rem">Bacakan dalam solat sunat untuk mengukuhkan hafalan</li>
@@ -712,14 +680,14 @@
 
 <h3>Langkah 3: Jadual Hafalan Berstuktur (14 Hari)</h3>
 
-<div style="overflow-x:auto;margin:1.5rem 0">
-<table style="width:100%;border-collapse:collapse;font-size:0.9rem">
+<div style="overflow-x:auto; margin:1.5rem 0">
+<table class="ilmx-table">
 <thead>
-<tr style="background:#249749;color:#fff">
-<th style="padding:0.75rem;border:1px solid #ddd;text-align:left">Hari</th>
-<th style="padding:0.75rem;border:1px solid #ddd;text-align:left">Ayat Baru</th>
-<th style="padding:0.75rem;border:1px solid #ddd;text-align:left">Ulangkaji Ayat Lama</th>
-<th style="padding:0.75rem;border:1px solid #ddd;text-align:left">Catatan</th>
+<tr>
+<th>Hari</th>
+<th>Ayat Baru</th>
+<th>Ulangkaji Ayat Lama</th>
+<th>Catatan</th>
 </tr>
 </thead>
 <tbody>
@@ -771,16 +739,16 @@
 
 <h3>Langkah 4: Tips Mengekalkan Hafalan</h3>
 
-<div style="background:#fff3e0;padding:1.25rem;border-left:4px solid #ff9800;margin-bottom:1rem;border-radius:6px">
-<h4 style="font-size:1.05rem;font-weight:600;color:#e65100;margin-bottom:0.75rem">⚠️ Bahaya Lupa Hafalan</h4>
+<div class="box-orange">
+<h4 style="font-size:1.05rem; font-weight:600; color:#e65100; margin-bottom:0.75rem">⚠️ Bahaya Lupa Hafalan</h4>
 <p>Rasulullah ﷺ bersabda: "Demi Allah yang jiwaku berada di tangan-Nya, sesungguhnya Al-Quran itu lebih cepat terlepas (dari hafalan) daripada unta yang dilepaskan dari ikatannya." (Riwayat Muslim)</p>
 <p>Oleh itu, ulangkaji (muraja'ah) adalah WAJIB untuk mengekalkan hafalan.</p>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.5rem 0">
-<div style="background:#e3f2fd;padding:1.25rem;border-radius:8px;border-left:4px solid #2196f3">
-<p style="font-weight:600;color:#0d47a1;margin-bottom:0.75rem">📅 Jadual Muraja'ah</p>
-<ul style="margin:0 0 0 1.5rem;font-size:0.9rem">
+<div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem; margin:1.5rem 0">
+<div class="box-blue">
+<p style="font-weight:600; color:#0d47a1; margin-bottom:0.75rem">📅 Jadual Muraja'ah</p>
+<ul style="margin:0 0 0 1.5rem; font-size:0.9rem">
 <li style="margin-bottom:0.4rem">Hari 1-7: Ulang setiap hari</li>
 <li style="margin-bottom:0.4rem">Minggu 2-4: Ulang 3x seminggu</li>
 <li style="margin-bottom:0.4rem">Bulan 2-6: Ulang 1x seminggu</li>
@@ -788,9 +756,9 @@
 </ul>
 </div>
 
-<div style="background:#f3e5f5;padding:1.25rem;border-radius:8px;border-left:4px solid#9c27b0">
-<p style="font-weight:600;color:#4a148c;margin-bottom:0.75rem">🤲 Amalkan dalam Solat</p>
-<ul style="margin:0 0 0 1.5rem;font-size:0.9rem">
+<div class="box-purple">
+<p style="font-weight:600; color:#4a148c; margin-bottom:0.75rem">🤲 Amalkan dalam Solat</p>
+<ul style="margin:0 0 0 1.5rem; font-size:0.9rem">
 <li style="margin-bottom:0.4rem">Baca dalam solat sunat</li>
 <li style="margin-bottom:0.4rem">Qiyamullail dengan Surah Al-Fajr</li>
 <li style="margin-bottom:0.4rem">Solat Witir dengan ayat terakhir</li>
@@ -798,9 +766,9 @@
 </ul>
 </div>
 
-<div style="background:#e8f5e9;padding:1.25rem;border-radius:8px;border-left:4px solid #4caf50">
-<p style="font-weight:600;color:#1b5e20;margin-bottom:0.75rem">👥 Belajar Berkumpulan</p>
-<ul style="margin:0 0 0 1.5rem;font-size:0.9rem">
+<div class="box-green">
+<p style="font-weight:600; color:#1b5e20; margin-bottom:0.75rem">👥 Belajar Berkumpulan</p>
+<ul style="margin:0 0 0 1.5rem; font-size:0.9rem">
 <li style="margin-bottom:0.4rem">Join halaqah tahfiz di masjid</li>
 <li style="margin-bottom:0.4rem">Dengar antara satu sama lain</li>
 <li style="margin-bottom:0.4rem">Betulkan tajwid bersama-sama</li>
@@ -811,10 +779,10 @@
 
 <h3>Langkah 5: Gunakan Teknologi sebagai Pembantu</h3>
 
-<div style="background:#fff;padding:1.25rem;border:2px solid #e0e0e0;border-radius:8px;margin-bottom:1.5rem">
-<p style="font-weight:600;margin-bottom:1rem">🎧 Alat Interaktif IlmuAlam</p>
+<div style="background:#fff; padding:1.25rem; border:2px solid #e0e0e0; border-radius:8px; margin-bottom:1.5rem">
+<p style="font-weight:600; margin-bottom:1rem">🎧 Alat Interaktif IlmuAlam</p>
 <p>Gunakan alat bacaan Surah Al-Fajr di bahagian atas artikel ini untuk:</p>
-<ul style="margin:0 0 0 1.5rem;font-size:0.95rem">
+<ul style="margin:0 0 0 1.5rem; font-size:0.95rem">
 <li style="margin-bottom:0.4rem">Dengar bacaan qari pilihan anda berulang-ulang (mod Repeat)</li>
 <li style="margin-bottom:0.4rem">Laraskan kelajuan bacaan (0.75x untuk pemula)</li>
 <li style="margin-bottom:0.4rem">Auto-scroll untuk mengikuti bacaan dengan mudah</li>
@@ -822,10 +790,10 @@
 </ul>
 </div>
 
-<div style="background:linear-gradient(135deg,#4caf50,#66bb6a);color:#fff;padding:1.5rem;border-radius:12px;text-align:center;margin-top:2rem">
+<div style="background:linear-gradient(135deg,#4caf50,#66bb6a); color:#fff; padding:1.5rem; border-radius:12px; text-align:center; margin-top:2rem">
 <p style="margin-bottom:0.75rem">🎯 Motivasi Terakhir</p>
-<p style="margin-bottom:0.75rem;font-size:0.95rem;opacity:0.95">"Orang yang mahir membaca Al-Quran akan bersama para malaikat yang mulia lagi taat. Dan orang yang membaca Al-Quran sedang ia merasa berat dan terbata-bata, maka baginya dua pahala." (Riwayat Bukhari &amp; Muslim)</p>
-<p style="margin:0;font-size:0.9rem;font-weight:600">Jangan takut untuk memulakan. Allah akan permudahkan jalan bagi mereka yang berusaha. Mulakan hari ini, InsyaAllah anda mampu!</p>
+<p style="margin-bottom:0.75rem; font-size:0.95rem; opacity:0.95">"Orang yang mahir membaca Al-Quran akan bersama para malaikat yang mulia lagi taat. Dan orang yang membaca Al-Quran sedang ia merasa berat dan terbata-bata, maka baginya dua pahala." (Riwayat Bukhari &amp; Muslim)</p>
+<p style="margin:0; font-size:0.9rem; font-weight:600">Jangan takut untuk memulakan. Allah akan permudahkan jalan bagi mereka yang berusaha. Mulakan hari ini, InsyaAllah anda mampu!</p>
 </div>
 
 </section>
@@ -876,14 +844,14 @@
 
 <!-- Penutup Article -->
 <div class="article-footer">
-<p style="font-size:0.95rem;margin-bottom:1rem"><strong>Kesimpulan:</strong> Surah Al-Fajr membawa pengajaran yang sangat mendalam tentang hakikat kehidupan dunia sebagai ujian, bahaya kesombongan dan materialisme, serta janji syurga bagi jiwa yang tenang. Dalam konteks Malaysia yang semakin maju dan moden, pengajaran surah ini mengingatkan kita untuk tidak terlalu ghairah mengejar dunia sehingga melupakan akhirat.</p>
+<p style="font-size:0.95rem; margin-bottom:1rem"><strong>Kesimpulan:</strong> Surah Al-Fajr membawa pengajaran yang sangat mendalam tentang hakikat kehidupan dunia sebagai ujian, bahaya kesombongan dan materialisme, serta janji syurga bagi jiwa yang tenang. Dalam konteks Malaysia yang semakin maju dan moden, pengajaran surah ini mengingatkan kita untuk tidak terlalu ghairah mengejar dunia sehingga melupakan akhirat.</p>
 
-<p style="font-size:0.95rem;margin-bottom:1rem">Bacalah Surah Al-Fajr dengan penuh tadabbur, fahami maknanya, dan yang paling penting, amalkan pengajaran yang terkandung di dalamnya dalam kehidupan seharian. Mudah-mudahan Allah SWT menjadikan kita semua tergolong dalam kalangan "jiwa yang tenang" yang dijanjikan syurga-Nya.</p>
+<p style="font-size:0.95rem; margin-bottom:1rem">Bacalah Surah Al-Fajr dengan penuh tadabbur, fahami maknanya, dan yang paling penting, amalkan pengajaran yang terkandung di dalamnya dalam kehidupan seharian. Mudah-mudahan Allah SWT menjadikan kita semua tergolong dalam kalangan "jiwa yang tenang" yang dijanjikan syurga-Nya.</p>
 
-<p style="font-size:0.95rem;margin-bottom:1.5rem;font-style:italic">"Wahai jiwa yang tenang! Kembalilah kepada Tuhanmu dengan rela dan diredai. Maka masuklah ke dalam golongan hamba-hamba-Ku, dan masuklah ke dalam syurga-Ku." (Surah Al-Fajr, 89:27-30)</p>
+<p style="font-size:0.95rem; margin-bottom:1.5rem; font-style:italic">"Wahai jiwa yang tenang! Kembalilah kepada Tuhanmu dengan rela dan diredai. Maka masuklah ke dalam golongan hamba-hamba-Ku, dan masuklah ke dalam syurga-Ku." (Surah Al-Fajr, 89:27-30)</p>
 
-<div style="border-top:1px solid #c8e6c9;padding-top:1rem;font-size:0.85rem;color:#666">
-<p style="margin-bottom:0.5rem">📌 <strong>Artikel Berkaitan:</strong> <a href="#" style="color:#249749;text-decoration:none">Surah Al-Ghashiyah</a> | <a href="#" style="color:#249749;text-decoration:none">Surah Al-Balad</a> | <a href="#" style="color:#249749;text-decoration:none">Panduan Hafalan Juzuk Amma</a></p>
+<div style="border-top:1px solid #c8e6c9; padding-top:1rem; font-size:0.85rem; color:#666">
+<p style="margin-bottom:0.5rem">📌 <strong>Artikel Berkaitan:</strong> <a href="#" style="color:#249749; text-decoration:none">Surah Al-Ghashiyah</a> | <a href="#" style="color:#249749; text-decoration:none">Surah Al-Balad</a> | <a href="#" style="color:#249749; text-decoration:none">Panduan Hafalan Juzuk Amma</a></p>
 <p style="margin:0">✍️ Dikemaskini: Februari 2026 • Sumber Tafsir: Ibnu Katsir, Al-Qurtubi, As-Sa'di, Tafhim al-Quran</p>
 </div>
 </div>
@@ -896,128 +864,37 @@
 {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "Article",
-      "headline": "Surah Al-Fajr: Bacaan Rumi, Terjemahan & Tafsir Lengkap 2026",
-      "description": "Bacaan Surah Al-Fajr lengkap dengan Arab, Rumi, terjemahan Melayu dan tafsir mendalam serta audio qari dan panduan hafalan.",
-      "image": "https://ilmualam.com/images/surah-al-fajr-featured-1200x675.jpg",
-      "author": {
-        "@type": "Organization",
-        "name": "IlmuAlam"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "IlmuAlam",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://ilmualam.com/logo.png"
-        }
-      },
-      "mainEntityOfPage": "https://ilmualam.com/p/surah-al-fajr.html",
-      "dateModified": "2026-02-01"
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Apakah maksud Surah Al-Fajr?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Surah Al-Fajr bermaksud Fajar atau Waktu Subuh dan mengandungi 30 ayat."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Berapa ayat dalam Surah Al-Fajr?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Surah Al-Fajr mengandungi 30 ayat dan berada dalam Juzuk 30."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Apakah kelebihan membaca Surah Al-Fajr?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Memberi pahala membaca Al-Quran serta peringatan tentang ujian kehidupan dan akhirat."
-          }
-        }
-      ]
-    },
-    {
-      "@type": "HowTo",
-      "name": "Cara Menghafal Surah Al-Fajr",
-      "description": "Panduan langkah demi langkah menggunakan teknik 3R untuk hafal dalam 7-14 hari.",
-      "step": [
-        {
-          "@type": "HowToStep",
-          "name": "Read",
-          "text": "Baca 5-7 kali dengan tajwid betul dan fahami maksud."
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Repeat",
-          "text": "Ulang tanpa melihat mushaf 10-15 kali."
-        },
-        {
-          "@type": "HowToStep",
-          "name": "Recall",
-          "text": "Uji hafalan dalam solat atau bersama keluarga."
-        }
-      ]
-    },
-    {
-      "@type": "WebApplication",
-      "name": "IlmuAlam Quran Interactive Tool",
-      "applicationCategory": "ReligiousApplication",
-      "operatingSystem": "Web",
-      "url": "https://ilmualam.com/p/quran-online.html",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "MYR"
-      }
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "IlmuAlam Quran Pro",
-      "applicationCategory": "ReligiousApplication",
-      "operatingSystem": "Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "9",
-        "priceCurrency": "MYR"
-      }
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://ilmualam.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Al-Quran & Tafsir",
-          "item": "https://ilmualam.com/search/label/Al-Quran"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Surah Al-Fajr",
-          "item": "https://ilmualam.com/p/surah-al-fajr.html"
-        }
-      ]
-    }
+  {
+    "@type": "Article",
+    "headline": "Surah Al-Fajr: Bacaan Rumi, Terjemahan & Tafsir Lengkap 2026",
+    "description": "Bacaan Surah Al-Fajr lengkap dengan Arab, Rumi, terjemahan Melayu dan tafsir mendalam serta audio qari dan panduan hafalan.",
+    "image": "https://ilmualam.com/images/surah-al-fajr-featured-1200x675.jpg",
+    "author": {"@type": "Organization", "name": "IlmuAlam"},
+    "publisher": {"@type": "Organization", "name": "IlmuAlam", "logo": {"@type": "ImageObject", "url": "https://ilmualam.com/logo.png"}},
+    "mainEntityOfPage": "https://ilmualam.com/p/surah-al-fajr.html",
+    "dateModified": "2026-02-01"
+  },
+  {
+    "@type": "FAQPage",
+    "mainEntity": [
+    {"@type": "Question", "name": "Apakah maksud Surah Al-Fajr?", "acceptedAnswer": {"@type": "Answer", "text": "Surah Al-Fajr bermaksud Fajar atau Waktu Subuh dan mengandungi 30 ayat."}},
+    {"@type": "Question", "name": "Berapa ayat dalam Surah Al-Fajr?", "acceptedAnswer": {"@type": "Answer", "text": "Surah Al-Fajr mengandungi 30 ayat dan berada dalam Juzuk 30."}},
+    {"@type": "Question", "name": "Apakah kelebihan membaca Surah Al-Fajr?", "acceptedAnswer": {"@type": "Answer", "text": "Memberi pahala membaca Al-Quran serta peringatan tentang ujian kehidupan dan akhirat."}}
+    ]
+  },
+  {
+    "@type": "HowTo",
+    "name": "Cara Menghafal Surah Al-Fajr",
+    "description": "Panduan langkah demi langkah menggunakan teknik 3R untuk hafal dalam 7-14 hari.",
+    "step": [
+    {"@type": "HowToStep", "name": "Read", "text": "Baca 5-7 kali dengan tajwid betul dan fahami maksud."},
+    {"@type": "HowToStep", "name": "Repeat", "text": "Ulang tanpa melihat mushaf 10-15 kali."},
+    {"@type": "HowToStep", "name": "Recall", "text": "Uji hafalan dalam solat atau bersama keluarga."}
+    ]
+  }
   ]
 }
 </script>
 
-        
-
 </body>
-</html>        
+</html>
