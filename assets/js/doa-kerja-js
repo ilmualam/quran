@@ -1,0 +1,172 @@
+(function() {
+  'use strict';
+
+  /* ── DATA ── */
+  var DUAS = [
+    {
+      arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلاً مُتَقَبَّلاً',
+      rumi: "Allāhumma innī as'aluka 'ilman nāfi'an, wa rizqan ṭayyiban, wa 'amalan mutaqabbalā.",
+      malay: '"Ya Allah, sungguh aku memohon kepada-Mu ilmu yang bermanfaat, rezeki yang baik, dan amal yang diterima."',
+      source: '✔ Hadis Riwayat Ibnu Majah (no. 925) dan Ahmad - Sahih'
+    },
+    {
+      arabic: 'اَللهُمَّ اغْفِرْلِى ذَنْبِيْ وَوَسِّعْ خُلُقِيْ وَطَيِّبْ لِيْ كَسَبِيْ وَقَنِّعْنِيْ بِمَا رَزَقْتَنِيْ وَلاَتَذْهَبْ قَلْبِيْ إِلَى شَيْئٍ صَرَّفْتَهُ عَنِّيْ',
+      rumi: "Allāhummaghfir lī żanbī, wa wassi' khulūqī, wa ṭayyib lī kasabī, wa qanni'nī bimā razaqtanī, wa lā tażhab qalbī ilā syai'in ṣarraftahu 'annī.",
+      malay: '"Ya Allah, ampunilah dosaku, perluaskanlah akhlakku, berikanlah aku pekerjaan yang baik, jadikanlah aku puas menerima apa yang Engkau kurniakan, dan janganlah buat hatiku mengingat apa yang Engkau palingkan daripadaku."',
+      source: '✔ Diamalkan oleh para ulama salaf - Sahih maknanya'
+    },
+    {
+      arabic: 'بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ',
+      rumi: "Bismillāhi, tawakkaltu 'alallāhi, lā ḥawla wa lā quwwata illā billāh.",
+      malay: '"Dengan nama Allah, aku bertawakal kepada Allah. Tiada daya dan tiada kekuatan melainkan dengan izin Allah."',
+      source: '✔ HR. Abu Dawud (5095), At-Tirmidzi (3426), An-Nasa\'i - Sahih'
+    },
+    {
+      arabic: 'رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي ۝ وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي ۝ يَفْقَهُوا قَوْلِي',
+      rumi: "Rabbisyraḥ lī ṣadrī. Wa yassir lī amrī. Waḥlul 'uqdatan min lisānī. Yafqahū qawlī.",
+      malay: '"Ya Tuhanku, lapangkanlah dadaku, dan mudahkanlah urusanku, dan lepaskanlah kekakuan dari lidahku, supaya mereka dapat memahami perkataanku."',
+      source: '✔ Al-Quran: Surah Taha (20): Ayat 25-28 - Doa Nabi Musa AS'
+    },
+    {
+      arabic: 'اَللَّهُمَّ إِنِّيْ أَعُوْذُ بِكَ أَنْ أَضِلَّ أَوْ أُضَلَّ، أَوْ أَزِلَّ أَوْ أُزَلَّ، أَوْ أَظْلِمَ أَوْ أُظْلَمَ، أَوْ أَجْهَلَ أَوْ يُجْهَلَ عَلَيَّ',
+      rumi: "Allāhumma innī a'ūżu bika an aḍilla aw uḍalla, aw azilla aw uzalla, aw aẓlima aw uẓlama, aw ajhala aw yujhala 'alayya.",
+      malay: '"Ya Allah, aku berlindung kepada-Mu daripada aku tersesat atau disesatkan, atau tergelincir atau digelincirkan, atau berbuat zalim atau dizalimi, atau berbuat bodoh atau dibodohkan."',
+      source: '✔ HR. An-Nasa\'i, At-Tirmidzi, Abu Dawud, Ibnu Majah - Sahih'
+    },
+    {
+      arabic: 'بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَتَحَصَّنْتُ بِاللَّهِ وَفَوَّضْتُ أَمْرِيْ إِلَى اللَّهِ، حَسْبِيَ اللَّهُ وَنِعْمَ الْوَكِيْلُ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيْمِ',
+      rumi: "Bismillāhi tawakkaltu 'alallāhi, wa taḥaṣṣantu billāhi, wa fawwaḍtu amrī ilallāhi. Ḥasbiyallāhu wa ni'mal wakīl. Wa lā ḥawla wa lā quwwata illā billāhil 'aliyyil 'aẓīm.",
+      malay: '"Dengan nama Allah, aku bertawakal kepada Allah, aku berpegang teguh kepada Allah, dan aku menyerahkan urusanku kepada Allah. Cukuplah Allah bagiku. Tiada daya dan tiada kekuatan melainkan dengan Allah Yang Maha Tinggi lagi Maha Agung."',
+      source: '✔ Doa Ma\'thur - Diamalkan para ulama salaf'
+    }
+  ];
+
+  var REC = [
+    { title: '🌅 Selepas Subuh, Sebelum Berangkat Kerja:', text: 'Baca Doa 1 (ilmu, rezeki & amal diterima - HR. Ibnu Majah), kemudian sambung dengan Doa 3 (tawakal - HR. Abu Dawud) semasa bersiap keluar rumah. Ini rutin pagi yang paling lengkap dan sahih.' },
+    { title: '🚗 Dalam Perjalanan / Semasa Memandu:', text: 'Amalkan Doa 3 (Bismillahi tawakkaltu...) secara lisan. Hadis menyebut sesiapa membaca ini ketika keluar rumah, syaitan akan menjauh dan dia akan dilindungi sepanjang perjalanan.' },
+    { title: '💼 Sebelum Membuka Fail / Komputer / Memulakan Tugas:', text: 'Baca Doa 6 (tawakal lengkap) atau Doa 1 (ilmu & rezeki). Anda juga boleh ringkaskan dengan Basmalah dan ayat 1-3 dari Doa 6.' },
+    { title: '🎤 Sebelum Pembentangan / Mesyuarat / Temuduga:', text: 'Doa 4 (Doa Nabi Musa AS - Rabbisyrah li sadri) adalah yang paling sesuai. Ia khusus memohon kelapangan dada, kemudahan urusan, dan kejelasan pertuturan - sangat sesuai untuk situasi yang melibatkan komunikasi awam.' },
+    { title: '✨ Mula Kerja Baru / Hari Pertama Bekerja:', text: 'Gabungkan tiga doa: (1) Doa 3 - tawakal ketika keluar rumah, (2) Doa 4 - lapang dada & mudah urusan, (3) Doa 1 - mohon ilmu, rezeki baik & amal diterima. Tambahlah dengan doa peribadi kepada Allah memohon petunjuk dalam persekitaran kerja baharu.' }
+  ];
+
+  var count = 0;
+  var target = 7;
+  var arabicLarge = false;
+
+  /* ── UPDATE TOOL DISPLAY ── */
+  window.dmkUpdateDisplay = function() {
+    var idx = parseInt(document.getElementById('dmkDoaSelect').value);
+    var d = DUAS[idx];
+    document.getElementById('dmkArabicDisplay').textContent = d.arabic;
+    document.getElementById('dmkRumiDisplay').textContent = d.rumi;
+    document.getElementById('dmkMalayDisplay').textContent = d.malay;
+    document.getElementById('dmkSourceDisplay').innerHTML = '<span class="ilmx-hadith-ref">' + d.source + '</span>';
+  };
+
+  /* ── COPY TOOL ── */
+  window.dmkCopyTool = function() {
+    var idx = parseInt(document.getElementById('dmkDoaSelect').value);
+    var d = DUAS[idx];
+    var txt = d.arabic + '\n\n' + d.rumi + '\n\n' + d.malay;
+    navigator.clipboard.writeText(txt).then(function() { dmkShowToast('✅ Doa disalin!'); });
+  };
+
+  /* ── COPY GENERAL ── */
+  window.dmkCopy = function(btn, text) {
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = '✅ Disalin!';
+      btn.classList.add('copied');
+      setTimeout(function() {
+        btn.textContent = '📋 Salin Doa Lengkap';
+        btn.classList.remove('copied');
+      }, 2500);
+      dmkShowToast('✅ Doa berjaya disalin!');
+    });
+  };
+
+  /* ── TOAST ── */
+  function dmkShowToast(msg) {
+    var t = document.getElementById('dmkToast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 2500);
+  }
+
+  /* ── SHARE ── */
+  window.dmkShareDoa = function() {
+    if (navigator.share) {
+      navigator.share({ title: 'Doa Mula Kerja', text: 'Koleksi lengkap doa mula kerja dari ilmualam.com', url: window.location.href });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      dmkShowToast('🔗 Pautan disalin!');
+    }
+  };
+
+  /* ── FONT SIZE TOGGLE ── */
+  window.dmkToggleFontSize = function() {
+    var el = document.getElementById('dmkArabicDisplay');
+    arabicLarge = !arabicLarge;
+    el.style.fontSize = arabicLarge ? '2.6rem' : '';
+  };
+
+  /* ── TABS ── */
+  window.dmkSwitchTab = function(btn, tabId) {
+    document.querySelectorAll('.ilmx-tab-btn').forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+    document.querySelectorAll('.ilmx-tab-content').forEach(function(c) { c.classList.remove('active'); });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
+    document.getElementById(tabId).classList.add('active');
+  };
+
+  /* ── COUNTER ── */
+  window.dmkSetTarget = function(t) {
+    target = t;
+    document.getElementById('dmkTarget').textContent = t;
+    updateProgress();
+  };
+
+  window.dmkIncrement = function() {
+    count++;
+    document.getElementById('dmkCount').textContent = count;
+    updateProgress();
+    if (count >= target) {
+      document.getElementById('dmkCompleteMsg').style.display = 'block';
+      document.getElementById('dmkDoneCount').textContent = count;
+    }
+  };
+
+  window.dmkReset = function() {
+    count = 0;
+    document.getElementById('dmkCount').textContent = 0;
+    document.getElementById('dmkCompleteMsg').style.display = 'none';
+    updateProgress();
+  };
+
+  function updateProgress() {
+    var pct = Math.min((count / target) * 100, 100);
+    document.getElementById('dmkProgressFill').style.width = pct + '%';
+  }
+
+  /* ── RECOMMENDATION ── */
+  window.dmkShowRec = function(idx) {
+    var r = REC[idx];
+    document.getElementById('dmkRecTitle').textContent = r.title;
+    document.getElementById('dmkRecText').textContent = r.text;
+    document.getElementById('dmkRec').style.display = 'block';
+  };
+
+  /* ── FAQ TOGGLE ── */
+  window.dmkToggleFaq = function(btn) {
+    var answer = btn.nextElementSibling;
+    var isOpen = answer.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.ilmx-faq-answer').forEach(function(a) { a.classList.remove('open'); });
+    document.querySelectorAll('.ilmx-faq-question').forEach(function(q) { q.classList.remove('open'); q.setAttribute('aria-expanded','false'); });
+    if (!isOpen) {
+      answer.classList.add('open');
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded','true');
+    }
+  };
+
+})();
