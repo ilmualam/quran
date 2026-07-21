@@ -394,3 +394,4 @@ function setupPageShareButton() {
       alert('Pautan: ' + url);
     }
   });
+}
