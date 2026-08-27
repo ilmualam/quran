@@ -1,0 +1,482 @@
+[
+    {
+        "id": 1,
+        "arabic": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ وَٱلذَّٰرِيَٰتِ ذَرْوًۭا",
+        "jawi": "",
+        "rumi": "Waz-zaariyaati zarwaa",
+        "translation": "Demi angin yang menerbang dan menaburkan (debu, biji-bijian benih, dan lain-lainnya), dengan penerbangan dan penaburan yang sesungguh-sungguhnya, -",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4676.mp3"
+    },
+    {
+        "id": 2,
+        "arabic": "فَٱلْحَٰمِلَٰتِ وِقْرًۭا",
+        "jawi": "",
+        "rumi": "Falhaamilaati wiqraa",
+        "translation": "Dan awan yang membawa dan mengangkut muatannya (ke tempat yang dikehendaki), -",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4677.mp3"
+    },
+    {
+        "id": 3,
+        "arabic": "فَٱلْجَٰرِيَٰتِ يُسْرًۭا",
+        "jawi": "",
+        "rumi": "Faljaariyaati yusraa",
+        "translation": "Dan kapal-kapal yang belayar laju dengan kemudahan yang diberikan kepadanya, -",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4678.mp3"
+    },
+    {
+        "id": 4,
+        "arabic": "فَٱلْمُقَسِّمَٰتِ أَمْرًا",
+        "jawi": "",
+        "rumi": "Falmuqassimaati amraa",
+        "translation": "Dan malaikat-malaikat yang membahagi-bahagikan segala perkara yang mereka ditugaskan membahagikannya;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4679.mp3"
+    },
+    {
+        "id": 5,
+        "arabic": "إِنَّمَا تُوعَدُونَ لَصَادِقٌۭ",
+        "jawi": "",
+        "rumi": "Innamaa too'adoona la-saadiq",
+        "translation": "(Sumpah demi sumpah) bahawa sesungguhnya segala yang dijanjikan kepada kamu (mengenai hari akhirat) tetap benar;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4680.mp3"
+    },
+    {
+        "id": 6,
+        "arabic": "وَإِنَّ ٱلدِّينَ لَوَٰقِعٌۭ",
+        "jawi": "",
+        "rumi": "Wa innad deena la waaqi'",
+        "translation": "Dan bahawa sesungguhnya balasan amal, tetap berlaku.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4681.mp3"
+    },
+    {
+        "id": 7,
+        "arabic": "وَٱلسَّمَآءِ ذَاتِ ٱلْحُبُكِ",
+        "jawi": "",
+        "rumi": "Wassamaaa'i zaatil hubuk",
+        "translation": "Demi langit yang mempunyai jalan-jalan yang berbagai bentuk keadaannya,",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4682.mp3"
+    },
+    {
+        "id": 8,
+        "arabic": "إِنَّكُمْ لَفِى قَوْلٍۢ مُّخْتَلِفٍۢ",
+        "jawi": "",
+        "rumi": "Innakum lafee qawlim mukhtalif",
+        "translation": "Sesungguhnya kamu berada dalam keadaan berlainan pendapat (mengenai ugama yang dibawa oleh Nabi Muhammad, s.a.w).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4683.mp3"
+    },
+    {
+        "id": 9,
+        "arabic": "يُؤْفَكُ عَنْهُ مَنْ أُفِكَ",
+        "jawi": "",
+        "rumi": "Yu'faku 'anhu man ufik",
+        "translation": "Dipalingkan daripada (perselisihan) itu orang-orang yang telah dipalingkan Allah (dengan sebab keikhlasannya mencari kebenaran).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4684.mp3"
+    },
+    {
+        "id": 10,
+        "arabic": "قُتِلَ ٱلْخَرَّٰصُونَ",
+        "jawi": "",
+        "rumi": "Qutilal kharraasoon",
+        "translation": "Binasalah orang-orang yang sentiasa mengeluarkan pendapat dengan cara agak-agak sahaja,",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4685.mp3"
+    },
+    {
+        "id": 11,
+        "arabic": "ٱلَّذِينَ هُمْ فِى غَمْرَةٍۢ سَاهُونَ",
+        "jawi": "",
+        "rumi": "Allazeena hum fee ghamratin saahoon",
+        "translation": "(Iaitu) orang-orang yang tenggelam alam kejahilan, serta lalaikan (hari pembalasan).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4686.mp3"
+    },
+    {
+        "id": 12,
+        "arabic": "يَسْـَٔلُونَ أَيَّانَ يَوْمُ ٱلدِّينِ",
+        "jawi": "",
+        "rumi": "Yas'aloona ayyaana yawmud Deen",
+        "translation": "Mereka bertanya (secara mengejek): \"Bilakah datangnya hari pembalasan itu?\"",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4687.mp3"
+    },
+    {
+        "id": 13,
+        "arabic": "يَوْمَ هُمْ عَلَى ٱلنَّارِ يُفْتَنُونَ",
+        "jawi": "",
+        "rumi": "Yawma hum 'alan naari yuftanoon",
+        "translation": "(Jawabnya: hari itu ialah) hari mereka diseksa (dengan dibakar) atas api neraka, -",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4688.mp3"
+    },
+    {
+        "id": 14,
+        "arabic": "ذُوقُوا۟ فِتْنَتَكُمْ هَٰذَا ٱلَّذِى كُنتُم بِهِۦ تَسْتَعْجِلُونَ",
+        "jawi": "",
+        "rumi": "Zooqoo fitnatakum haa zal lazee kuntum bihee tas ta'jiloon",
+        "translation": "(Sambil dikatakan kepada mereka): \"Rasalah azab seksa yang disediakan untuk kamu; inilah dia yang dahulu kamu minta disegerakan kedatangannya\".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4689.mp3"
+    },
+    {
+        "id": 15,
+        "arabic": "إِنَّ ٱلْمُتَّقِينَ فِى جَنَّٰتٍۢ وَعُيُونٍ",
+        "jawi": "",
+        "rumi": "Innal muttaqeena fee jannaatinw wa 'uyoon",
+        "translation": "Sesungguhnya orang-orang yang bertaqwa adalah ditempatkan di dalam beberapa taman Syurga, dengan matair-matair terpancar padanya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4690.mp3"
+    },
+    {
+        "id": 16,
+        "arabic": "ءَاخِذِينَ مَآ ءَاتَىٰهُمْ رَبُّهُمْ ۚ إِنَّهُمْ كَانُوا۟ قَبْلَ ذَٰلِكَ مُحْسِنِينَ",
+        "jawi": "",
+        "rumi": "Aakhizeena maaa aataahum Rabbuhum; innahum kaanoo qabla zaalika muhsineen",
+        "translation": "(Keadaan mereka di sana) sentiasa menerima nikmat dan rahmat yang diberikan kepadanya oleh Tuhan mereka. Sesungguhnya mereka di dunia dahulu adalah orang-orang yang berbuat kebaikan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4691.mp3"
+    },
+    {
+        "id": 17,
+        "arabic": "كَانُوا۟ قَلِيلًۭا مِّنَ ٱلَّيْلِ مَا يَهْجَعُونَ",
+        "jawi": "",
+        "rumi": "kaanoo qaleelam minal laili maa yahja'oon",
+        "translation": "Mereka sentiasa mengambil sedikit sahaja: masa dari waktu malam, untuk mereka tidur.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4692.mp3"
+    },
+    {
+        "id": 18,
+        "arabic": "وَبِٱلْأَسْحَارِ هُمْ يَسْتَغْفِرُونَ",
+        "jawi": "",
+        "rumi": "Wa bilashaari hum yastaghfiroon",
+        "translation": "Dan pada waktu akhir malam (sebelum fajar) pula, mereka selalu beristighfar kepada Allah (memohon ampun).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4693.mp3"
+    },
+    {
+        "id": 19,
+        "arabic": "وَفِىٓ أَمْوَٰلِهِمْ حَقٌّۭ لِّلسَّآئِلِ وَٱلْمَحْرُومِ",
+        "jawi": "",
+        "rumi": "Wa feee amwaalihim haqqul lissaaa'ili walmahroom",
+        "translation": "Dan pada harta-harta mereka, (ada pula bahagian yang mereka tentukan menjadi) hak untuk orang miskin yang meminta dan orang miskin yang menahan diri (daripada meminta).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4694.mp3"
+    },
+    {
+        "id": 20,
+        "arabic": "وَفِى ٱلْأَرْضِ ءَايَٰتٌۭ لِّلْمُوقِنِينَ",
+        "jawi": "",
+        "rumi": "Wa fil ardi aayaatul lilmooqineen",
+        "translation": "Dan pada bumi ada tanda-tanda (yang membuktikan keesaan dan kekuasaan Allah) bagi orang-orang (yang mahu mencapai pengetahuan) yang yakin,",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4695.mp3"
+    },
+    {
+        "id": 21,
+        "arabic": "وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ",
+        "jawi": "",
+        "rumi": "Wa feee anfusikum; afalaa tubsiroon",
+        "translation": "Dan juga pada diri kamu sendiri. Maka mengapa kamu tidak mahu melihat serta memikirkan (dalil-dalil dan bukti itu)?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4696.mp3"
+    },
+    {
+        "id": 22,
+        "arabic": "وَفِى ٱلسَّمَآءِ رِزْقُكُمْ وَمَا تُوعَدُونَ",
+        "jawi": "",
+        "rumi": "Wa fissamaaa'i rizqukum wa maa too'adoon",
+        "translation": "Dan di langit pula terdapat (sebab-sebab) rezeki kamu, dan juga terdapat apa yang telah (ditakdirkan dan) dijanjikan kepada kamu.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4697.mp3"
+    },
+    {
+        "id": 23,
+        "arabic": "فَوَرَبِّ ٱلسَّمَآءِ وَٱلْأَرْضِ إِنَّهُۥ لَحَقٌّۭ مِّثْلَ مَآ أَنَّكُمْ تَنطِقُونَ",
+        "jawi": "",
+        "rumi": "Fawa Rabbis samaaa'i wal ardi innahoo lahaqqum misla maa annakum tantiqoon",
+        "translation": "Maka demi Tuhan langit dan bumi, sesungguhnya (apa yang tersebut) itu tetap benar, (tidak patut diragu-ragukan) sebagaimana (tidak sepatutnya diragukan) benarnya kamu dapat berkata-kata.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4698.mp3"
+    },
+    {
+        "id": 24,
+        "arabic": "هَلْ أَتَىٰكَ حَدِيثُ ضَيْفِ إِبْرَٰهِيمَ ٱلْمُكْرَمِينَ",
+        "jawi": "",
+        "rumi": "Hal ataaka hadeesu daifi Ibraaheemal mukrameen",
+        "translation": "Sudahkah sampai kepadamu (wahai Muhammad) perihal tetamu Nabi Ibrahim yang dimuliakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4699.mp3"
+    },
+    {
+        "id": 25,
+        "arabic": "إِذْ دَخَلُوا۟ عَلَيْهِ فَقَالُوا۟ سَلَٰمًۭا ۖ قَالَ سَلَٰمٌۭ قَوْمٌۭ مُّنكَرُونَ",
+        "jawi": "",
+        "rumi": "Iz dakhaloo 'alaihi faqaaloo salaaman qaala salaamun qawmum munkaroon",
+        "translation": "Ketika mereka masuk mendapatkannya lalu memberi salam dengan berkata: \"Salam sejahtera kepadamu!\" Ia menjawab: Salam sejahtera kepada kamu! \"(Sambil berkata dalam hati): mereka ini orang-orang yang tidak dikenal.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4700.mp3"
+    },
+    {
+        "id": 26,
+        "arabic": "فَرَاغَ إِلَىٰٓ أَهْلِهِۦ فَجَآءَ بِعِجْلٍۢ سَمِينٍۢ",
+        "jawi": "",
+        "rumi": "Faraagha ilaaa ahlihee fajaaa'a bi'ijlin sameen",
+        "translation": "Kemudian ia masuk mendapatkan Ahli rumahnya serta dibawanya keluar seekor anak lembu gemuk (yang dipanggang).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4701.mp3"
+    },
+    {
+        "id": 27,
+        "arabic": "فَقَرَّبَهُۥٓ إِلَيْهِمْ قَالَ أَلَا تَأْكُلُونَ",
+        "jawi": "",
+        "rumi": "Faqarrabahooo ilaihim qaala alaa taakuloon",
+        "translation": "Lalu dihidangkannya kepada mereka sambil berkata: \"Silalah makan\".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4702.mp3"
+    },
+    {
+        "id": 28,
+        "arabic": "فَأَوْجَسَ مِنْهُمْ خِيفَةًۭ ۖ قَالُوا۟ لَا تَخَفْ ۖ وَبَشَّرُوهُ بِغُلَٰمٍ عَلِيمٍۢ",
+        "jawi": "",
+        "rumi": "Fa awjasa minhm khee fatan qaaloo laa takhaf wa bashsharoohu bighulaamin 'aleem",
+        "translation": "(Setelah dilihatnya mereka mereka tidak menjamah makanan itu), maka ia merasa takut dari keadaan mereka. (Melihat kecemasannya), mereka berkata: \"Janganlah engkau takut (wahai Ibrahim)\". Lalu mereka memberikan berita gembira kepadanya, bahawa ia akan beroleh seorang anak yang berpengetahuan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4703.mp3"
+    },
+    {
+        "id": 29,
+        "arabic": "فَأَقْبَلَتِ ٱمْرَأَتُهُۥ فِى صَرَّةٍۢ فَصَكَّتْ وَجْهَهَا وَقَالَتْ عَجُوزٌ عَقِيمٌۭ",
+        "jawi": "",
+        "rumi": "Fa aqbalatim ra-atuhoo fee sarratin fasakkat wajhahaa wa qaalat 'ajoozun 'aqeem",
+        "translation": "(Mendengarkan berita yang mengembirakan itu), maka datanglah isterinya sambil menjerit (kehairanan) lalu menepuk mukanya sambil berkata: \"Aku sudah tua, lagi mandul, (bagaimana aku boleh mendapat anak)?\"",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4704.mp3"
+    },
+    {
+        "id": 30,
+        "arabic": "قَالُوا۟ كَذَٰلِكِ قَالَ رَبُّكِ ۖ إِنَّهُۥ هُوَ ٱلْحَكِيمُ ٱلْعَلِيمُ",
+        "jawi": "",
+        "rumi": "Qaaloo kazaaliki qaala Rabbuki innahoo huwal hakeemul 'aleem",
+        "translation": "Mereka berkata: \"Demikianlah Tuhanmu berfirman, (kami hanya menyampaikan sahaja); Sesungguhnya Dia lah Yang Maha Bijaksana, lagi Maha Mengetahui\".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4705.mp3"
+    },
+    {
+        "id": 31,
+        "arabic": "۞ قَالَ فَمَا خَطْبُكُمْ أَيُّهَا ٱلْمُرْسَلُونَ",
+        "jawi": "",
+        "rumi": "Qaala famaa khatbukum ayyuhal mursaloon",
+        "translation": "Nabi Ibrahim bertanya: \"(Selain dari itu) apa lagi tugas penting kamu wahai utusan Tuhan?\"",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4706.mp3"
+    },
+    {
+        "id": 32,
+        "arabic": "قَالُوٓا۟ إِنَّآ أُرْسِلْنَآ إِلَىٰ قَوْمٍۢ مُّجْرِمِينَ",
+        "jawi": "",
+        "rumi": "Qaalooo innaaa ursilnaaa ilaa qawmim mujrimeen",
+        "translation": "Mereka menjawab: \"Sesungguhnya Kami diutus kepada suatu kaum yang berdosa (untuk membinasakan mereka);",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4707.mp3"
+    },
+    {
+        "id": 33,
+        "arabic": "لِنُرْسِلَ عَلَيْهِمْ حِجَارَةًۭ مِّن طِينٍۢ",
+        "jawi": "",
+        "rumi": "Linursila 'alaihim hijaa ratam min teen",
+        "translation": "\"Supaya Kami menimpakan mereka dengan batu-batu dari tanah (yang dibakar),",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4708.mp3"
+    },
+    {
+        "id": 34,
+        "arabic": "مُّسَوَّمَةً عِندَ رَبِّكَ لِلْمُسْرِفِينَ",
+        "jawi": "",
+        "rumi": "Musawwamatan 'inda rabbika lilmusrifeen",
+        "translation": "\"Batu-batu itu ditandakan di sisi Tuhanmu, untuk membinasakan orang-orang yang melampaui batas (dalam keingkarannya)\".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4709.mp3"
+    },
+    {
+        "id": 35,
+        "arabic": "فَأَخْرَجْنَا مَن كَانَ فِيهَا مِنَ ٱلْمُؤْمِنِينَ",
+        "jawi": "",
+        "rumi": "Fa akhrajnaa man kaana feehaa minal mu'mineen",
+        "translation": "(Setelah sampai utusan Kami ke tempat itu), Kami (perintahkan mereka) mengeluarkan orang-orang yang beriman yang tinggal di situ.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4710.mp3"
+    },
+    {
+        "id": 36,
+        "arabic": "فَمَا وَجَدْنَا فِيهَا غَيْرَ بَيْتٍۢ مِّنَ ٱلْمُسْلِمِينَ",
+        "jawi": "",
+        "rumi": "Famaa wajadnaa feehaa ghaira baitim minal muslimeen",
+        "translation": "(Sesudah dipereksa) maka (utusan) Kami tidak mendapati di situ melainkan sebuah rumah sahaja yang ada penduduknya dari orang-orang Islam (yang beriman kepada Nabi Lut).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4711.mp3"
+    },
+    {
+        "id": 37,
+        "arabic": "وَتَرَكْنَا فِيهَآ ءَايَةًۭ لِّلَّذِينَ يَخَافُونَ ٱلْعَذَابَ ٱلْأَلِيمَ",
+        "jawi": "",
+        "rumi": "Wa taraknaa feehaaa aayatal lillazeena yakhaafoonal 'azaabal aleem",
+        "translation": "Dan Kami tinggalkan di negeri itu (timbunan batu-batu yang telah menghujani dan membinasakan mereka), sebagai tanda (yang mendatangkan keinsafan) bagi orang-orang yang sedia takut kepada azab seksa yang tidak terperi sakitnya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4712.mp3"
+    },
+    {
+        "id": 38,
+        "arabic": "وَفِى مُوسَىٰٓ إِذْ أَرْسَلْنَٰهُ إِلَىٰ فِرْعَوْنَ بِسُلْطَٰنٍۢ مُّبِينٍۢ",
+        "jawi": "",
+        "rumi": "Wa fee Moosaaa iz arsalnaahu ilaa Fir'wna bisultaa nim mubeen",
+        "translation": "Dan juga pada (kisah) Nabi Musa (terdapat dalil-dalil yang memberi keinsafan), - ketika kami mengutusnya kepada Firaun dengan membawa mukjizat yang nyata.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4713.mp3"
+    },
+    {
+        "id": 39,
+        "arabic": "فَتَوَلَّىٰ بِرُكْنِهِۦ وَقَالَ سَٰحِرٌ أَوْ مَجْنُونٌۭ",
+        "jawi": "",
+        "rumi": "Fatawalla biruknihee wa qaala saahirun aw majnoon",
+        "translation": "Maka Firaun berpaling ingkar dengan berdasarkan kekuasaannya sambil berkata: \"(Musa itu) adalah seorang ahli sihir, atau seorang gila!\"",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4714.mp3"
+    },
+    {
+        "id": 40,
+        "arabic": "فَأَخَذْنَٰهُ وَجُنُودَهُۥ فَنَبَذْنَٰهُمْ فِى ٱلْيَمِّ وَهُوَ مُلِيمٌۭ",
+        "jawi": "",
+        "rumi": "Fa akhaznaahu wa junoo dahoo fanabaznaahum fil yammi wa huwa muleem",
+        "translation": "Lalu Kami (adakan jalan) mengambil Firaun bersama-sama tenteranya, kemudian Kami humbankan mereka ke dalam laut, sedang ia berkeadaan tercela.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4715.mp3"
+    },
+    {
+        "id": 41,
+        "arabic": "وَفِى عَادٍ إِذْ أَرْسَلْنَا عَلَيْهِمُ ٱلرِّيحَ ٱلْعَقِيمَ",
+        "jawi": "",
+        "rumi": "Wa fee 'Aadin iz arsalnaa 'alaihimur reehal'aqeem",
+        "translation": "Dan juga pada (kisah) kaum Aad (terdapat perkara-perkara yang menjadi iktibar), - ketika kami hantarkan kepada mereka angin ribut yang tidak mengandungi sebarang kebaikan; -",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4716.mp3"
+    },
+    {
+        "id": 42,
+        "arabic": "مَا تَذَرُ مِن شَىْءٍ أَتَتْ عَلَيْهِ إِلَّا جَعَلَتْهُ كَٱلرَّمِيمِ",
+        "jawi": "",
+        "rumi": "Maa tazaru min shai'in atat 'alaihi illaa ja'alat hu karrameem",
+        "translation": "Angin itu tidak meninggalkan sesuatupun yang dirempuhnya, melainkan menjadikannya (hancur) seperti debu.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4717.mp3"
+    },
+    {
+        "id": 43,
+        "arabic": "وَفِى ثَمُودَ إِذْ قِيلَ لَهُمْ تَمَتَّعُوا۟ حَتَّىٰ حِينٍۢ",
+        "jawi": "",
+        "rumi": "Wa fee Samooda iz qeela lahum tamatta''oo hattaa heen",
+        "translation": "Dan juga pada (kisah) kaum Thamud (terdapat perkara-perkara yang menjadi pelajaran) - ketika dikatakan kepada mereka: \"Bersenang-senanglah kamu hingga ke suatu waktu (yang termaklum)!\"",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4718.mp3"
+    },
+    {
+        "id": 44,
+        "arabic": "فَعَتَوْا۟ عَنْ أَمْرِ رَبِّهِمْ فَأَخَذَتْهُمُ ٱلصَّٰعِقَةُ وَهُمْ يَنظُرُونَ",
+        "jawi": "",
+        "rumi": "Fa'ataw 'an amri Rabbihim fa akhazal humus saa'iqatu wa hum yanzuroon",
+        "translation": "Maka mereka membesarkan diri terhadap perintah Tuhannya, lalu mereka disambar petir (dengan tidak dapat melarikan diri), sedang mereka melihatnya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4719.mp3"
+    },
+    {
+        "id": 45,
+        "arabic": "فَمَا ٱسْتَطَٰعُوا۟ مِن قِيَامٍۢ وَمَا كَانُوا۟ مُنتَصِرِينَ",
+        "jawi": "",
+        "rumi": "Famas tataa'oo min qiyaaminw wa maa kaanoo muntasireen",
+        "translation": "Dengan yang demikian, mereka tidak dapat bangun lagi, dan mereka juga tidak mendapat pertolongan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4720.mp3"
+    },
+    {
+        "id": 46,
+        "arabic": "وَقَوْمَ نُوحٍۢ مِّن قَبْلُ ۖ إِنَّهُمْ كَانُوا۟ قَوْمًۭا فَٰسِقِينَ",
+        "jawi": "",
+        "rumi": "Wa qawma Noohim min qablu innahum kaano qawman faasiqeen",
+        "translation": "Dan kaum Nuh (Kami juga telah binasakan) sebelum itu; sesungguhnya mereka adalah kaum yang fasik - derhaka.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4721.mp3"
+    },
+    {
+        "id": 47,
+        "arabic": "وَٱلسَّمَآءَ بَنَيْنَٰهَا بِأَيْي۟دٍۢ وَإِنَّا لَمُوسِعُونَ",
+        "jawi": "",
+        "rumi": "Wassamaaa'a banainaa haa bi aydinw wa innaa lamoosi'oon",
+        "translation": "Dan langit itu Kami dirikan dengan kekuasaan Kami (dalam bentuk binaan yang kukuh rapi). Dan sesungguhnya Kami adalah mempunyai kekuasaan yang luas tidak terhingga.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4722.mp3"
+    },
+    {
+        "id": 48,
+        "arabic": "وَٱلْأَرْضَ فَرَشْنَٰهَا فَنِعْمَ ٱلْمَٰهِدُونَ",
+        "jawi": "",
+        "rumi": "Wal arda farashnaahaa fani'mal maahidoon",
+        "translation": "Dan bumi pula Kami hamparkan (untuk kemudahan kamu mendiaminya); maka Kamilah sebaik-baik yang menghamparkannya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4723.mp3"
+    },
+    {
+        "id": 49,
+        "arabic": "وَمِن كُلِّ شَىْءٍ خَلَقْنَا زَوْجَيْنِ لَعَلَّكُمْ تَذَكَّرُونَ",
+        "jawi": "",
+        "rumi": "Wa min kulli shai'in khalaqnaa zawjaini la'allakum tazakkaroon",
+        "translation": "Dan tiap-tiap jenis Kami ciptakan berpasangan, supaya kami dan mengingati (kekuasaan kami dan mentauhidkan Kami).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4724.mp3"
+    },
+    {
+        "id": 50,
+        "arabic": "فَفِرُّوٓا۟ إِلَى ٱللَّهِ ۖ إِنِّى لَكُم مِّنْهُ نَذِيرٌۭ مُّبِينٌۭ",
+        "jawi": "",
+        "rumi": "Fafirrooo ilal laahi innee lakum minhu nazeerum mubeen",
+        "translation": "(Katakanlah wahai Muhammad kepada mereka): \"Maka segeralah kamu kembali kepada Allah (dengan bertaubat dan taat), sesungguhnya aku diutuskan Allah kepada kamu, sebagai pemberi amaran yang nyata.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4725.mp3"
+    },
+    {
+        "id": 51,
+        "arabic": "وَلَا تَجْعَلُوا۟ مَعَ ٱللَّهِ إِلَٰهًا ءَاخَرَ ۖ إِنِّى لَكُم مِّنْهُ نَذِيرٌۭ مُّبِينٌۭ",
+        "jawi": "",
+        "rumi": "Wa laa taj'aloo ma'al laahi ilaahan aakhara innee lakum minhu nazeerum mubeen",
+        "translation": "\"Dan janganlah kamu adakan tuhan yang lain bersama Allah (dalam kepercayaan kamu), sesungguhnya aku diutus oleh Allah kepada kamu sebagai pemberi amaran yang nyata\".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4726.mp3"
+    },
+    {
+        "id": 52,
+        "arabic": "كَذَٰلِكَ مَآ أَتَى ٱلَّذِينَ مِن قَبْلِهِم مِّن رَّسُولٍ إِلَّا قَالُوا۟ سَاحِرٌ أَوْ مَجْنُونٌ",
+        "jawi": "",
+        "rumi": "Kazaalika maaa atal lazeena min qablihim mir Rasoolin illaa qaaloo saahirun aw majnoon",
+        "translation": "Demikianlah (keadaan tiap-tiap kaum terhadap Rasulnya samalah seperti keadaan kaummu wahai Muhammad) - tidak ada seorang Rasul pun yang datang kepada kaum-kaum yang terdahulu dari mereka, melainkan ada yang berkata: \"Dia adalah seorang ahli sihir, atau seorang gila\".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4727.mp3"
+    },
+    {
+        "id": 53,
+        "arabic": "أَتَوَاصَوْا۟ بِهِۦ ۚ بَلْ هُمْ قَوْمٌۭ طَاغُونَ",
+        "jawi": "",
+        "rumi": "Atawaasaw bih; bal hum qawmun taaghoon",
+        "translation": "Adakah mereka semua telah berpesan-pesan (dan mencapai kata sepakat) untuk melemparkan tuduhan itu ? (Sudah tentu mereka tidak dapat berbuat demikian), bahkan mereka semuanya adalah kaum yang melampaui batas (dalam keingkarannya).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4728.mp3"
+    },
+    {
+        "id": 54,
+        "arabic": "فَتَوَلَّ عَنْهُمْ فَمَآ أَنتَ بِمَلُومٍۢ",
+        "jawi": "",
+        "rumi": "Fatawalla 'anhum famaaa anta bimaloom",
+        "translation": "Oleh itu, berpalinglah (wahai Muhammad) daripada mereka (yang menentangmu itu dan janganlah dihiraukan), kerana engkau tidak akan disalahkan (setelah engkau memberi amaran kepada mereka).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4729.mp3"
+    },
+    {
+        "id": 55,
+        "arabic": "وَذَكِّرْ فَإِنَّ ٱلذِّكْرَىٰ تَنفَعُ ٱلْمُؤْمِنِينَ",
+        "jawi": "",
+        "rumi": "Wa zakkir fa innaz zikraa tanfa'ul mu'mineen",
+        "translation": "Dan tetap tekunlah engkau memberi peringatan, kerana sesungguhnya peringatan itu mendatangkan faedah kepada orang-orang yang beriman.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4730.mp3"
+    },
+    {
+        "id": 56,
+        "arabic": "وَمَا خَلَقْتُ ٱلْجِنَّ وَٱلْإِنسَ إِلَّا لِيَعْبُدُونِ",
+        "jawi": "",
+        "rumi": "Wa maa khalaqtul jinna wal insa illaa liya'budoon",
+        "translation": "Dan (ingatlah) Aku tidak menciptakan jin dan manusia melainkan untuk mereka menyembah dan beribadat kepadaKu.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4731.mp3"
+    },
+    {
+        "id": 57,
+        "arabic": "مَآ أُرِيدُ مِنْهُم مِّن رِّزْقٍۢ وَمَآ أُرِيدُ أَن يُطْعِمُونِ",
+        "jawi": "",
+        "rumi": "Maaa ureedu minhum mir rizqinw wa maaa ureedu anyyut'imoon",
+        "translation": "Aku tidak sekali-kali menghendaki sebarang rezeki pemberian dari mereka, dan Aku tidak menghendaki supaya mereka memberi makan kepadaKu.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4732.mp3"
+    },
+    {
+        "id": 58,
+        "arabic": "إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ ذُو ٱلْقُوَّةِ ٱلْمَتِينُ",
+        "jawi": "",
+        "rumi": "Innal laaha Huwar Razzaaqu Zul Quwwatil Mateen",
+        "translation": "Sesungguhnya Allah Dia lah sahaja Yang Memberi rezeki (kepada sekalian makhlukNya, dan Dia lah sahaja) Yang Mempunyai Kekuasaan yang tidak terhingga, lagi Yang Maha Kuat Kukuh kekuasaanNya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4733.mp3"
+    },
+    {
+        "id": 59,
+        "arabic": "فَإِنَّ لِلَّذِينَ ظَلَمُوا۟ ذَنُوبًۭا مِّثْلَ ذَنُوبِ أَصْحَٰبِهِمْ فَلَا يَسْتَعْجِلُونِ",
+        "jawi": "",
+        "rumi": "Fa inna lillazeena zalamoo zanoobam misla zanoobi ashaabihim falaa yasta'jiloon",
+        "translation": "(Setelah ternyata hakikat yang demikian), maka sesungguhnya bagi orang-orang yang zalim (yang menentang ajaran Nabi Muhammad) itu ada bahagiannya (dari azab seksa) seperti bahagian rakan-rakan mereka (kaum kafir yang telah lalu). Oleh itu, janganlah mereka meminta kepadaKu menyegerakan kedatangannya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4734.mp3"
+    },
+    {
+        "id": 60,
+        "arabic": "فَوَيْلٌۭ لِّلَّذِينَ كَفَرُوا۟ مِن يَوْمِهِمُ ٱلَّذِى يُوعَدُونَ",
+        "jawi": "",
+        "rumi": "Fawailul lillazeena kafaroo miny yawmihimul lazee yoo'adoon",
+        "translation": "Maka kecelakaan dan kebinasaanlah bagi orang-orang yang kafir pada hari yang telah dijanjikan kepada mereka.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4735.mp3"
+    }
+]

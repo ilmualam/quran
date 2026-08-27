@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "arabic": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",
+        "jawi": "",
+        "rumi": "Qul a'uzoo bi rabbil-falaq",
+        "translation": "Katakanlah (wahai Muhammad); \"Aku berlindung kepada (Allah) Tuhan yang menciptakan sekalian makhluk,",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6226.mp3"
+    },
+    {
+        "id": 2,
+        "arabic": "مِن شَرِّ مَا خَلَقَ",
+        "jawi": "",
+        "rumi": "Min sharri ma khalaq",
+        "translation": "\"Dari bencana makhluk-makhluk yang Ia ciptakan;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6227.mp3"
+    },
+    {
+        "id": 3,
+        "arabic": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ",
+        "jawi": "",
+        "rumi": "Wa min sharri ghasiqin iza waqab",
+        "translation": "\"Dan dari bahaya gelap apabila ia masuk;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6228.mp3"
+    },
+    {
+        "id": 4,
+        "arabic": "وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ",
+        "jawi": "",
+        "rumi": "Wa min sharrin-naffaa-thaati fil 'uqad",
+        "translation": "\"Dan dari kejahatan makhluk-makhluk yang menghembus-hembus pada simpulan-simpulan (dan ikatan-ikatan);",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6229.mp3"
+    },
+    {
+        "id": 5,
+        "arabic": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ",
+        "jawi": "",
+        "rumi": "Wa min shar ri haasidin iza hasad",
+        "translation": "\"Dan dari kejahatan orang yang dengki apabila ia melakukan dengkinya\".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6230.mp3"
+    }
+]

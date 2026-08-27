@@ -1,0 +1,626 @@
+[
+    {
+        "id": 1,
+        "arabic": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ٱلرَّحْمَٰنُ",
+        "jawi": "",
+        "rumi": "Ar Rahmaan",
+        "translation": "(Tuhan) Yang Maha Pemurah serta melimpah-limpah rahmatNya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4902.mp3"
+    },
+    {
+        "id": 2,
+        "arabic": "عَلَّمَ ٱلْقُرْءَانَ",
+        "jawi": "",
+        "rumi": "'Allamal Quran",
+        "translation": "Dia lah yang telah mengajarkan Al-Quran.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4903.mp3"
+    },
+    {
+        "id": 3,
+        "arabic": "خَلَقَ ٱلْإِنسَٰنَ",
+        "jawi": "",
+        "rumi": "Khalaqal insaan",
+        "translation": "Dia lah yang telah menciptakan manusia; -",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4904.mp3"
+    },
+    {
+        "id": 4,
+        "arabic": "عَلَّمَهُ ٱلْبَيَانَ",
+        "jawi": "",
+        "rumi": "'Allamalhul bayaan",
+        "translation": "Dia lah yang telah membolehkan manusia (bertutur) memberi dan menerima kenyataan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4905.mp3"
+    },
+    {
+        "id": 5,
+        "arabic": "ٱلشَّمْسُ وَٱلْقَمَرُ بِحُسْبَانٍۢ",
+        "jawi": "",
+        "rumi": "Ashshamsu walqamaru bihusbaan",
+        "translation": "Matahari dan bulan beredar dengan peraturan dan hitungan yang tertentu;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4906.mp3"
+    },
+    {
+        "id": 6,
+        "arabic": "وَٱلنَّجْمُ وَٱلشَّجَرُ يَسْجُدَانِ",
+        "jawi": "",
+        "rumi": "Wannajmu washshajaru yasjudan",
+        "translation": "Dan tumbuh-tumbuhan yang melata serta pohon-pohon kayu-kayan, masing-masing tunduk menurut peraturanNya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4907.mp3"
+    },
+    {
+        "id": 7,
+        "arabic": "وَٱلسَّمَآءَ رَفَعَهَا وَوَضَعَ ٱلْمِيزَانَ",
+        "jawi": "",
+        "rumi": "Wassamaaa'a rafa'ahaa wa wada'al Meezan",
+        "translation": "Dan langit dijadikannya (bumbung) tinggi, serta Ia mengadakan undang-undang dan peraturan neraca keadilan,",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4908.mp3"
+    },
+    {
+        "id": 8,
+        "arabic": "أَلَّا تَطْغَوْا۟ فِى ٱلْمِيزَانِ",
+        "jawi": "",
+        "rumi": "Allaa tatghaw fil meezaan",
+        "translation": "Supaya kamu tidak melampaui batas dalam menjalankan keadilan;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4909.mp3"
+    },
+    {
+        "id": 9,
+        "arabic": "وَأَقِيمُوا۟ ٱلْوَزْنَ بِٱلْقِسْطِ وَلَا تُخْسِرُوا۟ ٱلْمِيزَانَ",
+        "jawi": "",
+        "rumi": "Wa aqeemul wazna bilqisti wa laa tukhsirul meezaan",
+        "translation": "Dan betulkanlah cara menimbang itu dengan adil, serta janganlah kamu mengurangi barang yang ditimbang.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4910.mp3"
+    },
+    {
+        "id": 10,
+        "arabic": "وَٱلْأَرْضَ وَضَعَهَا لِلْأَنَامِ",
+        "jawi": "",
+        "rumi": "Wal arda wada'ahaa lilanaame",
+        "translation": "Dan bumi pula dijadikannya rata untuk kegunaan manusia dan makhluk-makhlukNya yang lain:",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4911.mp3"
+    },
+    {
+        "id": 11,
+        "arabic": "فِيهَا فَٰكِهَةٌۭ وَٱلنَّخْلُ ذَاتُ ٱلْأَكْمَامِ",
+        "jawi": "",
+        "rumi": "Feehaa faakihatunw wan nakhlu zaatul akmaam",
+        "translation": "Terdapat padanya berbagai jenis buah-buahan dan pohon-pohon kurma yang ada kelopak-kelopak mayang;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4912.mp3"
+    },
+    {
+        "id": 12,
+        "arabic": "وَٱلْحَبُّ ذُو ٱلْعَصْفِ وَٱلرَّيْحَانُ",
+        "jawi": "",
+        "rumi": "Walhabbu zul 'asfi war Raihaanu",
+        "translation": "Demikian juga terdapat biji-bijian yang ada jerami serta daun, dan terdapat lagi bunga-bungaan yang harum;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4913.mp3"
+    },
+    {
+        "id": 13,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan (wahai umat manusia dan jin)?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4914.mp3"
+    },
+    {
+        "id": 14,
+        "arabic": "خَلَقَ ٱلْإِنسَٰنَ مِن صَلْصَٰلٍۢ كَٱلْفَخَّارِ",
+        "jawi": "",
+        "rumi": "Khalaqal insaana min salsaalin kalfakhkhaari",
+        "translation": "Ia menciptakan manusia (lembaga Adam) dari tanah liat kering seperti tembikar,",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4915.mp3"
+    },
+    {
+        "id": 15,
+        "arabic": "وَخَلَقَ ٱلْجَآنَّ مِن مَّارِجٍۢ مِّن نَّارٍۢ",
+        "jawi": "",
+        "rumi": "Wa khalaqal jaaan mim maarijim min naar",
+        "translation": "Dan Ia telah menciptakan jin dari lidah api yang menjulang-julang;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4916.mp3"
+    },
+    {
+        "id": 16,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4917.mp3"
+    },
+    {
+        "id": 17,
+        "arabic": "رَبُّ ٱلْمَشْرِقَيْنِ وَرَبُّ ٱلْمَغْرِبَيْنِ",
+        "jawi": "",
+        "rumi": "Rabbul mashriqayni wa Rabbul maghribayni",
+        "translation": "(Dia lah) Tuhan yang mentadbirkan dua timur, dan Tuhan yang mentadbirkan dua barat.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4918.mp3"
+    },
+    {
+        "id": 18,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4919.mp3"
+    },
+    {
+        "id": 19,
+        "arabic": "مَرَجَ ٱلْبَحْرَيْنِ يَلْتَقِيَانِ",
+        "jawi": "",
+        "rumi": "Marajal bahrayni yalta qiyaani",
+        "translation": "Ia biarkan air dua laut (yang masin dan yang tawar) mengalir, sedang keduanya pula bertemu;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4920.mp3"
+    },
+    {
+        "id": 20,
+        "arabic": "بَيْنَهُمَا بَرْزَخٌۭ لَّا يَبْغِيَانِ",
+        "jawi": "",
+        "rumi": "Bainahumaa barzakhul laa yabghiyaan",
+        "translation": "Di antara keduanya ada penyekat yang memisahkannya, masing-masing tidak melampaui sempadannya;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4921.mp3"
+    },
+    {
+        "id": 21,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4922.mp3"
+    },
+    {
+        "id": 22,
+        "arabic": "يَخْرُجُ مِنْهُمَا ٱللُّؤْلُؤُ وَٱلْمَرْجَانُ",
+        "jawi": "",
+        "rumi": "Yakhruju minhumal lu 'lu u wal marjaanu",
+        "translation": "Dari kedua laut itu, keluar mutiara dan marjan;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4923.mp3"
+    },
+    {
+        "id": 23,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4924.mp3"
+    },
+    {
+        "id": 24,
+        "arabic": "وَلَهُ ٱلْجَوَارِ ٱلْمُنشَـَٔاتُ فِى ٱلْبَحْرِ كَٱلْأَعْلَٰمِ",
+        "jawi": "",
+        "rumi": "Wa lahul jawaaril mun sha'aatu fil bahri kal a'laam",
+        "translation": "Dan Dia lah yang menguasai kapal-kapal yang belayar di laut, yang kembang tinggi layarnya seperti gunung-ganang;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4925.mp3"
+    },
+    {
+        "id": 25,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4926.mp3"
+    },
+    {
+        "id": 26,
+        "arabic": "كُلُّ مَنْ عَلَيْهَا فَانٍۢ",
+        "jawi": "",
+        "rumi": "Kullu man 'alaihaa faan",
+        "translation": "Segala yang ada di muka bumi itu akan binasa:",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4927.mp3"
+    },
+    {
+        "id": 27,
+        "arabic": "وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو ٱلْجَلَٰلِ وَٱلْإِكْرَامِ",
+        "jawi": "",
+        "rumi": "Wa yabqaa wajhu rabbika zul jalaali wal ikraam",
+        "translation": "Dan akan kekalah Zat Tuhanmu yang mempunyai Kebesaran dan Kemuliaan:",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4928.mp3"
+    },
+    {
+        "id": 28,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4929.mp3"
+    },
+    {
+        "id": 29,
+        "arabic": "يَسْـَٔلُهُۥ مَن فِى ٱلسَّمَٰوَٰتِ وَٱلْأَرْضِ ۚ كُلَّ يَوْمٍ هُوَ فِى شَأْنٍۢ",
+        "jawi": "",
+        "rumi": "Yas'aluhoo man fissamaawaati walard; kulla ywmin huwa fee shaan",
+        "translation": "Sekalian makhluk yang ada di langit dan di bumi sentiasa berhajat dan memohon kepadaNya. Tiap-tiap masa Ia di dalam urusan (mencipta dan mentadbirkan makhluk-makhlukNya)!",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4930.mp3"
+    },
+    {
+        "id": 30,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan)?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4931.mp3"
+    },
+    {
+        "id": 31,
+        "arabic": "سَنَفْرُغُ لَكُمْ أَيُّهَ ٱلثَّقَلَانِ",
+        "jawi": "",
+        "rumi": "Sanafrughu lakum ayyuhas saqalaan",
+        "translation": "Kami hanya akan menguruskan hitungan dan balasan amal kamu sahaja (pada hari kiamat,) wahai manusia dan jin!",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4932.mp3"
+    },
+    {
+        "id": 32,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4933.mp3"
+    },
+    {
+        "id": 33,
+        "arabic": "يَٰمَعْشَرَ ٱلْجِنِّ وَٱلْإِنسِ إِنِ ٱسْتَطَعْتُمْ أَن تَنفُذُوا۟ مِنْ أَقْطَارِ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضِ فَٱنفُذُوا۟ ۚ لَا تَنفُذُونَ إِلَّا بِسُلْطَٰنٍۢ",
+        "jawi": "",
+        "rumi": "Yaa ma'sharal jinni wal insi inis tata'tum an tanfuzoo min aqtaaris samaawaati wal ardi fanfuzoo; laa tanfuzoona illaa bisultaan",
+        "translation": "Wahai sekalian jin dan manusia! Kalau kamu dapat menembus keluar dari kawasan-kawasan langit dan bumi (untuk melarikan diri dari kekuasaan dan balasan Kami), maka cubalah kamu menembus keluar. Kamu tidak akan menembus keluar melainkan dengan satu kekuasaan (yang mengatasi kekuasaan Kami; masakan dapat)!",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4934.mp3"
+    },
+    {
+        "id": 34,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4935.mp3"
+    },
+    {
+        "id": 35,
+        "arabic": "يُرْسَلُ عَلَيْكُمَا شُوَاظٌۭ مِّن نَّارٍۢ وَنُحَاسٌۭ فَلَا تَنتَصِرَانِ",
+        "jawi": "",
+        "rumi": "Yursalu 'alaikumaa shuwaazum min naarifiw-wa nuhaasun falaa tantasiraan",
+        "translation": "Kamu (wahai golongan yang kufur ingkar dari kalangan jin dan manusia) akan ditimpakan dengan api yang menjulang-julang dan leburan tembaga cair (yang membakar); dengan yang demikian, kamu tidak akan dapat mempertahankan diri (dari azab seksa itu);",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4936.mp3"
+    },
+    {
+        "id": 36,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4937.mp3"
+    },
+    {
+        "id": 37,
+        "arabic": "فَإِذَا ٱنشَقَّتِ ٱلسَّمَآءُ فَكَانَتْ وَرْدَةًۭ كَٱلدِّهَانِ",
+        "jawi": "",
+        "rumi": "Fa-izan shaqqatis samaaa'u fakaanat wardatan kaddihaan",
+        "translation": "Selain itu (sungguh ngeri) ketika langit pecah-belah lalu menjadilah ia merah mawar, berkilat seperti minyak;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4938.mp3"
+    },
+    {
+        "id": 38,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4939.mp3"
+    },
+    {
+        "id": 39,
+        "arabic": "فَيَوْمَئِذٍۢ لَّا يُسْـَٔلُ عَن ذَنۢبِهِۦٓ إِنسٌۭ وَلَا جَآنٌّۭ",
+        "jawi": "",
+        "rumi": "Fa-yawma'izil laa yus'alu 'an zambiheee insunw wa laa jaann",
+        "translation": "Pada masa itu tiada sesiapapun, sama ada manusia atau jin, yang akan ditanya tentang dosanya (kerana masing-masing dapat dikenal menurut keadaannya);",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4940.mp3"
+    },
+    {
+        "id": 40,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4941.mp3"
+    },
+    {
+        "id": 41,
+        "arabic": "يُعْرَفُ ٱلْمُجْرِمُونَ بِسِيمَٰهُمْ فَيُؤْخَذُ بِٱلنَّوَٰصِى وَٱلْأَقْدَامِ",
+        "jawi": "",
+        "rumi": "Yu'raful mujrimoona biseemaahum fa'yu'khazu binna waasi wal aqdaam",
+        "translation": "Orang-orang yang berdosa dapat dikenal dari tanda-tandanya, lalu dipegang dari atas kepala dan kakinya (serta diseret ke neraka);",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4942.mp3"
+    },
+    {
+        "id": 42,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4943.mp3"
+    },
+    {
+        "id": 43,
+        "arabic": "هَٰذِهِۦ جَهَنَّمُ ٱلَّتِى يُكَذِّبُ بِهَا ٱلْمُجْرِمُونَ",
+        "jawi": "",
+        "rumi": "Haazihee jahannamul latee yukazzibu bihal mujrimoon",
+        "translation": "(Lalu dikatakan kepada mereka): \"Inilah neraka Jahannam yang selalu orang-orang yang berdosa mendustakannya \".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4944.mp3"
+    },
+    {
+        "id": 44,
+        "arabic": "يَطُوفُونَ بَيْنَهَا وَبَيْنَ حَمِيمٍ ءَانٍۢ",
+        "jawi": "",
+        "rumi": "Yatoofoona bainahaa wa baina hameemim aan",
+        "translation": "Mereka (terus diseksa) berulang-ulang di antara api neraka dengan air yang menggelegak yang cukup masak panasnya!",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4945.mp3"
+    },
+    {
+        "id": 45,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4946.mp3"
+    },
+    {
+        "id": 46,
+        "arabic": "وَلِمَنْ خَافَ مَقَامَ رَبِّهِۦ جَنَّتَانِ",
+        "jawi": "",
+        "rumi": "Wa liman khaafa maqaama rabbihee jannataan",
+        "translation": "Dan orang yang takut akan keadaan dirinya di mahkamah Tuhannya (untuk dihitung amalnya), disediakan baginya dua Syurga, -",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4947.mp3"
+    },
+    {
+        "id": 47,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4948.mp3"
+    },
+    {
+        "id": 48,
+        "arabic": "ذَوَاتَآ أَفْنَانٍۢ",
+        "jawi": "",
+        "rumi": "Zawaataaa afnaan",
+        "translation": "(Dua Syurga) yang ada berjenis-jenis pohon dan buah-buahan; -",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4949.mp3"
+    },
+    {
+        "id": 49,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4950.mp3"
+    },
+    {
+        "id": 50,
+        "arabic": "فِيهِمَا عَيْنَانِ تَجْرِيَانِ",
+        "jawi": "",
+        "rumi": "Feehimaa 'aynaani tajriyaan",
+        "translation": "Pada kedua-dua Syurga itu terdapat dua matair yang mengalir; -",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4951.mp3"
+    },
+    {
+        "id": 51,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4952.mp3"
+    },
+    {
+        "id": 52,
+        "arabic": "فِيهِمَا مِن كُلِّ فَٰكِهَةٍۢ زَوْجَانِ",
+        "jawi": "",
+        "rumi": "Feehimaa min kulli faakihatin zawjaan",
+        "translation": "Pada kedua Syurga itu terdapat dua macam dari tiap-tiap jenis buah-buahan (yang biasa dan yang luar biasa).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4953.mp3"
+    },
+    {
+        "id": 53,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4954.mp3"
+    },
+    {
+        "id": 54,
+        "arabic": "مُتَّكِـِٔينَ عَلَىٰ فُرُشٍۭ بَطَآئِنُهَا مِنْ إِسْتَبْرَقٍۢ ۚ وَجَنَى ٱلْجَنَّتَيْنِ دَانٍۢ",
+        "jawi": "",
+        "rumi": "Muttaki'eena 'alaa furushim bataaa'inuhaa min istabraq; wajanal jannataini daan",
+        "translation": "Mereka (bersenang-senang di tempat masing-masing dalam Syurga itu dengan) berbaring di atas hamparan-hamparan, yang lapisan-lapisan sebelah dalamnya - dari sutera tebal yang bersulam; dan buah-buahan kedua-dua Syurga itu dekat (kepada mereka) untuk dipetik.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4955.mp3"
+    },
+    {
+        "id": 55,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4956.mp3"
+    },
+    {
+        "id": 56,
+        "arabic": "فِيهِنَّ قَٰصِرَٰتُ ٱلطَّرْفِ لَمْ يَطْمِثْهُنَّ إِنسٌۭ قَبْلَهُمْ وَلَا جَآنٌّۭ",
+        "jawi": "",
+        "rumi": "Feehinna qaasiratut tarfi lam yatmishunna insun qablahum wa laa jaaann",
+        "translation": "Di dalam Syurga-syurga itu terdapat bidadari-bidadari yang pandangannya tertumpu (kepada mereka semata-mata), yang tidak pernah disentuh sebelum mereka oleh manusia dan jin;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4957.mp3"
+    },
+    {
+        "id": 57,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4958.mp3"
+    },
+    {
+        "id": 58,
+        "arabic": "كَأَنَّهُنَّ ٱلْيَاقُوتُ وَٱلْمَرْجَانُ",
+        "jawi": "",
+        "rumi": "ka annahunnal yaaqootu wal marjaan",
+        "translation": "Bidadari-bidadari itu (cantik berseri) seperti permata delima dan marjan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4959.mp3"
+    },
+    {
+        "id": 59,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4960.mp3"
+    },
+    {
+        "id": 60,
+        "arabic": "هَلْ جَزَآءُ ٱلْإِحْسَٰنِ إِلَّا ٱلْإِحْسَٰنُ",
+        "jawi": "",
+        "rumi": "Hal jazaaa'ul ihsaani illal ihsaan",
+        "translation": "Bukankah tidak ada balasan bagi amal yang baik - melainkan balasan yang baik juga?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4961.mp3"
+    },
+    {
+        "id": 61,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4962.mp3"
+    },
+    {
+        "id": 62,
+        "arabic": "وَمِن دُونِهِمَا جَنَّتَانِ",
+        "jawi": "",
+        "rumi": "Wa min doonihimaa jannataan",
+        "translation": "Dan selain dari dua Syurga itu, dua Syurga lagi (untuk menjadi balasan bagi golongan peringkat yang kedua);",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4963.mp3"
+    },
+    {
+        "id": 63,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4964.mp3"
+    },
+    {
+        "id": 64,
+        "arabic": "مُدْهَآمَّتَانِ",
+        "jawi": "",
+        "rumi": "Mudhaaammataan",
+        "translation": "Kedua-duanya menghijau subur tanamannya;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4965.mp3"
+    },
+    {
+        "id": 65,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4966.mp3"
+    },
+    {
+        "id": 66,
+        "arabic": "فِيهِمَا عَيْنَانِ نَضَّاخَتَانِ",
+        "jawi": "",
+        "rumi": "Feehimaa 'aynaani nad daakhataan",
+        "translation": "Dalam kedua-dua Syurga itu terdapat dua matair yang terus menerus memancutkan airnya:",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4967.mp3"
+    },
+    {
+        "id": 67,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4968.mp3"
+    },
+    {
+        "id": 68,
+        "arabic": "فِيهِمَا فَٰكِهَةٌۭ وَنَخْلٌۭ وَرُمَّانٌۭ",
+        "jawi": "",
+        "rumi": "Feehimaa faakihatunw wa nakhlunw wa rummaan",
+        "translation": "Pada keduanya juga terdapat buah-buahan, serta pohon-pohon kurma dan delima,",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4969.mp3"
+    },
+    {
+        "id": 69,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4970.mp3"
+    },
+    {
+        "id": 70,
+        "arabic": "فِيهِنَّ خَيْرَٰتٌ حِسَانٌۭ",
+        "jawi": "",
+        "rumi": "Feehinna khairaatun hisaan",
+        "translation": "Dalam kedua-dua Syurga itu juga terdapat (teman-teman) yang baik akhlaknya, lagi cantik parasnya;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4971.mp3"
+    },
+    {
+        "id": 71,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4972.mp3"
+    },
+    {
+        "id": 72,
+        "arabic": "حُورٌۭ مَّقْصُورَٰتٌۭ فِى ٱلْخِيَامِ",
+        "jawi": "",
+        "rumi": "Hoorum maqsooraatun fil khiyaam",
+        "translation": "Ia itu bidadari-bidadari, yang hanya tinggal tetap di tempat tinggal masing-masing;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4973.mp3"
+    },
+    {
+        "id": 73,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4974.mp3"
+    },
+    {
+        "id": 74,
+        "arabic": "لَمْ يَطْمِثْهُنَّ إِنسٌۭ قَبْلَهُمْ وَلَا جَآنٌّۭ",
+        "jawi": "",
+        "rumi": "Lam yatmis hunna insun qablahum wa laa jaaann",
+        "translation": "(Bidadari-bidadari itu) tidak pernah disentuh sebelum mereka oleh manusia dan tidak juga oleh jin;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4975.mp3"
+    },
+    {
+        "id": 75,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4976.mp3"
+    },
+    {
+        "id": 76,
+        "arabic": "مُتَّكِـِٔينَ عَلَىٰ رَفْرَفٍ خُضْرٍۢ وَعَبْقَرِىٍّ حِسَانٍۢ",
+        "jawi": "",
+        "rumi": "Muttaki'eena 'alaa rafratin khudrinw wa 'abqariyyin hisaan",
+        "translation": "Penduduk Syurga itu (bersenang-senang di dalamnya dengan) berbaring di atas (bantal-bantal dan) cadar-cadar yang hijau warnanya serta permaidani-permaidani yang sangat indah.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4977.mp3"
+    },
+    {
+        "id": 77,
+        "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ",
+        "jawi": "",
+        "rumi": "Fabi ayyi aalaaa'i Rabbikumaa tukazzibaan.",
+        "translation": "Maka yang mana satu di antara nikmat-nikmat Tuhan kamu, yang kamu hendak dustakan?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4978.mp3"
+    },
+    {
+        "id": 78,
+        "arabic": "تَبَٰرَكَ ٱسْمُ رَبِّكَ ذِى ٱلْجَلَٰلِ وَٱلْإِكْرَامِ",
+        "jawi": "",
+        "rumi": "Tabaarakasmu Rabbika Zil-Jalaali wal-Ikraam",
+        "translation": "Maha Sucilah nama Tuhanmu yang mempunyai Kebesaran dan Kemuliaan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4979.mp3"
+    }
+]

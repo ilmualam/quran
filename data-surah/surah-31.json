@@ -1,0 +1,274 @@
+[
+    {
+        "id": 1,
+        "arabic": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ الٓمٓ",
+        "jawi": "",
+        "rumi": "Alif-Laaam-Meeem",
+        "translation": "Alif, Laam, Miim.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3470.mp3"
+    },
+    {
+        "id": 2,
+        "arabic": "تِلْكَ ءَايَٰتُ ٱلْكِتَٰبِ ٱلْحَكِيمِ",
+        "jawi": "",
+        "rumi": "Tilka Aayaatul Kitaabil Hakeem",
+        "translation": "Ini ialah ayat-ayat Kitab (Al-Quran) yang mengandungi hikmat-hikmat dan kebenaran yang tetap kukuh,",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3471.mp3"
+    },
+    {
+        "id": 3,
+        "arabic": "هُدًۭى وَرَحْمَةًۭ لِّلْمُحْسِنِينَ",
+        "jawi": "",
+        "rumi": "Hudanw wa rahmatal lilmuhsineen",
+        "translation": "Menjadi hidayah petunjuk dan rahmat bagi orang-orang yang sedia mengerjakan amal-amal yang baik",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3472.mp3"
+    },
+    {
+        "id": 4,
+        "arabic": "ٱلَّذِينَ يُقِيمُونَ ٱلصَّلَوٰةَ وَيُؤْتُونَ ٱلزَّكَوٰةَ وَهُم بِٱلْءَاخِرَةِ هُمْ يُوقِنُونَ",
+        "jawi": "",
+        "rumi": "Allazeena yuqeemoonas Salaata wa yu'toonaz Zakaata wa hum bil Aakhirati hum yooqinoon",
+        "translation": "Iaitu orang-orang yang mendirikan sembahyang, dan memberi zakat, serta mereka yakin tentang adanya hari akhirat.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3473.mp3"
+    },
+    {
+        "id": 5,
+        "arabic": "أُو۟لَٰٓئِكَ عَلَىٰ هُدًۭى مِّن رَّبِّهِمْ ۖ وَأُو۟لَٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ",
+        "jawi": "",
+        "rumi": "Ulaaa'ika 'alaa hudam mir Rabbihim wa ulaaa'ika humul muflihoon",
+        "translation": "Mereka itulah yang tetap mendapat hidayah petunjuk dari Tuhan mereka, dan merekalah orang-orang yang berjaya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3474.mp3"
+    },
+    {
+        "id": 6,
+        "arabic": "وَمِنَ ٱلنَّاسِ مَن يَشْتَرِى لَهْوَ ٱلْحَدِيثِ لِيُضِلَّ عَن سَبِيلِ ٱللَّهِ بِغَيْرِ عِلْمٍۢ وَيَتَّخِذَهَا هُزُوًا ۚ أُو۟لَٰٓئِكَ لَهُمْ عَذَابٌۭ مُّهِينٌۭ",
+        "jawi": "",
+        "rumi": "Wa minan naasi mai-yashtaree lahuwal hadeesi li yudilla 'an sabeelil laahi bighairi 'ilminw wa yattakhizahaa huzuwaa; ulaaa'ika lahum 'azaabum muheen",
+        "translation": "Dan ada di antara manusia: orang yang memilih serta membelanjakan hartanya kepada cerita-cerita dan perkara-perkara hiburan yang melalaikan; yang berakibat menyesatkan (dirinya dan orang ramai) dari ugama Allah dengan tidak berdasarkan sebarang pengetahuan; dan ada pula orang yang menjadikan ugama Allah itu sebagai ejek-ejekan; merekalah orang-orang yang akan beroleh azab yang menghinakan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3475.mp3"
+    },
+    {
+        "id": 7,
+        "arabic": "وَإِذَا تُتْلَىٰ عَلَيْهِ ءَايَٰتُنَا وَلَّىٰ مُسْتَكْبِرًۭا كَأَن لَّمْ يَسْمَعْهَا كَأَنَّ فِىٓ أُذُنَيْهِ وَقْرًۭا ۖ فَبَشِّرْهُ بِعَذَابٍ أَلِيمٍ",
+        "jawi": "",
+        "rumi": "Wa izaa tutlaa 'alayhi Aayaatunaa wallaa mustakbiran ka al lam yasma'haa ka anna feee uzunwihi waqran fabash shiru bi'azaabin aleem",
+        "translation": "Dan apabila dibacakan kepadanya ayat-ayat Kami, berpalinglah dia dengan angkuhnya, seoleh-oleh ada penyumbat pada kedua telinganya; maka gembirakanlah dia dengan balasan azab yang tidak terperi sakitnya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3476.mp3"
+    },
+    {
+        "id": 8,
+        "arabic": "إِنَّ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّٰلِحَٰتِ لَهُمْ جَنَّٰتُ ٱلنَّعِيمِ",
+        "jawi": "",
+        "rumi": "Innal lazeena aamanoo wa 'amilus saalihaati lahum Janaatun Na'eem",
+        "translation": "Sesungguhnya orang-orang yang beriman dan beramal soleh, mereka akan beroleh Syurga yang penuh dengan berbagai nikmat,",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3477.mp3"
+    },
+    {
+        "id": 9,
+        "arabic": "خَٰلِدِينَ فِيهَا ۖ وَعْدَ ٱللَّهِ حَقًّۭا ۚ وَهُوَ ٱلْعَزِيزُ ٱلْحَكِيمُ",
+        "jawi": "",
+        "rumi": "Khaalideena feeha wa'dal laahi haqqaa; wa Huwal 'Azeezul Hakeem",
+        "translation": "kekalan mereka di dalamnya. Demikian dijanjikan Allah - janji yang tetap benar; dan Dia lah jua yang Maha Kuasa, lagi Maha Bijaksana.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3478.mp3"
+    },
+    {
+        "id": 10,
+        "arabic": "خَلَقَ ٱلسَّمَٰوَٰتِ بِغَيْرِ عَمَدٍۢ تَرَوْنَهَا ۖ وَأَلْقَىٰ فِى ٱلْأَرْضِ رَوَٰسِىَ أَن تَمِيدَ بِكُمْ وَبَثَّ فِيهَا مِن كُلِّ دَآبَّةٍۢ ۚ وَأَنزَلْنَا مِنَ ٱلسَّمَآءِ مَآءًۭ فَأَنۢبَتْنَا فِيهَا مِن كُلِّ زَوْجٍۢ كَرِيمٍ",
+        "jawi": "",
+        "rumi": "Khalaqas samaawaati bi ghairi 'amadin tarawnahaa wa alqaa fil ardi rawaasiya an tameeda bikum wa bassa feehaa min kulli daaabbah; wa anzalnaa minas samaaa'i maaa'an fa ambatnaa feeha min kulli zawjin kareem",
+        "translation": "Ia menciptakan langit dengan tidak bertiang sebagaimana yang kamu melihatnya; dan Ia mengadakan di bumi gunung-ganang yang menetapnya supaya bumi itu tidak menghayun-hayunkan kamu; dan Ia biakkan padanya berbagai jenis binatang. Dan Kami menurunkan hujan dari langit, lalu Kami tumbuhkan di bumi berbagai jenis tanaman yang memberi banyak manfaat.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3479.mp3"
+    },
+    {
+        "id": 11,
+        "arabic": "هَٰذَا خَلْقُ ٱللَّهِ فَأَرُونِى مَاذَا خَلَقَ ٱلَّذِينَ مِن دُونِهِۦ ۚ بَلِ ٱلظَّٰلِمُونَ فِى ضَلَٰلٍۢ مُّبِينٍۢ",
+        "jawi": "",
+        "rumi": "Haazaa khalqul laahi fa aroonee maazaa khalaqal lazeena min doonih; baliz zaalimoona fee dalalim Mubeen",
+        "translation": "Ini (semuanya adalah) ciptaan Allah, maka cubalah kamu tunjukkan kepadaKu apakah yang telah diciptakan oleh makhluk-makhluk yang lain daripadaNya (yang kamu sembah itu)? (Tidak ada sesuatu pun) bahkan orang-orang yang zalim (dengan perbuatan syiriknya) itu berada dalam kesesatan yang jelas nyata.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3480.mp3"
+    },
+    {
+        "id": 12,
+        "arabic": "وَلَقَدْ ءَاتَيْنَا لُقْمَٰنَ ٱلْحِكْمَةَ أَنِ ٱشْكُرْ لِلَّهِ ۚ وَمَن يَشْكُرْ فَإِنَّمَا يَشْكُرُ لِنَفْسِهِۦ ۖ وَمَن كَفَرَ فَإِنَّ ٱللَّهَ غَنِىٌّ حَمِيدٌۭ",
+        "jawi": "",
+        "rumi": "Wa laqad aatainaa Luqmaanal hikmata anishkur lillaah; wa many yashkur fa innamaa yashkuru linafsihee wa man kafara fa innal laaha Ghaniyyun Hameed",
+        "translation": "Dan sesungguhnya Kami telah memberi kepada Luqman, hikmat kebijaksanaan, (serta Kami perintahkan kepadanya): Bersyukurlah kepada Allah (akan segala nikmatNya kepadamu)\". Dan sesiapa yang bersyukur maka faedahnya itu hanyalah terpulang kepada dirinya sendiri, dan sesiapa yang tidak bersyukur (maka tidaklah menjadi hal kepada Allah), kerana sesungguhnya Allah Maha Kaya, lagi Maha Terpuji.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3481.mp3"
+    },
+    {
+        "id": 13,
+        "arabic": "وَإِذْ قَالَ لُقْمَٰنُ لِٱبْنِهِۦ وَهُوَ يَعِظُهُۥ يَٰبُنَىَّ لَا تُشْرِكْ بِٱللَّهِ ۖ إِنَّ ٱلشِّرْكَ لَظُلْمٌ عَظِيمٌۭ",
+        "jawi": "",
+        "rumi": "Wa iz qaala luqmaanu libnihee wa huwa ya'izuhoo ya bunaiya laa tushrik billaah; innash shirka lazulmun 'azeem",
+        "translation": "Dan (ingatlah) ketika Luqman berkata kepada anaknya, semasa ia memberi nasihat kepadanya:\" Wahai anak kesayanganku, janganlah engkau mempersekutukan Allah (dengan sesuatu yang lain), sesungguhnya perbuatan syirik itu adalah satu kezaliman yang besar\".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3482.mp3"
+    },
+    {
+        "id": 14,
+        "arabic": "وَوَصَّيْنَا ٱلْإِنسَٰنَ بِوَٰلِدَيْهِ حَمَلَتْهُ أُمُّهُۥ وَهْنًا عَلَىٰ وَهْنٍۢ وَفِصَٰلُهُۥ فِى عَامَيْنِ أَنِ ٱشْكُرْ لِى وَلِوَٰلِدَيْكَ إِلَىَّ ٱلْمَصِيرُ",
+        "jawi": "",
+        "rumi": "Wa wassainal bi waalidaihi hamalat hu ummuhoo wahnan 'alaa wahninw wa fisaaluhoo fee 'aamaini anishkur lee wa liwaalidaika ilaiyal maseer",
+        "translation": "Dan Kami wajibkan manusia berbuat baik kepada kedua ibu bapanya; ibunya telah mengandungnya dengan menanggung kelemahan demi kelemahan (dari awal mengandung hingga akhir menyusunya), dan tempoh menceraikan susunya ialah dalam masa dua tahun; (dengan yang demikian) bersyukurlah kepadaKu dan kepada kedua ibubapamu; dan (ingatlah), kepada Akulah jua tempat kembali (untuk menerima balasan).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3483.mp3"
+    },
+    {
+        "id": 15,
+        "arabic": "وَإِن جَٰهَدَاكَ عَلَىٰٓ أَن تُشْرِكَ بِى مَا لَيْسَ لَكَ بِهِۦ عِلْمٌۭ فَلَا تُطِعْهُمَا ۖ وَصَاحِبْهُمَا فِى ٱلدُّنْيَا مَعْرُوفًۭا ۖ وَٱتَّبِعْ سَبِيلَ مَنْ أَنَابَ إِلَىَّ ۚ ثُمَّ إِلَىَّ مَرْجِعُكُمْ فَأُنَبِّئُكُم بِمَا كُنتُمْ تَعْمَلُونَ",
+        "jawi": "",
+        "rumi": "Wa in jaahadaaka 'alaaa an tushrika bee maa laisa laka bihee 'ilmun falaa tuti'humaa wa saahib humaa fid dunyaa ma'roofanw wattabi' sabeela man anaaba ilayy; summa ilaiya marji'ukum fa unabbi'ukum bimaa kuntum ta'maloon",
+        "translation": "Dan jika mereka berdua mendesakmu supaya engkau mempersekutukan denganKu sesuatu yang engkau - dengan fikiran sihatmu - tidak mengetahui sungguh adanya maka janganlah engkau taat kepada mereka; dan bergaulah dengan mereka di dunia dengan cara yang baik. Dan turutlah jalan orang-orang yang rujuk kembali kepadaKu (dengan tauhid dan amal-amal yang soleh). Kemudian kepada Akulah tempat kembali kamu semuanya, maka Aku akan menerangkan kepada kamu segala yang kamu telah kerjakan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3484.mp3"
+    },
+    {
+        "id": 16,
+        "arabic": "يَٰبُنَىَّ إِنَّهَآ إِن تَكُ مِثْقَالَ حَبَّةٍۢ مِّنْ خَرْدَلٍۢ فَتَكُن فِى صَخْرَةٍ أَوْ فِى ٱلسَّمَٰوَٰتِ أَوْ فِى ٱلْأَرْضِ يَأْتِ بِهَا ٱللَّهُ ۚ إِنَّ ٱللَّهَ لَطِيفٌ خَبِيرٌۭ",
+        "jawi": "",
+        "rumi": "Ya bunaiya innahaaa in taku misqaala habbatim min khardalin fatakun fee sakhratin aw fis samaawaati aw fil ardi yaati bihal laa; innal laaha lateefun Khabeer",
+        "translation": "(Luqman menasihati anaknya dengan berkata): \"Wahai anak kesayanganku, sesungguhnya jika ada sesuatu perkara (yang baik atau yang buruk) sekalipun seberat bijih sawi, serta ia tersembunyi di dalam batu besar atau di langit atau pun di bumi, sudah tetap akan dibawa oleh Allah (untuk dihakimi dan dibalasNya); kerana sesungguhnya Allah Maha Halus pengetahuanNya; lagi Amat Meliputi akan segala yang tersembunyi.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3485.mp3"
+    },
+    {
+        "id": 17,
+        "arabic": "يَٰبُنَىَّ أَقِمِ ٱلصَّلَوٰةَ وَأْمُرْ بِٱلْمَعْرُوفِ وَٱنْهَ عَنِ ٱلْمُنكَرِ وَٱصْبِرْ عَلَىٰ مَآ أَصَابَكَ ۖ إِنَّ ذَٰلِكَ مِنْ عَزْمِ ٱلْأُمُورِ",
+        "jawi": "",
+        "rumi": "Yaa bunaiya aqimis-Salaata waamur bilma'roofi wanha 'anil munkari wasbir 'alaa maaa asaabaka inna zaalika min 'azmil umoor",
+        "translation": "\"Wahai anak kesayanganku, dirikanlah sembahyang, dan suruhlah berbuat kebaikan, serta laranglah daripada melakukan perbuatan yang mungkar, dan bersabarlah atas segala bala bencana yang menimpamu. Sesungguhnya yang demikian itu adalah dari perkara-perkara yang dikehendaki diambil berat melakukannya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3486.mp3"
+    },
+    {
+        "id": 18,
+        "arabic": "وَلَا تُصَعِّرْ خَدَّكَ لِلنَّاسِ وَلَا تَمْشِ فِى ٱلْأَرْضِ مَرَحًا ۖ إِنَّ ٱللَّهَ لَا يُحِبُّ كُلَّ مُخْتَالٍۢ فَخُورٍۢ",
+        "jawi": "",
+        "rumi": "Wa laa tusa'-'ir khaddaka linnaasi wa laa tamshi fil ardi maarahan innal laaha laa yuhibbu kulla mukhtaalin fakhoor",
+        "translation": "\"Dan janganlah engkau memalingkan mukamu (kerana memandang rendah) kepada manusia, dan janganlah engkau berjalan di bumi dengan berlagak sombong; sesungguhnya Allah tidak suka kepada tiap-tiap orang yang sombong takbur, lagi membanggakan diri.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3487.mp3"
+    },
+    {
+        "id": 19,
+        "arabic": "وَٱقْصِدْ فِى مَشْيِكَ وَٱغْضُضْ مِن صَوْتِكَ ۚ إِنَّ أَنكَرَ ٱلْأَصْوَٰتِ لَصَوْتُ ٱلْحَمِيرِ",
+        "jawi": "",
+        "rumi": "Waqsid fee mashyika waghdud min sawtik; inna ankaral aswaati lasawtul hameer",
+        "translation": "\"Dan sederhanakanlah langkahmu semasa berjalan, juga rendahkanlah suaramu (semasa berkata-kata), sesungguhnya seburuk-buruk suara ialah suara keldai\".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3488.mp3"
+    },
+    {
+        "id": 20,
+        "arabic": "أَلَمْ تَرَوْا۟ أَنَّ ٱللَّهَ سَخَّرَ لَكُم مَّا فِى ٱلسَّمَٰوَٰتِ وَمَا فِى ٱلْأَرْضِ وَأَسْبَغَ عَلَيْكُمْ نِعَمَهُۥ ظَٰهِرَةًۭ وَبَاطِنَةًۭ ۗ وَمِنَ ٱلنَّاسِ مَن يُجَٰدِلُ فِى ٱللَّهِ بِغَيْرِ عِلْمٍۢ وَلَا هُدًۭى وَلَا كِتَٰبٍۢ مُّنِيرٍۢ",
+        "jawi": "",
+        "rumi": "Alam taraw annal laaha sakhkhara lakum maa fis sa maawaati wa maa fil ardi wa asbaha 'alaikum ni'amahoo zaahiratanw wa baatinah; wa minan naasi many yujaadilu fil laahi bighayri 'ilminw wa laa hudanw wa laa Kitaabim muneer",
+        "translation": "Tidakkah kamu memperhatikan bahawa Allah telah memudahkan untuk kegunaan kamu apa yang ada di langit dan yang ada di bumi, dan telah melimpahkan kepada kami nikmat-nimatNya yang zahir dan yang batin? Dalam pada itu, ada di antara manusia orang yang membantah mengenai (sifat-sifat) Allah dengan tidak berdasarkan sebarang pengetahuan atau sebarang petunjuk; dan tidak juga berdasarkan mana-mana Kitab Allah yang menerangi kebenaran.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3489.mp3"
+    },
+    {
+        "id": 21,
+        "arabic": "وَإِذَا قِيلَ لَهُمُ ٱتَّبِعُوا۟ مَآ أَنزَلَ ٱللَّهُ قَالُوا۟ بَلْ نَتَّبِعُ مَا وَجَدْنَا عَلَيْهِ ءَابَآءَنَآ ۚ أَوَلَوْ كَانَ ٱلشَّيْطَٰنُ يَدْعُوهُمْ إِلَىٰ عَذَابِ ٱلسَّعِيرِ",
+        "jawi": "",
+        "rumi": "Wa izaa qeela lahumut-tabi'oo maaa anzalal laahu qaaloo bal nattabi'u maa wajadnaa 'alaihi aabaaa'anaa; awalaw kaanash Shaitaanu yad'oohum ilaa 'azaabis sa'eer",
+        "translation": "Dan apabila dikatakan kepada mereka (yang ingkar): \"Turutlah akan apa yang telah diturunkan oleh Allah\" mereka menjawab:\" (Tidak), bahkan Kami hanya menurut apa yang Kami dapati datuk nenek kami melakukannya\". Patutkah mereka (menurut datuk neneknya) sekalipun Syaitan mengajak mereka itu (melakukan perbuatan yang menjerumuskan mereka) ke dalam azab api neraka yang marak menjulang?",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3490.mp3"
+    },
+    {
+        "id": 22,
+        "arabic": "۞ وَمَن يُسْلِمْ وَجْهَهُۥٓ إِلَى ٱللَّهِ وَهُوَ مُحْسِنٌۭ فَقَدِ ٱسْتَمْسَكَ بِٱلْعُرْوَةِ ٱلْوُثْقَىٰ ۗ وَإِلَى ٱللَّهِ عَٰقِبَةُ ٱلْأُمُورِ",
+        "jawi": "",
+        "rumi": "Wa many yuslim wajha hooo ilal laahi wa huwa muhsinun faqadistamsaka bil'ur watil wusqaa; wa ilal laahi 'aaqibatul umoor",
+        "translation": "Dan sesiapa yang berserah diri bulat-bulat kepada Allah (dengan ikhlas) sedang ia berusaha mengerjakan kebaikan, maka sesungguhnya ia telah berpegang kepada simpulan (tali ugama) yang teguh dan (ingatlah) kepada Allah jualah kesudahan segala urusan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3491.mp3"
+    },
+    {
+        "id": 23,
+        "arabic": "وَمَن كَفَرَ فَلَا يَحْزُنكَ كُفْرُهُۥٓ ۚ إِلَيْنَا مَرْجِعُهُمْ فَنُنَبِّئُهُم بِمَا عَمِلُوٓا۟ ۚ إِنَّ ٱللَّهَ عَلِيمٌۢ بِذَاتِ ٱلصُّدُورِ",
+        "jawi": "",
+        "rumi": "Wa man kafara falaa yahzunka kufruh; ilainaa marji'uhum fanunabbi'uhum bimaa 'amiloo; innal laaha 'aleemum bizaatis sudoor",
+        "translation": "Dan sesiapa yang kufur ingkar, maka janganlah engkau (wahai Muhammad) berdukacita tentang kekufurannya itu; kepada Kamilah tempat kembalinya mereka, kemudian Kami akan memberitahu kepada mereka tentang apa yang mereka telah kerjakan. Sesungguhnya Allah Maha Mengetahui akan segala (isi hati) yang terkandung di dalam dada.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3492.mp3"
+    },
+    {
+        "id": 24,
+        "arabic": "نُمَتِّعُهُمْ قَلِيلًۭا ثُمَّ نَضْطَرُّهُمْ إِلَىٰ عَذَابٍ غَلِيظٍۢ",
+        "jawi": "",
+        "rumi": "Numatti'uhum qaleelan summa nadtarruhum ilaa 'azaabin ghaleez",
+        "translation": "Kami akan berikan mereka menikmati kesenangan bagi sementara (di dunia), kemudian Kami akan memaksa mereka (dengan menyeretnya) ke dalam azab yang amat berat.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3493.mp3"
+    },
+    {
+        "id": 25,
+        "arabic": "وَلَئِن سَأَلْتَهُم مَّنْ خَلَقَ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ لَيَقُولُنَّ ٱللَّهُ ۚ قُلِ ٱلْحَمْدُ لِلَّهِ ۚ بَلْ أَكْثَرُهُمْ لَا يَعْلَمُونَ",
+        "jawi": "",
+        "rumi": "Wa la'in sa altahum man khalaqas samaawaati wal arda la yaqoolunnal laah; qulil hamdu lillaah; bal aksaruhum laa ya'lamoon",
+        "translation": "Dan sesungguhnya jika engkau (wahai Muhammad) bertanya kepada mereka (yang musyrik) itu: \"Siapakah yang menciptakan langit dan bumi?\" Sudah tentu mereka akan menjawab: \"Allah\". Ucapkanlah (wahai Muhammad): \"Alhamdulillah\" (sebagai bersyukur disebabkan pengakuan mereka yang demikian - tidak mengingkari Allah), bahkan kebanyakan mereka tidak mengetahui (hakikat tauhid dan pengertian syirik).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3494.mp3"
+    },
+    {
+        "id": 26,
+        "arabic": "لِلَّهِ مَا فِى ٱلسَّمَٰوَٰتِ وَٱلْأَرْضِ ۚ إِنَّ ٱللَّهَ هُوَ ٱلْغَنِىُّ ٱلْحَمِيدُ",
+        "jawi": "",
+        "rumi": "Lilaahi ma fis samaa waati wal ard; innal laaha Huwal Ghaniyyul Hameed",
+        "translation": "Allah jua yang memiliki segala yang ada di langit dan di bumi; sesungguhnya Allah Dia lah jua yang Maha Kaya, lagi sentiasa Terpuji.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3495.mp3"
+    },
+    {
+        "id": 27,
+        "arabic": "وَلَوْ أَنَّمَا فِى ٱلْأَرْضِ مِن شَجَرَةٍ أَقْلَٰمٌۭ وَٱلْبَحْرُ يَمُدُّهُۥ مِنۢ بَعْدِهِۦ سَبْعَةُ أَبْحُرٍۢ مَّا نَفِدَتْ كَلِمَٰتُ ٱللَّهِ ۗ إِنَّ ٱللَّهَ عَزِيزٌ حَكِيمٌۭ",
+        "jawi": "",
+        "rumi": "Wa law annamaa fil ardi min shajaratin aqlaamunw wal bahru yamudduhoo mim ba'dihee sab'atu abhurim maa nafidat Kalimaatul laah; innal laaha 'azeezun Hakeem",
+        "translation": "Dan sekiranya segala pohon yang ada di bumi menjadi pena, dan segala lautan (menjadi tinta), dengan dibantu kepadanya tujuh lautan lagi sesudah itu, nescaya tidak akan habis Kalimah-kalimah Allah itu ditulis. Sesungguhnya Allah Maha Kuasa, lagi Maha Bijaksana.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3496.mp3"
+    },
+    {
+        "id": 28,
+        "arabic": "مَّا خَلْقُكُمْ وَلَا بَعْثُكُمْ إِلَّا كَنَفْسٍۢ وَٰحِدَةٍ ۗ إِنَّ ٱللَّهَ سَمِيعٌۢ بَصِيرٌ",
+        "jawi": "",
+        "rumi": "Maa khalqukum wa laa ba'sukum illaa kanafsinw-waa hidah; innal laaha Samee'um Baseer",
+        "translation": "(Bagi Allah Yang Maha Kuasa) soal menciptakan kamu semua (dari tiada kepada ada), dan soal membangkitkan kamu hidup semula sesudah mati, tidak ada apa-apa sukarnya, hanyalah seperti (mencipta dan menghidupkan semula) seorang manusia sahaja. Sesungguhnya Allah Maha Mendengar, lagi Maha Melihat.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3497.mp3"
+    },
+    {
+        "id": 29,
+        "arabic": "أَلَمْ تَرَ أَنَّ ٱللَّهَ يُولِجُ ٱلَّيْلَ فِى ٱلنَّهَارِ وَيُولِجُ ٱلنَّهَارَ فِى ٱلَّيْلِ وَسَخَّرَ ٱلشَّمْسَ وَٱلْقَمَرَ كُلٌّۭ يَجْرِىٓ إِلَىٰٓ أَجَلٍۢ مُّسَمًّۭى وَأَنَّ ٱللَّهَ بِمَا تَعْمَلُونَ خَبِيرٌۭ",
+        "jawi": "",
+        "rumi": "Alam tara annal laaha yoolijul laila fin nahaari wa yoolijun nahaara fil laili wa sakhkharash shamsa wal qamara kulluny yajreee ilaaa ajalim musammanw wa annal laaha bimaa ta'malona Khabeer",
+        "translation": "Tidakkah engkau memerhatikan bahawa Allah memasukkan malam pada siang dan memasukkan siang pada malam (silih berganti), dan Ia memudahkan matahari dan bulan (untuk faedah makhluk-makhlukNya)? Tiap-tiap satu dari keduanya beredar untuk suatu masa yang telah ditetapkan. Dan (ingatlah) sesungguhnya Allah Maha Mengetahui dengan mendalam akan apa yang kamu lakukan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3498.mp3"
+    },
+    {
+        "id": 30,
+        "arabic": "ذَٰلِكَ بِأَنَّ ٱللَّهَ هُوَ ٱلْحَقُّ وَأَنَّ مَا يَدْعُونَ مِن دُونِهِ ٱلْبَٰطِلُ وَأَنَّ ٱللَّهَ هُوَ ٱلْعَلِىُّ ٱلْكَبِيرُ",
+        "jawi": "",
+        "rumi": "Zaalika bi annal laaha Huwal Haqqu wa anna maa yad'oona min doonihil baatilu wa annal laaha Huwal 'Aliyyul Kabeer",
+        "translation": "Bersifatnya Allah dengan penuh kekuasaan dan luas ilmu pengetahuan itu kerana bahawasanya Allah Dia lah sahaja Tuhan Yang Sebenar-benarnya, dan bahawa segala yang mereka sembah selain dari Allah adalah palsu belaka. Dan (ingatlah) sesungguhnya Allah Dia lah Yang Maha Tinggi keadaanNya, lagi Maha Besar (kekuasaanNya).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3499.mp3"
+    },
+    {
+        "id": 31,
+        "arabic": "أَلَمْ تَرَ أَنَّ ٱلْفُلْكَ تَجْرِى فِى ٱلْبَحْرِ بِنِعْمَتِ ٱللَّهِ لِيُرِيَكُم مِّنْ ءَايَٰتِهِۦٓ ۚ إِنَّ فِى ذَٰلِكَ لَءَايَٰتٍۢ لِّكُلِّ صَبَّارٍۢ شَكُورٍۢ",
+        "jawi": "",
+        "rumi": "Alam tara annal fulka tajree fil bahri bini'matil laahi li yuriyakum min Aayaatih; inna fee zaalika la Aayaatil likulli sabbaarin shakoor",
+        "translation": "Tidakkah engkau memerhatikan bahawasanya kapal-kapal belayar di laut dengan nikmat Kurnia Allah, untuk diperlihatkan kepada kamu sebahagian dari tanda-tanda kemurahanNya? Sesungguhnya yang demikian itu mengandungi keterangan-keterangan dan bukti (untuk berfikir) bagi tiap-tiap (mukmin) yang tetap teguh pendiriannya, lagi sentiasa bersyukur.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3500.mp3"
+    },
+    {
+        "id": 32,
+        "arabic": "وَإِذَا غَشِيَهُم مَّوْجٌۭ كَٱلظُّلَلِ دَعَوُا۟ ٱللَّهَ مُخْلِصِينَ لَهُ ٱلدِّينَ فَلَمَّا نَجَّىٰهُمْ إِلَى ٱلْبَرِّ فَمِنْهُم مُّقْتَصِدٌۭ ۚ وَمَا يَجْحَدُ بِـَٔايَٰتِنَآ إِلَّا كُلُّ خَتَّارٍۢ كَفُورٍۢ",
+        "jawi": "",
+        "rumi": "Wa izaa ghashiyahum mawjun kazzulali da'a-wul laaha mukhliseena lahud deena fa lammaa najjaahum ilal barri faminhum muqtasid; wa maa yajhadu bi Aayaatinaa illaa kullu khattaarin kafoor",
+        "translation": "Dan (orang-orang yang tidak bersifat demikian) apabila mereka dirempuh serta diliputi oleh ombak yang besar seperti kelompok-kelompok awan menyerkup, pada saat itu mereka semua berdoa kepada Allah dengan mengikhlaskan kepercayaan mereka kepadaNya semata-mata. Kemudian bila sahaja Allah menyelamatkan mereka ke darat maka sebahagian sahaja di antara mereka yang bersikap adil (lalu bersyukur kepada Allah serta mengesakanNya). Dan sememangnya tiada yang mengingkari bukti-bukti kemurahan Kami melainkan tiap-tiap orang yang bersifat pemungkir janji, lagi amat tidak mengenang budi.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3501.mp3"
+    },
+    {
+        "id": 33,
+        "arabic": "يَٰٓأَيُّهَا ٱلنَّاسُ ٱتَّقُوا۟ رَبَّكُمْ وَٱخْشَوْا۟ يَوْمًۭا لَّا يَجْزِى وَالِدٌ عَن وَلَدِهِۦ وَلَا مَوْلُودٌ هُوَ جَازٍ عَن وَالِدِهِۦ شَيْـًٔا ۚ إِنَّ وَعْدَ ٱللَّهِ حَقٌّۭ ۖ فَلَا تَغُرَّنَّكُمُ ٱلْحَيَوٰةُ ٱلدُّنْيَا وَلَا يَغُرَّنَّكُم بِٱللَّهِ ٱلْغَرُورُ",
+        "jawi": "",
+        "rumi": "Yaaa ayyuhan naasuttaqoo Rabbakum wakhshaw Yawmal laa yajzee waalidun 'anw waladihee wa laa mawloodun huwa jaazin 'anw waalidihee shai'aa; innaa wa'dal laahi haqqun falaa taghurran nakumul hayaatud dunyaa wa laa yaghur rannakum billaahil gharoon",
+        "translation": "Wahai sekalian manusia, bertaqwalah kepada Tuhan kamu, dan takutilah akan hari (akhirat) yang padanya seseorang ibu atau bapa tidak dapat melepaskan anaknya dari azab dosanya, dan seorang anak pula tidak dapat melepaskan ibu atau bapanya dari azab dosa masing-masing sedikit pun. Sesungguhnya janji Allah itu adalah benar, maka janganlah kamu diperdayakan oleh kehidupan dunia, dan jangan pula kamu diperdayakan oleh bisikan dan ajakan Syaitan yang menyebabkan kamu berani melanggar perintah Allah.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3502.mp3"
+    },
+    {
+        "id": 34,
+        "arabic": "إِنَّ ٱللَّهَ عِندَهُۥ عِلْمُ ٱلسَّاعَةِ وَيُنَزِّلُ ٱلْغَيْثَ وَيَعْلَمُ مَا فِى ٱلْأَرْحَامِ ۖ وَمَا تَدْرِى نَفْسٌۭ مَّاذَا تَكْسِبُ غَدًۭا ۖ وَمَا تَدْرِى نَفْسٌۢ بِأَىِّ أَرْضٍۢ تَمُوتُ ۚ إِنَّ ٱللَّهَ عَلِيمٌ خَبِيرٌۢ",
+        "jawi": "",
+        "rumi": "Innal laaha 'indahoo 'ilmus saa'ati wa yunazzilul ghaisa wa ya'lamu maa fil arhaami wa maa tadree nafsum maazaa takisbu ghadaa; wa maa tadree nafsum bi ayyi ardin tamoot; innal laaha 'Aleemun Khabeer",
+        "translation": "Sesungguhnya di sisi Allah pengetahuan yang tepat tentang hari kiamat. Dan Dia lah jua yang menurunkan hujan, dan yang mengetahui dengan sebenar-benarnya tentang apa yang ada dalam rahim (ibu yang mengandung). Dan tiada seseorang pun yang betul mengetahui apa yang akan diusahakannya esok (sama ada baik atau jahat); dan tiada seorangpun yang dapat mengetahui di bumi negeri manakah ia akan mati. Sesungguhnya Allah Maha Mengetahui, lagi Amat Meliputi pengetahuanNya.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3503.mp3"
+    }
+]

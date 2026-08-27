@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "arabic": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ قُلْ يَٰٓأَيُّهَا ٱلْكَٰفِرُونَ",
+        "jawi": "",
+        "rumi": "Qul yaa-ai yuhal kaafiroon",
+        "translation": "Katakanlah (wahai Muhammad): \"Hai orang-orang kafir!",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6208.mp3"
+    },
+    {
+        "id": 2,
+        "arabic": "لَآ أَعْبُدُ مَا تَعْبُدُونَ",
+        "jawi": "",
+        "rumi": "Laa a'budu ma t'abudoon",
+        "translation": "\"Aku tidak akan menyembah apa yang kamu sembah.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6209.mp3"
+    },
+    {
+        "id": 3,
+        "arabic": "وَلَآ أَنتُمْ عَٰبِدُونَ مَآ أَعْبُدُ",
+        "jawi": "",
+        "rumi": "Wa laa antum 'aabidoona maa a'bud",
+        "translation": "\"Dan kamu tidak mahu menyembah (Allah) yang aku sembah.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6210.mp3"
+    },
+    {
+        "id": 4,
+        "arabic": "وَلَآ أَنَا۠ عَابِدٌۭ مَّا عَبَدتُّمْ",
+        "jawi": "",
+        "rumi": "Wa laa ana 'abidum maa 'abattum",
+        "translation": "\"Dan aku tidak akan beribadat secara kamu beribadat.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6211.mp3"
+    },
+    {
+        "id": 5,
+        "arabic": "وَلَآ أَنتُمْ عَٰبِدُونَ مَآ أَعْبُدُ",
+        "jawi": "",
+        "rumi": "Wa laa antum 'aabidoona ma a'bud",
+        "translation": "\"Dan kamu pula tidak mahu beribadat secara aku beribadat.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6212.mp3"
+    },
+    {
+        "id": 6,
+        "arabic": "لَكُمْ دِينُكُمْ وَلِىَ دِينِ",
+        "jawi": "",
+        "rumi": "Lakum deenukum wa liya deen.",
+        "translation": "\"Bagi kamu ugama kamu, dan bagiku ugamaku\".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6213.mp3"
+    }
+]

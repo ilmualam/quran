@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "arabic": "﻿بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+        "jawi": "",
+        "rumi": "Bismillaahir Rahmaanir Raheem",
+        "translation": "Dengan nama Allah, Yang Maha Pemurah, lagi Maha Mengasihani.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3"
+    },
+    {
+        "id": 2,
+        "arabic": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ",
+        "jawi": "",
+        "rumi": "Alhamdu lillaahi Rabbil 'aalameen",
+        "translation": "Segala puji tertentu bagi Allah, Tuhan yang memelihara dan mentadbirkan sekalian alam.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/2.mp3"
+    },
+    {
+        "id": 3,
+        "arabic": "ٱلرَّحْمَٰنِ ٱلرَّحِيمِ",
+        "jawi": "",
+        "rumi": "Ar-Rahmaanir-Raheem",
+        "translation": "Yang Maha Pemurah, lagi Maha Mengasihani.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/3.mp3"
+    },
+    {
+        "id": 4,
+        "arabic": "مَٰلِكِ يَوْمِ ٱلدِّينِ",
+        "jawi": "",
+        "rumi": "Maaliki Yawmid-Deen",
+        "translation": "Yang Menguasai pemerintahan hari Pembalasan (hari Akhirat).",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/4.mp3"
+    },
+    {
+        "id": 5,
+        "arabic": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+        "jawi": "",
+        "rumi": "Iyyaaka na'budu wa lyyaaka nasta'een",
+        "translation": "Engkaulah sahaja (Ya Allah) Yang Kami sembah, dan kepada Engkaulah sahaja kami memohon pertolongan.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/5.mp3"
+    },
+    {
+        "id": 6,
+        "arabic": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
+        "jawi": "",
+        "rumi": "Ihdinas-Siraatal-Mustaqeem",
+        "translation": "Tunjukilah kami jalan yang lurus.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6.mp3"
+    },
+    {
+        "id": 7,
+        "arabic": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
+        "jawi": "",
+        "rumi": "Siraatal-lazeena an'amta 'alaihim ghayril-maghdoobi 'alaihim wa lad-daaalleen",
+        "translation": "Iaitu jalan orang-orang yang Engkau telah kurniakan nikmat kepada mereka, bukan (jalan) orang-orang yang Engkau telah murkai, dan bukan pula (jalan) orang-orang yang sesat.",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/7.mp3"
+    }
+]

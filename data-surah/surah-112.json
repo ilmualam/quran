@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "arabic": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ قُلْ هُوَ ٱللَّهُ أَحَدٌ",
+        "jawi": "",
+        "rumi": "Qul huwal laahu ahad",
+        "translation": "Katakanlah (wahai Muhammad): \"(Tuhanku) ialah Allah Yang Maha Esa;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6222.mp3"
+    },
+    {
+        "id": 2,
+        "arabic": "ٱللَّهُ ٱلصَّمَدُ",
+        "jawi": "",
+        "rumi": "Allah hus-samad",
+        "translation": "\"Allah Yang menjadi tumpuan sekalian makhluk untuk memohon sebarang hajat;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6223.mp3"
+    },
+    {
+        "id": 3,
+        "arabic": "لَمْ يَلِدْ وَلَمْ يُولَدْ",
+        "jawi": "",
+        "rumi": "Lam yalid wa lam yoolad",
+        "translation": "\"Ia tiada beranak, dan Ia pula tidak diperanakkan;",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6224.mp3"
+    },
+    {
+        "id": 4,
+        "arabic": "وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ",
+        "jawi": "",
+        "rumi": "Wa lam yakul-lahu kufuwan ahad",
+        "translation": "\"Dan tidak ada sesiapapun yang serupa denganNya\".",
+        "audio": "https://cdn.islamic.network/quran/audio/128/ar.alafasy/6225.mp3"
+    }
+]
