@@ -71,10 +71,10 @@
 }
 
 .ilmq .tools{
-  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
-  margin:10px 0 12px
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;
+  margin:10px 0 12px;text-align:center
 }
-.ilmq .tabs{display:flex;gap:8px;flex-wrap:wrap}
+.ilmq .tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .ilmq .tab{
   border:1px solid var(--bd); background:var(--card); color:var(--text);
   padding:9px 12px;border-radius:999px;font-weight:900;cursor:pointer
@@ -83,7 +83,7 @@
   background:linear-gradient(135deg,var(--g),var(--d));
   border-color:transparent; color:#fff
 }
-.ilmq .act{display:flex;gap:8px;flex-wrap:wrap}
+.ilmq .act{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .ilmq .chip{
   border:1px solid var(--bd); background:var(--card); color:var(--text);
   padding:9px 12px;border-radius:14px;font-weight:900;cursor:pointer
