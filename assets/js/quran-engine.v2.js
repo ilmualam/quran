@@ -228,8 +228,8 @@
             </div>
           </div>
           <div class="arab">${v.arabic}</div>
-          <p class="rumi"><strong>Rumi:</strong> ${escapeHTML(v.rumi)}</p>
-          <p class="mal"><strong>Maksud:</strong> ${escapeHTML(v.ms)}</p>
+          <p class="rumi">${escapeHTML(v.rumi)}</p>
+          <p class="mal">${escapeHTML(v.ms)}</p>
         `;
         card.addEventListener("click", (e) => { if (!e.target?.dataset?.act) loadAyah(i, true); });
         card.querySelector('[data-act="play"]').addEventListener("click", (e) => {
