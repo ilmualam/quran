@@ -117,9 +117,12 @@
    px*px is an invalid length, so font-size silently fell back to inherited/unstyled and Rumi/Maksud
    lost their intended sizing (misread as "not aligning left"). --fzT now always carries the unit
    end-to-end (JS) and CSS just consumes it directly — no double-unit math. */
-.ilmq .rumi{margin:0 0 8px;font-style:italic;color:var(--sub);text-align:left!important;font-size:var(--fzT)}
-.ilmq .mal{margin:0;color:var(--text);text-align:left!important;font-size:var(--fzT)}
+.ilmq .rumi, .ilmq .mal {display:block; direction:ltr; text-align:left !important; width:100%; max-width:100%; min-width:0; margin-left:0; margin-right:0; padding-left:0; padding-right:0; text-indent:0; box-sizing:border-box; overflow-wrap:break-word; word-break:normal;}
+.ilmq .rumi {margin-top:0; margin-bottom:8px; color:var(--sub); font-size:var(--fzT); font-style:italic; line-height:1.55;}
+.ilmq .mal {margin-top:0; margin-bottom:0; color:var(--text); font-size:var(--fzT); font-style:normal; line-height:1.55;}
 .ilmq .arab.hide,.ilmq .rumi.hide,.ilmq .mal.hide{display:none}
+.ilmq .v {width:100%; max-width:100%; min-width:0; overflow:hidden; background:var(--card); border:1px solid var(--bd); border-radius:18px; padding:12px; box-shadow:var(--sh);}
+.ilmq .top, .ilmq .va, .ilmq .arab, .ilmq .rumi, .ilmq .mal {min-width:0;}
 .ilmq .vbtn.star{min-width:40px}
 .ilmq .vbtn.star.on{color:#c9a227;border-color:#c9a227;background:rgba(201,162,39,.1)}
 .ilmq .v.playing{outline:2px solid rgba(36,151,73,.55)}
@@ -145,7 +148,6 @@
 .ilmq .set input[type="range"]::-webkit-slider-thumb {-webkit-appearance:none; appearance:none; width:22px; height:22px; border-radius:999px; background:linear-gradient(135deg, var(--g), var(--d)); border:2px solid rgba(255,255,255,.75); box-shadow:0 10px 18px rgba(0, 0, 0, .18); margin-top:-7px; cursor:pointer;}
 .ilmq .set input[type="range"]::-moz-range-track {height:10px; border-radius:999px; background:rgba(36,151,73,.18); border:1px solid rgba(12, 56, 8, .14);}
 .ilmq .set input[type="range"]::-moz-range-thumb {width:22px; height:22px; border-radius:999px; background:linear-gradient(135deg, var(--g), var(--d)); border:2px solid rgba(255,255,255,.75); box-shadow:0 10px 18px rgba(0, 0, 0, .18); cursor:pointer;}
-.ilmq .set input[type="range"]{all:revert; -webkit-appearance:none; appearance:none;}
 /* ==== FIX: Checkbox (Auto-scroll / Auto-next) hilang sebab theme ==== */
 .ilmq .set .row label{
   display:flex;
