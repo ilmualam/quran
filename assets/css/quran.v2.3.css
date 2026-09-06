@@ -44,11 +44,11 @@
 
 .ilmq[data-surah] .tools{display:flex;flex-wrap:wrap;gap:7px;align-items:center;justify-content:space-between;margin:10px 0 12px;padding:0;text-align:center}
 .ilmq[data-surah] .tabs{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:3px;padding:3px;border:1px solid var(--bd);border-radius:11px;background:var(--muted)}
-.ilmq[data-surah] .tab{appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:5px 9px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--sub);font-size:12px;line-height:1.2;font-weight:700;white-space:nowrap;cursor:pointer;transition:background-color .14s ease,color .14s ease,border-color .14s ease}
+.ilmq[data-surah] .tab{-webkit-appearance:none;appearance:none;display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:5px 9px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--sub);font-size:12px;line-height:1.2;font-weight:700;white-space:nowrap;cursor:pointer;transition:background-color .14s ease,color .14s ease,border-color .14s ease}
 .ilmq[data-surah] .tab:hover{background:var(--card);color:var(--text);border-color:var(--bd)}
 .ilmq[data-surah] .tab[aria-selected="true"]{background:var(--card);color:var(--d);border-color:rgba(36,151,73,.30);box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .ilmq[data-surah] .act{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
-.ilmq[data-surah] .chip{appearance:none;-webkit-appearance:none;border:1px solid var(--bd);background:var(--card);color:var(--text);padding:7px 9px;border-radius:10px;font-size:12px;font-weight:750;line-height:1.2;cursor:pointer}
+.ilmq[data-surah] .chip{-webkit-appearance:none;appearance:none;border:1px solid var(--bd);background:var(--card);color:var(--text);padding:7px 9px;border-radius:10px;font-size:12px;font-weight:750;line-height:1.2;cursor:pointer}
 .ilmq[data-surah] .chip:hover{border-color:rgba(36,151,73,.36);background:var(--muted)}
 .ilmq[data-surah] .chip.mode{min-width:34px}
 
@@ -73,7 +73,7 @@
 .ilmq[data-surah] .no{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-weight:850;font-size:12px;background:rgba(36,151,73,.12);padding:5px 9px;border-radius:999px;border:1px solid rgba(36,151,73,.22);white-space:nowrap}
 .ilmq[data-surah] .no:hover{text-decoration:none;background:rgba(36,151,73,.18)}
 .ilmq[data-surah] .va{display:flex;gap:5px;align-items:center;justify-content:flex-end;min-width:0;flex-wrap:wrap}
-.ilmq[data-surah] .vbtn{appearance:none;-webkit-appearance:none;border:1px solid var(--bd);background:var(--card);color:var(--text);border-radius:9px;padding:6px 8px;font-size:11.5px;line-height:1.2;font-weight:750;cursor:pointer}
+.ilmq[data-surah] .vbtn{-webkit-appearance:none;appearance:none;border:1px solid var(--bd);background:var(--card);color:var(--text);border-radius:9px;padding:6px 8px;font-size:11.5px;line-height:1.2;font-weight:750;cursor:pointer}
 .ilmq[data-surah] .vbtn:hover{background:var(--muted);border-color:rgba(36,151,73,.30)}
 .ilmq[data-surah] .vbtn.p{min-width:31px;background:linear-gradient(135deg,var(--g),var(--d));color:#fff;border:0}
 .ilmq[data-surah] .vbtn.star{min-width:31px}
