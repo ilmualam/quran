@@ -57,7 +57,7 @@
 .ilmq[data-surah] .set .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:10px;color:var(--sub)}
 .ilmq[data-surah] .set .row label{display:flex;align-items:center;gap:9px;white-space:nowrap}
 .ilmq[data-surah] label{font-weight:750}
-.ilmq[data-surah] .set input[type="checkbox"]{appearance:auto;-webkit-appearance:auto;width:18px;height:18px;display:inline-block;opacity:1;visibility:visible;accent-color:var(--g);cursor:pointer}
+.ilmq[data-surah] .set input[type="checkbox"]{-webkit-appearance:auto;appearance:auto;width:18px;height:18px;display:inline-block;opacity:1;visibility:visible;accent-color:var(--g);cursor:pointer}
 .ilmq[data-surah] .set input[type="range"]{-webkit-appearance:none;appearance:none;width:220px;height:28px;background:transparent;margin:0;padding:0;border:0;outline:0}
 .ilmq[data-surah] .set input[type="range"]::-webkit-slider-runnable-track{height:9px;border-radius:999px;background:rgba(36,151,73,.17);border:1px solid rgba(12,56,8,.13)}
 .ilmq[data-surah] .set input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:21px;height:21px;border-radius:999px;background:linear-gradient(135deg,var(--g),var(--d));border:2px solid rgba(255,255,255,.8);box-shadow:0 5px 12px rgba(0,0,0,.14);margin-top:-7px;cursor:pointer}
