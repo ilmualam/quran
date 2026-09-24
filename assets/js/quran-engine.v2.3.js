@@ -33,6 +33,7 @@ function init(root){
   const ayahCountBind=$('[data-bind="ayahCount"]');
 
   ensureToolbar(root);
+  ensureFooter(root);
 
   const tabs=$$(".tab[data-tab]");
   const modeBtn=$('[data-action="mode"]');
@@ -356,4 +357,13 @@ function ensureToolbar(root){
   tools.innerHTML='<div class="tabs" role="tablist" aria-label="Paparan teks"><button class="tab" type="button" role="tab" data-tab="all" aria-selected="true">Semua</button><button class="tab" type="button" role="tab" data-tab="arab" aria-selected="false">Arab</button><button class="tab" type="button" role="tab" data-tab="rumi" aria-selected="false">Rumi</button><button class="tab" type="button" role="tab" data-tab="ms" aria-selected="false">Melayu</button></div><div class="act" role="group" aria-label="Tindakan"><button class="chip" type="button" data-action="copy">Copy</button><button class="chip" type="button" data-action="share">Share</button><button class="chip" type="button" data-action="bookmark" aria-label="Bookmark ayat semasa">★</button><button class="chip" type="button" data-action="resume">Sambung</button><button class="chip" type="button" data-action="print">PDF</button><button class="chip mode" type="button" data-action="mode" aria-label="Tema">🌓</button></div>';
   anchor.parentNode.insertBefore(tools,anchor.nextSibling);
 }
+function ensureFooter(root){
+  if(root.querySelector(".foot"))return;
+  const foot=document.createElement("footer");
+  foot.className="foot";
+  foot.style.cssText="justify-content:center;text-align:center;font-size:13px";
+  foot.innerHTML='<span>© 2026 <strong><a href="https://www.ilmualam.com/" rel="noopener">IlmuAlam.com</a></strong> • <a href="https://www.ilmualam.com/p/al-quran-online.html" rel="noopener">Al-Quran Digital Online</a></span>';
+  root.appendChild(foot);
+}
+
 })();
