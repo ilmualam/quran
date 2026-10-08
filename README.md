@@ -177,6 +177,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Website: [ilmualam.com]([https://ilmualam.com](https://www.ilmualam.com/p/al-quran-online.html))
 - GitHub: [@ilmualam](https://github.com/ilmualam)
+- Contact: [ilmualam.com]([https://ilmualam.com/p/contact.html](https://www.ilmualam.com/p/contact.html))
 
 ## 💝 Support
 
