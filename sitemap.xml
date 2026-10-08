@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+<<<<<<< HEAD
     <loc>https://quran.ilmualam.com/</loc>
     <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+=======
+    <loc>https://wwww.quran.ilmualam.com/</loc>
+    <lastmod>2026-10-07</lastmod>
+>>>>>>> c89ede40a92de1e24a3c2d19be899ede3ad16bce
   </url>
 </urlset>
