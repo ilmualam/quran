@@ -1,0 +1,19 @@
+{
+  "name": "Al-Quran Online – Ilmu Alam",
+  "short_name": "Al-Quran",
+  "description": "Baca Al-Quran online penuh 30 juzuk percuma: 114 surah dengan teks Arab, Rumi, terjemahan Bahasa Melayu & audio 5 qari. Mudah dibaca di telefon.",
+  "lang": "ms-MY",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f8f5",
+  "theme_color": "#0c3808",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

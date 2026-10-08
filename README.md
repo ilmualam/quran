@@ -43,6 +43,15 @@ A comprehensive web-based Al-Quran application featuring complete Quranic text w
 - **🗺️ SEO Optimized**: With structured data and meta tags
 - **💾 Offline Support**: Service worker ready for offline access
 
+## 🏠 Landing page (v3)
+
+`index.html` is a static, pre-rendered landing page for the Quran subdomain (canonical `https://quran.ilmualam.com/`, change it if the final domain differs):
+
+- 114 surah cards are rendered in the HTML (crawlable, no JS needed to see the list); `assets/js/quran-home.js` adds search/filters and an in-page reader that loads `data-surah/surah-N.json` and plays audio from EveryAyah.
+- Inline critical CSS, system fonts only, deferred JS, no layout shift. Lighthouse (local): 99-100 performance, 100 accessibility / best practices / SEO.
+- SEO/AEO/LLM: JSON-LD graph (WebPage, WebApplication, ItemList of 114 surah, FAQPage, BreadcrumbList), `sitemap.xml`, `robots.txt`, `llms.txt`, Open Graph/Twitter tags, CSP meta tag.
+- Reader deep links: `#surah-36` and `#surah-36-ayat-12`.
+
 ## 🚀 Getting Started
 
 ### Prerequisites
