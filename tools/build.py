@@ -111,7 +111,7 @@ faq_html = "\n".join(
 )
 
 PAGE = open(f"{SCR}/page.html", encoding="utf8").read()
-csp = (f"default-src 'none'; script-src 'self' '{sha(THEME_JS)}'; style-src 'unsafe-inline'; img-src 'self' data:; "
+csp = (f"default-src 'none'; script-src 'self' '{sha(THEME_JS)}'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; "
        "media-src https://everyayah.com; connect-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'none'")
 rep = {
  "{{CSP}}": csp, "{{TITLE}}": e(TITLE), "{{DESC}}": e(DESC), "{{SITE}}": SITE, "{{MAIN}}": MAIN, "{{OGIMG}}": OGIMG,
@@ -124,7 +124,10 @@ assert "{{" not in PAGE, re.findall(r"\{\{\w+\}\}", PAGE)
 open(f"{REPO}/index.html", "w", encoding="utf8", newline="\n").write(PAGE)
 
 # ---- supporting files ----
-open(f"{REPO}/robots.txt", "w", newline="\n").write(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}sitemap.xml\n")
+BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended"]
+robots = f"# robots.txt for {SITE}\n# Everything is public. Search engines and AI answer engines are welcome.\n\nUser-agent: *\nAllow: /\n\n"
+robots += "".join(f"User-agent: {b}\nAllow: /\n\n" for b in BOTS) + f"Sitemap: {SITE}sitemap.xml\n"
+open(f"{REPO}/robots.txt", "w", newline="\n").write(robots)
 open(f"{REPO}/sitemap.xml", "w", newline="\n").write(
  f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>{SITE}</loc>\n    <lastmod>{TODAY}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>1.0</priority>\n  </url>\n</urlset>\n')
 

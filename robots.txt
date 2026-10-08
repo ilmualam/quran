@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-User-agent: *
-Allow: /
-=======
 # robots.txt for https://quran.ilmualam.com/
 # Everything is public. Search engines and AI answer engines are welcome.
 
 User-agent: *
 Allow: /
-Disallow: /404.html
 
-# AI search / answer engines and assistants (explicitly welcome)
 User-agent: GPTBot
 Allow: /
 
@@ -39,6 +33,5 @@ Allow: /
 
 User-agent: Applebot-Extended
 Allow: /
->>>>>>> c89ede40a92de1e24a3c2d19be899ede3ad16bce
 
 Sitemap: https://quran.ilmualam.com/sitemap.xml
