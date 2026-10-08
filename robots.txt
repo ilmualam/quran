@@ -1,0 +1,39 @@
+# robots.txt for https://quran.ilmualam.com/
+# Everything is public. Search engines and AI answer engines are welcome.
+
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+# AI search / answer engines and assistants (explicitly welcome)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://quran.ilmualam.com/sitemap.xml
