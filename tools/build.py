@@ -1,5 +1,5 @@
 import json, re, hashlib, html, sys, os
-sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from surahs import S, MADANI, ALIAS, POPULAR
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -76,10 +76,8 @@ def sha(s):
 
 THEME_JS = 'try{var t=localStorage.getItem("ilmq:theme");if(t){t=JSON.parse(t);if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}}catch(e){}'
 
-css = open(f"{SCR}/home.css", encoding="utf8").read()
-css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
-css = re.sub(r"\s*\n\s*", "", css)
-css = re.sub(r"\s*([{};,>])\s*", r"\1", css).replace(";}", "}")
+from cssbuild import build as build_css
+css = build_css(f"{SCR}/home.css", f"{REPO}/assets/css/quran.min.css")
 
 graph = {
  "@context": "https://schema.org",
