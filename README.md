@@ -32,7 +32,7 @@ home.css (+ quran.min.css)│    -> HTML, JSON-LD, SW, maps   ├─>  sitemap.x
 surahs.py, data-surah/*   ┘                                  └─>  assets/js/surah-cta.js
 ```
 
-Runtime has no dependencies: `assets/js/quran-home.js` (vanilla JS, ~17 KB) adds search, the reader, audio, sharing and PWA install on top of the pre-rendered HTML.
+Runtime has no dependencies: `assets/js/quran-home.js` (vanilla JS, ~16 KB) adds search, the reader, audio, sharing and PWA install on top of the pre-rendered HTML.
 
 ## Project structure
 
