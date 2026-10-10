@@ -1,4 +1,4 @@
-/*! IlmuAlam Quran Home v3.1 | © ilmualam.com | dependency-free, delegated events, chunked rendering */
+/*! IlmuAlam Quran Home v3.2 | © ilmualam.com | dependency-free, delegated events, chunked rendering */
 (()=>{"use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={
@@ -63,7 +63,7 @@ function build(){
 <div class="info"><div class="bar" data-a="seek" aria-hidden="true"><i></i></div><div class="tmeta"><span id="rlab">Ayat 1</span><span id="rtime">0:00</span></div></div>
 <select id="qs" aria-label="Pilih qari">${QARI.map(q=>`<option value="${q[0]}">${q[1]}</option>`).join("")}</select>
 <button class="chip" type="button" data-a="close" aria-label="Tutup pembaca">✕</button></div>
-<nav class="tools" aria-label="Kawalan paparan"><div class="tabs" role="group" aria-label="Paparan teks">${[["all","Semua"],["ar","Arab"],["rumi","Rumi"],["ms","Melayu"]].map(v=>`<button class="tab" type="button" data-v="${v[0]}" aria-selected="false">${v[1]}</button>`).join("")}</div>
+<nav class="tools" aria-label="Kawalan paparan"><div class="tabs" role="group" aria-label="Paparan teks">${[["all","Semua"],["ar","Arab"],["rumi","Rumi"],["ms","Melayu"]].map(v=>`<button class="tab" type="button" data-v="${v[0]}" aria-pressed="false">${v[1]}</button>`).join("")}</div>
 <div class="act"><button class="chip" type="button" data-a="prev">‹ Surah</button><button class="chip" type="button" data-a="next">Surah ›</button></div></nav>
 <details class="set"><summary>Tetapan bacaan</summary><div class="row"><label>Saiz Arab <input id="fz" type="range" min="24" max="60" step="2"></label><label><input id="an" type="checkbox"> Main ayat seterusnya</label></div></details>
 <div class="verses" id="rv" tabindex="-1"></div></div>`;
@@ -82,7 +82,7 @@ function build(){
 }
 function setView(v){
   view=v;rq.dataset.v=v;store.set("view",v);
-  $$(".tab",rq).forEach(b=>b.setAttribute("aria-selected",b.dataset.v===v?"true":"false"));
+  $$(".tab",rq).forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v?"true":"false"));
 }
 const bms=()=>new Set(store.get("bm",[]));
 function onClick(e){
@@ -142,7 +142,7 @@ function render(rv,ayat){
     const end=Math.min(verses.length,at+CH);let h="";
     for(;at<end;at++)h+=vHTML(verses[at],at,marks);
     av.insertAdjacentHTML("beforeend",h);
-    if(goTo&&!jumped&&at>=goTo){jumped=true;requestAnimationFrame(()=>{const el=mark(goTo-1);el?.scrollIntoView({block:"start"})})}
+    if(goTo&&!jumped&&at>=goTo){jumped=true;requestAnimationFrame(()=>{const el=mark(goTo-1);if(!el)return;el.scrollIntoView({block:"start"});setTimeout(()=>{if(token===renderToken)el.scrollIntoView({block:"start"})},120)})}
     if(at<verses.length)setTimeout(chunk,0);
     else av.insertAdjacentHTML("afterend",`<div class="rf">${sNo>1?`<a href="#surah-${sNo-1}">‹ ${esc(info(sNo-1).name)}</a>`:"<span></span>"}${sNo<114?`<a href="#surah-${sNo+1}">${esc(info(sNo+1).name)} ›</a>`:""}</div>`);
   })();
@@ -216,5 +216,12 @@ function showResume(){
 }
 showResume();
 applyFilter();
+
+/* ---------- PWA: offline cache + install button ---------- */
+if("serviceWorker" in navigator&&isSecureContext)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+let deferred=null;const inst=$("#inst");
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;if(inst)inst.hidden=false});
+inst?.addEventListener("click",async()=>{if(!deferred)return;deferred.prompt();try{await deferred.userChoice}catch{}deferred=null;inst.hidden=true});
+addEventListener("appinstalled",()=>{deferred=null;if(inst)inst.hidden=true;toast("Al-Quran Online dipasang ✓")});
 if(RE.test(location.hash))route(true);
 })();

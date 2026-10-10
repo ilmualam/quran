@@ -51,6 +51,9 @@ A comprehensive web-based Al-Quran application featuring complete Quranic text w
 - Inline critical CSS, system fonts only, deferred JS, no layout shift. Lighthouse (local): 99-100 performance, 100 accessibility / best practices / SEO.
 - SEO/AEO/LLM: JSON-LD graph (WebPage, WebApplication, ItemList of 114 surah, FAQPage, BreadcrumbList), `sitemap.xml`, `robots.txt`, `llms.txt`, Open Graph/Twitter tags, CSP meta tag.
 - Reader deep links: `#surah-36` and `#surah-36-ayat-12`.
+- PWA: installable (`manifest.webmanifest`, PNG + maskable icons in `assets/icons/`), offline via `sw.js` (page shell + every surah you open is cached; audio needs internet).
+
+**Editing:** `index.html`, `sw.js`, `manifest.webmanifest`, `robots.txt`, `sitemap.xml` and `llms.txt` are generated. Edit `tools/page.html`, `tools/home.css`, `tools/sw.js` or `tools/build.py`, then run `python3 tools/build.py`. Never hand-edit or merge-resolve `index.html` directly; rebuild it instead.
 
 ## 🚀 Getting Started
 

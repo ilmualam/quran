@@ -6,7 +6,9 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCR = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://quran.ilmualam.com/"
 MAIN = "https://www.ilmualam.com/"
-TODAY = "2026-10-08"
+TODAY = "2026-10-10"
+BULAN = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]
+TODAYMS = f"{int(TODAY[8:])} {BULAN[int(TODAY[5:7]) - 1]} {TODAY[:4]}"
 OGIMG = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJxqp-Slnk0sIXWrsKrRUlkwOb7NZPN-JVM3fRd5hg4RN6Ppx9k2X0jMNzMhz3Z6JS1vXNpZqEBCA4MyAuwJDs_FZD6wbPG-YiL2_znJmH6880F69I_bZbxUw7HT7xCM79S9KF_MrPcmXLHNPkpyxQiXRHSx0OhfIEyxqiVbOQ142DUKEDaS8BnNzss44/w1200-h630-p-k-no-nu/al-quran-online-baca-digital.webp"
 TITLE = "Baca Al-Quran Online (Penuh 30 Juz) dengan Audio & Terjemahan"
 DESC = "Baca Al-Quran online penuh 30 juzuk percuma: 114 surah dengan teks Arab, Rumi, terjemahan Bahasa Melayu & audio 5 qari. Mudah dibaca di telefon."
@@ -89,7 +91,8 @@ graph = {
    "isPartOf": {"@id": SITE + "#website"}, "about": {"@type": "Thing", "name": "Al-Quran"},
    "primaryImageOfPage": {"@type": "ImageObject", "url": OGIMG, "width": 1200, "height": 630},
    "breadcrumb": {"@id": SITE + "#crumbs"}, "datePublished": TODAY, "dateModified": TODAY,
-   "mainEntity": {"@id": SITE + "#surah-list"}, "publisher": {"@id": MAIN + "#org"}},
+   "mainEntity": {"@id": SITE + "#surah-list"}, "publisher": {"@id": MAIN + "#org"},
+   "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", ".lead", "#utama .box"]}},
   {"@type": "BreadcrumbList", "@id": SITE + "#crumbs", "itemListElement": [
     {"@type": "ListItem", "position": 1, "name": "Ilmu Alam", "item": MAIN},
     {"@type": "ListItem", "position": 2, "name": "Al-Quran Online", "item": SITE}]},
@@ -109,12 +112,12 @@ faq_html = "\n".join(
 )
 
 PAGE = open(f"{SCR}/page.html", encoding="utf8").read()
-csp = (f"default-src 'none'; script-src 'self' '{sha(THEME_JS)}'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; "
+csp = (f"default-src 'none'; script-src 'self' '{sha(THEME_JS)}'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; worker-src 'self'; "
        "media-src https://everyayah.com; connect-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'none'")
 rep = {
  "{{CSP}}": csp, "{{TITLE}}": e(TITLE), "{{DESC}}": e(DESC), "{{SITE}}": SITE, "{{MAIN}}": MAIN, "{{OGIMG}}": OGIMG,
  "{{CSS}}": css, "{{THEMEJS}}": THEME_JS, "{{JSONLD}}": JSONLD, "{{GRID}}": GRID, "{{POP}}": POP,
- "{{POPIDS}}": ",".join(map(str, POPULAR)), "{{FAQ}}": faq_html, "{{HUKUM}}": e(HUKUM_TITLE), "{{TODAY}}": TODAY,
+ "{{POPIDS}}": ",".join(map(str, POPULAR)), "{{FAQ}}": faq_html, "{{HUKUM}}": e(HUKUM_TITLE), "{{TODAYMS}}": TODAYMS, "{{TODAY}}": TODAY,
 }
 for k, v in rep.items():
     PAGE = PAGE.replace(k, v)
@@ -148,8 +151,26 @@ Halaman ini menerangkan hukum membaca Al-Quran secara digital mengikut mazhab Sy
 
 open(f"{REPO}/favicon.svg", "w", newline="\n").write(
  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#249749"/><stop offset="1" stop-color="#0c3808"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#g)"/><path d="M32 17c-5-3-12-3-18-1v30c6-2 13-2 18 1 5-3 12-3 18-1V16c-6-2-13-2-18 1z" fill="none" stroke="#fff" stroke-width="3.5" stroke-linejoin="round"/><path d="M32 17v30" stroke="#fff" stroke-width="3.5"/></svg>\n')
-open(f"{REPO}/manifest.webmanifest", "w", newline="\n").write(json.dumps({
- "name": "Al-Quran Online – Ilmu Alam", "short_name": "Al-Quran", "description": DESC, "lang": "ms-MY",
- "start_url": "./", "scope": "./", "display": "standalone", "background_color": "#f4f8f5", "theme_color": "#0c3808",
- "icons": [{"src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}]}, ensure_ascii=False, indent=2) + "\n")
+ICONS = [
+ {"src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+ {"src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+ {"src": "assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+ {"src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}]
+SC = [("Surah Yasin", 36), ("Surah Al-Kahfi", 18), ("Surah Al-Mulk", 67), ("Surah Al-Waqi'ah", 56)]
+open(f"{REPO}/manifest.webmanifest", "w", encoding="utf8", newline="\n").write(json.dumps({
+ "id": "/", "name": "Al-Quran Online – Ilmu Alam", "short_name": "Al-Quran", "description": DESC, "lang": "ms-MY", "dir": "ltr",
+ "start_url": "./?utm_source=pwa", "scope": "./", "display": "standalone", "display_override": ["standalone", "minimal-ui"],
+ "orientation": "any", "background_color": "#f4f8f5", "theme_color": "#0c3808", "categories": ["education", "books", "lifestyle"],
+ "icons": ICONS,
+ "shortcuts": [{"name": n, "short_name": n.replace("Surah ", ""), "url": f"./#surah-{k}", "icons": [ICONS[0]]} for n, k in SC]},
+ ensure_ascii=False, indent=2) + "\n")
+
+# service worker: version = hash of everything it precaches, so any deploy busts the old cache
+PRE = ["./", "assets/js/quran-home.js", "assets/fonts/amiri-arabic-400-normal.woff2", "favicon.svg", "manifest.webmanifest",
+       "assets/icons/icon-192.png", "assets/icons/icon-512.png"]
+h = hashlib.sha256(PAGE.encode())
+for f in PRE[1:]:
+    h.update(open(f"{REPO}/{f}", "rb").read())
+sw = open(f"{SCR}/sw.js", encoding="utf8").read().replace("{{VER}}", h.hexdigest()[:10]).replace("{{PRE}}", json.dumps(PRE))
+open(f"{REPO}/sw.js", "w", encoding="utf8", newline="\n").write(sw)
 print("OK", len(PAGE), "bytes; total ayat", sum(AYAT.values()))
