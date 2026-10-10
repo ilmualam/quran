@@ -1,7 +1,7 @@
 import json, re, hashlib, html, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from surahs import S, MADANI, ALIAS, POPULAR, EXTRA_URLS
-from urllib.parse import quote
+from surahs import S, MADANI, ALIAS, POPULAR, ARTICLES
+from urllib.parse import quote, urlparse
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCR = os.path.dirname(os.path.abspath(__file__))
@@ -19,11 +19,7 @@ DESC = "Baca Al-Quran online penuh 30 juzuk percuma: 114 surah dengan teks Arab,
 ADS_CLIENT = ""  # e.g. "ca-pub-1234567890123456"
 ADS_SLOTS = ["", "", ""]  # after the surah list, after "Konteks Malaysia", after the FAQ
 
-# ---- article URL map from the old script ----
-src = open(f"{REPO}/assets/js/quran-version2.js", encoding="utf8").read()
-URLS = {int(a): b for a, b in re.findall(r'(\d+):\s*"(https://www\.ilmualam\.com/[^"]+)"', src)}
-URLS.update(EXTRA_URLS)
-assert len(URLS) >= 108, len(URLS)
+URLS = ARTICLES
 MISSING = [n for n in range(1, 115) if n not in URLS]
 
 # ---- ayah counts straight from the data ----
@@ -219,6 +215,13 @@ open(f"{REPO}/manifest.webmanifest", "w", encoding="utf8", newline="\n").write(j
  "icons": ICONS,
  "shortcuts": [{"name": n, "short_name": n.replace("Surah ", ""), "url": f"./#surah-{k}", "icons": [ICONS[0]]} for n, k in SC]},
  ensure_ascii=False, indent=2) + "\n")
+
+# ---- Blogger CTA: one script on www.ilmualam.com adds a "read & listen" box to each surah article ----
+cta_map = {urlparse(URLS[n]).path: [n, S[n][1], S[n][0], AYAT[n]] for n in URLS}
+cta = open(f"{SCR}/surah-cta.js", encoding="utf8").read().replace("{{MAP}}", json.dumps(cta_map, ensure_ascii=False, separators=(",", ":"))).replace("{{SITE}}", SITE)
+# pure ASCII (\uXXXX escapes) so the script renders right whatever charset the Blogger theme or CDN declares
+cta = "".join(c if ord(c) < 128 else "".join(f"\\u{int.from_bytes(b[i:i + 2], 'big'):04x}" for b in [c.encode("utf-16-be")] for i in range(0, len(b), 2)) for c in cta)
+open(f"{REPO}/assets/js/surah-cta.js", "w", encoding="ascii", newline="\n").write(cta)
 
 # service worker: version = hash of everything it precaches, so any deploy busts the old cache
 PRE = ["./", "dasar-privasi.html", "assets/js/quran-home.js", "assets/fonts/amiri-arabic-400-normal.woff2", "manifest.webmanifest",
