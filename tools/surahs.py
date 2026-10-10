@@ -130,4 +130,10 @@ POPULAR = [1,2,18,36,55,56,67,112]
 # Article links for surah missing from the legacy map in assets/js/quran-version2.js.
 # Add each as {surah_number: "https://www.ilmualam.com/YYYY/MM/slug.html"}; the build lists any still missing.
 EXTRA_URLS = {
+ 9: "https://www.ilmualam.com/2026/09/surah-at-taubah.html",
+ 13: "https://www.ilmualam.com/2026/09/surah-ar-rad.html",
+ 23: "https://www.ilmualam.com/2026/09/surah-al-mukminun.html",
+ 24: "https://www.ilmualam.com/2026/09/surah-an-nur.html",
+ 29: "https://www.ilmualam.com/2026/09/surah-al-ankabut.html",
+ 42: "https://www.ilmualam.com/2026/09/surah-asy-syura.html",
 }
