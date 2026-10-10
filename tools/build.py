@@ -1,6 +1,7 @@
 import json, re, hashlib, html, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from surahs import S, MADANI, ALIAS, POPULAR
+from surahs import S, MADANI, ALIAS, POPULAR, ARTICLES
+from urllib.parse import quote, urlparse
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCR = os.path.dirname(os.path.abspath(__file__))
@@ -13,10 +14,13 @@ OGIMG = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJxqp-Slnk0s
 TITLE = "Baca Al-Quran Online (Penuh 30 Juz) dengan Audio & Terjemahan"
 DESC = "Baca Al-Quran online penuh 30 juzuk percuma: 114 surah dengan teks Arab, Rumi, terjemahan Bahasa Melayu & audio 5 qari. Mudah dibaca di telefon."
 
-# ---- article URL map from the old script ----
-src = open(f"{REPO}/assets/js/quran-version2.js", encoding="utf8").read()
-URLS = {int(a): b for a, b in re.findall(r'(\d+):\s*"(https://www\.ilmualam\.com/[^"]+)"', src)}
-assert len(URLS) == 108, len(URLS)
+# ---- Google AdSense: paste the publisher ID and up to 3 ad-unit slot IDs, then rebuild ----
+# Empty client = no ad code at all. Ads are never placed inside the surah reader.
+ADS_CLIENT = ""  # e.g. "ca-pub-1234567890123456"
+ADS_SLOTS = ["", "", ""]  # after the surah list, after "Konteks Malaysia", after the FAQ
+
+URLS = ARTICLES
+MISSING = [n for n in range(1, 115) if n not in URLS]
 
 # ---- ayah counts straight from the data ----
 AYAT = {}
@@ -85,6 +89,7 @@ graph = {
  "@context": "https://schema.org",
  "@graph": [
   {"@type": "Organization", "@id": MAIN + "#org", "name": "The Ilmu Alam", "url": MAIN,
+   "logo": {"@type": "ImageObject", "url": SITE + "assets/icons/icon-512.png", "width": 512, "height": 512},
    "sameAs": ["https://www.facebook.com/ilmualam", "https://twitter.com/ilmualam", "https://www.youtube.com/@theilmualam", "https://ilmualam.bsky.social/"]},
   {"@type": "WebSite", "@id": SITE + "#website", "url": SITE, "name": "Al-Quran Online – Ilmu Alam", "inLanguage": "ms-MY", "publisher": {"@id": MAIN + "#org"}},
   {"@type": "WebPage", "@id": SITE + "#webpage", "url": SITE, "name": TITLE, "description": DESC, "inLanguage": "ms-MY",
@@ -111,18 +116,65 @@ faq_html = "\n".join(
     f'<details class="q"><summary><h3>{e(q)}</h3></summary><div class="an"><p>{e(a)}</p></div></details>' for q, a in FAQ
 )
 
+ICON_LINKS = ('<link rel="icon" href="favicon.ico" sizes="48x48">\n'
+              '<link rel="icon" href="assets/icons/favicon-96.png" type="image/png" sizes="96x96">\n'
+              '<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">')
+
+def share_bar(url, text):
+    u, t = quote(url, safe=""), quote(text, safe="")
+    links = [("wa", "WhatsApp", f"https://wa.me/?text={quote(text + ' ' + url, safe='')}"),
+             ("tg", "Telegram", f"https://t.me/share/url?url={u}&amp;text={t}"),
+             ("fb", "Facebook", f"https://www.facebook.com/sharer/sharer.php?u={u}"),
+             ("x", "X", f"https://x.com/intent/post?text={t}&amp;url={u}")]
+    a = "".join(f'<a class="sbtn {k}" href="{h}" target="_blank" rel="noopener nofollow">{n}</a>' for k, n, h in links)
+    return (f'<div class="share" role="group" aria-label="Kongsi laman ini"><span class="shl">Kongsi:</span>{a}'
+            f'<button class="sbtn cp" type="button" data-share="copy" data-url="{e(url)}">Salin pautan</button>'
+            f'<button class="sbtn nt" type="button" data-share="native" data-url="{e(url)}" data-title="{e(text)}" hidden>Lagi…</button></div>')
+
+def ad(i):
+    if not ADS_CLIENT or not ADS_SLOTS[i]:
+        return ""
+    return (f'<aside class="ad" aria-label="Iklan"><span class="adl">Iklan</span><ins class="adsbygoogle" data-ad-client="{e(ADS_CLIENT)}" '
+            f'data-ad-slot="{e(ADS_SLOTS[i])}" data-ad-format="auto" data-full-width-responsive="true"></ins></aside>')
+
+ADS_ON = bool(ADS_CLIENT and any(ADS_SLOTS))
+if ADS_ON:
+    # AdSense loads scripts, frames and pixels from many rotating Google hosts, so the strict policy is relaxed
+    csp = (f"default-src 'self'; script-src 'self' '{sha(THEME_JS)}' 'unsafe-inline' 'unsafe-eval' https:; style-src 'unsafe-inline' https:; "
+           "img-src 'self' data: https:; font-src 'self' https:; frame-src https:; connect-src 'self' https:; worker-src 'self'; "
+           "media-src https://everyayah.com; object-src 'none'; base-uri 'self'; form-action 'none'")
+else:
+    csp = (f"default-src 'none'; script-src 'self' '{sha(THEME_JS)}'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; worker-src 'self'; "
+           "media-src https://everyayah.com; connect-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'none'")
+ADMETA = f'<meta name="google-adsense-account" content="{e(ADS_CLIENT)}">\n' if ADS_CLIENT else ""
+HEADER = open(f"{SCR}/header.html", encoding="utf8").read()
+FOOTER = open(f"{SCR}/footer.html", encoding="utf8").read()
+
+def render(tpl, rep):
+    for k, v in rep.items():
+        tpl = tpl.replace(k, v)
+    assert "{{" not in tpl, re.findall(r"\{\{\w+\}\}", tpl)
+    return tpl
+
 PAGE = open(f"{SCR}/page.html", encoding="utf8").read()
-csp = (f"default-src 'none'; script-src 'self' '{sha(THEME_JS)}'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; worker-src 'self'; "
-       "media-src https://everyayah.com; connect-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'none'")
 rep = {
+ "{{HEADER}}": HEADER, "{{FOOTER}}": FOOTER, "{{ICONS}}": ICON_LINKS, "{{ADMETA}}": ADMETA,
+ "{{SHARE}}": share_bar(SITE, "Baca Al-Quran online percuma – 114 surah, audio & terjemahan Melayu:"),
+ "{{AD1}}": ad(0), "{{AD2}}": ad(1), "{{AD3}}": ad(2),
  "{{CSP}}": csp, "{{TITLE}}": e(TITLE), "{{DESC}}": e(DESC), "{{SITE}}": SITE, "{{MAIN}}": MAIN, "{{OGIMG}}": OGIMG,
  "{{CSS}}": css, "{{THEMEJS}}": THEME_JS, "{{JSONLD}}": JSONLD, "{{GRID}}": GRID, "{{POP}}": POP,
  "{{POPIDS}}": ",".join(map(str, POPULAR)), "{{FAQ}}": faq_html, "{{HUKUM}}": e(HUKUM_TITLE), "{{TODAYMS}}": TODAYMS, "{{TODAY}}": TODAY,
 }
-for k, v in rep.items():
-    PAGE = PAGE.replace(k, v)
-assert "{{" not in PAGE, re.findall(r"\{\{\w+\}\}", PAGE)
+PAGE = render(PAGE, rep)
 open(f"{REPO}/index.html", "w", encoding="utf8", newline="\n").write(PAGE)
+
+PRIV_LD = json.dumps({"@context": "https://schema.org", "@type": "WebPage", "@id": SITE + "dasar-privasi.html", "url": SITE + "dasar-privasi.html",
+  "name": "Dasar Privasi, Terma & Penafian – Al-Quran Online", "inLanguage": "ms-MY", "dateModified": TODAY,
+  "isPartOf": {"@id": SITE + "#website"}, "publisher": {"@id": MAIN + "#org"}}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+PRIV = render(open(f"{SCR}/privacy.html", encoding="utf8").read(), {
+ "{{HEADER}}": HEADER, "{{FOOTER}}": FOOTER, "{{ICONS}}": ICON_LINKS, "{{ADMETA}}": ADMETA, "{{CSP}}": csp, "{{SITE}}": SITE, "{{MAIN}}": MAIN,
+ "{{CSS}}": css, "{{THEMEJS}}": THEME_JS, "{{JSONLD}}": PRIV_LD, "{{TODAYMS}}": TODAYMS, "{{TODAY}}": TODAY})
+open(f"{REPO}/dasar-privasi.html", "w", encoding="utf8", newline="\n").write(PRIV)
 
 # ---- supporting files ----
 BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended"]
@@ -130,7 +182,9 @@ robots = f"# robots.txt for {SITE}\n# Everything is public. Search engines and A
 robots += "".join(f"User-agent: {b}\nAllow: /\n\n" for b in BOTS) + f"Sitemap: {SITE}sitemap.xml\n"
 open(f"{REPO}/robots.txt", "w", newline="\n").write(robots)
 open(f"{REPO}/sitemap.xml", "w", newline="\n").write(
- f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>{SITE}</loc>\n    <lastmod>{TODAY}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>1.0</priority>\n  </url>\n</urlset>\n')
+ '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+ + "".join(f"  <url>\n    <loc>{SITE}{p}</loc>\n    <lastmod>{TODAY}</lastmod>\n  </url>\n" for p in ["", "dasar-privasi.html"])
+ + "</urlset>\n")
 
 lines = [f"- [{S[n][1]} ({n}) – {S[n][2]}, {AYAT[n]} ayat]({URLS.get(n, SITE + '#surah-' + str(n))})" for n in range(1, 115)]
 open(f"{REPO}/llms.txt", "w", encoding="utf8", newline="\n").write(f"""# Al-Quran Online – Ilmu Alam
@@ -149,28 +203,32 @@ Halaman ini menerangkan hukum membaca Al-Quran secara digital mengikut mazhab Sy
 ## Senarai surah (artikel penuh di ilmualam.com jika ada)
 """ + "\n".join(lines) + "\n")
 
-open(f"{REPO}/favicon.svg", "w", newline="\n").write(
- '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#249749"/><stop offset="1" stop-color="#0c3808"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#g)"/><path d="M32 17c-5-3-12-3-18-1v30c6-2 13-2 18 1 5-3 12-3 18-1V16c-6-2-13-2-18 1z" fill="none" stroke="#fff" stroke-width="3.5" stroke-linejoin="round"/><path d="M32 17v30" stroke="#fff" stroke-width="3.5"/></svg>\n')
 ICONS = [
  {"src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
  {"src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
- {"src": "assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
- {"src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}]
+ {"src": "assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]
 SC = [("Surah Yasin", 36), ("Surah Al-Kahfi", 18), ("Surah Al-Mulk", 67), ("Surah Al-Waqi'ah", 56)]
 open(f"{REPO}/manifest.webmanifest", "w", encoding="utf8", newline="\n").write(json.dumps({
  "id": "/", "name": "Al-Quran Online – Ilmu Alam", "short_name": "Al-Quran", "description": DESC, "lang": "ms-MY", "dir": "ltr",
  "start_url": "./?utm_source=pwa", "scope": "./", "display": "standalone", "display_override": ["standalone", "minimal-ui"],
- "orientation": "any", "background_color": "#f4f8f5", "theme_color": "#0c3808", "categories": ["education", "books", "lifestyle"],
+ "orientation": "any", "background_color": "#ffffff", "theme_color": "#0c3808", "categories": ["education", "books", "lifestyle"],
  "icons": ICONS,
  "shortcuts": [{"name": n, "short_name": n.replace("Surah ", ""), "url": f"./#surah-{k}", "icons": [ICONS[0]]} for n, k in SC]},
  ensure_ascii=False, indent=2) + "\n")
 
+# ---- Blogger CTA: one script on www.ilmualam.com adds a "read & listen" box to each surah article ----
+cta_map = {urlparse(URLS[n]).path: [n, S[n][1], S[n][0], AYAT[n]] for n in URLS}
+cta = open(f"{SCR}/surah-cta.js", encoding="utf8").read().replace("{{MAP}}", json.dumps(cta_map, ensure_ascii=False, separators=(",", ":"))).replace("{{SITE}}", SITE)
+# pure ASCII (\uXXXX escapes) so the script renders right whatever charset the Blogger theme or CDN declares
+cta = "".join(c if ord(c) < 128 else "".join(f"\\u{int.from_bytes(b[i:i + 2], 'big'):04x}" for b in [c.encode("utf-16-be")] for i in range(0, len(b), 2)) for c in cta)
+open(f"{REPO}/assets/js/surah-cta.js", "w", encoding="ascii", newline="\n").write(cta)
+
 # service worker: version = hash of everything it precaches, so any deploy busts the old cache
-PRE = ["./", "assets/js/quran-home.js", "assets/fonts/amiri-arabic-400-normal.woff2", "favicon.svg", "manifest.webmanifest",
-       "assets/icons/icon-192.png", "assets/icons/icon-512.png"]
+PRE = ["./", "dasar-privasi.html", "assets/js/quran-home.js", "assets/fonts/amiri-arabic-400-normal.woff2", "manifest.webmanifest",
+       "favicon.ico", "assets/icons/logo-64.webp", "assets/icons/favicon-96.png", "assets/icons/icon-192.png", "assets/icons/icon-512.png"]
 h = hashlib.sha256(PAGE.encode())
 for f in PRE[1:]:
     h.update(open(f"{REPO}/{f}", "rb").read())
 sw = open(f"{SCR}/sw.js", encoding="utf8").read().replace("{{VER}}", h.hexdigest()[:10]).replace("{{PRE}}", json.dumps(PRE))
 open(f"{REPO}/sw.js", "w", encoding="utf8", newline="\n").write(sw)
-print("OK", len(PAGE), "bytes; total ayat", sum(AYAT.values()))
+print("OK", len(PAGE), "bytes; total ayat", sum(AYAT.values()), "| ads", "ON" if ADS_ON else "off", "| surah without article link:", MISSING or "none")

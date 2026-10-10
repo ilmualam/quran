@@ -14,8 +14,7 @@
 <link rel="canonical" href="{{SITE}}">
 <link rel="alternate" hreflang="ms-MY" href="{{SITE}}">
 <link rel="alternate" hreflang="x-default" href="{{SITE}}">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="icon" href="assets/icons/icon-192.png" type="image/png" sizes="192x192">
+{{ICONS}}
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">
@@ -39,25 +38,13 @@
 <meta name="twitter:title" content="{{TITLE}}">
 <meta name="twitter:description" content="{{DESC}}">
 <meta name="twitter:image" content="{{OGIMG}}">
-<script>{{THEMEJS}}</script>
+{{ADMETA}}<script>{{THEMEJS}}</script>
 <style>{{CSS}}</style>
 <script type="application/ld+json">{{JSONLD}}</script>
 </head>
 <body>
 <a class="skip" href="#utama">Langkau ke kandungan</a>
-<header class="hd">
-<div class="wrap">
-<a class="brand" href="{{SITE}}" aria-label="Al-Quran Online – laman utama"><i aria-hidden="true">📖</i><span>Al-Quran Online</span></a>
-<nav class="nav" aria-label="Navigasi utama">
-<a href="#surah">Senarai Surah</a>
-<a href="#hukum">Hukum</a>
-<a href="#faq">Soalan Lazim</a>
-<a href="{{MAIN}}">ilmualam.com</a>
-</nav>
-<button class="ib inst" id="inst" type="button" hidden>⬇ Pasang</button>
-<button class="ib" id="theme" type="button" aria-label="Tema: automatik">🌓</button>
-</div>
-</header>
+{{HEADER}}
 
 <main id="utama">
 <div class="hero">
@@ -84,6 +71,7 @@
 <h2 id="intro" class="sr">Pengenalan</h2>
 <div class="box"><p><strong>Jawapan ringkas:</strong> Membaca Al-Quran secara digital menggunakan aplikasi atau laman web adalah sah dan diterima jumhur ulama, dengan syarat teks yang dipaparkan tepat dan tidak diubah. Ulama kontemporari membenarkan pembacaan paparan digital tanpa wuduk kerana skrin bukan mushaf fizikal, namun berwuduk tetap digalakkan sebagai tanda hormat kepada kalam Allah.</p></div>
 <p class="meta2">Dikemas kini: <time datetime="{{TODAY}}">{{TODAYMS}}</time> · Disediakan oleh pasukan <a href="{{MAIN}}">The Ilmu Alam</a></p>
+{{SHARE}}
 </div>
 </section>
 
@@ -123,7 +111,7 @@
 <p class="none" id="none" hidden>Tiada surah dijumpai. Cuba kata kunci lain, contohnya “Yasin”, “36” atau “Gua”.</p>
 <noscript><p class="box">Pembaca dalam halaman ini memerlukan JavaScript. Tanpa JavaScript, gunakan pautan “Artikel penuh” pada setiap surah untuk membaca di ilmualam.com.</p></noscript>
 </section>
-
+{{AD1}}
 <section aria-labelledby="h-haid">
 <div class="prose">
 <h3 id="h-haid">Bolehkah Wanita Haid &amp; Nifas Guna Aplikasi Al-Quran?</h3>
@@ -165,7 +153,7 @@
 <div class="box"><p><strong>Penafian:</strong> Kandungan ini ialah maklumat umum untuk tujuan pendidikan dan bukan fatwa. Bagi kes peribadi, dapatkan nasihat daripada mufti atau asatizah bertauliah.</p></div>
 </div>
 </section>
-
+{{AD2}}
 <section aria-labelledby="h-ciri">
 <div class="prose">
 <h2 id="h-ciri">Ciri &amp; Cara Menggunakan Al-Quran Online Ini</h2>
@@ -183,6 +171,13 @@
 <section id="faq" aria-labelledby="h-faq">
 <h2 id="h-faq">Soalan Lazim Mengenai Al-Quran Digital &amp; Mengaji Online (FAQ)</h2>
 {{FAQ}}
+</section>
+{{AD3}}
+
+<section aria-labelledby="h-share">
+<h2 id="h-share">Kongsi Al-Quran Online Ini</h2>
+<p>Bantu keluarga dan rakan membaca Al-Quran dengan mudah. Setiap perkongsian yang membawa orang lain membaca ialah amal jariah, insya-Allah.</p>
+{{SHARE}}
 </section>
 
 <section aria-labelledby="h-rel">
@@ -210,28 +205,7 @@
 </div>
 </main>
 
-<footer class="ft">
-<div class="wrap">
-<p class="tag">Ilmu Tanpa Sempadan, Amal Tanpa Batasan, Akhirat Jua Pengakhiran! 🕌</p>
-<ul aria-label="Kategori">
-<li><a href="https://www.ilmualam.com/search/label/Islamik">Islamik</a></li>
-<li><a href="https://www.ilmualam.com/search/label/Panduan">Panduan</a></li>
-<li><a href="https://www.ilmualam.com/search/label/Doa">Doa</a></li>
-<li><a href="https://www.ilmualam.com/search/label/Ibadah">Ibadah</a></li>
-<li><a href="https://www.ilmualam.com/search/label/Amalan">Amalan</a></li>
-<li><a href="https://www.ilmualam.com/search/label/Hukum">Hukum</a></li>
-<li><a href="https://www.ilmualam.com/search/label/Zikir%20Harian">Zikir Harian</a></li>
-<li><a href="https://www.ilmualam.com/search/label/Produktiviti">Produktiviti</a></li>
-</ul>
-<ul aria-label="Media sosial">
-<li><a href="https://www.facebook.com/ilmualam" rel="noopener me">Facebook</a></li>
-<li><a href="https://twitter.com/ilmualam" rel="noopener me">X / Twitter</a></li>
-<li><a href="https://www.youtube.com/@theilmualam" rel="noopener me">YouTube</a></li>
-<li><a href="https://ilmualam.bsky.social/" rel="noopener me">Bluesky</a></li>
-</ul>
-<p>© 2025–2026 <a href="{{MAIN}}">The Ilmu Alam</a>. Hak cipta terpelihara.</p>
-</div>
-</footer>
+{{FOOTER}}
 
 <script src="assets/js/quran-home.js" defer></script>
 </body>

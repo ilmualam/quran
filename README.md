@@ -1,195 +1,135 @@
-# 📖 Al-Quran Online
+# Al-Quran Online · Ilmu Alam
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/ilmualam/quran)
+**Live:** [quran.ilmualam.com](https://quran.ilmualam.com/) · **Publisher:** [The Ilmu Alam](https://www.ilmualam.com/)
 
-A comprehensive web-based Al-Quran application featuring complete Quranic text with audio recitation and multiple translations. Created to share the beauty of the Quran with Malaysians and Muslims worldwide.
+A free, fast, installable Al-Quran reader for Malay speakers. All 114 surah (6,236 ayat, 30 juzuk) with Arabic text, Rumi transliteration, Bahasa Melayu translation and verse-by-verse audio from five qari. No account, no tracking, works offline.
 
-## 🌟 Features
-
-### Core Functionality
-- **📚 Complete Quran**: All 114 Surahs with complete ayahs
-- **🎧 Audio Recitation**: Multiple renowned reciters including:
-  - Mishary Rashid Alafasy
-  - Mahmoud Khalil Al-Husary
-  - Muhammad Siddiq Al-Minshawi
-  - Abdul Basit
-- **🌍 Multiple Translations**: Support for various languages:
-  - English (Saheeh International, Muhammad Asad, Pickthall, Yusuf Ali)
-  - Malay (Abdullah Basmeih)
-  - Indonesian
-  - Urdu (Jalandhry)
-
-### Interactive Features
-- **🔍 Search**: Search across all verses of the Quran
-- **🔖 Bookmarks**: Save your favorite ayahs for quick access
-- **📋 Copy & Share**: Easily copy and share verses on social media
-- **▶️ Audio Controls**: Play, pause, stop, previous, next with auto-play
-- **🎯 Highlight**: Auto-highlight currently playing ayah
-- **🔁 Repeat Mode**: Repeat individual ayah for memorization
-- **🌙 Night Mode**: Eye-friendly dark theme
-- **📏 Adjustable Font**: Multiple font sizes for comfortable reading
-- **⌨️ Keyboard Shortcuts**: 
-  - `Space` - Play/Pause
-  - `←` - Previous Ayah
-  - `→` - Next Ayah
-
-### Technical Features
-- **📱 Responsive Design**: Works on desktop, tablet, and mobile
-- **⚡ Fast Loading**: Optimized performance with caching
-- **🔄 Progressive Enhancement**: Works even with slow connections
-- **♿ Accessible**: WCAG compliant with semantic HTML
-- **📊 Analytics Ready**: Built-in analytics tracking
-- **🗺️ SEO Optimized**: With structured data and meta tags
-- **💾 Offline Support**: Service worker ready for offline access
-
-## 🏠 Landing page (v3)
-
-`index.html` is a static, pre-rendered landing page for the Quran subdomain (canonical `https://quran.ilmualam.com/`, change it if the final domain differs):
-
-- 114 surah cards are rendered in the HTML (crawlable, no JS needed to see the list); `assets/js/quran-home.js` adds search/filters and an in-page reader that loads `data-surah/surah-N.json` and plays audio from EveryAyah.
-- Inline critical CSS, system fonts only, deferred JS, no layout shift. Lighthouse (local): 99-100 performance, 100 accessibility / best practices / SEO.
-- SEO/AEO/LLM: JSON-LD graph (WebPage, WebApplication, ItemList of 114 surah, FAQPage, BreadcrumbList), `sitemap.xml`, `robots.txt`, `llms.txt`, Open Graph/Twitter tags, CSP meta tag.
-- Reader deep links: `#surah-36` and `#surah-36-ayat-12`.
-- PWA: installable (`manifest.webmanifest`, PNG + maskable icons in `assets/icons/`), offline via `sw.js` (page shell + every surah you open is cached; audio needs internet).
-
-**Editing:** `index.html`, `sw.js`, `manifest.webmanifest`, `robots.txt`, `sitemap.xml` and `llms.txt` are generated. Edit `tools/page.html`, `tools/home.css`, `tools/sw.js` or `tools/build.py`, then run `python3 tools/build.py`. Never hand-edit or merge-resolve `index.html` directly; rebuild it instead.
-
-## 🚀 Getting Started
-
-### Prerequisites
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-- Internet connection (for API access)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/ilmualam/quran.git
-   cd quran
-   ```
-
-2. **Open the application**
-   - Simply open `index.html` in your web browser
-   - Or use a local server:
-     ```bash
-     # Using Python
-     python -m http.server 8000
-     
-     # Using Node.js
-     npx serve
-     
-     # Using PHP
-     php -S localhost:8000
-     ```
-
-3. **Access the application**
-   - Local: Open `http://localhost:8000` in your browser
-   - Online: Visit [https://ilmualam.github.io/quran/](https://ilmualam.github.io/quran/)
-
-### Usage
-
-1. **Select a Surah**: Choose from the dropdown menu
-2. **Choose Reciter**: Select your preferred reciter
-3. **Pick Translation**: Choose your preferred language
-4. **Read and Listen**: Click play or on individual ayah actions
-5. **Search**: Use the search box to find specific verses
-6. **Customize**: Adjust font size and enable night mode as needed
-
-## 📁 Project Structure
-
-```
-quran/
-├── index.html              # Main HTML file
-├── README.md               # Project documentation
-├── LICENSE                 # MIT License
-└── assets/
-    └── js/
-        ├── quran-version2.js    # Main application logic
-        ├── quran-tool.js        # Utility functions
-        └── sitemap.js           # Sitemap generation
-```
-
-## 🛠️ Technology Stack
-
-- **HTML5**: Semantic markup with accessibility features
-- **CSS3**: Modern responsive design with CSS Grid and Flexbox
-- **JavaScript (ES6+)**: Vanilla JavaScript with async/await
-- **API**: [AlQuran Cloud API](https://alquran.cloud/api) for Quran data
-- **Audio**: [Islamic Network CDN](https://cdn.islamic.network/) for audio recitations
-
-## 📱 Browser Support
-
-| Browser | Version |
-|---------|---------|
-| Chrome  | 90+     |
-| Firefox | 88+     |
-| Safari  | 14+     |
-| Edge    | 90+     |
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 API Reference
-
-This project uses the [AlQuran Cloud API](https://alquran.cloud/api) which provides:
-- Quran text in multiple editions
-- Audio recitations
-- Translations in multiple languages
-- Search functionality
-
-## 🐛 Known Issues
-
-None at the moment. If you find any bugs, please [open an issue](https://github.com/ilmualam/quran/issues).
-
-## 🔮 Future Enhancements
-
-- [ ] Offline mode with service workers
-- [ ] Tajweed highlighting
-- [ ] Multiple bookmarks with notes
-- [ ] Reading progress tracking
-- [ ] Custom color themes
-- [ ] Word-by-word translation
-- [ ] Verse memorization tools
-- [ ] Daily verse notifications
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👥 Authors
-
-- **ilmualam.com** - *Initial work* - [ilmualam](https://github.com/ilmualam)
-
-## 🙏 Acknowledgments
-
-- **AlQuran Cloud API** for providing comprehensive Quran data
-- **Islamic Network** for audio recitations
-- All the reciters whose beautiful recitations are featured
-- The open-source community for inspiration and support
-- Malaysian Muslim community for whom this was created
-
-## 📞 Contact
-
-- Website: [ilmualam.com]([https://ilmualam.com](https://www.ilmualam.com/p/al-quran-online.html))
-- GitHub: [@ilmualam](https://github.com/ilmualam)
-- Contact: [ilmualam.com]([https://ilmualam.com/p/contact.html](https://www.ilmualam.com/p/contact.html))
-
-## 💝 Support
-
-If you find this project useful, please consider:
-- ⭐ Starring this repository
-- 🐛 Reporting bugs
-- 💡 Suggesting new features
-- 🤲 Making dua for the developers and all Muslims
+The site is a single static page generated by a small Python build. GitHub Pages serves it with no server, database or framework.
 
 ---
 
-**Made with ❤️ for Muslims worldwide | الحمد لله**
+## Features
+
+| Area | What it does |
+|---|---|
+| **Reader** | Opens any surah in a full-screen reader (`#surah-36`, `#surah-36-ayat-12`). Views: all / Arabic / Rumi / Malay. Adjustable Arabic size. Bookmarks, copy, share, and resume where you left off. |
+| **Audio** | Verse-by-verse murottal from EveryAyah.com: Alafasy, As-Sudais, Al-Husary, Abdul Basit, Al-Ghamadi. Auto-advance and lock-screen controls (Media Session). |
+| **Surah list** | All 114 surah pre-rendered in the HTML, so it's crawlable without JavaScript. Instant search by name, number or meaning, plus filters (popular, Juz 30, Makkiyyah, Madaniyyah). Each card links to the full article on ilmualam.com. |
+| **PWA** | Installable, with icons, shortcuts and a maskable icon. A service worker caches the page and every surah opened, so reading works offline. Only audio needs a connection. |
+| **Performance** | Inline critical CSS, one deferred script, self-hosted Amiri font (Arabic subset), chunked rendering. Lighthouse mobile: 97–100 performance, 100 accessibility, best practices and SEO. CLS ≈ 0. |
+| **SEO / AEO** | JSON-LD graph (Organization, WebSite, WebPage + speakable, BreadcrumbList, WebApplication, ItemList of 114 surah, FAQPage). Also Open Graph/Twitter cards, `sitemap.xml`, AI-crawler-friendly `robots.txt` and `llms.txt`. |
+| **Privacy & ads** | `dasar-privasi.html` (privacy, PDPA 2010, terms, disclaimer). AdSense support is built in but off until configured, and ads are never shown inside the reader. |
+| **Sharing** | WhatsApp, Telegram, Facebook, X, copy link and native share. These are plain links with no third-party scripts. |
+
+## How it works
+
+```
+tools/ (source)                      build.py                     site root (generated, deployed)
+─────────────────────                ─────────                    ───────────────────────────────
+page.html, privacy.html  ─┐                                  ┌─>  index.html, dasar-privasi.html
+header.html, footer.html  ├─>  templates + data + CSS  ─────┼─>  sw.js, manifest.webmanifest
+home.css (+ quran.min.css)│    -> HTML, JSON-LD, SW, maps   ├─>  sitemap.xml, robots.txt, llms.txt
+surahs.py, data-surah/*   ┘                                  └─>  assets/js/surah-cta.js
+```
+
+Runtime has no dependencies: `assets/js/quran-home.js` (vanilla JS, ~16 KB) adds search, the reader, audio, sharing and PWA install on top of the pre-rendered HTML.
+
+## Project structure
+
+```
+quran/
+├── index.html                 # GENERATED: landing page + reader
+├── dasar-privasi.html         # GENERATED: privacy policy, terms, disclaimer
+├── sw.js                      # GENERATED: service worker (version = content hash)
+├── manifest.webmanifest       # GENERATED: PWA manifest
+├── sitemap.xml · robots.txt · llms.txt   # GENERATED
+├── favicon.ico · CNAME
+├── data-surah/surah-1…114.json           # Arabic, Rumi, Malay translation per ayat
+├── assets/
+│   ├── js/quran-home.js       # landing page + reader runtime
+│   ├── js/surah-cta.js        # GENERATED: "read & listen" box for ilmualam.com articles
+│   ├── css/quran.min.css      # reader component styles (inlined by the build)
+│   ├── fonts/                 # Amiri Arabic subset (SIL OFL 1.1)
+│   └── icons/                 # PWA icons, favicon, logo
+├── tools/                     # SOURCE: edit these, then run the build
+│   ├── build.py               # the build (config at the top: dates, AdSense)
+│   ├── cssbuild.py            # merges + minifies CSS
+│   ├── surahs.py              # surah names, meanings, juz, article URLs
+│   ├── page.html · privacy.html · header.html · footer.html
+│   ├── home.css · sw.js · surah-cta.js
+└── engine/ · micro/ · assets/khatam/ · other assets/js|css files
+                               # widgets embedded in ilmualam.com posts; see below
+```
+
+## Development
+
+Requires only **Python 3.8+**. No packages, no Node.
+
+```bash
+git clone https://github.com/ilmualam/quran.git && cd quran
+python3 tools/build.py          # regenerate every generated file
+python3 -m http.server 8000     # open http://localhost:8000
+```
+
+The build prints a one-line report: page size, total ayat (it must be 6,236), whether ads are on, and any surah still missing an article link.
+
+> **Rule:** never hand-edit or merge-resolve the generated files (`index.html`, `sw.js`, etc.). Change the source in `tools/` and rebuild. If two branches conflict in a generated file, take either side and run the build again.
+
+### Common tasks
+
+| Task | Where |
+|---|---|
+| Change text, sections or FAQ | `tools/page.html`, FAQ list in `tools/build.py` |
+| Change header / footer links | `tools/header.html`, `tools/footer.html` |
+| Change styles | `tools/home.css` (landing), `assets/css/quran.min.css` (reader) |
+| Update the "last updated" date | `TODAY` in `tools/build.py` |
+| Add or fix a surah article link | `ARTICLES` in `tools/surahs.py` |
+| Enable AdSense | `ADS_CLIENT` + `ADS_SLOTS` in `tools/build.py` |
+
+### Enabling AdSense
+
+Set your publisher ID and up to three ad-unit slot IDs at the top of `tools/build.py`, then rebuild:
+
+```python
+ADS_CLIENT = "ca-pub-XXXXXXXXXXXXXXXX"
+ADS_SLOTS = ["1234567890", "2345678901", "3456789012"]
+```
+
+- Slots sit after the surah list, after "Konteks Malaysia" and after the FAQ. Each reserves its height, so ads cause no layout shift.
+- The AdSense script loads only after the visitor's first scroll or tap (or 4 seconds), so it never delays LCP.
+- The Content Security Policy is relaxed only while ads are enabled.
+- Turn on Google's consent message (AdSense → Privacy & messaging) for EEA/UK visitors.
+
+## Article button on ilmualam.com (Blogger)
+
+`assets/js/surah-cta.js` adds a "🎧 Baca & Dengar Surah …" box to each of the 114 surah articles on www.ilmualam.com, linking to that surah in this reader. The build generates it from `ARTICLES`, so it stays in sync. It runs only on matching article URLs and inserts the box before the first subheading, so it doesn't shift what the reader is already looking at.
+
+Install it once in Blogger (**Layout → Add a Gadget → HTML/JavaScript**, or just before `</body>` in the theme):
+
+```html
+<script defer src="https://quran.ilmualam.com/assets/js/surah-cta.js"></script>
+```
+
+## Deployment
+
+GitHub Pages serves the `main` branch root; `CNAME` points it at `quran.ilmualam.com`. Pushing to `main` deploys within about a minute. Each build changes the service worker's version hash, so returning visitors get the new version on their next visit.
+
+## Legacy widgets (do not delete blindly)
+
+`engine/`, `micro/`, `assets/khatam/` and the older files in `assets/js/` and `assets/css/` (`quran-engine*.js`, `quran.v2*.css`, `doa-kerja-js`, `sitemap.js`, …) are not used by quran.ilmualam.com. Older posts on www.ilmualam.com may still load them from this domain, though. Before removing any of them, search the Blogger theme and posts for the filename.
+
+## Data sources & credits
+
+- **Arabic text & Malay translation:** Uthmani text and the Abdullah Muhammad Basmeih translation, as published by [AlQuran Cloud](https://alquran.cloud/), stored in `data-surah/`.
+- **Audio:** [EveryAyah.com](https://everyayah.com/), streamed directly. Credit to each qari.
+- **Font:** [Amiri](https://www.amirifont.org/) by Khaled Hosny, SIL Open Font License 1.1 (`assets/fonts/AMIRI-OFL-LICENSE.txt`).
+
+Always verify against a printed mushaf approved by the religious authorities. Report text errors via [ilmualam.com/p/contact.html](https://www.ilmualam.com/p/contact.html).
+
+## License
+
+Source code: [MIT](LICENSE), except files that carry their own copyright header. Quran text, translation, audio and font remain under their respective owners' terms.
+
+---
+
+© 2025–2026 [The Ilmu Alam](https://www.ilmualam.com/) · *Ilmu Tanpa Sempadan, Amal Tanpa Batasan, Akhirat Jua Pengakhiran.*

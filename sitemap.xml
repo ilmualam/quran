@@ -3,7 +3,9 @@
   <url>
     <loc>https://quran.ilmualam.com/</loc>
     <lastmod>2026-10-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://quran.ilmualam.com/dasar-privasi.html</loc>
+    <lastmod>2026-10-10</lastmod>
   </url>
 </urlset>

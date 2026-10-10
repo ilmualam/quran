@@ -1,4 +1,4 @@
-/*! IlmuAlam Quran Home v3.2 | © ilmualam.com | dependency-free, delegated events, chunked rendering */
+/*! IlmuAlam Quran Home v3.3 | © ilmualam.com | dependency-free, delegated events, chunked rendering */
 (()=>{"use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={
@@ -29,7 +29,7 @@ setTheme(store.get("theme","auto"));
 themeBtn?.addEventListener("click",()=>{const c=store.get("theme","auto");setTheme(c==="auto"?"light":c==="light"?"dark":"auto",true)});
 
 /* ---------- surah list ---------- */
-const grid=$("#grid"),cards=$$(".sc",grid),search=$("#q"),count=$("#cnt"),none=$("#none");
+const grid=$("#grid"),cards=grid?$$(".sc",grid):[],search=$("#q"),count=$("#cnt"),none=$("#none");
 let filter="all",timer=0;
 const POP=new Set((grid?.dataset.pop||"").split(",").map(Number));
 function applyFilter(){
@@ -144,7 +144,7 @@ function render(rv,ayat){
     av.insertAdjacentHTML("beforeend",h);
     if(goTo&&!jumped&&at>=goTo){jumped=true;requestAnimationFrame(()=>{const el=mark(goTo-1);if(!el)return;el.scrollIntoView({block:"start"});setTimeout(()=>{if(token===renderToken)el.scrollIntoView({block:"start"})},120)})}
     if(at<verses.length)setTimeout(chunk,0);
-    else av.insertAdjacentHTML("afterend",`<div class="rf">${sNo>1?`<a href="#surah-${sNo-1}">‹ ${esc(info(sNo-1).name)}</a>`:"<span></span>"}${sNo<114?`<a href="#surah-${sNo+1}">${esc(info(sNo+1).name)} ›</a>`:""}</div>`);
+    else av.insertAdjacentHTML("afterend",`<div class="rf">${sNo>1?`<a href="#surah-${sNo-1}">‹ ${esc(info(sNo-1).name)}</a>`:"<span></span>"}<a href="https://wa.me/?text=${encodeURIComponent(`Jom baca & dengar Surah ${info(sNo).name}: ${baseUrl()}#surah-${sNo}`)}" target="_blank" rel="noopener nofollow">Kongsi WhatsApp</a>${sNo<114?`<a href="#surah-${sNo+1}">${esc(info(sNo+1).name)} ›</a>`:""}</div>`);
   })();
 }
 function mark(i){
@@ -216,6 +216,29 @@ function showResume(){
 }
 showResume();
 applyFilter();
+
+/* ---------- share bar ---------- */
+if(navigator.share)$$('[data-share="native"]').forEach(b=>b.hidden=false);
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-share]");if(!b)return;
+  if(b.dataset.share==="copy")return copy(b.dataset.url,"Pautan disalin ✓");
+  navigator.share({title:document.title,text:b.dataset.title,url:b.dataset.url}).catch(()=>{});
+});
+
+/* ---------- AdSense: load only after the first interaction or 4s idle so ads never delay LCP/INP ---------- */
+const slots=$$("ins.adsbygoogle");
+if(slots.length){
+  let done=false;const evs=["scroll","pointerdown","keydown","touchstart"];
+  const go=()=>{
+    if(done)return;done=true;evs.forEach(t=>removeEventListener(t,go));
+    const s=document.createElement("script");s.async=true;s.crossOrigin="anonymous";
+    s.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+encodeURIComponent(slots[0].dataset.adClient);
+    document.head.appendChild(s);
+    slots.forEach(()=>{try{(window.adsbygoogle=window.adsbygoogle||[]).push({})}catch{}});
+  };
+  evs.forEach(t=>addEventListener(t,go,{once:true,passive:true}));
+  addEventListener("load",()=>setTimeout(go,4000));
+}
 
 /* ---------- PWA: offline cache + install button ---------- */
 if("serviceWorker" in navigator&&isSecureContext)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
