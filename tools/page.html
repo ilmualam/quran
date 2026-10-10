@@ -15,7 +15,15 @@
 <link rel="alternate" hreflang="ms-MY" href="{{SITE}}">
 <link rel="alternate" hreflang="x-default" href="{{SITE}}">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Al-Quran">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="application-name" content="Al-Quran Online">
+<link rel="preload" href="assets/fonts/amiri-arabic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Ilmu Alam">
 <meta property="og:locale" content="ms_MY">
@@ -46,6 +54,7 @@
 <a href="#faq">Soalan Lazim</a>
 <a href="{{MAIN}}">ilmualam.com</a>
 </nav>
+<button class="ib inst" id="inst" type="button" hidden>⬇ Pasang</button>
 <button class="ib" id="theme" type="button" aria-label="Tema: automatik">🌓</button>
 </div>
 </header>
@@ -74,7 +83,7 @@
 <div class="prose">
 <h2 id="intro" class="sr">Pengenalan</h2>
 <div class="box"><p><strong>Jawapan ringkas:</strong> Membaca Al-Quran secara digital menggunakan aplikasi atau laman web adalah sah dan diterima jumhur ulama, dengan syarat teks yang dipaparkan tepat dan tidak diubah. Ulama kontemporari membenarkan pembacaan paparan digital tanpa wuduk kerana skrin bukan mushaf fizikal, namun berwuduk tetap digalakkan sebagai tanda hormat kepada kalam Allah.</p></div>
-<p class="meta2">Dikemas kini: <time datetime="{{TODAY}}">8 Oktober 2026</time> · Disediakan oleh pasukan <a href="{{MAIN}}">The Ilmu Alam</a></p>
+<p class="meta2">Dikemas kini: <time datetime="{{TODAY}}">{{TODAYMS}}</time> · Disediakan oleh pasukan <a href="{{MAIN}}">The Ilmu Alam</a></p>
 </div>
 </section>
 
