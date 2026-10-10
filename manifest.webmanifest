@@ -13,7 +13,7 @@
     "minimal-ui"
   ],
   "orientation": "any",
-  "background_color": "#f4f8f5",
+  "background_color": "#ffffff",
   "theme_color": "#0c3808",
   "categories": [
     "education",
@@ -38,12 +38,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    },
-    {
-      "src": "favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
     }
   ],
   "shortcuts": [

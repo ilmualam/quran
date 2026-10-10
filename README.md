@@ -53,7 +53,10 @@ A comprehensive web-based Al-Quran application featuring complete Quranic text w
 - Reader deep links: `#surah-36` and `#surah-36-ayat-12`.
 - PWA: installable (`manifest.webmanifest`, PNG + maskable icons in `assets/icons/`), offline via `sw.js` (page shell + every surah you open is cached; audio needs internet).
 
-**Editing:** `index.html`, `sw.js`, `manifest.webmanifest`, `robots.txt`, `sitemap.xml` and `llms.txt` are generated. Edit `tools/page.html`, `tools/home.css`, `tools/sw.js` or `tools/build.py`, then run `python3 tools/build.py`. Never hand-edit or merge-resolve `index.html` directly; rebuild it instead.
+**Editing:** `index.html`, `dasar-privasi.html`, `sw.js`, `manifest.webmanifest`, `robots.txt`, `sitemap.xml` and `llms.txt` are generated. Edit the sources in `tools/` (`page.html`, `privacy.html`, `header.html`, `footer.html`, `home.css`, `sw.js`, `build.py`), then run `python3 tools/build.py`. Never hand-edit or merge-resolve the generated files; rebuild them instead.
+
+- **AdSense:** set `ADS_CLIENT` and `ADS_SLOTS` at the top of `tools/build.py`, then rebuild. Three in-content slots (after the surah list, after "Konteks Malaysia", after the FAQ) reserve their height to avoid CLS, and the AdSense script loads only after the first scroll/tap or 4s. No ads inside the surah reader.
+- **Article links:** add missing surah article URLs to `EXTRA_URLS` in `tools/surahs.py`; the build prints which surah still have none.
 
 ## 🚀 Getting Started
 
