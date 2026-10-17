@@ -402,7 +402,8 @@ if(sw){
   }
   setInterval(tick,20000);
   const byslug=s=>{const c=C.find(x=>x[0]===s);return c&&{slug:c[0],name:c[1],lat:c[3],lng:c[4],zone:c[5]}};
-  function pick(slug,save){const l=byslug(slug)||byslug("kuala-lumpur");sel.value=l.slug;if(save){store.set("solat",l.slug);writeHash({bandar:l.slug})}render(l)}
+  const DEF=S.def||"kuala-lumpur",KEY=S.key||"solat";
+  function pick(slug,save){const l=byslug(slug)||byslug(DEF);sel.value=l.slug;if(save){store.set(KEY,l.slug);writeHash({bandar:l.slug})}render(l)}
   sel.addEventListener("change",()=>pick(sel.value,true));
   $("#sgeo").addEventListener("click",()=>{
     if(!navigator.geolocation)return toast("Lokasi tidak disokong");
@@ -415,6 +416,13 @@ if(sw){
     },()=>toast("Kebenaran lokasi ditolak"),{timeout:10000,maximumAge:6e5});
   });
   toolbar($("#sact"),{});
-  const h=readHash();pick(byslug(h.bandar)?h.bandar:store.get("solat","kuala-lumpur"),false);
+  const h=readHash();pick(byslug(h.bandar)?h.bandar:store.get(KEY,DEF),false);
+  // state pages: today's official times for every zone in the state (build-time values, refreshed for today's date)
+  const zt=$("#szt");
+  if(zt){zt.addEventListener("click",e=>{const a=e.target.closest("a[data-zone]");if(!a)return;e.preventDefault();pick(a.dataset.zone,true);$("#kira").scrollIntoView({block:"start"})});const d=today(),y=d.getFullYear();
+    $$("tr[data-z]",zt).forEach(async tr=>{const o=await official(tr.dataset.z,y);if(!o)return;const t=o.t[doy(d)];
+      $$("td[data-k]",tr).forEach(td=>{const v=hm(t[+td.dataset.k]);if(td.textContent!==v)td.textContent=v})});
+    const zd=$("#sztd");if(zd)setIf(zd,dlong(d));
+  }
 }
 })();

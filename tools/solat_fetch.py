@@ -4,7 +4,7 @@ Source 1: www.e-solat.gov.my (JAKIM). Source 2: api.waktusolat.app (open mirror 
 A zone file is written only when a full year passes validation; otherwise the site falls back to calculation."""
 import json, os, sys, time, datetime as dt, urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from solat import CITIES, solat_day
+from solat import CITIES, ZONES, solat_day
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = f"{REPO}/assets/data/solat"
@@ -71,7 +71,15 @@ def valid(days, year, label=""):
 def main():
     years = [int(a) for a in sys.argv[1:]] or [dt.date.today().year]
     os.makedirs(OUT, exist_ok=True)
-    zones = sorted({c[5] for c in CITIES if c[5]})
+    zones = sorted({c[5] for c in CITIES if c[5]} | {z[0] for z in ZONES})
+    try:  # JAKIM's own zone list (codes, state, area names) via the waktusolat.app mirror; used for page wording
+        zl = get("https://api.waktusolat.app/zones")
+        if isinstance(zl, list) and zl and all(isinstance(x, dict) and x.get("jakimCode") for x in zl):
+            json.dump(zl, open(f"{OUT}/zones.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+            listed = {x["jakimCode"] for x in zl}
+            print("zone list:", len(zl), "zones; not in our table:", sorted(listed - zones) or "none", "; not in JAKIM list:", sorted(zones - listed) or "none")
+    except Exception as e:
+        print("zone list unavailable:", repr(e))
     ok, bad = [], []
     for year in years:
         for z in zones:
@@ -92,7 +100,7 @@ def main():
                 bad.append(f"{z}-{year}")
                 continue
             keys = sorted(days)
-            c = next(c for c in CITIES if c[5] == z)
+            c = next((c for c in CITIES if c[5] == z), None) or next((("", "", "", q[3], q[4]) for q in ZONES if q[0] == z))
             odd = [k.isoformat() for k in keys if max(abs(a - b) for a, b in zip(days[k][0][2:], solat_day(k.year, k.month, k.day, c[3], c[4])[2:])) > 10]
             if odd:  # kept as published, but flagged for a human to look at
                 print(f"{z} {year}: {len(odd)} day(s) differ from the calculation by >10 min: {odd[:5]}")
