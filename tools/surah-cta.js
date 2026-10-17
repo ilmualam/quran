@@ -6,6 +6,7 @@ if(!m||document.querySelector(".ilmq-cta"))return;
 const body=document.querySelector(".post-body,.entry-content,.post-entry,.post-content");
 if(!body)return;
 const [n,name,ar,ayat]=m,url="{{SITE}}#surah-"+n;
+const L=[["jadual-khatam-al-quran/","📅 Jadual Khatam"],["tasbih-digital/","📿 Tasbih Digital"],["doa-harian/","🤲 Doa Harian"],["waktu-solat/","🕌 Waktu Solat"],["belajar-tajwid/","📘 Belajar Tajwid"]];
 
 const css=document.createElement("style");
 css.textContent=`.ilmq-cta,.ilmq-cta *{box-sizing:border-box}
@@ -15,13 +16,16 @@ css.textContent=`.ilmq-cta,.ilmq-cta *{box-sizing:border-box}
 .ilmq-cta__desc{margin:4px 0 0;font-size:14px;color:#e2f6e8}
 .ilmq-cta__btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border-radius:12px;background:#fff;color:#0c3808!important;font-weight:800;text-decoration:none!important;white-space:nowrap}
 .ilmq-cta__btn:hover{background:#eaf5ed}
+.ilmq-cta__links{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:10px 0 0;border-top:1px solid rgba(255,255,255,.18);list-style:none}
+.ilmq-cta__links a{display:inline-block;padding:5px 11px;border-radius:999px;background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.22);color:#fff!important;font-size:13px;font-weight:700;text-decoration:none!important}
+.ilmq-cta__links a:hover{background:rgba(0,0,0,.35)}
 @media(max-width:560px){.ilmq-cta{grid-template-columns:1fr}.ilmq-cta__btn{width:100%}}`;
 document.head.appendChild(css);
 
 const box=document.createElement("aside");
 box.className="ilmq-cta";
 box.setAttribute("aria-label","Baca dan dengar Surah "+name);
-box.innerHTML=`<div><p class="ilmq-cta__title">🎧 Baca &amp; Dengar Surah ${name}<span class="ilmq-cta__ar" lang="ar" dir="rtl">${ar}</span></p><p class="ilmq-cta__desc">${ayat} ayat penuh: teks Arab, Rumi, terjemahan Melayu &amp; audio 5 qari. Percuma, tanpa daftar.</p></div><a class="ilmq-cta__btn" href="${url}">Baca &amp; Dengar ›</a>`;
+box.innerHTML=`<div><p class="ilmq-cta__title">🎧 Baca &amp; Dengar Surah ${name}<span class="ilmq-cta__ar" lang="ar" dir="rtl">${ar}</span></p><p class="ilmq-cta__desc">${ayat} ayat penuh: teks Arab, Rumi, terjemahan Melayu &amp; audio 5 qari. Percuma, tanpa daftar.</p></div><a class="ilmq-cta__btn" href="${url}">Baca &amp; Dengar ›</a><ul class="ilmq-cta__links" aria-label="Alat Al-Quran">${L.map(([p,t])=>`<li><a href="{{SITE}}${p}">${t}</a></li>`).join("")}</ul>`;
 
 // before the first subheading keeps the box below the fold on most posts, so it never shifts what the reader is looking at
 const h=body.querySelector("h2,h3");

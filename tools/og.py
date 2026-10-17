@@ -1,6 +1,5 @@
 """1200x630 social cards (Open Graph / X) in the site's green, one per page. Only (re)drawn when missing or when the text changes."""
 import os, hashlib
-from PIL import Image, ImageDraw, ImageFont
 
 SCR = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(SCR)
@@ -28,8 +27,9 @@ def card(name, title, sub):
     h = hashlib.sha1(f"v2|{title}|{sub}".encode()).hexdigest()
     if os.path.exists(path) and os.path.exists(stamp) and open(stamp).read() == h:
         return f"assets/og/{name}.jpg"
-    if not os.path.exists(BOLD):  # fonts missing on this machine: keep whatever card is committed
+    if not os.path.exists(BOLD):  # fonts missing on this machine (e.g. CI): keep whatever card is committed
         return f"assets/og/{name}.jpg" if os.path.exists(path) else None
+    from PIL import Image, ImageDraw, ImageFont
     W, H = 1200, 630
     im = Image.new("RGB", (W, H))
     px = im.load()
