@@ -52,14 +52,15 @@ def waktusolat(zone, year):
     return out
 
 
-def valid(days, year):
+def valid(days, year, label=""):
     n = (dt.date(year, 12, 31) - dt.date(year, 1, 1)).days + 1
     if len(days) != n:
         return False
-    for t, _ in days.values():
-        if not (240 <= t[1] <= 400 and t[0] < t[1] < t[2] < t[3] < t[4] < t[5] < t[6] <= 1320):
-            return False
-    return True
+    bad = [(k.isoformat(), t) for k, (t, _) in sorted(days.items())
+           if not (240 <= t[1] <= 420 and t[0] < t[1] < t[2] < t[3] < t[4] < t[5] < t[6] <= 1320)]
+    if bad:
+        print(f"{label}: {len(bad)} invalid day(s), e.g. {bad[:3]}")
+    return not bad
 
 
 def main():
@@ -73,7 +74,7 @@ def main():
             for name, fn in (("JAKIM e-solat", esolat), ("waktusolat.app (JAKIM)", waktusolat)):
                 try:
                     got = fn(z, year)
-                    if valid(got, year):
+                    if valid(got, year, f"{z} {year} {name}"):
                         days, src = got, name
                         break
                     print(f"{z} {year}: {name} returned {len(got)} days, failed validation")

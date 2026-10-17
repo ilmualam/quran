@@ -41,7 +41,7 @@ CITIES = [
     ("besut", "Besut (Kampung Raja)", "Terengganu", 5.790, 102.570, "TRG02"),
     ("kota-bharu", "Kota Bharu", "Kelantan", 6.125, 102.238, "KTN01"),
     ("kuala-krai", "Kuala Krai", "Kelantan", 5.531, 102.201, "KTN01"),
-    ("gua-musang", "Gua Musang", "Kelantan", 4.884, 101.968, "KTN03"),
+    ("gua-musang", "Gua Musang", "Kelantan", 4.884, 101.968, "KTN02"),
     ("alor-setar", "Alor Setar", "Kedah", 6.121, 100.367, "KDH01"),
     ("sungai-petani", "Sungai Petani", "Kedah", 5.647, 100.488, "KDH02"),
     ("kulim", "Kulim", "Kedah", 5.365, 100.562, "KDH05"),
