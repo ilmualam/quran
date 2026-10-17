@@ -90,3 +90,68 @@ table.plan td a{font-weight:700;text-decoration:none}
 .chips2 button{flex:none;white-space:nowrap}
 .tool{margin-inline:-4px}
 }
+/* doa + zikir cards */
+.dsec{margin-bottom:28px}
+.dsec[hidden]{display:none}
+.dsh{margin:22px 0 10px}
+.dw{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:14px 16px;margin:0 0 12px;scroll-margin-top:80px}
+.dw[hidden]{display:none}
+.dh{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.dh h3{margin:0 0 6px;font-size:1.05rem}
+.zn{flex:none;font-weight:800;color:var(--lk);background:var(--muted);border-radius:999px;padding:2px 10px;font-size:.85rem}
+.dar{font:400 1.6rem/2.15 var(--ar);text-align:right;margin:4px 0 8px}
+.dar mark{background:rgba(36,151,73,.16);color:inherit;border-radius:6px;padding:0 2px}
+.dar .an{font-size:1.1rem;color:var(--sub)}
+.dru{color:var(--sub);font-size:.95rem;margin:0 0 6px}
+.dmn{margin:0 0 6px}
+.dnote{font-size:.9rem;color:var(--sub);border-left:3px solid var(--gold);padding-left:10px}
+.df{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding-top:8px;border-top:1px dashed var(--bd);font-size:.85rem}
+.dsrc{color:var(--sub)}
+.dbtn{display:flex;gap:6px}
+.btn2.sm{min-height:36px;padding:0 12px;font-size:.85rem}
+.zhd{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin:0 0 6px}
+.zhd h2{margin:0;flex:1 1 auto}
+.zprog{margin:0;font-weight:700;color:var(--lk);font-variant-numeric:tabular-nums}
+.zc{min-width:104px;min-height:36px;padding:0 12px;border-radius:999px;border:0;background:var(--d);color:#fff;font-weight:800;font-size:.88rem;font-variant-numeric:tabular-nums}
+.zc.done{background:var(--g);color:#04130a}
+/* waktu solat */
+.sw{margin:0 0 14px}
+.sdate{margin:0 0 10px;font-weight:800}
+.shij{font-weight:600;color:var(--sub);font-size:.9rem;display:inline-block;min-height:1.5em}
+.stimes{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(100%,128px),1fr))}
+.stimes li{display:flex;flex-direction:column;align-items:center;padding:10px 6px;border:1px solid var(--bd);border-radius:14px;background:var(--bg)}
+.stimes li.nx{background:var(--d);border-color:var(--d);color:#fff}
+.sn{font-size:.85rem;font-weight:700;opacity:.85}
+.st{font-size:1.45rem;font-weight:800;font-variant-numeric:tabular-nums}
+.snext{min-height:1.6em;font-weight:800;color:var(--lk);margin:0 0 6px}
+.ssrc,.sqb{font-size:.88rem;color:var(--sub);margin:0 0 6px}
+.smon{min-width:620px}
+.smon caption{text-align:left;font-weight:800;padding:10px 12px}
+.smon td,.smon th{font-variant-numeric:tabular-nums;white-space:nowrap}
+.smon tr.today td{background:rgba(36,151,73,.14);font-weight:800}
+@media(max-width:699px){.stimes{grid-template-columns:repeat(4,minmax(0,1fr))}.st{font-size:1.15rem}.sn{font-size:.75rem}}
+/* tajwid */
+.tjg{display:grid;gap:14px}
+@media(min-width:800px){.tjg{grid-template-columns:1fr 1fr}}
+.tjgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;direction:rtl}
+.tjgrid button{min-height:46px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);font:400 1.45rem/1 var(--ar)}
+.tjgrid button[aria-pressed=true]{background:var(--d);color:#fff;border-color:var(--d)}
+.tjout{background:var(--muted);border:1px solid var(--bd);border-left:5px solid var(--g);border-radius:14px;padding:12px 16px;min-height:150px}
+.tjout p{margin:0 0 6px}
+.tjh span{font:400 1.5rem/1.4 var(--ar)}
+.tjx .tjw{display:block;font-size:1.9rem}
+.tjl{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))}
+.tjl li{display:flex;flex-direction:column;gap:2px;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 14px}
+.tjw{font:400 1.7rem/1.9 var(--ar);text-align:right;color:var(--lk)}
+.tjr{font-size:.85rem;font-weight:700}
+.tje{font-size:.88rem;color:var(--sub)}
+.qz{min-height:230px}
+.qzn{color:var(--sub);font-size:.9rem;margin:0}
+.qzw{font:400 2.2rem/2 var(--ar);text-align:center;margin:6px 0 0;color:var(--lk)}
+.qzr{text-align:center;color:var(--sub);font-size:.85rem;margin:0 0 10px}
+.qzo{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));margin:0 0 10px}
+.qzo .ok{background:var(--g);color:#04130a;border-color:var(--g)}
+.qzo .no{border-color:#c0392b;color:#c0392b}
+.qzf{min-height:3em}
+.qzs{font-size:1.15rem}
+@media print{.zc,.dbtn,#tj,#qz,.tjgrid{display:none!important}}

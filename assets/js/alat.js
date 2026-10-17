@@ -256,4 +256,143 @@ if(cf&&Q){
   $$("[data-q]").forEach(b=>b.addEventListener("click",()=>{q.value=b.dataset.q;run(false);q.scrollIntoView({block:"start"})}));
   const h=readHash();if(h.q){q.value=h.q;run(false)}
 }
+/* ---------- doa: filter, search, copy ---------- */
+const df=$("#df");
+if(df){
+  const items=$$(".dw"),q=$("#dq"),cnt=$("#dcnt");let cat="all";
+  const fold=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+  function apply(){
+    const v=fold(q.value.trim());let n=0;
+    for(const it of items){const ok=(cat==="all"||it.dataset.c===cat)&&(!v||fold(it.dataset.q).includes(v));if(it.hidden===ok)it.hidden=!ok;if(ok)n++}
+    $$(".dsec").forEach(s=>{s.hidden=!$$(".dw",s).some(x=>!x.hidden)});
+    cnt.textContent=n===items.length?`${n} doa dan ayat`:`Menunjukkan ${n} daripada ${items.length}`;
+  }
+  q.addEventListener("input",apply);df.addEventListener("submit",e=>{e.preventDefault();apply()});
+  $("#dcat").addEventListener("click",e=>{const b=e.target.closest("button[data-c]");if(!b)return;cat=b.dataset.c;$$("#dcat button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));apply()});
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-copy]");if(!b)return;
+  const c=b.closest("[data-txt]");if(!c)return;
+  copy(`${c.dataset.txt}\n\n${location.origin+location.pathname}#${c.id}`,"Disalin ✓");
+});
+
+/* ---------- zikir: per-item counters, reset daily ---------- */
+const zk=$(".zk");
+if(zk){
+  const key="zikir:"+iso(today());let st=store.get(key,{});
+  function paint(){
+    $$(".zc").forEach(b=>{const n=+b.dataset.n,c=Math.min(st[b.dataset.id]||0,n);b.textContent=c>=n?"✓ Selesai":`${c} / ${n}`;b.classList.toggle("done",c>=n);b.setAttribute("aria-label",`Kira ${b.dataset.t}: ${c} daripada ${n}`)});
+    $$(".zsec").forEach(s=>{const bs=$$(".zc",s),d=bs.filter(b=>(st[b.dataset.id]||0)>=+b.dataset.n).length,p=$(".zprog",s);if(p)p.textContent=`${d} / ${bs.length} selesai hari ini`});
+  }
+  document.addEventListener("click",e=>{
+    const b=e.target.closest(".zc");
+    if(b){const n=+b.dataset.n,c=(st[b.dataset.id]||0);if(c<n){st[b.dataset.id]=c+1;if(navigator.vibrate)try{navigator.vibrate(c+1>=n?[60,40,60]:10)}catch{}}store.set(key,st);paint();return}
+    const r=e.target.closest("[data-zreset]");
+    if(r){$$(".zc",r.closest(".zsec")).forEach(x=>delete st[x.dataset.id]);store.set(key,st);paint();toast("Kiraan diset semula")}
+  });
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith("ilmq:zikir:")&&k!=="ilmq:"+key)localStorage.removeItem(k)}}catch{}
+  paint();
+}
+
+/* ---------- tajwid: nun/mim analyser + quiz ---------- */
+const tj=$("#tj");
+if(tj){
+  const T=JSON.parse($("#tjd").textContent),out=$("#tjout");let mode="nun";
+  const rule=(m,h)=>m==="nun"?(T.halqi.includes(h)?"izhar":T.yanmu.includes(h)?"idgham-g":T.lr.includes(h)?"idgham-b":h==="ب"?"iqlab":"ikhfa"):(h==="ب"?"ikhfa-s":h==="م"?"idgham-m":"izhar-s");
+  function show(h){
+    const r=T.rules[rule(mode,h)],x=T.ex[rule(mode,h)];
+    out.innerHTML=`<p class="tjh">${mode==="nun"?"Nun mati / tanwin":"Mim mati"} + <span lang="ar" dir="rtl">${h}</span> → <strong>${r[0]}</strong></p><p>${r[1]}</p>${x?`<p class="tjx">Contoh: <span class="tjw" lang="ar" dir="rtl">${x[2]}</span> <a href="/#surah-${x[0]}-ayat-${x[1]}">${x[3]} ${x[0]}:${x[1]} ›</a></p>`:""}`;
+  }
+  $("#tjmode").addEventListener("click",e=>{const b=e.target.closest("button[data-m]");if(!b)return;mode=b.dataset.m;$$("#tjmode button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));out.innerHTML=`<p>Pilih huruf selepas ${mode==="nun"?"nun mati atau tanwin":"mim mati"}.</p>`});
+  $("#tjgrid").addEventListener("click",e=>{const b=e.target.closest("button[data-h]");if(b){$$("#tjgrid button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));show(b.dataset.h)}});
+  // quiz
+  const qz=$("#qz");let qs=[],qi=0,score=0;
+  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  function ask(){
+    if(qi>=qs.length){qz.innerHTML=`<p class="qzs">Markah anda: <strong>${score} / ${qs.length}</strong> ${score===qs.length?"— Masya-Allah, sempurna!":score>=qs.length*.7?"— Bagus!":"— Ulang kaji jadual di atas dan cuba lagi."}</p><button class="btn3" type="button" data-qstart>Cuba lagi</button>`;return}
+    const q=qs[qi],names=[...new Set(T.q.map(x=>x[1]))].filter(n=>n!==q[1]),opts=shuffle([q[1],...shuffle(names).slice(0,3)]);
+    qz.innerHTML=`<p class="qzn">Soalan ${qi+1} daripada ${qs.length} · Markah ${score}</p><p class="qzw" lang="ar" dir="rtl">${q[2]}</p><p class="qzr">${q[3]} ${q[4]}:${q[5]}</p><div class="qzo">${opts.map(o=>`<button class="btn2" type="button" data-a="${o}">${o}</button>`).join("")}</div><p class="qzf" aria-live="polite"></p>`;
+  }
+  qz.addEventListener("click",e=>{
+    if(e.target.closest("[data-qstart]")){qs=shuffle([...T.q]).slice(0,10);qi=0;score=0;ask();return}
+    const b=e.target.closest("button[data-a]");if(!b||b.disabled)return;
+    const q=qs[qi],ok=b.dataset.a===q[1];if(ok)score++;
+    $$("button[data-a]",qz).forEach(x=>{x.disabled=true;if(x.dataset.a===q[1])x.classList.add("ok");else if(x===b)x.classList.add("no")});
+    $(".qzf",qz).innerHTML=`${ok?"✓ Betul.":"✗ Jawapan: <strong>"+q[1]+"</strong>."} ${q[6]} <a href="/#surah-${q[4]}-ayat-${q[5]}">Dengar ayat ›</a><br><button class="btn2" type="button" data-next>Seterusnya ›</button>`;
+  });
+  qz.addEventListener("click",e=>{if(e.target.closest("[data-next]")){qi++;ask()}});
+}
+
+/* ---------- waktu solat (maths mirror tools/solat.py) ---------- */
+const sw=$("#sw");
+if(sw){
+  const S=JSON.parse($("#sd").textContent),C=S.c,NM=S.n,rad=x=>x*Math.PI/180,deg=x=>x*180/Math.PI,mod=(x,n)=>(x%n+n)%n;
+  function sun(jd){const D=jd-2451545,g=mod(357.529+.98560028*D,360),q=mod(280.459+.98564736*D,360),L=mod(q+1.915*Math.sin(rad(g))+.02*Math.sin(rad(2*g)),360),e=23.439-.00000036*D;
+    const ra=mod(deg(Math.atan2(Math.cos(rad(e))*Math.sin(rad(L)),Math.cos(rad(L))))/15,24),decl=deg(Math.asin(Math.sin(rad(e))*Math.sin(rad(L))));let eqt=q/15-ra;eqt=eqt-24*Math.round(eqt/24);return[decl,eqt]}
+  function jdn(y,m,d){if(m<=2){y-=1;m+=12}const A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5}
+  function day(y,m,d,lat,lng){
+    const jd=jdn(y,m,d)-lng/(15*24),noon=t=>mod(12-sun(jd+t)[1],24);
+    const at=(a,t,ccw)=>{const decl=sun(jd+t)[0];const x=(-Math.sin(rad(a))-Math.sin(rad(decl))*Math.sin(rad(lat)))/(Math.cos(rad(decl))*Math.cos(rad(lat)));const T=deg(Math.acos(Math.max(-1,Math.min(1,x))))/15;return noon(t)+(ccw?-T:T)};
+    const asr=t=>{const decl=sun(jd+t)[0];return at(-deg(Math.atan(1/(1+Math.tan(rad(Math.abs(lat-decl)))))),t,false)};
+    let f=at(S.fa,5/24,true),sr=at(.833,6/24,true),z=noon(12/24),a=asr(13/24),mg=at(.833,18/24,false),i=at(S.is,18/24,false);
+    const adj=S.tz-lng/15;[f,sr,z,a,mg,i]=[f,sr,z,a,mg,i].map(x=>(x+adj)*60);
+    const up=x=>Math.ceil(x+1),sub=up(f);return[sub-10,sub,Math.floor(sr-1),up(z),up(a),up(mg),up(i)];
+  }
+  const hm=x=>`${pad(Math.floor(x/60))}:${pad(x%60)}`;
+  const qibla=(lat,lng)=>{const p1=rad(lat),p2=rad(21.4225),dl=rad(39.8262-lng);return mod(deg(Math.atan2(Math.sin(dl),Math.cos(p1)*Math.tan(p2)-Math.sin(p1)*Math.cos(dl))),360)};
+  const sel=$("#sc"),list=$("#stimes"),tb=$("#smon tbody"),nx=$("#snext"),src=$("#ssrc"),hij=$("#shij"),qb=$("#sqib"),cap=$("#smcap"),dt0=$("#sdate");
+  const cache={};let cur=null,avail=null;
+  function official(zone,y){
+    const k=zone+"-"+y;
+    avail=avail||fetch("/assets/data/solat/index.json").then(r=>r.ok?r.json():[]).catch(()=>[]);
+    return avail.then(a=>{
+      if(!zone||!a.includes(k))return null;
+      if(!(k in cache))cache[k]=fetch(`/assets/data/solat/${k}.json`).then(r=>r.ok?r.json():null).catch(()=>null);
+      return cache[k];
+    });
+  }
+  const doy=d=>Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(d.getFullYear(),0,1))/864e5);
+  async function render(loc){
+    const now=new Date(),d=today(),y=d.getFullYear(),m=d.getMonth(),off=await official(loc.zone,y);
+    const get=dd=>off?off.t[doy(dd)]:day(dd.getFullYear(),dd.getMonth()+1,dd.getDate(),loc.lat,loc.lng);
+    const t=get(d);cur={loc,t,off};
+    setIf(list,NM.map((n,i)=>`<li data-i="${i}"><span class="sn">${n}</span><span class="st">${hm(t[i])}</span></li>`).join(""));
+    setIf(dt0,`${dlong(d)} · ${esc(loc.name)}`);
+    const sr=off?`Sumber: <strong>jadual rasmi JAKIM</strong>, zon ${loc.zone} (${esc(off.src)}).`:`Sumber: <strong>kiraan anggaran</strong> parameter JAKIM untuk ${esc(loc.name)}. Boleh berbeza beberapa minit daripada jadual rasmi; semak <a href="https://www.e-solat.gov.my/" rel="noopener">e-solat.gov.my</a>.`;
+    setIf(src,sr);
+    let rows="";const dim=new Date(y,m+1,0).getDate();
+    for(let k=1;k<=dim;k++){const dd=new Date(y,m,k),r=get(dd);rows+=`<tr${k===d.getDate()?' class="today"':""}><td>${k} ${BLS[m]}</td>${r.map(x=>`<td>${hm(x)}</td>`).join("")}</tr>`}
+    setIf(tb,rows);setIf(cap,`Jadual waktu solat ${BLN[m]} ${y} – ${esc(loc.name)}`);
+    setIf(qb,`${qibla(loc.lat,loc.lng).toFixed(1)}°`);
+    if(hij){const h=off&&off.h[doy(d)];let s="";
+      if(h){const[hy,hmn,hd]=h.split("-").map(Number);s=`${hd} ${S.hb[hmn-1]} ${hy} H`}
+      else{try{s=new Intl.DateTimeFormat("ms-MY-u-ca-islamic-umalqura",{day:"numeric",month:"long",year:"numeric"}).format(d)+" (anggaran)"}catch{}}
+      hij.textContent=s}
+    tick();
+  }
+  function tick(){
+    if(!cur)return;const n=new Date(),mins=n.getHours()*60+n.getMinutes(),t=cur.t;
+    let i=[1,3,4,5,6].find(k=>t[k]>mins);
+    $$("li",list).forEach(li=>li.classList.toggle("nx",+li.dataset.i===i));
+    if(i===undefined){nx.textContent="Waktu seterusnya: Subuh esok";return}
+    const left=t[i]-mins,h=Math.floor(left/60),mm=left%60;
+    nx.textContent=`Waktu seterusnya: ${NM[i]} ${hm(t[i])} · lagi ${h?h+" jam ":""}${mm} minit`;
+  }
+  setInterval(tick,20000);
+  const byslug=s=>{const c=C.find(x=>x[0]===s);return c&&{slug:c[0],name:c[1],lat:c[3],lng:c[4],zone:c[5]}};
+  function pick(slug,save){const l=byslug(slug)||byslug("kuala-lumpur");sel.value=l.slug;if(save){store.set("solat",l.slug);writeHash({bandar:l.slug})}render(l)}
+  sel.addEventListener("change",()=>pick(sel.value,true));
+  $("#sgeo").addEventListener("click",()=>{
+    if(!navigator.geolocation)return toast("Lokasi tidak disokong");
+    navigator.geolocation.getCurrentPosition(p=>{
+      const{latitude:la,longitude:lo}=p.coords;let best=null,bd=1e9;
+      for(const c of C){const dd=(c[3]-la)**2+((c[4]-lo)*Math.cos(rad(la)))**2;if(dd<bd){bd=dd;best=c}}
+      const near=Math.sqrt(bd)*111<40;
+      render({slug:"",name:near?`${best[1]} (lokasi anda)`:`Lokasi anda (${la.toFixed(2)}, ${lo.toFixed(2)})`,lat:la,lng:lo,zone:near?best[5]:""});
+      toast(near?`Zon terdekat: ${best[1]}`:"Waktu dikira untuk koordinat anda");
+    },()=>toast("Kebenaran lokasi ditolak"),{timeout:10000,maximumAge:6e5});
+  });
+  toolbar($("#sact"),{});
+  const h=readHash();pick(byslug(h.bandar)?h.bandar:store.get("solat","kuala-lumpur"),false);
+}
 })();

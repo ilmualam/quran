@@ -25,6 +25,10 @@ def ayat(s, a):
 
 
 TOOLS = [
+    ("waktu-solat/", "🕌", "Waktu Solat Hari Ini", "Waktu solat 64 bandar di Malaysia, kiraan ke solat seterusnya, jadual sebulan dan arah kiblat."),
+    ("doa-harian/", "🤲", "Himpunan Doa Harian", "Doa harian daripada hadis, doa Rabbana dan doa para nabi dari Al-Quran, serta ayat amalan."),
+    ("zikir-pagi-petang/", "🌅", "Zikir Pagi & Petang", "Zikir pagi petang, selepas solat dan sebelum tidur dengan kaunter dan rujukan hadis."),
+    ("belajar-tajwid/", "📘", "Belajar Tajwid", "Hukum nun mati, mim mati, mad dan qalqalah dengan contoh audio, pengesan hukum dan kuiz."),
     ("jadual-khatam-al-quran/", "📅", "Jadual Khatam Al-Quran", "Kira berapa muka surat sehari dan jana jadual khatam 30 hari, Ramadan, 7 hari atau tempoh sendiri."),
     ("jadual-hafazan-al-quran/", "🧠", "Jadual Hafazan Al-Quran", "Rancang hafazan Juz 30, Al-Mulk, Yasin atau 30 juzuk dan dapatkan tarikh tamat."),
     ("tasbih-digital/", "📿", "Tasbih Digital", "Kira zikir dan tasbih selepas solat (33·33·33) dengan getaran dan kiraan tersimpan."),
@@ -670,7 +674,7 @@ def build_pages(ctx):
 <section aria-labelledby="h-lain">
 <div class="prose">
 <h2 id="h-lain">Kalkulator Islamik Lain</h2>
-<p>Untuk zakat, faraid, fidyah dan arah kiblat, gunakan kalkulator rakan kami di The Bukit Besi Tools:</p>
+<p>Untuk zakat, faraid, fidyah dan kompas kiblat, gunakan kalkulator rakan kami di The Bukit Besi Tools:</p>
 </div>
 <ul class="rel">{tbb}</ul>
 </section>

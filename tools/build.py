@@ -2,6 +2,7 @@ import json, re, hashlib, html, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from surahs import S, MADANI, ALIAS, POPULAR, ARTICLES
 from pages import build_pages, tool_cards
+from pages2 import build_pages2
 from urllib.parse import quote, urlparse
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -219,7 +220,7 @@ NOTFOUND = ('<div class="hero sm"><div class="wrap"><h1>Halaman Tidak Dijumpai (
             'Cuba salah satu pautan di bawah.</p></div></div><div class="wrap mn pg1"><div class="ct"><section aria-labelledby="h-404">'
             '<h2 id="h-404">Mungkin anda mencari</h2>' + tool_cards(None, "tcards big") +
             '<p><a class="btn3" href="/">📖 Ke laman utama Al-Quran Online</a></p></section></div></div>')
-PAGES = build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
+PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
     dict(path="dasar-privasi.html", kind="info", data=False, arabic=False, title="Dasar Privasi – Al-Quran Online | Ilmu Alam",
          ogtitle="Dasar Privasi – Al-Quran Online",
          desc="Dasar privasi Al-Quran Online (quran.ilmualam.com): data yang disimpan dalam pelayar anda, kuki, iklan Google AdSense dan hak anda di bawah PDPA 2010.",
@@ -254,6 +255,11 @@ os.makedirs(f"{REPO}/assets/data", exist_ok=True)
 open(f"{REPO}/assets/data/terjemahan-ms.json", "w", encoding="utf8", newline="\n").write(json.dumps(
     [[v["translation"] for v in json.load(open(f"{REPO}/data-surah/surah-{i}.json", encoding="utf8"))] for i in range(1, 115)],
     ensure_ascii=False, separators=(",", ":")))
+
+# index of official JAKIM timetables present (assets/data/solat/<ZONE>-<YEAR>.json), so /waktu-solat/ never requests a missing file
+SOLAT_DIR = f"{REPO}/assets/data/solat"
+os.makedirs(SOLAT_DIR, exist_ok=True)
+open(f"{SOLAT_DIR}/index.json", "w", newline="\n").write(json.dumps(sorted(f[:-5] for f in os.listdir(SOLAT_DIR) if re.fullmatch(r"[A-Z]{3}\d{2}-\d{4}\.json", f))))
 
 # ---- supporting files ----
 INDEXED = [""] + [p["path"] for p in PAGES if not p.get("noindex")]

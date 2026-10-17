@@ -10,7 +10,8 @@ const ctx=await browser.newContext({viewport:{width:390,height:844}});
 const ok=(c,m)=>console.log((c?'PASS ':'FAIL ')+m);
 async function open(p){const pg=await ctx.newPage();const errs=[];pg.on('pageerror',e=>errs.push(e.message));pg.on('console',m=>{if(m.type()==='error')errs.push(m.text())});await pg.clock.setFixedTime(new Date('2026-10-17T10:00:00'));await pg.goto(B+p,{waitUntil:'networkidle'});pg.errs=errs;return pg}
 // raw pre-rendered html
-const raw=async(p,sel)=>{const pg=await ctx.newPage();await pg.route('**/alat.js',r=>r.abort());await pg.goto(B+p);const h=await pg.$eval(sel,e=>e.innerHTML);await pg.close();return h};
+const rawCtx=await browser.newContext({javaScriptEnabled:false});
+const raw=async(p,sel)=>{const pg=await rawCtx.newPage();await pg.goto(B+p);const h=await pg.$eval(sel,e=>e.innerHTML);await pg.close();return h};
 
 // khatam
 let pg=await open('jadual-khatam-al-quran/');
@@ -69,6 +70,51 @@ await pg.fill('#cq','ibu bapa');await pg.waitForTimeout(500);
 ok(/Ditemui/.test(await pg.textContent('#cstat')),'search multi-word: '+await pg.textContent('#cstat'));
 await pg.fill('#cq','xyzqq');await pg.waitForTimeout(500);ok((await pg.textContent('#cstat')).startsWith('Tiada'),'no result msg');
 ok(pg.errs.length===0,'cari no errors '+pg.errs);
+
+// waktu solat: build == JS for KL today, and JS == Python for other cities/dates
+pg=await open('waktu-solat/');
+ok(await raw('waktu-solat/','#stimes')===await pg.$eval('#stimes',e=>{const c=e.cloneNode(true);c.querySelectorAll('.nx').forEach(x=>x.removeAttribute('class'));return c.innerHTML}),'solat times JS == build');
+ok(await raw('waktu-solat/','#smon tbody')===await pg.$eval('#smon tbody',e=>e.innerHTML),'solat month JS == build');
+ok(/lagi|esok/.test(await pg.textContent('#snext')),'solat countdown: '+await pg.textContent('#snext'));
+for(const slug of ['kota-kinabalu','kangar','johor-bahru','kuching','gua-musang']){
+  await pg.selectOption('#sc',slug);await pg.waitForFunction(s=>document.querySelector('#sdate').textContent.length>0&&location.hash.includes(s),slug);
+  await pg.waitForTimeout(150);
+  const official=(await pg.textContent('#ssrc')).includes('rasmi');
+  if(official){ok(true,`solat ${slug}: official data shown`);continue}
+  const js=await pg.$$eval('#smon tbody tr',rs=>rs.map(r=>[...r.cells].slice(1).map(c=>c.textContent).join(' ')));
+  const py=execSync(`cd ${TOOLS} && python3 -c "import solat as S;c=[c for c in S.CITIES if c[0]=='${slug}'][0];print('\\n'.join(' '.join(S.hm(x) for x in S.solat_day(2026,10,d,c[3],c[4])) for d in range(1,32)))"`).toString().trim().split('\n');
+  ok(JSON.stringify(js)===JSON.stringify(py),`solat ${slug} October JS == Python`);
+}
+ok(pg.errs.length===0,'solat no errors '+pg.errs);
+
+// doa
+pg=await open('doa-harian/');
+await pg.fill('#dq','makan');await pg.waitForTimeout(100);
+ok(/Menunjukkan [1-9]/.test(await pg.textContent('#dcnt')),'doa search: '+await pg.textContent('#dcnt'));
+await pg.fill('#dq','');await pg.click('#dcat button[data-c=keluarga]');
+ok(await pg.isVisible('#q17-24')&&!(await pg.isVisible('#bangun-tidur')),'doa category filter');
+ok(await pg.$eval('#q2-201',e=>e.querySelector('.dar').textContent.split(/\s+/)[3]===e.querySelector('mark').textContent.split(/\s+/)[0]),'doa highlight starts at Rabbana (word 4 of 2:201)');
+ok(pg.errs.length===0,'doa no errors '+pg.errs);
+
+// zikir
+pg=await open('zikir-pagi-petang/');
+for(let i=0;i<3;i++)await pg.click('#bismillah .zc');
+ok((await pg.textContent('#bismillah .zc')).includes('Selesai'),'zikir counter completes at 3');
+await pg.reload({waitUntil:'networkidle'});
+ok((await pg.textContent('#bismillah .zc')).includes('Selesai')&&(await pg.textContent('#pagi-petang .zprog')).startsWith('1 /'),'zikir persisted + progress');
+ok(pg.errs.length===0,'zikir no errors '+pg.errs);
+
+// tajwid
+pg=await open('belajar-tajwid/');
+await pg.click('#tjgrid button[data-h="ب"]');ok((await pg.textContent('#tjout')).includes('Iqlab'),'tajwid nun+ba = iqlab');
+await pg.click('#tjgrid button[data-h="ع"]');ok((await pg.textContent('#tjout')).includes('Izhar Halqi'),'tajwid nun+ain = izhar');
+await pg.click('#tjgrid button[data-h="ر"]');ok((await pg.textContent('#tjout')).includes('Bila Ghunnah'),'tajwid nun+ra = idgham bila ghunnah');
+await pg.click('#tjgrid button[data-h="ك"]');ok((await pg.textContent('#tjout')).includes('Ikhfa'),'tajwid nun+kaf = ikhfa');
+await pg.click('#tjmode button[data-m=mim]');await pg.click('#tjgrid button[data-h="م"]');ok((await pg.textContent('#tjout')).includes('Mithlain'),'tajwid mim+mim = idgham mithlain');
+await pg.click('#qz [data-qstart]');
+for(let i=0;i<10;i++){await pg.click('#qz button[data-a] >> nth=0');await pg.click('#qz [data-next]')}
+ok(/Markah anda: \d+ \/ 10/.test(await pg.textContent('#qz')),'tajwid quiz completes: '+(await pg.textContent('.qzs')));
+ok(pg.errs.length===0,'tajwid no errors '+pg.errs);
 
 // home reader still works from root + reader link from tool page
 pg=await open('jadual-khatam-al-quran/');
