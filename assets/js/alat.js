@@ -336,7 +336,7 @@ if(sw){
     const asr=t=>{const decl=sun(jd+t)[0];return at(-deg(Math.atan(1/(1+Math.tan(rad(Math.abs(lat-decl)))))),t,false)};
     let f=at(S.fa,5/24,true),sr=at(.833,6/24,true),z=noon(12/24),a=asr(13/24),mg=at(.833,18/24,false),i=at(S.is,18/24,false);
     const adj=S.tz-lng/15;[f,sr,z,a,mg,i]=[f,sr,z,a,mg,i].map(x=>(x+adj)*60);
-    const up=x=>Math.ceil(x+1),sub=up(f);return[sub-10,sub,Math.floor(sr-1),up(z),up(a),up(mg),up(i)];
+    const up=x=>Math.ceil(x+1),sub=up(f);return[sub-10,sub,Math.floor(sr),Math.ceil(z+2),up(a),up(mg),up(i)];
   }
   const hm=x=>`${pad(Math.floor(x/60))}:${pad(x%60)}`;
   const qibla=(lat,lng)=>{const p1=rad(lat),p2=rad(21.4225),dl=rad(39.8262-lng);return mod(deg(Math.atan2(Math.sin(dl),Math.cos(p1)*Math.tan(p2)-Math.sin(p1)*Math.cos(dl))),360)};
@@ -352,23 +352,45 @@ if(sw){
     });
   }
   const doy=d=>Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(d.getFullYear(),0,1))/864e5);
-  async function render(loc){
-    const now=new Date(),d=today(),y=d.getFullYear(),m=d.getMonth(),off=await official(loc.zone,y);
-    const get=dd=>off?off.t[doy(dd)]:day(dd.getFullYear(),dd.getMonth()+1,dd.getDate(),loc.lat,loc.lng);
-    const t=get(d);cur={loc,t,off};
+  // JAKIM e-solat answers browsers directly (as the ilmualam.com widget does); cached per zone and month for offline use
+  const MON={jan:0,feb:1,mar:2,mac:2,apr:3,may:4,mei:4,jun:5,jul:6,aug:7,ogo:7,sep:8,oct:9,okt:9,nov:10,dec:11,dis:11};
+  const mn=v=>{const[h,m]=String(v).split(":");return +h*60+ +m};
+  function live(zone,y,m){
+    if(!zone)return Promise.resolve(null);
+    const key=`esolat:${zone}-${y}-${m}`,hit=store.get(key,null);if(hit)return Promise.resolve(hit);
+    const ac=new AbortController();setTimeout(()=>ac.abort(),8000);
+    return fetch(`${S.api}${zone}`,{signal:ac.signal}).then(r=>r.ok?r.json():null).then(d=>{
+      const out={t:[],h:[]},dim=new Date(y,m+1,0).getDate();
+      for(const p of (d&&d.prayerTime)||[]){const[dd,mm,yy]=p.date.split("-");if(+yy!==y||MON[mm.toLowerCase().slice(0,3)]!==m)continue;
+        const f=mn(p.fajr);out.t[+dd-1]=[p.imsak?mn(p.imsak):f-10,f,mn(p.syuruk),mn(p.dhuhr),mn(p.asr),mn(p.maghrib),mn(p.isha)];out.h[+dd-1]=p.hijri||""}
+      const ok=out.t.length===dim&&out.t.every(t=>t&&t[1]>=240&&t[1]<=400&&t.every((x,k)=>!k||x>t[k-1]));
+      if(!ok)return null;store.set(key,out);return out;
+    }).catch(()=>null);
+  }
+  let seq=0;
+  function draw(loc,get,hijri,label){
+    const d=today(),y=d.getFullYear(),m=d.getMonth(),t=get(d);cur={loc,t};
     setIf(list,NM.map((n,i)=>`<li data-i="${i}"><span class="sn">${n}</span><span class="st">${hm(t[i])}</span></li>`).join(""));
     setIf(dt0,`${dlong(d)} · ${esc(loc.name)}`);
-    const sr=off?`Sumber: <strong>jadual rasmi JAKIM</strong>, zon ${loc.zone} (${esc(off.src)}).`:`Sumber: <strong>kiraan anggaran</strong> parameter JAKIM untuk ${esc(loc.name)}. Boleh berbeza beberapa minit daripada jadual rasmi; semak <a href="https://www.e-solat.gov.my/" rel="noopener">e-solat.gov.my</a>.`;
-    setIf(src,sr);
+    setIf(src,label?`Sumber: <strong>jadual rasmi JAKIM</strong>, ${label}.`:`Sumber: <strong>kiraan anggaran</strong> parameter JAKIM untuk ${esc(loc.name)}. Boleh berbeza beberapa minit daripada jadual rasmi; semak <a href="https://www.e-solat.gov.my/" rel="noopener">e-solat.gov.my</a>.`);
     let rows="";const dim=new Date(y,m+1,0).getDate();
-    for(let k=1;k<=dim;k++){const dd=new Date(y,m,k),r=get(dd);rows+=`<tr${k===d.getDate()?' class="today"':""}><td>${k} ${BLS[m]}</td>${r.map(x=>`<td>${hm(x)}</td>`).join("")}</tr>`}
+    for(let k=1;k<=dim;k++){const r=get(new Date(y,m,k));rows+=`<tr${k===d.getDate()?' class="today"':""}><td>${k} ${BLS[m]}</td>${r.map(x=>`<td>${hm(x)}</td>`).join("")}</tr>`}
     setIf(tb,rows);setIf(cap,`Jadual waktu solat ${BLN[m]} ${y} – ${esc(loc.name)}`);
     setIf(qb,`${qibla(loc.lat,loc.lng).toFixed(1)}°`);
-    if(hij){const h=off&&off.h[doy(d)];let s="";
+    if(hij){const h=hijri&&hijri(d);let s="";
       if(h){const[hy,hmn,hd]=h.split("-").map(Number);s=`${hd} ${S.hb[hmn-1]} ${hy} H`}
       else{try{s=new Intl.DateTimeFormat("ms-MY-u-ca-islamic-umalqura",{day:"numeric",month:"long",year:"numeric"}).format(d)+" (anggaran)"}catch{}}
       hij.textContent=s}
     tick();
+  }
+  async function render(loc){
+    const my=++seq,d=today(),y=d.getFullYear(),m=d.getMonth();
+    // calculated times first (identical to the build-time HTML), upgraded in place when official data arrives
+    draw(loc,dd=>day(dd.getFullYear(),dd.getMonth()+1,dd.getDate(),loc.lat,loc.lng),null,"");
+    const off=await official(loc.zone,y);if(my!==seq)return;
+    if(off)return draw(loc,dd=>off.t[doy(dd)],dd=>off.h[doy(dd)],`zon ${loc.zone} (${esc(off.src)})`);
+    const lv=await live(loc.zone,y,m);if(my!==seq||!lv)return;
+    draw(loc,dd=>lv.t[dd.getDate()-1],dd=>lv.h[dd.getDate()-1],`zon ${loc.zone} (e-solat.gov.my)`);
   }
   function tick(){
     if(!cur)return;const n=new Date(),mins=n.getHours()*60+n.getMinutes(),t=cur.t;

@@ -149,7 +149,7 @@ if ADS_ON:
            "media-src https://everyayah.com; object-src 'none'; base-uri 'self'; form-action 'none'")
 else:
     csp = (f"default-src 'none'; script-src 'self' '{sha(THEME_JS)}'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; worker-src 'self'; "
-           "media-src https://everyayah.com; connect-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'none'")
+           "media-src https://everyayah.com; connect-src 'self' https://www.e-solat.gov.my; manifest-src 'self'; base-uri 'self'; form-action 'none'")
 ADMETA = f'<meta name="google-adsense-account" content="{e(ADS_CLIENT)}">\n' if ADS_CLIENT else ""
 HEADER = open(f"{SCR}/header.html", encoding="utf8").read()
 FOOTER = open(f"{SCR}/footer.html", encoding="utf8").read()

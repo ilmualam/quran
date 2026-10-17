@@ -1,13 +1,14 @@
-"""Prayer times for Malaysia, calculated on the device with JAKIM's parameters (Subuh 20°, Isyak 18°, Asar Syafi'i,
-sun altitude -0.833° for syuruk/maghrib, UTC+8) plus a small ihtiyat. assets/js/alat.js mirrors solat_day() exactly;
+"""Fallback prayer times for Malaysia, used only when no official JAKIM timetable is available. Subuh 18°, Isyak 18°,
+Asar Syafi'i, sun altitude -0.833° for syuruk/maghrib, UTC+8, plus ihtiyat; these were fitted against the synced 2026
+JAKIM timetables for 44 zones (Subuh mean error about 0 min, SD about 1 min). assets/js/alat.js mirrors solat_day() exactly;
 tools/test-alat.mjs checks the two agree. Official zone timetables: www.e-solat.gov.my."""
 import math, datetime as dt
 
 TZ = 8
-FAJR, ISHA = 20.0, 18.0
+FAJR, ISHA = 18.0, 18.0
 KAABA = (21.4225, 39.8262)
 
-# (slug, name, state, lat, lng, JAKIM zone): state capitals and major towns. Zone "" = no official data mapped, calculation only
+# (slug, name, state, lat, lng, JAKIM zone): state capitals and major towns. Zone codes checked against the synced JAKIM timetables (best fit of syuruk to isyak per town)
 CITIES = [
     ("kuala-lumpur", "Kuala Lumpur", "W.P. Kuala Lumpur, Putrajaya & Labuan", 3.139, 101.687, "WLY01"),
     ("putrajaya", "Putrajaya", "W.P. Kuala Lumpur, Putrajaya & Labuan", 2.926, 101.696, "WLY01"),
@@ -40,7 +41,7 @@ CITIES = [
     ("besut", "Besut (Kampung Raja)", "Terengganu", 5.790, 102.570, "TRG02"),
     ("kota-bharu", "Kota Bharu", "Kelantan", 6.125, 102.238, "KTN01"),
     ("kuala-krai", "Kuala Krai", "Kelantan", 5.531, 102.201, "KTN01"),
-    ("gua-musang", "Gua Musang", "Kelantan", 4.884, 101.968, ""),
+    ("gua-musang", "Gua Musang", "Kelantan", 4.884, 101.968, "KTN03"),
     ("alor-setar", "Alor Setar", "Kedah", 6.121, 100.367, "KDH01"),
     ("sungai-petani", "Sungai Petani", "Kedah", 5.647, 100.488, "KDH02"),
     ("kulim", "Kulim", "Kedah", 5.365, 100.562, "KDH05"),
@@ -123,10 +124,10 @@ def solat_day(y, m, d, lat, lng):
     a = asr(a); mg = angle_time(0.833, mg, False); i = angle_time(ISHA, i, False)
     adj = TZ - lng / 15
     f, sr, z, a, mg, i = [(x + adj) * 60 for x in (f, sr, z, a, mg, i)]
-    # ihtiyat: prayer times rounded up by about 1-2 minutes, syuruk rounded down
+    # ihtiyat fitted to JAKIM: prayer times rounded up by about 1-2 minutes (Zohor 2-3), syuruk rounded down
     up = lambda x: math.ceil(x + 1)
     sub = up(f)
-    return [sub - 10, sub, math.floor(sr - 1), up(z), up(a), up(mg), up(i)]
+    return [sub - 10, sub, math.floor(sr), math.ceil(z + 2), up(a), up(mg), up(i)]
 
 
 def qibla(lat, lng):

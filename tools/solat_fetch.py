@@ -4,14 +4,14 @@ Source 1: www.e-solat.gov.my (JAKIM). Source 2: api.waktusolat.app (open mirror 
 A zone file is written only when a full year passes validation; otherwise the site falls back to calculation."""
 import json, os, sys, time, datetime as dt, urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from solat import CITIES
+from solat import CITIES, solat_day
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = f"{REPO}/assets/data/solat"
 UA = {"User-Agent": "Mozilla/5.0 (quran.ilmualam.com timetable sync; +https://quran.ilmualam.com/waktu-solat/)"}
 KEYS = ["imsak", "fajr", "syuruk", "dhuhr", "asr", "maghrib", "isha"]
 MON = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
-MON.update({"mei": 5, "ogo": 8, "okt": 10, "dis": 12})
+MON.update({"mac": 3, "mei": 5, "ogo": 8, "okt": 10, "dis": 12})  # e-solat uses Malay abbreviations
 
 
 def get(url):
@@ -83,6 +83,10 @@ def main():
                 bad.append(f"{z}-{year}")
                 continue
             keys = sorted(days)
+            c = next(c for c in CITIES if c[5] == z)
+            odd = [k.isoformat() for k in keys if max(abs(a - b) for a, b in zip(days[k][0][2:], solat_day(k.year, k.month, k.day, c[3], c[4])[2:])) > 10]
+            if odd:  # kept as published, but flagged for a human to look at
+                print(f"{z} {year}: {len(odd)} day(s) differ from the calculation by >10 min: {odd[:5]}")
             json.dump({"z": z, "y": year, "src": src, "fetched": dt.date.today().isoformat(),
                        "t": [days[k][0] for k in keys], "h": [days[k][1] for k in keys]},
                       open(f"{OUT}/{z}-{year}.json", "w"), separators=(",", ":"))

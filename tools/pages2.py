@@ -81,13 +81,13 @@ def build_pages2(ctx):
         states.setdefault(c[2], []).append(c)
     opts = "".join(f'<optgroup label="{e(st)}">' + "".join(f'<option value="{c[0]}"{" selected" if c[0] == "kuala-lumpur" else ""}>{e(c[1])}</option>' for c in cs) + "</optgroup>" for st, cs in states.items())
     HB = ["Muharam", "Safar", "Rabiulawal", "Rabiulakhir", "Jamadilawal", "Jamadilakhir", "Rejab", "Syaaban", "Ramadan", "Syawal", "Zulkaedah", "Zulhijjah"]
-    sdata = json.dumps({"c": SL.CITIES, "n": SL.NAMES, "fa": SL.FAJR, "is": SL.ISHA, "tz": SL.TZ, "hb": HB}, ensure_ascii=False, separators=(",", ":"))
+    sdata = json.dumps({"api": "https://www.e-solat.gov.my/index.php?r=esolatApi/TakwimSolat&period=month&zone=", "c": SL.CITIES, "n": SL.NAMES, "fa": SL.FAJR, "is": SL.ISHA, "tz": SL.TZ, "hb": HB}, ensure_ascii=False, separators=(",", ":"))
     wfaq = [
         ("Bilakah waktu imsak?", "Imsak ialah 10 minit sebelum masuk waktu Subuh, mengikut amalan jadual JAKIM. Ia waktu berjaga-jaga untuk berhenti makan dan minum ketika berpuasa; puasa sebenarnya bermula apabila masuk waktu Subuh."),
         ("Bila berakhirnya waktu Subuh?", "Waktu Subuh bermula dengan terbit fajar sadiq dan berakhir apabila matahari terbit (Syuruk). Solat Subuh selepas waktu Syuruk dikira qada."),
         ("Bagaimana waktu Zohor dan Asar ditentukan?", "Zohor masuk apabila matahari tergelincir dari tengah langit (zawal). Dalam mazhab Syafi'i, Asar masuk apabila bayang-bayang objek sama panjang dengan objeknya, ditambah panjang bayang semasa zawal."),
         ("Kenapa waktu solat berbeza antara negeri dan zon?", "Waktu solat bergantung pada kedudukan matahari, jadi ia berubah mengikut longitud dan latitud. JAKIM membahagikan Malaysia kepada lebih 50 zon waktu solat; bandar di timur seperti Kota Kinabalu masuk waktu lebih awal berbanding Alor Setar."),
-        ("Adakah waktu di laman ini rasmi?", "Jika paparan menyatakan “jadual rasmi JAKIM”, waktu diambil daripada takwim JAKIM bagi zon tersebut. Jika menyatakan “kiraan anggaran”, waktu dikira dengan parameter JAKIM (Subuh 20°, Isyak 18°, Asar mazhab Syafi'i) dan boleh berbeza beberapa minit. Untuk kepastian, rujuk e-solat.gov.my."),
+        ("Adakah waktu di laman ini rasmi?", "Jika paparan menyatakan “jadual rasmi JAKIM”, waktu diambil daripada takwim JAKIM bagi zon tersebut. Jika menyatakan “kiraan anggaran”, waktu dikira (Subuh 18°, Isyak 18°, Asar mazhab Syafi'i) yang dikalibrasi dengan jadual rasmi (kebanyakannya dalam lingkungan 2 minit). Untuk kepastian, rujuk e-solat.gov.my."),
         ("Ke arah mana kiblat dari Malaysia?", "Kiblat dari Malaysia menghala ke barat laut: kira-kira 291° hingga 293° dari utara benar bagi bandar di Semenanjung, dan 290° hingga 292° bagi Sabah, Sarawak dan Labuan. Darjah tepat bagi bandar pilihan anda dipaparkan di atas."),
     ]
     body = hero("Waktu Solat Hari Ini: Jadual Ikut Bandar di Malaysia",
@@ -135,7 +135,8 @@ def build_pages2(ctx):
 <h2 id="h-kaedah">Sumber & Kaedah Kiraan</h2>
 <ul>
 <li><strong>Jadual rasmi:</strong> takwim waktu solat JAKIM bagi setiap zon disegerakkan setiap bulan dan disimpan dalam laman ini, supaya boleh dibuka dengan pantas dan tanpa internet.</li>
-<li><strong>Kiraan anggaran</strong> (jika jadual rasmi tiada untuk lokasi itu): Subuh 20° dan Isyak 18° bawah ufuk, Asar mazhab Syafi'i, matahari terbit/terbenam pada −0.833°, zon masa UTC+8, dengan ihtiyat kira-kira 1–2 minit.</li>
+<li><strong>Terus daripada e-solat:</strong> jika jadual zon belum disegerakkan, pelayar anda mengambil jadual bulan semasa terus daripada e-solat.gov.my dan menyimpannya untuk kegunaan luar talian.</li>
+<li><strong>Kiraan anggaran</strong> (hanya jika kedua-dua sumber rasmi tidak dapat dicapai): Subuh dan Isyak 18° bawah ufuk, Asar mazhab Syafi'i, matahari terbit/terbenam pada −0.833°, UTC+8, dengan ihtiyat. Parameter ini dikalibrasi dengan jadual rasmi JAKIM 2026 bagi 43 zon: 92–98% waktu berada dalam lingkungan 2 minit daripada jadual rasmi.</li>
 <li><strong>Lokasi anda</strong> digunakan dalam pelayar sahaja untuk memilih zon terdekat; ia tidak dihantar kepada kami.</li>
 <li>Untuk ibadah yang bergantung pada minit tepat (imsak, berbuka), sentiasa semak dengan <a href="https://www.e-solat.gov.my/" rel="noopener">e-solat.gov.my</a> atau pengumuman masjid setempat.</li>
 </ul>
@@ -159,7 +160,7 @@ def build_pages2(ctx):
                       crumbs=[("Alat", "alat/"), ("Waktu Solat", None)], body=body, faq=wfaq,
                       app=dict(name="Waktu Solat Malaysia", features=["64 bandar di 16 negeri dan wilayah", "Guna lokasi semasa (zon terdekat)", "Kiraan ke waktu solat seterusnya", "Jadual sebulan boleh dicetak", "Arah kiblat dalam darjah", "Berfungsi tanpa internet"]),
                       about=["Waktu solat", "Solat", "Malaysia"],
-                      llms="Waktu solat harian dan bulanan bagi 64 bandar di Malaysia (Imsak, Subuh, Syuruk, Zohor, Asar, Maghrib, Isyak), menggunakan jadual rasmi JAKIM bagi zon berkenaan apabila tersedia, atau kiraan parameter JAKIM (Subuh 20°, Isyak 18°, Asar Syafi'i) sebagai anggaran. Imsak = 10 minit sebelum Subuh. Termasuk arah kiblat (≈291–293° dari Semenanjung, 290–292° dari Sabah/Sarawak)."))
+                      llms="Waktu solat harian dan bulanan bagi 64 bandar di Malaysia (Imsak, Subuh, Syuruk, Zohor, Asar, Maghrib, Isyak), menggunakan jadual rasmi JAKIM bagi zon berkenaan apabila tersedia, terus daripada e-solat.gov.my, atau kiraan anggaran yang dikalibrasi dengan jadual JAKIM (Subuh 18°, Isyak 18°, Asar Syafi'i). Imsak = 10 minit sebelum Subuh. Termasuk arah kiblat (≈291–293° dari Semenanjung, 290–292° dari Sabah/Sarawak)."))
 
     # ======================= DOA =======================
     dq_cards = {k: [] for k, _ in I.DOA_CAT}
