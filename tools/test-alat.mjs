@@ -88,7 +88,7 @@ for(const slug of ['kota-kinabalu','kangar','johor-bahru','kuching','gua-musang'
 }
 ok(pg.errs.length===0,'solat no errors '+pg.errs);
 
-// live e-solat layer (Kangar/PLS01 has no synced file): a mocked month must replace the calculation and be labelled official
+// live e-solat layer (synced index hidden): a mocked month must replace the calculation and be labelled official
 {
   const c2=await browser.newContext({viewport:{width:390,height:844}});
   const mock=execSync(`cd ${TOOLS} && python3 -c "
@@ -100,6 +100,7 @@ for d in range(1,32):
   t=[x+3 for x in S.solat_day(2026,10,d,6.441,100.198)]
   out.append(dict(hijri='1448-05-%02d'%d,date='%02d-Okt-2026'%d,imsak=f(t[0]),fajr=f(t[1]),syuruk=f(t[2]),dhuhr=f(t[3]),asr=f(t[4]),maghrib=f(t[5]),isha=f(t[6])))
 print(json.dumps(dict(prayerTime=out,status='OK!')))"`).toString();
+  await c2.route('**/assets/data/solat/index.json',r=>r.fulfill({status:200,contentType:'application/json',body:'[]'}));  // no synced file -> live layer
   await c2.route('https://www.e-solat.gov.my/**',r=>r.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:mock}));
   const p2=await c2.newPage();const errs=[];p2.on('pageerror',e=>errs.push(e.message));
   await p2.clock.setFixedTime(new Date('2026-10-17T10:00:00'));await p2.goto(B+'waktu-solat/#bandar=kangar',{waitUntil:'networkidle'});
