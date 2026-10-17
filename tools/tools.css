@@ -155,3 +155,10 @@ table.plan td a{font-weight:700;text-decoration:none}
 .qzf{min-height:3em}
 .qzs{font-size:1.15rem}
 @media print{.zc,.dbtn,#tj,#qz,.tjgrid{display:none!important}}
+/* state prayer-time pages */
+.szt{min-width:560px}
+.szt th[scope=row]{font-weight:700;min-width:190px}
+.szt th[scope=row] a{font-weight:800;text-decoration:none}
+.za{display:block;font-weight:400;font-size:.82rem;color:var(--sub);white-space:normal}
+.sts{grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr))}
+.sts a{padding:10px 14px;font-size:.93rem}

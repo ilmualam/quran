@@ -4,6 +4,7 @@ import ibadah as I
 import solat as SL
 import plans as P
 from pages import e, faq_html, hero, side, meta_line, table, tool_cards, SITE, MAIN, TBB
+from pages3 import state_links
 
 _Q = {}
 
@@ -143,6 +144,12 @@ def build_pages2(ctx):
 </div>
 </section>
 
+<section id="negeri" aria-labelledby="h-negeri">
+<h2 id="h-negeri">Waktu Solat Ikut Negeri</h2>
+<p>Jadual rasmi JAKIM bagi setiap zon di negeri anda, dengan waktu hari ini untuk semua zon sekali gus.</p>
+{state_links()}
+</section>
+
 <section id="faq" aria-labelledby="h-faq">
 <h2 id="h-faq">Soalan Lazim: Waktu Solat</h2>
 {faq_html(wfaq)}
@@ -150,7 +157,7 @@ def build_pages2(ctx):
 {ad(1)}
 <section aria-labelledby="h-rel"><h2 id="h-rel">Alat Lain</h2>{tool_cards("waktu-solat/")}</section>
 </div>
-{side([("kira", "Waktu hari ini"), ("smon", "Jadual sebulan"), ("h-jwp", "Waktu & tempoh"), ("kaedah", "Sumber & kaedah"), ("faq", "Soalan lazim")], "waktu-solat/")}
+{side([("kira", "Waktu hari ini"), ("smon", "Jadual sebulan"), ("negeri", "Ikut negeri"), ("h-jwp", "Waktu & tempoh"), ("kaedah", "Sumber & kaedah"), ("faq", "Soalan lazim")], "waktu-solat/")}
 </div>'''
     pages.append(dict(path="waktu-solat/", kind="tool", data=False, arabic=False,
                       extra_data=f'<script type="application/json" id="sd">{sdata}</script>',

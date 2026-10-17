@@ -3,6 +3,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from surahs import S, MADANI, ALIAS, POPULAR, ARTICLES
 from pages import build_pages, tool_cards
 from pages2 import build_pages2
+from pages3 import build_state_pages
 from urllib.parse import quote, urlparse
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -220,7 +221,9 @@ NOTFOUND = ('<div class="hero sm"><div class="wrap"><h1>Halaman Tidak Dijumpai (
             'Cuba salah satu pautan di bawah.</p></div></div><div class="wrap mn pg1"><div class="ct"><section aria-labelledby="h-404">'
             '<h2 id="h-404">Mungkin anda mencari</h2>' + tool_cards(None, "tcards big") +
             '<p><a class="btn3" href="/">📖 Ke laman utama Al-Quran Online</a></p></section></div></div>')
-PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
+# the monthly prayer-time sync rebuilds with SOLAT_DATE=<today in MYT> so the state pages' month facts stay current
+SOLAT_DAY = os.environ.get("SOLAT_DATE") or TODAY
+PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
     dict(path="dasar-privasi.html", kind="info", data=False, arabic=False, title="Dasar Privasi – Al-Quran Online | Ilmu Alam",
          ogtitle="Dasar Privasi – Al-Quran Online",
          desc="Dasar privasi Al-Quran Online (quran.ilmualam.com): data yang disimpan dalam pelayar anda, kuki, iklan Google AdSense dan hak anda di bawah PDPA 2010.",
@@ -233,7 +236,7 @@ PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "a
 OUTPUTS = {"": PAGE}
 for pg in PAGES:
     url = SITE + pg["path"]
-    slug = pg["path"].strip("/").replace(".html", "")
+    slug = pg.get("og") or pg["path"].strip("/").replace(".html", "")
     ogp = og.card(slug, pg["ogtitle"], pg["desc"]) if not pg.get("noindex") else None
     ogimg = SITE + ogp if ogp else OGIMG
     data = (f'<script type="application/json" id="qd">{plans.jsdata()}</script>\n' if pg.get("data") else "") + (pg.get("extra_data", "") + "\n" if pg.get("extra_data") else "")

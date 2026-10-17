@@ -111,6 +111,20 @@ print(json.dumps(dict(prayerTime=out,status='OK!')))"`).toString();
   await c2.close();
 }
 
+// state pages: build == JS for today, month and all-zones tables; clicking a zone switches the timetable
+for(const st of ['sabah','perlis']){
+  pg=await open(`waktu-solat/${st}/`);
+  const strip=e=>{const c=e.cloneNode(true);c.querySelectorAll('.nx').forEach(x=>x.removeAttribute('class'));return c.innerHTML};
+  ok(await raw(`waktu-solat/${st}/`,'#stimes')===await pg.$eval('#stimes',strip),`state ${st}: times JS == build`);
+  ok(await raw(`waktu-solat/${st}/`,'#smon tbody')===await pg.$eval('#smon tbody',e=>e.innerHTML),`state ${st}: month JS == build`);
+  ok(await raw(`waktu-solat/${st}/`,'#szt tbody')===await pg.$eval('#szt tbody',e=>e.innerHTML),`state ${st}: all-zones JS == build`);
+  ok(pg.errs.length===0,`state ${st}: no errors `+pg.errs);
+}
+await pg.goto(B+'waktu-solat/sabah/',{waitUntil:'networkidle'});
+const z2=await pg.$$eval('#szt a[data-zone]',a=>a.map(x=>x.dataset.zone)[1]);
+await pg.click(`#szt a[data-zone="${z2}"]`);await pg.waitForTimeout(200);
+ok((await pg.textContent('#sdate')).includes(z2)&&pg.url().includes('bandar='+z2),'state zone click switches timetable to '+z2);
+
 // doa
 pg=await open('doa-harian/');
 await pg.fill('#dq','makan');await pg.waitForTimeout(100);
