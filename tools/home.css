@@ -179,7 +179,7 @@ details.q .an p{margin:0}
 .ft ul{list-style:none;margin:0;padding:0}
 .ft li a{display:inline-block;padding-block:5px}
 .ft .soc{display:flex;flex-wrap:wrap;gap:6px}
-.ft .soc a{display:inline-block;padding:6px 12px;border:1px solid rgba(255,255,255,.22);border-radius:999px;font-size:.88rem;font-weight:700}
+.ft .soc a{display:inline-block;padding:6px 10px;border:1px solid rgba(255,255,255,.22);border-radius:999px;font-size:.75rem;font-weight:600}
 .fbot a{text-decoration:underline}
 .fbot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,.15);font-size:.88rem;color:#cfe9d7}
 .nav a[aria-current=page]{color:var(--text);border-color:var(--g);background:var(--muted)}
