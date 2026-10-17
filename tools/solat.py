@@ -53,7 +53,7 @@ CITIES = [
     ("ipoh", "Ipoh", "Perak", 4.597, 101.090, "PRK02"),
     ("taiping", "Taiping", "Perak", 4.850, 100.741, "PRK06"),
     ("teluk-intan", "Teluk Intan", "Perak", 4.026, 101.021, "PRK05"),
-    ("lumut", "Lumut", "Perak", 4.232, 100.630, "PRK05"),
+    ("lumut", "Lumut", "Perak", 4.232, 100.630, "PRK06"),
     ("kuala-kangsar", "Kuala Kangsar", "Perak", 4.773, 100.937, "PRK02"),
     ("gerik", "Gerik", "Perak", 5.428, 101.128, "PRK03"),
     ("tapah", "Tapah", "Perak", 4.198, 101.261, "PRK01"),
