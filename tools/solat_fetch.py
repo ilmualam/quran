@@ -11,6 +11,7 @@ OUT = f"{REPO}/assets/data/solat"
 UA = {"User-Agent": "Mozilla/5.0 (quran.ilmualam.com timetable sync; +https://quran.ilmualam.com/waktu-solat/)"}
 KEYS = ["imsak", "fajr", "syuruk", "dhuhr", "asr", "maghrib", "isha"]
 MON = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
+IMSAK_FIX = {}  # zone -> days where the feed's imsak was not Subuh - 10 (e.g. PLS01 publishes imsak = Subuh)
 MON.update({"mac": 3, "mei": 5, "ogo": 8, "okt": 10, "dis": 12})  # e-solat uses Malay abbreviations
 
 
@@ -36,7 +37,9 @@ def esolat(zone, year):
         if day.year != year:
             continue
         fajr = mins(p["fajr"])
-        out[day] = ([mins(p["imsak"]) if p.get("imsak") else fajr - 10] + [mins(p[k]) for k in KEYS[1:]], p.get("hijri", ""))
+        out[day] = ([fajr - 10] + [mins(p[k]) for k in KEYS[1:]], p.get("hijri", ""))
+        if p.get("imsak") and mins(p["imsak"]) != fajr - 10:
+            IMSAK_FIX.setdefault(zone, []).append(day.isoformat())
     return out
 
 
@@ -47,7 +50,9 @@ def waktusolat(zone, year):
         for p in d.get("prayers") or []:
             day = dt.date(year, m, int(p["day"]))
             fajr = mins(p["fajr"])
-            out[day] = ([mins(p["imsak"]) if p.get("imsak") else fajr - 10] + [mins(p[k]) for k in KEYS[1:]], p.get("hijri", ""))
+            out[day] = ([fajr - 10] + [mins(p[k]) for k in KEYS[1:]], p.get("hijri", ""))
+            if p.get("imsak") and mins(p["imsak"]) != fajr - 10:
+                IMSAK_FIX.setdefault(zone, []).append(day.isoformat())
         time.sleep(0.3)
     return out
 
@@ -80,6 +85,9 @@ def main():
                     print(f"{z} {year}: {name} returned {len(got)} days, failed validation")
                 except Exception as e:  # network / format change: try the next source
                     print(f"{z} {year}: {name} error {e!r}")
+            if IMSAK_FIX.get(z):
+                print(f"{z} {year}: imsak set to Subuh - 10 on {len(IMSAK_FIX[z])} day(s) where the feed differed, e.g. {IMSAK_FIX[z][:3]}")
+                IMSAK_FIX[z] = []
             if not days:
                 bad.append(f"{z}-{year}")
                 continue

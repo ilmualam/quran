@@ -352,7 +352,7 @@ if(sw){
     });
   }
   const doy=d=>Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(d.getFullYear(),0,1))/864e5);
-  // JAKIM e-solat answers browsers directly (as the ilmualam.com widget does); cached per zone and month for offline use
+  // JAKIM e-solat answers browsers directly; imsak is derived as Subuh - 10 because some zones (PLS01) publish it equal to Subuh (as the ilmualam.com widget does); cached per zone and month for offline use
   const MON={jan:0,feb:1,mar:2,mac:2,apr:3,may:4,mei:4,jun:5,jul:6,aug:7,ogo:7,sep:8,oct:9,okt:9,nov:10,dec:11,dis:11};
   const mn=v=>{const[h,m]=String(v).split(":");return +h*60+ +m};
   function live(zone,y,m){
@@ -362,7 +362,7 @@ if(sw){
     return fetch(`${S.api}${zone}`,{signal:ac.signal}).then(r=>r.ok?r.json():null).then(d=>{
       const out={t:[],h:[]},dim=new Date(y,m+1,0).getDate();
       for(const p of (d&&d.prayerTime)||[]){const[dd,mm,yy]=p.date.split("-");if(+yy!==y||MON[mm.toLowerCase().slice(0,3)]!==m)continue;
-        const f=mn(p.fajr);out.t[+dd-1]=[p.imsak?mn(p.imsak):f-10,f,mn(p.syuruk),mn(p.dhuhr),mn(p.asr),mn(p.maghrib),mn(p.isha)];out.h[+dd-1]=p.hijri||""}
+        const f=mn(p.fajr);out.t[+dd-1]=[f-10,f,mn(p.syuruk),mn(p.dhuhr),mn(p.asr),mn(p.maghrib),mn(p.isha)];out.h[+dd-1]=p.hijri||""}
       const ok=out.t.length===dim&&out.t.every(t=>t&&t[1]>=240&&t[1]<=400&&t.every((x,k)=>!k||x>t[k-1]));
       if(!ok)return null;store.set(key,out);return out;
     }).catch(()=>null);
