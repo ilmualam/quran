@@ -44,7 +44,7 @@ self.addEventListener("fetch", e => {
   }
 
   // everything else same-origin: cache first, revalidate in the background
-  const bucket = url.pathname.includes("/data-surah/") ? DATA : SHELL;
+  const bucket = /\/(data-surah|assets\/data)\//.test(url.pathname) ? DATA : SHELL;
   e.respondWith(
     caches.match(req).then(hit => {
       const net = fresh(req, bucket);

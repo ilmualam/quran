@@ -1,14 +1,29 @@
 # Al-Quran Online – Ilmu Alam
 
-> Pembaca Al-Quran online percuma dalam Bahasa Melayu: 114 surah (30 juzuk) dengan teks Arab, bacaan Rumi, terjemahan Bahasa Melayu dan audio murottal daripada 5 qari. Dikendalikan oleh The Ilmu Alam (https://www.ilmualam.com/).
+> Pembaca Al-Quran online percuma dalam Bahasa Melayu: 114 surah (30 juzuk) dengan teks Arab, bacaan Rumi, terjemahan Bahasa Melayu dan audio murottal daripada 5 qari, serta alat jadual khatam, jadual hafazan, tasbih digital, carian ayat dan senarai 30 juzuk. Dikendalikan oleh The Ilmu Alam (https://www.ilmualam.com/).
 
-Halaman ini menerangkan hukum membaca Al-Quran secara digital mengikut mazhab Syafi'i (wuduk, haid/nifas, pahala), konteks Malaysia, glosari dan soalan lazim. Ia bukan fatwa; rujuk mufti atau pejabat agama negeri untuk keputusan peribadi.
+Laman utama menerangkan hukum membaca Al-Quran secara digital mengikut mazhab Syafi'i (wuduk, haid/nifas, pahala), konteks Malaysia, glosari dan soalan lazim. Ia bukan fatwa; rujuk mufti atau pejabat agama negeri untuk keputusan peribadi. Muka surat merujuk Mushaf Madinah 604 muka surat; jumlah ayat 6,236 (riwayat Hafs, kiraan Kufah).
 
 ## Halaman utama
 - [Baca Al-Quran Online (Penuh 30 Juz) dengan Audio & Terjemahan](https://quran.ilmualam.com/): senarai 114 surah, pembaca dalam halaman, FAQ.
 
+## Alat
+- [Jadual Khatam Al-Quran 30 Hari & Ramadan (Kalkulator Percuma)](https://quran.ilmualam.com/jadual-khatam-al-quran/): Kalkulator jadual khatam Al-Quran: masukkan bilangan hari, tarikh mula dan muka surat terakhir dibaca; hasilnya jadual harian (muka surat, surah:ayat mula dan tamat) berdasarkan Mushaf Madinah 604 muka surat. Khatam 30 hari = 1 juzuk (≈20 muka surat) sehari = ≈4 muka surat selepas setiap solat fardu; Ramadan 29 hari = 20–21 muka surat sehari; 7 hari = 86–87 muka surat sehari.
+- [Jadual Hafazan Al-Quran: Rancang Hafal Juz 30, Yasin & Al-Mulk](https://quran.ilmualam.com/jadual-hafazan-al-quran/): Perancang jadual hafazan Al-Quran: pilih sasaran (Juz 1–30, seluruh Al-Quran, Al-Mulk, Yasin, Al-Kahfi, Al-Waqi'ah, Ar-Rahman, As-Sajdah, Al-Baqarah), kadar ayat atau muka surat sehari, susunan dan hari hafazan seminggu; hasilnya tarikh tamat dan jadual setiap sesi. Juz 30 = 564 ayat: 113 hari pada 5 ayat sehari, 57 hari pada 10 ayat sehari. Seluruh Al-Quran pada 1 muka surat sehari = 604 sesi.
+- [Tasbih Digital Online: Kira Zikir & Tasbih Selepas Solat](https://quran.ilmualam.com/tasbih-digital/): Tasbih digital (pengira zikir) dalam pelayar: tasbih selepas solat (Subhanallah 33, Alhamdulillah 33, Allahu Akbar 33, kemudian tahlil 1 = 100; HR Muslim 597), istighfar 100 (HR Muslim 2702), Subhanallahi wa bihamdih 100 (HR Al-Bukhari 6405, Muslim 2691), selawat 100, dan sasaran sendiri. Getaran, kiraan disimpan dalam localStorage, berfungsi tanpa internet.
+- [Cari Ayat Al-Quran Ikut Kata Kunci & Topik (Bahasa Melayu)](https://quran.ilmualam.com/cari-ayat-al-quran/): Carian ayat Al-Quran dalam terjemahan Bahasa Melayu (Abdullah Muhammad Basmeih) bagi 6,236 ayat, mengikut kata kunci atau rujukan surah:ayat (contoh 2:255 Ayat Kursi). Halaman ini juga menyenaraikan ayat mengikut topik: sabar (2:153, 2:286, 94:5–6), rezeki (65:3, 11:6), ibu bapa (17:23–24, 31:14), taubat (39:53, 66:8), doa (2:186, 40:60, 2:201), syukur (14:7, 13:28, 2:152), keluarga (30:21, 25:74), solat (29:45, 2:45), ilmu (20:114, 96:1, 58:11), kelebihan Al-Quran (17:82, 54:17, 35:29).
+- [Senarai 30 Juzuk Al-Quran: Surah & Ayat Mula Setiap Juz](https://quran.ilmualam.com/senarai-juzuk-al-quran/): Senarai 30 juzuk Al-Quran dengan surah:ayat mula dan tamat, muka surat Mushaf Madinah dan bilangan ayat. Juz 30 bermula An-Naba' 78:1, 37 surah, 564 ayat, muka surat 582–604. Yasin: Juz 22 (ayat 1–27) dan Juz 23 (28–83). Al-Kahfi: Juz 15 (1–74) dan Juz 16 (75–110). 15 tempat sajdah; mazhab Syafi'i: 14 sajdah tilawah, Sad 38:24 sajdah syukur. 7 manzil bermula 1, 5, 10, 17, 26, 37, 50.
+- [Alat Al-Quran & Islamik Percuma: Khatam, Hafazan, Tasbih](https://quran.ilmualam.com/alat/): Direktori alat Al-Quran percuma: jadual khatam, jadual hafazan, tasbih digital, carian ayat (terjemahan Melayu) dan senarai 30 juzuk.
+
+## Maklumat laman
+- [Tentang Kami – Al-Quran Online oleh The Ilmu Alam](https://quran.ilmualam.com/tentang-kami/): Tentang laman: projek The Ilmu Alam (ilmualam.com, sejak 2020), sumber data (AlQuran Cloud, EveryAyah.com, Tanzil/quran-meta, Amiri), proses semakan dan dasar pembetulan.
+- [Hubungi Kami – Al-Quran Online (The Ilmu Alam)](https://quran.ilmualam.com/hubungi-kami/): Hubungi: borang di ilmualam.com/p/contact.html untuk laporan kesilapan, cadangan alat dan kerjasama.
+- [Terma Penggunaan & Penafian – Al-Quran Online](https://quran.ilmualam.com/terma-penggunaan/): Terma penggunaan dan penafian: kegunaan peribadi/pendidikan, rujuk mushaf bercetak, kandungan hukum bukan fatwa, undang-undang Malaysia.
+- [Dasar Privasi – Al-Quran Online | Ilmu Alam](https://quran.ilmualam.com/dasar-privasi.html): Dasar privasi: tiada akaun; tetapan, tanda bacaan, kiraan tasbih dan kemajuan khatam disimpan dalam localStorage; pihak ketiga (Google AdSense, EveryAyah.com, GitHub Pages); hak di bawah PDPA 2010.
+
 ## Data
 - Teks Arab, Rumi dan terjemahan Melayu setiap surah tersedia dalam /data-surah/surah-N.json (N = 1–114).
+- Terjemahan Melayu semua ayat dalam satu fail: /assets/data/terjemahan-ms.json (tatasusunan 114 surah, setiap satu tatasusunan ayat).
 - Audio ayat demi ayat: EveryAyah.com (Alafasy, As-Sudais, Al-Husary, Abdul Basit, Al-Ghamadi).
 
 ## Senarai surah (artikel penuh di ilmualam.com jika ada)

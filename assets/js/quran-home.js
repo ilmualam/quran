@@ -241,7 +241,7 @@ if(slots.length){
 }
 
 /* ---------- PWA: offline cache + install button ---------- */
-if("serviceWorker" in navigator&&isSecureContext)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+if("serviceWorker" in navigator&&isSecureContext)addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
 let deferred=null;const inst=$("#inst");
 addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;if(inst)inst.hidden=false});
 inst?.addEventListener("click",async()=>{if(!deferred)return;deferred.prompt();try{await deferred.userChoice}catch{}deferred=null;inst.hidden=true});

@@ -1,13 +1,14 @@
 import json, re, hashlib, html, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from surahs import S, MADANI, ALIAS, POPULAR, ARTICLES
+from pages import build_pages, tool_cards
 from urllib.parse import quote, urlparse
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCR = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://quran.ilmualam.com/"
 MAIN = "https://www.ilmualam.com/"
-TODAY = "2026-10-10"
+TODAY = "2026-10-17"
 BULAN = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]
 TODAYMS = f"{int(TODAY[8:])} {BULAN[int(TODAY[5:7]) - 1]} {TODAY[:4]}"
 OGIMG = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJxqp-Slnk0sIXWrsKrRUlkwOb7NZPN-JVM3fRd5hg4RN6Ppx9k2X0jMNzMhz3Z6JS1vXNpZqEBCA4MyAuwJDs_FZD6wbPG-YiL2_znJmH6880F69I_bZbxUw7HT7xCM79S9KF_MrPcmXLHNPkpyxQiXRHSx0OhfIEyxqiVbOQ142DUKEDaS8BnNzss44/w1200-h630-p-k-no-nu/al-quran-online-baca-digital.webp"
@@ -82,8 +83,10 @@ def sha(s):
 
 THEME_JS = 'try{var t=localStorage.getItem("ilmq:theme");if(t){t=JSON.parse(t);if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}}catch(e){}'
 
-from cssbuild import build as build_css
+from cssbuild import build as build_css, mini
 css = build_css(f"{SCR}/home.css", f"{REPO}/assets/css/quran.min.css")
+# tool/info pages: landing styles + tool styles, without the reader widget CSS
+css_page = mini(open(f"{SCR}/home.css", encoding="utf8").read()) + mini(open(f"{SCR}/tools.css", encoding="utf8").read())
 
 graph = {
  "@context": "https://schema.org",
@@ -116,9 +119,9 @@ faq_html = "\n".join(
     f'<details class="q"><summary><h3>{e(q)}</h3></summary><div class="an"><p>{e(a)}</p></div></details>' for q, a in FAQ
 )
 
-ICON_LINKS = ('<link rel="icon" href="favicon.ico" sizes="48x48">\n'
-              '<link rel="icon" href="assets/icons/favicon-96.png" type="image/png" sizes="96x96">\n'
-              '<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">')
+ICON_LINKS = ('<link rel="icon" href="/favicon.ico" sizes="48x48">\n'
+              '<link rel="icon" href="/assets/icons/favicon-96.png" type="image/png" sizes="96x96">\n'
+              '<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">')
 
 def share_bar(url, text):
     u, t = quote(url, safe=""), quote(text, safe="")
@@ -163,41 +166,127 @@ rep = {
  "{{AD1}}": ad(0), "{{AD2}}": ad(1), "{{AD3}}": ad(2),
  "{{CSP}}": csp, "{{TITLE}}": e(TITLE), "{{DESC}}": e(DESC), "{{SITE}}": SITE, "{{MAIN}}": MAIN, "{{OGIMG}}": OGIMG,
  "{{CSS}}": css, "{{THEMEJS}}": THEME_JS, "{{JSONLD}}": JSONLD, "{{GRID}}": GRID, "{{POP}}": POP,
- "{{POPIDS}}": ",".join(map(str, POPULAR)), "{{FAQ}}": faq_html, "{{HUKUM}}": e(HUKUM_TITLE), "{{TODAYMS}}": TODAYMS, "{{TODAY}}": TODAY,
+ "{{TOOLS}}": tool_cards(""), "{{POPIDS}}": ",".join(map(str, POPULAR)), "{{FAQ}}": faq_html, "{{HUKUM}}": e(HUKUM_TITLE), "{{TODAYMS}}": TODAYMS, "{{TODAY}}": TODAY,
 }
 PAGE = render(PAGE, rep)
 open(f"{REPO}/index.html", "w", encoding="utf8", newline="\n").write(PAGE)
 
-PRIV_LD = json.dumps({"@context": "https://schema.org", "@type": "WebPage", "@id": SITE + "dasar-privasi.html", "url": SITE + "dasar-privasi.html",
-  "name": "Dasar Privasi, Terma & Penafian – Al-Quran Online", "inLanguage": "ms-MY", "dateModified": TODAY,
-  "isPartOf": {"@id": SITE + "#website"}, "publisher": {"@id": MAIN + "#org"}}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-PRIV = render(open(f"{SCR}/privacy.html", encoding="utf8").read(), {
- "{{HEADER}}": HEADER, "{{FOOTER}}": FOOTER, "{{ICONS}}": ICON_LINKS, "{{ADMETA}}": ADMETA, "{{CSP}}": csp, "{{SITE}}": SITE, "{{MAIN}}": MAIN,
- "{{CSS}}": css, "{{THEMEJS}}": THEME_JS, "{{JSONLD}}": PRIV_LD, "{{TODAYMS}}": TODAYMS, "{{TODAY}}": TODAY})
-open(f"{REPO}/dasar-privasi.html", "w", encoding="utf8", newline="\n").write(PRIV)
+# ---- every other page: tools/layout.html around bodies from tools/pages.py (+ privacy.html, 404) ----
+import plans, og
+ORG, WEBSITE = graph["@graph"][0], graph["@graph"][1]
+LAYOUT = open(f"{SCR}/layout.html", encoding="utf8").read()
+FONT_PRELOAD = '<link rel="preload" href="/assets/fonts/amiri-arabic-400-normal.woff2" as="font" type="font/woff2" crossorigin>\n'
+PUBLISHED = "2026-10-17"  # first publication of the tool/info pages; dateModified follows TODAY
+
+
+def header_for(path):
+    href = f'<a href="/{path}">'
+    return HEADER.replace(href, f'<a href="/{path}" aria-current="page">', 1) if path and href in HEADER else HEADER
+
+
+def page_graph(pg, url, ogimg):
+    crumbs = [{"@type": "ListItem", "position": 1, "name": "Al-Quran Online", "item": SITE}]
+    crumbs += [{"@type": "ListItem", "position": i, "name": n, "item": SITE + p if p is not None else url} for i, (n, p) in enumerate(pg["crumbs"], 2)]
+    wp = {"@type": pg.get("schema", "WebPage"), "@id": url + "#webpage", "url": url, "name": pg["title"], "description": pg["desc"],
+          "inLanguage": "ms-MY", "isPartOf": {"@id": SITE + "#website"}, "breadcrumb": {"@id": url + "#crumbs"},
+          "primaryImageOfPage": {"@type": "ImageObject", "url": ogimg, "width": 1200, "height": 630},
+          "dateModified": TODAY, "author": {"@id": MAIN + "#org"}, "publisher": {"@id": MAIN + "#org"},
+          "about": [{"@type": "Thing", "name": a} for a in pg.get("about", [])],
+          "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", ".box"]}}
+    if pg["path"] != "dasar-privasi.html":
+        wp["datePublished"] = PUBLISHED
+    nodes = [ORG, WEBSITE, wp, {"@type": "BreadcrumbList", "@id": url + "#crumbs", "itemListElement": crumbs}]
+    if pg.get("app"):
+        a = pg["app"]
+        wp["mainEntity"] = {"@id": url + "#app"}
+        nodes.append({"@type": "WebApplication", "@id": url + "#app", "name": a["name"], "url": url,
+                      "applicationCategory": "LifestyleApplication" if pg["path"] == "tasbih-digital/" else "EducationalApplication",
+                      "operatingSystem": "Any (web browser)", "browserRequirements": "Requires JavaScript", "inLanguage": "ms-MY",
+                      "isAccessibleForFree": True, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "MYR"},
+                      "featureList": a["features"], "image": ogimg, "publisher": {"@id": MAIN + "#org"}})
+    if pg.get("itemlist"):
+        il = pg["itemlist"]
+        wp["mainEntity"] = {"@id": url + "#list"}
+        nodes.append({"@type": "ItemList", "@id": url + "#list", "name": il["name"], "numberOfItems": len(il["items"]), "itemListElement": il["items"]})
+    if pg.get("faq"):
+        nodes.append({"@type": "FAQPage", "@id": url + "#faq", "inLanguage": "ms-MY", "isPartOf": {"@id": url + "#webpage"},
+                      "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in pg["faq"]]})
+    return json.dumps({"@context": "https://schema.org", "@graph": nodes}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+
+
+PRIV_BODY = render(open(f"{SCR}/privacy.html", encoding="utf8").read(), {"{{MAIN}}": MAIN, "{{TODAYMS}}": TODAYMS, "{{TODAY}}": TODAY})
+NOTFOUND = ('<div class="hero sm"><div class="wrap"><h1>Halaman Tidak Dijumpai (404)</h1><p class="lead">Pautan ini mungkin telah berubah. '
+            'Cuba salah satu pautan di bawah.</p></div></div><div class="wrap mn pg1"><div class="ct"><section aria-labelledby="h-404">'
+            '<h2 id="h-404">Mungkin anda mencari</h2>' + tool_cards(None, "tcards big") +
+            '<p><a class="btn3" href="/">📖 Ke laman utama Al-Quran Online</a></p></section></div></div>')
+PAGES = build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
+    dict(path="dasar-privasi.html", kind="info", data=False, arabic=False, title="Dasar Privasi – Al-Quran Online | Ilmu Alam",
+         ogtitle="Dasar Privasi – Al-Quran Online",
+         desc="Dasar privasi Al-Quran Online (quran.ilmualam.com): data yang disimpan dalam pelayar anda, kuki, iklan Google AdSense dan hak anda di bawah PDPA 2010.",
+         crumbs=[("Dasar Privasi", None)], body=PRIV_BODY, faq=[], about=["Dasar privasi"],
+         llms="Dasar privasi: tiada akaun; tetapan, tanda bacaan, kiraan tasbih dan kemajuan khatam disimpan dalam localStorage; pihak ketiga (Google AdSense, EveryAyah.com, GitHub Pages); hak di bawah PDPA 2010."),
+    dict(path="404.html", kind="info", data=False, arabic=False, noindex=True, title="Halaman Tidak Dijumpai – Al-Quran Online",
+         ogtitle="Al-Quran Online", desc="Halaman tidak dijumpai. Baca Al-Quran online atau gunakan alat khatam, hafazan, tasbih dan carian ayat.",
+         crumbs=[("404", None)], body=NOTFOUND, faq=[], about=[]),
+]
+OUTPUTS = {"": PAGE}
+for pg in PAGES:
+    url = SITE + pg["path"]
+    slug = pg["path"].strip("/").replace(".html", "")
+    ogp = og.card(slug, pg["ogtitle"], pg["desc"]) if not pg.get("noindex") else None
+    ogimg = SITE + ogp if ogp else OGIMG
+    data = (f'<script type="application/json" id="qd">{plans.jsdata()}</script>\n' if pg.get("data") else "") + (pg.get("extra_data", "") + "\n" if pg.get("extra_data") else "")
+    html_out = render(LAYOUT, {
+        "{{HEADER}}": header_for(pg["path"]), "{{FOOTER}}": FOOTER, "{{BODY}}": pg["body"], "{{DATA}}": data,
+        "{{SCRIPTS}}": '<script src="/assets/js/alat.js" defer></script>\n' if pg["kind"] == "tool" else "",
+        "{{PRELOAD}}": FONT_PRELOAD if pg.get("arabic") else "", "{{ICONS}}": ICON_LINKS, "{{ADMETA}}": ADMETA, "{{CSP}}": csp,
+        "{{ROBOTS}}": "noindex,follow" if pg.get("noindex") else "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
+        "{{OGTYPE}}": "website", "{{TITLE}}": e(pg["title"]), "{{OGTITLE}}": e(pg["ogtitle"]), "{{DESC}}": e(pg["desc"]), "{{URL}}": url, "{{OGIMG}}": ogimg,
+        "{{CSS}}": css_page, "{{THEMEJS}}": THEME_JS, "{{JSONLD}}": page_graph(pg, url, ogimg), "{{TODAY}}": TODAY, "{{MAIN}}": MAIN})
+    assert len(pg["title"]) <= 70 and len(pg["desc"]) <= 160, (pg["path"], len(pg["title"]), len(pg["desc"]))
+    out = f"{REPO}/{pg['path']}" + ("index.html" if pg["path"].endswith("/") else "")
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    open(out, "w", encoding="utf8", newline="\n").write(html_out)
+    OUTPUTS[pg["path"]] = html_out
+
+# Malay translation index for /cari-ayat-al-quran/ (fetched only when the visitor starts searching)
+os.makedirs(f"{REPO}/assets/data", exist_ok=True)
+open(f"{REPO}/assets/data/terjemahan-ms.json", "w", encoding="utf8", newline="\n").write(json.dumps(
+    [[v["translation"] for v in json.load(open(f"{REPO}/data-surah/surah-{i}.json", encoding="utf8"))] for i in range(1, 115)],
+    ensure_ascii=False, separators=(",", ":")))
 
 # ---- supporting files ----
+INDEXED = [""] + [p["path"] for p in PAGES if not p.get("noindex")]
 BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended"]
 robots = f"# robots.txt for {SITE}\n# Everything is public. Search engines and AI answer engines are welcome.\n\nUser-agent: *\nAllow: /\n\n"
 robots += "".join(f"User-agent: {b}\nAllow: /\n\n" for b in BOTS) + f"Sitemap: {SITE}sitemap.xml\n"
 open(f"{REPO}/robots.txt", "w", newline="\n").write(robots)
 open(f"{REPO}/sitemap.xml", "w", newline="\n").write(
  '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
- + "".join(f"  <url>\n    <loc>{SITE}{p}</loc>\n    <lastmod>{TODAY}</lastmod>\n  </url>\n" for p in ["", "dasar-privasi.html"])
+ + "".join(f"  <url>\n    <loc>{SITE}{p}</loc>\n    <lastmod>{TODAY}</lastmod>\n  </url>\n" for p in INDEXED)
  + "</urlset>\n")
 
 lines = [f"- [{S[n][1]} ({n}) – {S[n][2]}, {AYAT[n]} ayat]({URLS.get(n, SITE + '#surah-' + str(n))})" for n in range(1, 115)]
+tool_lines = [f"- [{p['title']}]({SITE}{p['path']}): {p['llms']}" for p in PAGES if p["kind"] in ("tool", "ref", "hub")]
+info_lines = [f"- [{p['title']}]({SITE}{p['path']}): {p['llms']}" for p in PAGES if p["kind"] == "info" and not p.get("noindex")]
 open(f"{REPO}/llms.txt", "w", encoding="utf8", newline="\n").write(f"""# Al-Quran Online – Ilmu Alam
 
-> Pembaca Al-Quran online percuma dalam Bahasa Melayu: 114 surah (30 juzuk) dengan teks Arab, bacaan Rumi, terjemahan Bahasa Melayu dan audio murottal daripada 5 qari. Dikendalikan oleh The Ilmu Alam ({MAIN}).
+> Pembaca Al-Quran online percuma dalam Bahasa Melayu: 114 surah (30 juzuk) dengan teks Arab, bacaan Rumi, terjemahan Bahasa Melayu dan audio murottal daripada 5 qari, serta alat jadual khatam, jadual hafazan, tasbih digital, carian ayat dan senarai 30 juzuk. Dikendalikan oleh The Ilmu Alam ({MAIN}).
 
-Halaman ini menerangkan hukum membaca Al-Quran secara digital mengikut mazhab Syafi'i (wuduk, haid/nifas, pahala), konteks Malaysia, glosari dan soalan lazim. Ia bukan fatwa; rujuk mufti atau pejabat agama negeri untuk keputusan peribadi.
+Laman utama menerangkan hukum membaca Al-Quran secara digital mengikut mazhab Syafi'i (wuduk, haid/nifas, pahala), konteks Malaysia, glosari dan soalan lazim. Ia bukan fatwa; rujuk mufti atau pejabat agama negeri untuk keputusan peribadi. Muka surat merujuk Mushaf Madinah 604 muka surat; jumlah ayat 6,236 (riwayat Hafs, kiraan Kufah).
 
 ## Halaman utama
 - [{TITLE}]({SITE}): senarai 114 surah, pembaca dalam halaman, FAQ.
 
+## Alat
+""" + "\n".join(tool_lines) + f"""
+
+## Maklumat laman
+""" + "\n".join(info_lines) + """
+
 ## Data
 - Teks Arab, Rumi dan terjemahan Melayu setiap surah tersedia dalam /data-surah/surah-N.json (N = 1–114).
+- Terjemahan Melayu semua ayat dalam satu fail: /assets/data/terjemahan-ms.json (tatasusunan 114 surah, setiap satu tatasusunan ayat).
 - Audio ayat demi ayat: EveryAyah.com (Alafasy, As-Sudais, Al-Husary, Abdul Basit, Al-Ghamadi).
 
 ## Senarai surah (artikel penuh di ilmualam.com jika ada)
@@ -207,13 +296,14 @@ ICONS = [
  {"src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
  {"src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
  {"src": "assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]
-SC = [("Surah Yasin", 36), ("Surah Al-Kahfi", 18), ("Surah Al-Mulk", 67), ("Surah Al-Waqi'ah", 56)]
+SC = [("Surah Yasin", "Yasin", "./#surah-36"), ("Surah Al-Kahfi", "Al-Kahfi", "./#surah-18"),
+      ("Tasbih Digital", "Tasbih", "./tasbih-digital/"), ("Jadual Khatam Al-Quran", "Khatam", "./jadual-khatam-al-quran/")]
 open(f"{REPO}/manifest.webmanifest", "w", encoding="utf8", newline="\n").write(json.dumps({
  "id": "/", "name": "Al-Quran Online – Ilmu Alam", "short_name": "Al-Quran", "description": DESC, "lang": "ms-MY", "dir": "ltr",
  "start_url": "./?utm_source=pwa", "scope": "./", "display": "standalone", "display_override": ["standalone", "minimal-ui"],
  "orientation": "any", "background_color": "#ffffff", "theme_color": "#0c3808", "categories": ["education", "books", "lifestyle"],
  "icons": ICONS,
- "shortcuts": [{"name": n, "short_name": n.replace("Surah ", ""), "url": f"./#surah-{k}", "icons": [ICONS[0]]} for n, k in SC]},
+ "shortcuts": [{"name": n, "short_name": sn, "url": u, "icons": [ICONS[0]]} for n, sn, u in SC]},
  ensure_ascii=False, indent=2) + "\n")
 
 # ---- Blogger CTA: one script on www.ilmualam.com adds a "read & listen" box to each surah article ----
@@ -224,11 +314,15 @@ cta = "".join(c if ord(c) < 128 else "".join(f"\\u{int.from_bytes(b[i:i + 2], 'b
 open(f"{REPO}/assets/js/surah-cta.js", "w", encoding="ascii", newline="\n").write(cta)
 
 # service worker: version = hash of everything it precaches, so any deploy busts the old cache
-PRE = ["./", "dasar-privasi.html", "assets/js/quran-home.js", "assets/fonts/amiri-arabic-400-normal.woff2", "manifest.webmanifest",
-       "favicon.ico", "assets/icons/logo-64.webp", "assets/icons/favicon-96.png", "assets/icons/icon-192.png", "assets/icons/icon-512.png"]
-h = hashlib.sha256(PAGE.encode())
-for f in PRE[1:]:
+PAGE_PATHS = [p["path"] for p in PAGES]
+ASSETS = ["assets/js/quran-home.js", "assets/js/alat.js", "assets/fonts/amiri-arabic-400-normal.woff2", "manifest.webmanifest",
+          "favicon.ico", "assets/icons/logo-64.webp", "assets/icons/favicon-96.png", "assets/icons/icon-192.png", "assets/icons/icon-512.png"]
+PRE = ["./"] + PAGE_PATHS + ASSETS
+h = hashlib.sha256()
+for k in sorted(OUTPUTS):
+    h.update(OUTPUTS[k].encode())
+for f in ASSETS:
     h.update(open(f"{REPO}/{f}", "rb").read())
 sw = open(f"{SCR}/sw.js", encoding="utf8").read().replace("{{VER}}", h.hexdigest()[:10]).replace("{{PRE}}", json.dumps(PRE))
 open(f"{REPO}/sw.js", "w", encoding="utf8", newline="\n").write(sw)
-print("OK", len(PAGE), "bytes; total ayat", sum(AYAT.values()), "| ads", "ON" if ADS_ON else "off", "| surah without article link:", MISSING or "none")
+print("OK", len(PAGE), "bytes; pages", len(PAGES) + 1, "; total ayat", sum(AYAT.values()), "| ads", "ON" if ADS_ON else "off", "| surah without article link:", MISSING or "none")

@@ -68,9 +68,9 @@
       ]
     },
     {
-      "name": "Surah Al-Mulk",
-      "short_name": "Al-Mulk",
-      "url": "./#surah-67",
+      "name": "Tasbih Digital",
+      "short_name": "Tasbih",
+      "url": "./tasbih-digital/",
       "icons": [
         {
           "src": "assets/icons/icon-192.png",
@@ -81,9 +81,9 @@
       ]
     },
     {
-      "name": "Surah Al-Waqi'ah",
-      "short_name": "Al-Waqi'ah",
-      "url": "./#surah-56",
+      "name": "Jadual Khatam Al-Quran",
+      "short_name": "Khatam",
+      "url": "./jadual-khatam-al-quran/",
       "icons": [
         {
           "src": "assets/icons/icon-192.png",
