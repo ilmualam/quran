@@ -2,10 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://quran.ilmualam.com/</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-17</lastmod>
+  </url>
+  <url>
+    <loc>https://quran.ilmualam.com/jadual-khatam-al-quran/</loc>
+    <lastmod>2026-10-17</lastmod>
+  </url>
+  <url>
+    <loc>https://quran.ilmualam.com/jadual-hafazan-al-quran/</loc>
+    <lastmod>2026-10-17</lastmod>
+  </url>
+  <url>
+    <loc>https://quran.ilmualam.com/tasbih-digital/</loc>
+    <lastmod>2026-10-17</lastmod>
+  </url>
+  <url>
+    <loc>https://quran.ilmualam.com/cari-ayat-al-quran/</loc>
+    <lastmod>2026-10-17</lastmod>
+  </url>
+  <url>
+    <loc>https://quran.ilmualam.com/senarai-juzuk-al-quran/</loc>
+    <lastmod>2026-10-17</lastmod>
+  </url>
+  <url>
+    <loc>https://quran.ilmualam.com/alat/</loc>
+    <lastmod>2026-10-17</lastmod>
+  </url>
+  <url>
+    <loc>https://quran.ilmualam.com/tentang-kami/</loc>
+    <lastmod>2026-10-17</lastmod>
+  </url>
+  <url>
+    <loc>https://quran.ilmualam.com/hubungi-kami/</loc>
+    <lastmod>2026-10-17</lastmod>
+  </url>
+  <url>
+    <loc>https://quran.ilmualam.com/terma-penggunaan/</loc>
+    <lastmod>2026-10-17</lastmod>
   </url>
   <url>
     <loc>https://quran.ilmualam.com/dasar-privasi.html</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-17</lastmod>
   </url>
 </urlset>

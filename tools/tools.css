@@ -1,0 +1,92 @@
+/* tool + info pages only (not inlined on the home page) */
+.pg1{grid-template-columns:minmax(0,1fr)!important;max-width:900px}
+.pg1 .prose h2{margin-top:28px}
+.pg1 .prose ul,.pg1 .prose ol{padding-left:1.2em}
+.pg1 .prose li{margin:0 0 8px}
+.side .one{display:block}
+.tool{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:18px 16px 14px;box-shadow:var(--sh)}
+@media(min-width:700px){.tool{padding:22px 22px 16px}}
+.frm{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));margin:0 0 12px}
+.frm.one{grid-template-columns:1fr}
+.fl{display:flex;flex-direction:column;gap:4px;min-width:0}
+.fl.w2{grid-column:1/-1}
+@media(min-width:700px){.fl.w2{grid-column:span 2}}
+.fl label{font-weight:800;font-size:.9rem}
+.fl small{color:var(--sub);font-size:.8rem}
+.fl input,.fl select{width:100%;height:46px;padding:0 12px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);min-width:0}
+.fl select:disabled{opacity:.55}
+.chips2{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.chips2 button{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--bd);background:var(--card);font-size:.9rem;font-weight:700;color:var(--sub)}
+.chips2 button:hover{border-color:var(--g)}
+.chips2 button[aria-pressed=true]{background:var(--d);border-color:var(--d);color:#fff}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .chips2 button[aria-pressed=true]{background:var(--g);border-color:var(--g);color:#04130a}}
+:root[data-theme=dark] .chips2 button[aria-pressed=true]{background:var(--g);border-color:var(--g);color:#04130a}
+.sum{background:var(--muted);border:1px solid var(--bd);border-left:5px solid var(--g);border-radius:14px;padding:12px 16px;margin:0 0 8px;min-height:96px}
+.sum p{margin:0 0 6px}
+.sum p:last-child{margin:0}
+.prog{min-height:1.7em;margin:0 0 6px;font-weight:700;color:var(--lk)}
+.act{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.btn2{display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:0 14px;border-radius:12px;border:1px solid var(--bd);background:var(--card);font-size:.9rem;font-weight:700;color:var(--text)}
+.btn2:hover{border-color:var(--g)}
+.btn2[aria-pressed=false]{color:var(--sub)}
+.btn3{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 20px;border-radius:12px;background:var(--d);color:#fff!important;font-weight:800;text-decoration:none}
+table.plan{table-layout:fixed;min-width:640px}
+table.plan th,table.plan td{padding:9px 10px}
+table.plan input{width:20px;height:20px;accent-color:var(--g)}
+table.plan td a{font-weight:700;text-decoration:none}
+.tw{max-height:none}
+.note{font-size:.88rem;color:var(--sub)}
+.steps{padding-left:1.3em}
+.steps li{margin:0 0 10px}
+.src{padding-left:1.2em}
+.jz{min-width:780px}
+.jz td{vertical-align:top}
+.jz td:nth-child(-n+5){white-space:nowrap}
+.jar{white-space:nowrap}
+.jar{display:block;font:400 1.15rem/1.6 var(--ar);color:var(--sub);text-align:right}
+.j30{list-style:none;padding:0;margin:0;display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.j30 a{display:block;padding:8px 12px;background:var(--card);border:1px solid var(--bd);border-radius:10px;text-decoration:none;font-weight:700;font-size:.92rem}
+.j30 a:hover{border-color:var(--g)}
+/* search results / topical ayat */
+.hits{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:10px}
+.hits li{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 16px}
+.hits p{margin:0 0 6px}
+.hits p:last-child{margin:0}
+.cref{font-weight:800}
+.cref a{text-decoration:none}
+.car{font:400 1.55rem/2.1 var(--ar);text-align:right;margin:4px 0 8px!important}
+.cgo{font-size:.88rem;font-weight:700}
+.hits mark{background:#fde58a;color:#1b1b1b;border-radius:3px;padding:0 2px}
+.cmore{background:none!important;border:0!important;text-align:center}
+#topik section{margin-bottom:22px}
+/* tasbih */
+.tzw{text-align:center}
+.tar{font:400 clamp(1.7rem,7vw,2.4rem)/1.9 var(--ar);margin:0;color:var(--lk);min-height:2.3em;display:flex;align-items:center;justify-content:center}
+.trm{font-weight:800;margin:0 0 2px;min-height:1.7em}
+.tmn{color:var(--sub);font-size:.92rem;margin:0 auto 12px;max-width:52ch;min-height:3.2em}
+.tbtn{position:relative;display:grid;place-items:center;width:240px;height:240px;margin:0 auto 6px;padding:0;border:0;border-radius:50%;background:radial-gradient(circle at 50% 35%,var(--hero1),var(--hero2));color:#fff;box-shadow:0 10px 30px rgba(12,56,8,.25);-webkit-tap-highlight-color:transparent;user-select:none}
+.tbtn:active{transform:scale(.97)}
+.tbtn svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.trk{fill:none;stroke:rgba(255,255,255,.18);stroke-width:7}
+.tpr{fill:none;stroke:#9ff0bd;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .15s}
+.tnum{position:relative;display:flex;flex-direction:column;align-items:center;line-height:1}
+#tcnt{font-size:4rem;font-weight:800;font-variant-numeric:tabular-nums}
+.ttgt{font-size:1rem;opacity:.85;margin-top:6px;min-height:1em}
+.tstep{min-height:1.7em;color:var(--sub);font-size:.9rem;margin:0 0 10px}
+.tact{justify-content:center}
+.tcustom{max-width:220px;margin:0 auto 12px}
+.tcustom[hidden]{display:none}
+.tstat{display:grid;grid-template-columns:1fr 1fr;max-width:420px;margin:0 auto}
+.tstat dd{font-size:1.4rem;font-weight:800;color:var(--text)}
+@media print{.frm,.chips2,.act,.sum+.prog,.kpre,.tool .note{display:none!important}.tool{border:0;box-shadow:none;padding:0}table.plan{min-width:0}.mn>.ct>section:not(.tool){display:none}.hero{background:none;color:#000;padding:0}.hero .lead,.hero .crumb{display:none}}
+/* phones: presets become one swipeable row so the tool stays above the fold */
+@media(max-width:699px){
+.hero.sm{padding-block:16px 20px}
+.hero.sm .lead{font-size:.97rem;line-height:1.55}
+.frm{grid-template-columns:repeat(2,minmax(0,1fr))}
+.frm.one{grid-template-columns:1fr}
+.chips2{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent)}
+.chips2::-webkit-scrollbar{display:none}
+.chips2 button{flex:none;white-space:nowrap}
+.tool{margin-inline:-4px}
+}
