@@ -8,7 +8,7 @@ TZ = 8
 FAJR, ISHA = 18.0, 18.0
 KAABA = (21.4225, 39.8262)
 
-# (slug, name, state, lat, lng, JAKIM zone): state capitals and major towns. Zone codes checked against the synced JAKIM timetables (best fit of syuruk to isyak per town)
+# (slug, name, state, lat, lng, JAKIM zone): state capitals and major towns. Zone codes follow JAKIM's zone list (assets/data/solat/zones.json)
 CITIES = [
     ("kuala-lumpur", "Kuala Lumpur", "W.P. Kuala Lumpur, Putrajaya & Labuan", 3.139, 101.687, "WLY01"),
     ("putrajaya", "Putrajaya", "W.P. Kuala Lumpur, Putrajaya & Labuan", 2.926, 101.696, "WLY01"),
@@ -53,7 +53,7 @@ CITIES = [
     ("ipoh", "Ipoh", "Perak", 4.597, 101.090, "PRK02"),
     ("taiping", "Taiping", "Perak", 4.850, 100.741, "PRK06"),
     ("teluk-intan", "Teluk Intan", "Perak", 4.026, 101.021, "PRK05"),
-    ("lumut", "Lumut", "Perak", 4.232, 100.630, "PRK06"),
+    ("lumut", "Lumut", "Perak", 4.232, 100.630, "PRK05"),
     ("kuala-kangsar", "Kuala Kangsar", "Perak", 4.773, 100.937, "PRK02"),
     ("gerik", "Gerik", "Perak", 5.428, 101.128, "PRK03"),
     ("tapah", "Tapah", "Perak", 4.198, 101.261, "PRK01"),
@@ -147,8 +147,8 @@ if __name__ == "__main__":
 
 
 # ---- all JAKIM zones, for the per-state pages (/waktu-solat/<negeri>/) ----
-# (code, state slug, areas, lat, lng). Area names follow the e-solat zone list; tools/solat_fetch.py also saves
-# JAKIM's own zone list (assets/data/solat/zones.json) and the build prefers its wording when present.
+# (code, state slug, areas, lat, lng). Codes and areas follow JAKIM's own zone list, which tools/solat_fetch.py saves to
+# assets/data/solat/zones.json; the build prefers that wording. Zone assignment comes from that list, not from fitting times.
 ZONES = [
     ("JHR01", "johor", "Pulau Aur, Pulau Pemanggil", 2.450, 104.520),
     ("JHR02", "johor", "Johor Bahru, Kota Tinggi, Mersing, Kulai", 1.493, 103.741),
@@ -168,18 +168,19 @@ ZONES = [
     ("NGS02", "negeri-sembilan", "Jelebu, Kuala Pilah, Rembau", 2.739, 102.249),
     ("NGS03", "negeri-sembilan", "Port Dickson, Seremban", 2.726, 101.938),
     ("PHG01", "pahang", "Pulau Tioman", 2.813, 104.160),
-    ("PHG02", "pahang", "Kuantan, Pekan, Rompin, Muadzam Shah", 3.808, 103.326),
+    ("PHG02", "pahang", "Kuantan, Pekan, Muadzam Shah", 3.808, 103.326),
     ("PHG03", "pahang", "Jerantut, Temerloh, Maran, Bera, Chenor, Jengka", 3.454, 102.370),
     ("PHG04", "pahang", "Bentong, Lipis, Raub", 3.522, 101.906),
     ("PHG05", "pahang", "Genting Sempah, Janda Baik, Bukit Tinggi", 3.421, 101.794),
     ("PHG06", "pahang", "Cameron Highlands, Genting Highlands, Bukit Fraser", 4.470, 101.378),
+    ("PHG07", "pahang", "Rompin", 2.800, 103.480),
     ("PRK01", "perak", "Tapah, Slim River, Tanjung Malim", 4.197, 101.258),
     ("PRK02", "perak", "Kuala Kangsar, Sungai Siput, Ipoh, Batu Gajah, Kampar", 4.598, 101.090),
     ("PRK03", "perak", "Lenggong, Pengkalan Hulu, Gerik", 5.200, 101.050),
     ("PRK04", "perak", "Temengor, Belum", 5.550, 101.350),
-    ("PRK05", "perak", "Kampung Gajah, Teluk Intan, Bagan Datuk, Seri Iskandar", 4.023, 101.021),
-    ("PRK06", "perak", "Beruas, Parit, Lumut, Sitiawan, Pulau Pangkor", 4.213, 100.617),
-    ("PRK07", "perak", "Selama, Taiping, Bagan Serai, Parit Buntar", 5.009, 100.738),
+    ("PRK05", "perak", "Kampung Gajah, Teluk Intan, Bagan Datuk, Seri Iskandar, Beruas, Parit, Lumut, Sitiawan, Pulau Pangkor", 4.023, 101.021),
+    ("PRK06", "perak", "Selama, Taiping, Bagan Serai, Parit Buntar", 4.850, 100.741),
+    ("PRK07", "perak", "Bukit Larut", 4.862, 100.795),
     ("PLS01", "perlis", "Kangar, Padang Besar, Arau", 6.441, 100.198),
     ("PNG01", "pulau-pinang", "Seluruh Negeri Pulau Pinang", 5.414, 100.329),
     ("SBH01", "sabah", "Bahagian Sandakan (Timur)", 5.840, 118.118),

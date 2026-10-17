@@ -77,7 +77,7 @@ def main():
         if isinstance(zl, list) and zl and all(isinstance(x, dict) and x.get("jakimCode") for x in zl):
             json.dump(zl, open(f"{OUT}/zones.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
             listed = {x["jakimCode"] for x in zl}
-            print("zone list:", len(zl), "zones; not in our table:", sorted(listed - zones) or "none", "; not in JAKIM list:", sorted(zones - listed) or "none")
+            print("zone list:", len(zl), "zones; not in our table:", sorted(listed - set(zones)) or "none", "; not in JAKIM list:", sorted(set(zones) - listed) or "none")
     except Exception as e:
         print("zone list unavailable:", repr(e))
     ok, bad = [], []

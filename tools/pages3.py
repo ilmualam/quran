@@ -21,7 +21,8 @@ def areas():
     if os.path.exists(p):
         for x in json.load(open(p, encoding="utf8")):
             if x.get("jakimCode") in out and x.get("daerah"):
-                out[x["jakimCode"]] = x["daerah"]
+                d = " ".join(x["daerah"].split()).replace(" ,", ",")
+                out[x["jakimCode"]] = d.title() if d.isupper() else d  # "SELURUH NEGERI MELAKA" -> "Seluruh Negeri Melaka"
     return out
 
 
