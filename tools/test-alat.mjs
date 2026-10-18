@@ -248,6 +248,19 @@ await pg.check('#msl input[data-m=huruf]');await pg.reload({waitUntil:'networkid
 ok(await pg.isChecked('#msl input[data-m=huruf]')&&(await pg.textContent('#msp')).startsWith('1 /'),'mengaji checklist persisted');
 ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
 
+// header: hamburger menu (popover), site search, footer subscribe form
+pg=await open('belajar-iqra/');
+await pg.click('.mnb');ok(await pg.isVisible('#menu a[href="/waktu-berbuka-puasa/"]'),'hamburger opens full menu');
+ok(await pg.$eval('#menu a[href="/belajar-iqra/"]',a=>a.getAttribute('aria-current'))==='page','menu marks current page');
+await pg.keyboard.press('Escape');ok(!(await pg.isVisible('#menu')),'Esc closes menu');
+await pg.keyboard.press('Control+k');await pg.fill('#srq','yasin');await pg.waitForSelector('#srr li');
+ok((await pg.textContent('#srr li:first-child strong'))==='Surah Yasin (36)','search: yasin -> Surah Yasin first');
+await pg.fill('#srq','berbuka johor');await pg.waitForTimeout(150);
+ok((await pg.textContent('#srr li:first-child strong')).includes('Johor'),'search: berbuka johor -> state page');
+await pg.keyboard.press('Enter');await pg.waitForURL(/waktu-berbuka-puasa\/johor\//);ok(true,'search Enter navigates to first result');
+ok((await pg.getAttribute('footer .fi-form','action')).startsWith('https://api.follow.it/'),'footer subscribe form');
+ok(pg.errs.length===0,'header no errors '+pg.errs);
+
 // home reader still works from root + reader link from tool page
 pg=await open('jadual-khatam-al-quran/');
 await pg.click('#kt tbody tr:nth-child(2) a');await pg.waitForSelector('dialog.rd[open]');
