@@ -1,22 +1,39 @@
 <a class="skip" href="#utama">Langkau ke kandungan</a>
 <header class="hd">
 <div class="wrap">
+<button class="ib mnb" type="button" popovertarget="menu" aria-label="Buka menu" aria-controls="menu"><span class="hb" aria-hidden="true"></span></button>
 <a class="brand" href="/" aria-label="Al-Quran Online – laman utama"><img class="logo" src="/assets/icons/logo-64.webp" width="32" height="32" alt=""><span>Al-Quran Online</span></a>
-<button class="ib inst" id="inst" type="button" hidden>⬇ Install</button>
-<button class="ib" id="theme" type="button" aria-label="Tema: automatik">🌓</button>
 <nav class="nav" aria-label="Navigasi utama">
-<a href="/#surah">📖 Surah</a>
+<a href="/#surah">Al-Quran</a>
 <a href="/waktu-berbuka-puasa/">🌙 Ramadan</a>
 <a href="/waktu-solat/">Waktu Solat</a>
 <a href="/belajar-solat/">Cara Solat</a>
-<a href="/doa-harian/">Doa</a>
-<a href="/zikir-pagi-petang/">Zikir</a>
 <a href="/belajar-mengaji/">Mengaji</a>
-<a href="/belajar-iqra/">Iqra'</a>
-<a href="/belajar-tajwid/">Tajwid</a>
-<a href="/jadual-khatam-al-quran/">Khatam</a>
-<a href="/tasbih-digital/">Tasbih</a>
+<a href="/doa-harian/">Doa</a>
 <a href="/alat/">Semua Alat</a>
 </nav>
+<button class="ib inst" id="inst" type="button" hidden>⬇ Install</button>
+<a class="ib srb" id="srb" href="/cari-ayat-al-quran/" aria-label="Cari (Ctrl+K)" aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></a>
+<button class="ib" id="theme" type="button" aria-label="Tema: automatik">🌓</button>
 </div>
 </header>
+<nav class="drw" id="menu" popover aria-label="Menu penuh">
+<div class="drh"><a class="brand" href="/"><img class="logo" src="/assets/icons/logo-64.webp" width="32" height="32" alt="" loading="lazy"><span>Al-Quran Online</span></a><button class="ib" type="button" popovertarget="menu" popovertargetaction="hide" aria-label="Tutup menu">✕</button></div>
+<div class="drb">
+<p class="drg">Al-Quran</p>
+<ul><li><a href="/#surah">📖 Baca Al-Quran (114 surah)</a></li><li><a href="/cari-ayat-al-quran/">🔎 Cari Ayat</a></li><li><a href="/senarai-juzuk-al-quran/">📚 Senarai 30 Juzuk</a></li><li><a href="/#surah-36">Surah Yasin</a></li><li><a href="/#surah-18">Surah Al-Kahfi</a></li><li><a href="/#surah-67">Surah Al-Mulk</a></li></ul>
+<p class="drg">Ramadan & Solat</p>
+<ul><li><a href="/waktu-berbuka-puasa/">🌙 Waktu Berbuka Puasa & Imsak</a></li><li><a href="/waktu-solat/">🕌 Waktu Solat Hari Ini</a></li><li><a href="/belajar-solat/">🧎 Cara Solat Lengkap</a></li></ul>
+<p class="drg">Belajar Membaca</p>
+<ul><li><a href="/belajar-mengaji/">🔤 Belajar Mengaji (Huruf Hijaiyah)</a></li><li><a href="/belajar-iqra/">📗 Belajar Iqra' 1–6</a></li><li><a href="/belajar-tajwid/">📘 Belajar Tajwid</a></li></ul>
+<p class="drg">Doa, Zikir & Amalan</p>
+<ul><li><a href="/doa-harian/">🤲 Himpunan Doa Harian</a></li><li><a href="/zikir-pagi-petang/">🌅 Zikir Pagi & Petang</a></li><li><a href="/tasbih-digital/">📿 Tasbih Digital</a></li><li><a href="/jadual-khatam-al-quran/">📅 Jadual Khatam</a></li><li><a href="/jadual-hafazan-al-quran/">🧠 Jadual Hafazan</a></li></ul>
+<p class="drg">Lagi</p>
+<ul><li><a href="/alat/">🧰 Semua Alat</a></li><li><a href="https://www.ilmualam.com/">📰 Artikel di ilmualam.com ↗</a></li><li><a href="/tentang-kami/">Tentang Kami</a></li><li><a href="/hubungi-kami/">Hubungi Kami</a></li></ul>
+</div>
+</nav>
+<div class="srm" id="srm" popover aria-label="Carian laman">
+<div class="srf" role="search"><label class="sr" for="srq">Cari surah, alat atau topik</label><input id="srq" type="search" autocomplete="off" enterkeyhint="search" placeholder="Cari surah, alat, doa… (contoh: yasin, berbuka, iqra)"><button class="ib" type="button" popovertarget="srm" popovertargetaction="hide" aria-label="Tutup carian">Esc</button></div>
+<ul class="srr" id="srr" role="listbox" aria-label="Hasil carian"></ul>
+<p class="srx" id="srx">Taip untuk mencari 114 surah, semua alat dan halaman. Tekan Enter untuk mencari dalam terjemahan ayat.</p>
+</div>

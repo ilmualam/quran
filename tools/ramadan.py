@@ -11,7 +11,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # (hijri year, expected 1 Ramadan, expected length). 1448: conjunction 6 Feb 2027 23:57 MYT, crescent visible on the 7th;
 # conjunction 8 Mar 2027 17:31 MYT is too late for the 29th, so 30 days and Aidilfitri on 10 Mar 2027.
 EXPECTED = [(1448, dt.date(2027, 2, 8), 30), (1449, dt.date(2028, 1, 28), 30)]
-REF_ZONE = "WLY01"
+REF_ZONES = ["WLY01"] + [z[0] for z in SL.ZONES]  # the Hijri column is national, so any synced zone will do
 _F = {}
 
 
@@ -29,7 +29,7 @@ def season(today):
     for y, start, n in EXPECTED:
         days = []
         for yr in (start.year - 1, start.year, start.year + 1):
-            d = official(REF_ZONE, yr)
+            d = next((o for o in (official(z, yr) for z in REF_ZONES) if o and o.get("h")), None)
             if d and d.get("h"):
                 days += [dt.date(yr, 1, 1) + dt.timedelta(i) for i, h in enumerate(d["h"]) if h.startswith(f"{y}-09-")]
         ok = 29 <= len(days) <= 30 and all((b - a).days == 1 for a, b in zip(days, days[1:]))

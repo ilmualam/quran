@@ -246,5 +246,33 @@ let deferred=null;const inst=$("#inst");
 addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;if(inst)inst.hidden=false});
 inst?.addEventListener("click",async()=>{if(!deferred)return;deferred.prompt();try{await deferred.userChoice}catch{}deferred=null;inst.hidden=true});
 addEventListener("appinstalled",()=>{deferred=null;if(inst)inst.hidden=true;toast("Al-Quran Online dipasang ✓")});
+/* ---------- site search (header): pages + 114 surah from /assets/data/cari.json, loaded on first open ---------- */
+if(!HTMLElement.prototype.showPopover)$$("[popovertarget=menu]").forEach(b=>b.addEventListener("click",()=>{location.href="/alat/"}));
+const srm=$("#srm"),srb=$("#srb");
+if(srm&&srb&&srm.showPopover){
+  const q=$("#srq"),list=$("#srr"),hint=$("#srx"),nk=s=>String(s).toLowerCase().replace(/[\-'’`‘.,:()]/g," ").replace(/\s+/g," ").trim();
+  let idx=null,sel=0,items=[];
+  const load=()=>idx||(idx=fetch("/assets/data/cari.json").then(r=>r.ok?r.json():[]).catch(()=>[]));
+  const open=()=>{load();if(!srm.matches(":popover-open"))srm.showPopover();q.focus();q.select()};
+  srb.addEventListener("click",e=>{e.preventDefault();open()});
+  addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();open()}});
+  srm.addEventListener("toggle",e=>{if(e.newState==="open"){load();q.focus()}});
+  const score=(r,t,toks)=>{const tl=nk(r[0]);let s=0;for(const k of toks){if(!r[3].includes(k)&&!tl.includes(k))return -1;s+=tl.startsWith(k)||tl.includes(" "+k)?3:tl.includes(k)?2:1}const su=r[1].startsWith("/#surah-");return s+(su&&tl.includes(`(${t})`)?20:su?2:0)};
+  async function run(){
+    const t=nk(q.value);if(!t){list.innerHTML="";items=[];hint.hidden=false;return}
+    const data=await load(),toks=t.split(" ");
+    const hits=data.map(r=>[score(r,t,toks),r]).filter(x=>x[0]>=0).sort((a,b)=>b[0]-a[0]).slice(0,10).map(x=>x[1]);
+    const ex=encodeURIComponent(q.value.trim());
+    items=[...hits.map(r=>[r[0],r[1],r[2],""]),["Cari “"+q.value.trim()+"” dalam terjemahan 6,236 ayat","/cari-ayat-al-quran/#q="+ex,"Carian kata kunci dalam terjemahan Bahasa Melayu","alt"],["Cari “"+q.value.trim()+"” di ilmualam.com ↗","https://www.ilmualam.com/search?q="+ex,"Artikel surah, doa, hukum dan panduan ibadah","alt"]];
+    sel=0;hint.hidden=true;paint();
+  }
+  function paint(){list.innerHTML=items.map((r,i)=>`<li${r[3]?' class="alt"':""}><a href="${esc(r[1])}" role="option" aria-selected="${i===sel}"><strong>${esc(r[0])}</strong><small>${esc(r[2])}</small></a></li>`).join("")}
+  q.addEventListener("input",run);
+  q.addEventListener("keydown",e=>{
+    if(e.key==="ArrowDown"||e.key==="ArrowUp"){e.preventDefault();if(!items.length)return;sel=(sel+(e.key==="ArrowDown"?1:items.length-1))%items.length;paint();$$("a",list)[sel]?.scrollIntoView({block:"nearest"})}
+    else if(e.key==="Enter"&&items[sel]){e.preventDefault();location.href=items[sel][1];srm.hidePopover()}
+  });
+  list.addEventListener("click",e=>{if(e.target.closest("a"))srm.hidePopover()});
+}
 if(RE.test(location.hash))route(true);
 })();

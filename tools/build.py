@@ -32,6 +32,10 @@ for i in range(1, 115):
     AYAT[i] = len(json.load(open(f"{REPO}/data-surah/surah-{i}.json", encoding="utf8")))
 assert sum(AYAT.values()) == 6236, sum(AYAT.values())
 
+def normk(s):
+    return re.sub(r"\s+", " ", re.sub(r"[\-'’`‘.,:()]", " ", s.lower())).strip()
+
+
 def normq(s):
     return re.sub(r"[\s\-'’`‘.]", "", s.lower())
 
@@ -148,10 +152,10 @@ if ADS_ON:
     # AdSense loads scripts, frames and pixels from many rotating Google hosts, so the strict policy is relaxed
     csp = (f"default-src 'self'; script-src 'self' '{sha(THEME_JS)}' 'unsafe-inline' 'unsafe-eval' https:; style-src 'unsafe-inline' https:; "
            "img-src 'self' data: https:; font-src 'self' https:; frame-src https:; connect-src 'self' https:; worker-src 'self'; "
-           "media-src https://everyayah.com; object-src 'none'; base-uri 'self'; form-action 'none'")
+           "media-src https://everyayah.com; object-src 'none'; base-uri 'self'; form-action https://api.follow.it")
 else:
     csp = (f"default-src 'none'; script-src 'self' '{sha(THEME_JS)}'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; worker-src 'self'; "
-           "media-src https://everyayah.com; connect-src 'self' https://www.e-solat.gov.my; manifest-src 'self'; base-uri 'self'; form-action 'none'")
+           "media-src https://everyayah.com; connect-src 'self' https://www.e-solat.gov.my; manifest-src 'self'; base-uri 'self'; form-action https://api.follow.it")
 ADMETA = f'<meta name="google-adsense-account" content="{e(ADS_CLIENT)}">\n' if ADS_CLIENT else ""
 HEADER = open(f"{SCR}/header.html", encoding="utf8").read()
 FOOTER = open(f"{SCR}/footer.html", encoding="utf8").read()
@@ -184,7 +188,7 @@ PUBLISHED = "2026-10-17"  # first publication of the tool/info pages; dateModifi
 
 def header_for(path):
     href = f'<a href="/{path}">'
-    return HEADER.replace(href, f'<a href="/{path}" aria-current="page">', 1) if path and href in HEADER else HEADER
+    return HEADER.replace(href, f'<a href="/{path}" aria-current="page">') if path and href in HEADER else HEADER
 
 
 def page_graph(pg, url, ogimg):
@@ -265,6 +269,13 @@ SOLAT_DIR = f"{REPO}/assets/data/solat"
 os.makedirs(SOLAT_DIR, exist_ok=True)
 open(f"{SOLAT_DIR}/index.json", "w", newline="\n").write(json.dumps(sorted(f[:-5] for f in os.listdir(SOLAT_DIR) if re.fullmatch(r"[A-Z]{3}\d{2}-\d{4}\.json", f))))
 
+# site search index for the header search (fetched on first open): every indexed page + 114 surah
+SEARCH = [[p["ogtitle"], "/" + p["path"], p["desc"][:120], normk(" ".join([p["title"], p["desc"], " ".join(p.get("about", []))]))]
+          for p in PAGES if not p.get("noindex") and p["path"] != "dasar-privasi.html"]
+SEARCH = [["Baca Al-Quran Online (114 surah)", "/#surah", "Teks Arab, Rumi, terjemahan Melayu dan audio 5 qari.", normk("al-quran quran baca mushaf surah audio qari terjemahan")]] + SEARCH
+SEARCH += [[f"Surah {S[n][1]} ({n})", f"/#surah-{n}", f"{S[n][2]} · {AYAT[n]} ayat · Juz {S[n][3]}", normk(f"surah {n} {S[n][1]} {S[n][1].replace('-', '')} {S[n][2]} {S[n][0]} {ALIAS.get(n, '')}")] for n in range(1, 115)]
+open(f"{REPO}/assets/data/cari.json", "w", encoding="utf8", newline="\n").write(json.dumps(SEARCH, ensure_ascii=False, separators=(",", ":")))
+
 # ---- supporting files ----
 INDEXED = [""] + [p["path"] for p in PAGES if not p.get("noindex")]
 BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended"]
@@ -325,7 +336,7 @@ open(f"{REPO}/assets/js/surah-cta.js", "w", encoding="ascii", newline="\n").writ
 
 # service worker: version = hash of everything it precaches, so any deploy busts the old cache
 PAGE_PATHS = [p["path"] for p in PAGES]
-ASSETS = ["assets/js/quran-home.js", "assets/js/alat.js", "assets/fonts/amiri-arabic-400-normal.woff2", "manifest.webmanifest",
+ASSETS = ["assets/js/quran-home.js", "assets/js/alat.js", "assets/data/cari.json", "assets/fonts/amiri-arabic-400-normal.woff2", "manifest.webmanifest",
           "favicon.ico", "assets/icons/logo-64.webp", "assets/icons/favicon-96.png", "assets/icons/icon-192.png", "assets/icons/icon-512.png"]
 PRE = ["./"] + PAGE_PATHS + ASSETS
 h = hashlib.sha256()
