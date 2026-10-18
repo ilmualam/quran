@@ -9,7 +9,7 @@ const browser=await chromium.launch();
 const ctx=await browser.newContext({viewport:{width:390,height:844}});
 await ctx.route('https://www.e-solat.gov.my/**',r=>r.fulfill({status:200,contentType:'application/json',body:'{}'}));
 const ok=(c,m)=>console.log((c?'PASS ':'FAIL ')+m);
-async function open(p){const pg=await ctx.newPage();const errs=[];pg.on('pageerror',e=>errs.push(e.message));pg.on('console',m=>{if(m.type()==='error')errs.push(m.text())});await pg.clock.setFixedTime(new Date('2026-10-17T10:00:00'));await pg.goto(B+p,{waitUntil:'networkidle'});pg.errs=errs;return pg}
+async function open(p){const pg=await ctx.newPage();const errs=[];pg.on('pageerror',e=>errs.push(e.message));pg.on('console',m=>{if(m.type()==='error')errs.push(m.text())});await pg.clock.setFixedTime(new Date('2026-10-18T10:00:00'));await pg.goto(B+p,{waitUntil:'networkidle'});pg.errs=errs;return pg}
 // raw pre-rendered html
 const rawCtx=await browser.newContext({javaScriptEnabled:false});
 const raw=async(p,sel)=>{const pg=await rawCtx.newPage();await pg.goto(B+p);const h=await pg.$eval(sel,e=>e.innerHTML);await pg.close();return h};
@@ -23,7 +23,7 @@ const {execSync}=await import('child_process');
 for(const [D,r] of [[29,0],[7,0],[15,0],[365,0],[30,100],[3,600],[1,0]]){
   await pg.fill('#kd',String(D));await pg.fill('#kr',String(r));await pg.dispatchEvent('#kf','input');
   const js=await pg.$eval('#ksum',e=>e.innerHTML)+await pg.$eval('#kt tbody',e=>e.innerHTML);
-  const py=execSync(`cd ${TOOLS} && python3 -c "import plans as P,datetime as d;s,t=P.khatam_html(${D},${r},d.date(2026,10,17));print(s+t,end='')"`).toString();
+  const py=execSync(`cd ${TOOLS} && python3 -c "import plans as P,datetime as d;s,t=P.khatam_html(${D},${r},d.date(2026,10,18));print(s+t,end='')"`).toString();
   ok(js===py,`khatam D=${D} r=${r} JS==py (${(await pg.$$('#kt tbody tr')).length} rows)`);
 }
 ok(pg.url().includes('#hari=1'),'hash updated '+pg.url());
@@ -44,7 +44,7 @@ ok(await raw('jadual-hafazan-al-quran/','#hsum')===await pg.$eval('#hsum',e=>e.i
 for(const [k,o,u,n,w] of [['all','mushaf','page',1,'6j'],['s36','mushaf','ayat',3,'5s'],['j29','pendek','ayat',7,'5j'],['j1','mushaf','page',2,'7'],['all','pendek','ayat',2,'7']]){
   await pg.selectOption('#htg',k);await pg.selectOption('#hu',u);if(u==='ayat')await pg.selectOption('#ho',o);await pg.fill('#hn',String(n));await pg.selectOption('#hw',w);
   const js=await pg.$eval('#hsum',e=>e.innerHTML)+await pg.$eval('#ht tbody',e=>e.innerHTML);
-  const py=execSync(`cd ${TOOLS} && python3 -c "import plans as P,datetime as d;s,t=P.hafazan_html('${k}','${o}','${u}',${n},'${w}',d.date(2026,10,17));print(s+t,end='')"`).toString();
+  const py=execSync(`cd ${TOOLS} && python3 -c "import plans as P,datetime as d;s,t=P.hafazan_html('${k}','${o}','${u}',${n},'${w}',d.date(2026,10,18));print(s+t,end='')"`).toString();
   ok(js===py,`hafazan ${k} ${o} ${u} ${n} ${w} JS==py`);
 }
 ok(pg.errs.length===0,'hafazan no errors '+pg.errs);
@@ -103,10 +103,10 @@ print(json.dumps(dict(prayerTime=out,status='OK!')))"`).toString();
   await c2.route('**/assets/data/solat/index.json',r=>r.fulfill({status:200,contentType:'application/json',body:'[]'}));  // no synced file -> live layer
   await c2.route('https://www.e-solat.gov.my/**',r=>r.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:mock}));
   const p2=await c2.newPage();const errs=[];p2.on('pageerror',e=>errs.push(e.message));
-  await p2.clock.setFixedTime(new Date('2026-10-17T10:00:00'));await p2.goto(B+'waktu-solat/#bandar=kangar',{waitUntil:'networkidle'});
+  await p2.clock.setFixedTime(new Date('2026-10-18T10:00:00'));await p2.goto(B+'waktu-solat/#bandar=kangar',{waitUntil:'networkidle'});
   await p2.waitForFunction(()=>document.querySelector('#ssrc').textContent.includes('e-solat'));
-  const want=JSON.parse(mock).prayerTime[16];
-  ok((await p2.textContent('#stimes')).includes(want.fajr.slice(0,5))&&(await p2.textContent('#shij')).includes('17 Jamadilawal 1448'),'live e-solat month shown + hijri from JAKIM');
+  const want=JSON.parse(mock).prayerTime[17];
+  ok((await p2.textContent('#stimes')).includes(want.fajr.slice(0,5))&&(await p2.textContent('#shij')).includes('18 Jamadilawal 1448'),'live e-solat month shown + hijri from JAKIM');
   ok(errs.length===0,'live e-solat no errors '+errs);
   await c2.close();
 }
@@ -153,6 +153,100 @@ await pg.click('#qz [data-qstart]');
 for(let i=0;i<10;i++){await pg.click('#qz button[data-a] >> nth=0');await pg.click('#qz [data-next]')}
 ok(/Markah anda: \d+ \/ 10/.test(await pg.textContent('#qz')),'tajwid quiz completes: '+(await pg.textContent('.qzs')));
 ok(pg.errs.length===0,'tajwid no errors '+pg.errs);
+
+// waktu berbuka puasa: build == JS, JS == Python for another zone, tracker, .ics, official upgrade
+pg=await open('waktu-berbuka-puasa/');
+ok(await raw('waktu-berbuka-puasa/','#rmt tbody')===await pg.$eval('#rmt tbody',e=>e.innerHTML),'ramadan table JS == build');
+ok(await raw('waktu-berbuka-puasa/','#rtd')===await pg.$eval('#rtd',e=>e.innerHTML),'ramadan today strip JS == build');
+ok(await raw('waktu-berbuka-puasa/','#rph')===await pg.$eval('#rph',e=>e.innerHTML),'ramadan phase JS == build');
+ok((await pg.$$('#rmt tbody tr')).length>=29,'ramadan rows '+(await pg.$$('#rmt tbody tr')).length);
+ok(/Maghrib hari ini|Berbuka|Imsak/.test(await pg.textContent('#rcd')),'ramadan countdown: '+await pg.textContent('#rcd'));
+await pg.selectOption('#rz','SBH07');await pg.waitForFunction(()=>location.hash.includes('SBH07'));await pg.waitForTimeout(150);
+{
+  const js=await pg.$eval('#rmt tbody',e=>e.innerHTML);
+  const py=execSync(`cd ${TOOLS} && python3 -c "import ramadan as R,pages4 as F,datetime as d;t=d.date(2026,10,18);s=R.season(t);rows,_=R.timetable('SBH07',s);print(''.join(F.r_row(k,x,v,s,t) for k,x,v in rows),end='')"`).toString();
+  ok(js===py,'ramadan SBH07 JS == Python');
+}
+await pg.check('#rmt input[data-r="1"]');await pg.check('#rmt input[data-r="2"]');
+ok((await pg.textContent('#rprog')).includes('2 daripada'),'ramadan tracker text: '+await pg.textContent('#rprog'));
+await pg.reload({waitUntil:'networkidle'});
+ok(await pg.isChecked('#rmt input[data-r="2"]')&&(await pg.inputValue('#rz'))==='SBH07','ramadan tracker + zone persisted');
+for(const [k,n] of [['b',30],['bi',60]]){
+  const [dl]=await Promise.all([pg.waitForEvent('download'),pg.click(`#ract button[data-ics="${k}"]`)]);
+  const ics=fs.readFileSync(await dl.path(),'utf8'),rows=(await pg.$$('#rmt tbody tr')).length;
+  const mg=(await pg.textContent('#rmt tbody tr:first-child td:nth-child(7)')).split(':').map(Number),hh=String(mg[0]-8).padStart(2,'0')+String(mg[1]).padStart(2,'0');
+  ok((ics.match(/BEGIN:VEVENT/g)||[]).length===rows*n/30&&ics.includes('VALARM')&&new RegExp(`DTSTART:\\d{8}T${hh}00Z`).test(ics),`ramadan ics ${k}: ${rows*n/30} events, berbuka in UTC `+dl.suggestedFilename());
+}
+ok(pg.errs.length===0,'ramadan no errors '+pg.errs);
+// official JAKIM file for the Ramadan year replaces the calculation and is labelled
+{
+  const c2=await browser.newContext({viewport:{width:390,height:844}});
+  const data=execSync(`cd ${TOOLS} && python3 -c "
+import json,datetime as d,solat as S
+y=2027;n=(d.date(y,12,31)-d.date(y,1,1)).days+1
+t=[[x+3 for x in S.solat_day(y,(d.date(y,1,1)+d.timedelta(i)).month,(d.date(y,1,1)+d.timedelta(i)).day,3.139,101.687)] for i in range(n)]
+print(json.dumps(dict(z='WLY01',y=y,src='JAKIM e-solat',t=t,h=['']*n)))"`).toString();
+  await c2.route('**/assets/data/solat/index.json',r=>r.fulfill({status:200,contentType:'application/json',body:'["WLY01-2027"]'}));
+  await c2.route('**/assets/data/solat/WLY01-2027.json',r=>r.fulfill({status:200,contentType:'application/json',body:data}));
+  const p2=await c2.newPage();await p2.clock.setFixedTime(new Date('2026-10-18T10:00:00'));
+  await p2.goto(B+'waktu-berbuka-puasa/#zon=WLY01',{waitUntil:'networkidle'});
+  await p2.waitForFunction(()=>document.querySelector('#rsrc').textContent.includes('jadual rasmi'));
+  const want=JSON.parse(data).t[(new Date(2027,1,8)-new Date(2027,0,1))/864e5][5];
+  ok((await p2.textContent('#rmt tbody tr:first-child td:nth-child(7)'))===String(Math.floor(want/60)).padStart(2,'0')+':'+String(want%60).padStart(2,'0'),'ramadan official file replaces calculation');
+  await c2.close();
+}
+for(const st of ['perlis','sabah']){
+  pg=await open(`waktu-berbuka-puasa/${st}/`);
+  ok(await raw(`waktu-berbuka-puasa/${st}/`,'#rmt tbody')===await pg.$eval('#rmt tbody',e=>e.innerHTML),`ramadan ${st}: table JS == build`);
+  ok(pg.errs.length===0,`ramadan ${st}: no errors `+pg.errs);
+}
+{const z2=await pg.$$eval('#szt a[data-zone]',a=>a.map(x=>x.dataset.zone)[2]);await pg.click(`#szt a[data-zone="${z2}"]`);await pg.waitForTimeout(150);
+ ok((await pg.textContent('#rcap')).includes(z2)&&pg.url().includes('zon='+z2),'ramadan state zone click switches to '+z2);}
+
+// belajar solat: step player and qada calculator
+pg=await open('belajar-solat/');
+ok(await raw('belajar-solat/','#spc')===await pg.$eval('#spc',e=>e.innerHTML),'solat step card JS == build');
+ok(await raw('belajar-solat/','#spl')===await pg.$eval('#spl',e=>e.innerHTML),'solat step list JS == build');
+ok(await raw('belajar-solat/','#qsum')===await pg.$eval('#qsum',e=>e.innerHTML),'qada summary JS == build');
+for(const [w,r] of [['subuh',2],['maghrib',3],['isyak',4]]){
+  await pg.click(`#spw button[data-w=${w}]`);
+  const n=+execSync(`cd ${TOOLS} && python3 -c "import ibadah2 as I;print(len(I.solat_steps(${r},'${w}'=='subuh')))"`).toString();
+  ok((await pg.$$('#spl li')).length===n&&(await pg.textContent('#spc .spn')).includes(`Langkah 1 / ${n}`),`solat ${w}: ${n} steps`);
+}
+for(let i=0;i<5;i++)await pg.click('#spnext');
+ok((await pg.textContent('#spc .spn')).includes('Langkah 6 /')&&pg.url().includes('langkah=6'),'solat next x5 -> step 6 '+pg.url());
+const qunut=await pg.$$eval('#spl button',b=>b.map(x=>x.textContent));
+await pg.click('#spw button[data-w=subuh]');ok((await pg.$$eval('#spl button',b=>b.some(x=>x.textContent.startsWith('Doa Qunut')))),'subuh has qunut');
+ok(!qunut.some(x=>x.startsWith('Doa Qunut')),'isyak has no qunut');
+await pg.click('#sprm');ok(await pg.$eval('#spc',e=>e.classList.contains('nr')),'rumi toggle hides rumi');
+await pg.fill('#qy','2');await pg.fill('#qm','6');await pg.selectOption('#qs','2');
+ok((await pg.textContent('#qsum')).includes('4,550 solat fardu')&&(await pg.textContent('#qsum')).includes('455 hari'),'qada 2y6m, 2 sets: '+await pg.textContent('#qsum'));
+ok(pg.errs.length===0,'solat no errors '+pg.errs);
+
+// belajar iqra'
+pg=await open('belajar-iqra/');
+ok(await raw('belajar-iqra/','#iqg')===await pg.$eval('#iqg',e=>e.innerHTML),'iqra level 1 grid JS == build');
+for(const L of [2,3,4,5]){await pg.click(`#iql button[data-l="${L}"]`);await pg.click('#iqgen');
+  const ok2=await pg.$$eval('#iqg .iqi',b=>b.length===12&&b.every(x=>/[ء-ي]/.test(x.querySelector('.iqa').textContent)&&/^[a-z'ḥ-]+$/.test(x.querySelector('.iqr').textContent)));
+  ok(ok2,`iqra level ${L}: 12 items with arabic + rumi (${await pg.$eval('#iqg .iqi .iqr',e=>e.textContent)})`)}
+await pg.click('#iql button[data-l="6"]');ok((await pg.$$('#iqg .iqi.w')).length===4,'iqra 6: 4 ayat');
+await pg.click('#iqdone');await pg.click('#iqrm');ok(await pg.$eval('#iqg',e=>e.classList.contains('show')),'iqra rumi toggle');
+await pg.reload({waitUntil:'networkidle'});ok((await pg.textContent('#iqprog')).includes('Iqra\' 6')&&(await pg.getAttribute('#iql button[data-l="6"]','aria-pressed'))==='true','iqra progress + level persisted');
+ok(pg.errs.length===0,'iqra no errors '+pg.errs);
+
+// belajar mengaji
+pg=await open('belajar-mengaji/');
+await pg.click('#hjg button[data-i="1"]');ok((await pg.textContent('#hjd')).includes('Ba')&&(await pg.textContent('#hjd')).includes('Asy-Syafatan'),'mengaji ba detail');
+await pg.click('#hjg button[data-i="9"]');ok((await pg.textContent('#hjd')).includes('tidak bersambung'),'mengaji ra non-connector note');
+for(const m of ['nama','huruf','bentuk','makhraj']){
+  await pg.click(`#hqm button[data-m=${m}]`);await pg.click('#hqz [data-hq]');
+  for(let i=0;i<10;i++){await pg.click('#hqz button[data-k] >> nth=0');await pg.click('#hqz [data-next]')}
+  ok(/Markah anda: \d+ \/ 10/.test(await pg.textContent('#hqz')),`mengaji quiz ${m} completes`);
+}
+ok(await raw('belajar-mengaji/','#msp')===await pg.$eval('#msp',e=>e.innerHTML),'mengaji checklist JS == build');
+await pg.check('#msl input[data-m=huruf]');await pg.reload({waitUntil:'networkidle'});
+ok(await pg.isChecked('#msl input[data-m=huruf]')&&(await pg.textContent('#msp')).startsWith('1 /'),'mengaji checklist persisted');
+ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
 
 // home reader still works from root + reader link from tool page
 pg=await open('jadual-khatam-al-quran/');

@@ -162,3 +162,77 @@ table.plan td a{font-weight:700;text-decoration:none}
 .za{display:block;font-weight:400;font-size:.82rem;color:var(--sub);white-space:normal}
 .sts{grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr))}
 .sts a{padding:10px 14px;font-size:.93rem}
+/* waktu berbuka puasa */
+.rst{background:linear-gradient(135deg,var(--hero1),var(--hero2));color:#fff;border-radius:var(--r);padding:14px 16px;margin:0 0 10px}
+.rst p{margin:0 0 6px}
+.rph{font-weight:700;min-height:1.7em}
+.rph strong{color:#bff0cf}
+.rcd{font-size:1.15rem;font-weight:800;min-height:3.4em;line-height:1.7;font-variant-numeric:tabular-nums}
+@media(min-width:700px){.rcd{min-height:1.7em}}
+.rtl{font-size:.88rem;opacity:.9;min-height:1.6em}
+.rtd{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.rtd li{display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.12);border-radius:12px;padding:8px 4px}
+.rtd span{font-size:.78rem;opacity:.9}
+.rtd strong{font-size:1.3rem;font-variant-numeric:tabular-nums}
+.rmt{table-layout:auto!important;min-width:820px}
+.rmt caption{text-align:left;font-weight:800;padding:10px 12px}
+.rmt td,.rmt th{font-variant-numeric:tabular-nums;white-space:nowrap}
+.rmt td:nth-child(7){color:var(--lk)}
+.rmt tr.today td{background:rgba(36,151,73,.14);font-weight:800}
+.rmt input{width:20px;height:20px;accent-color:var(--g)}
+.lq{color:var(--gold)}
+@media(max-width:699px){#ract{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}#ract::-webkit-scrollbar{display:none}#ract .btn2{flex:none;white-space:nowrap}}
+/* belajar solat */
+.spc{background:var(--muted);border:1px solid var(--bd);border-left:5px solid var(--g);border-radius:14px;padding:12px 16px;min-height:360px}
+.spc p{margin:0 0 8px}
+.spc.nr .dru,.spc.nm .dmn{display:none}
+.spn{color:var(--sub);font-size:.88rem;font-weight:700}
+.spt{margin:0 0 4px;font-size:1.25rem}
+.spd{font-size:.95rem}
+.spc .dar:empty{display:none}
+.spc .dsrc{font-size:.82rem}
+.spnav{display:flex;align-items:center;gap:10px;margin:12px 0}
+.spnav progress{flex:1;height:10px;accent-color:var(--g)}
+.spx summary{cursor:pointer;font-weight:700;padding:6px 0}
+.spl{margin:6px 0 0;padding-left:1.6em;columns:2 220px;font-size:.9rem}
+.spl button{background:none;border:0;padding:3px 0;text-align:left;color:var(--lk);font-weight:600}
+.spl button[aria-current]{font-weight:800;text-decoration:underline}
+.spl small{color:var(--sub);font-weight:400}
+.nt .tjw{font-size:1.35rem;display:block;white-space:normal}
+.nt td{vertical-align:top;min-width:150px}
+/* belajar iqra' + mengaji */
+.iqd{min-height:4.9em;margin:0 0 10px}
+.iqg{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(100%,140px),1fr));min-height:330px}
+.iqi{width:100%;min-height:96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid var(--bd);border-radius:14px;background:var(--bg);padding:8px}
+.iqi:hover{border-color:var(--g)}
+.iqi.w{min-height:150px}
+.iqa{font:400 2rem/1.9 var(--ar);color:var(--text)}
+.iqi.w .iqa{font-size:1.55rem;line-height:2.1}
+.iqr{font-size:.88rem;font-weight:700;color:var(--lk);visibility:hidden;text-align:center}
+.iqg.show .iqr,.iqi.on .iqr{visibility:visible}
+@media(max-width:699px){.iqg{grid-template-columns:repeat(3,minmax(0,1fr));min-height:430px}.iqi.w{grid-column:1/-1}}
+li:has(> .iqi.w){grid-column:1/-1}
+.hjg{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;direction:rtl;margin:0 0 12px}
+.hjg button{display:flex;flex-direction:column;align-items:center;min-height:64px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);padding:4px}
+.hjg button[aria-pressed=true]{background:var(--d);color:#fff;border-color:var(--d)}
+.hjc{font:400 1.6rem/1.5 var(--ar)}
+.hjn{font-size:.68rem;font-weight:700;direction:ltr}
+.hjd{background:var(--muted);border:1px solid var(--bd);border-left:5px solid var(--g);border-radius:14px;padding:12px 16px;min-height:150px}
+.hjd p{margin:0 0 6px}
+.hjt{display:flex;gap:16px;align-items:center}
+.hjb{font:400 4rem/1.4 var(--ar);color:var(--lk);min-width:80px;text-align:center}
+.hjfh{font-weight:800;margin-top:10px!important}
+.hjf{list-style:none;margin:0 0 6px;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;direction:rtl}
+.hjf li{display:flex;flex-direction:column;align-items:center;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:4px;font-size:.78rem;direction:ltr}
+.hjf span{font:400 1.9rem/1.7 var(--ar)}
+.hjv{list-style:none;margin:0;padding:0;display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(88px,1fr))}
+.hjv .iqi{min-height:76px}
+.hjv .iqa{font-size:1.6rem}
+.qzo .qar{font:400 1.8rem/1.5 var(--ar);justify-content:center}
+.qzw.hq{font:800 1.8rem/1.4 var(--sans)}
+.msl{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:6px}
+.msl label{display:flex;gap:10px;align-items:center;padding:8px 12px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);font-weight:600}
+.msl input{width:20px;height:20px;accent-color:var(--g);flex:none}
+.iqt .tjw{font-size:1.4rem;white-space:nowrap}
+@media print{.rst,.spnav,.spx,#qada,#latih .act,#hjg,#kuiz,#kemajuan,#rf{display:none!important}.rmt{min-width:0}.rmt th:last-child,.rmt td:last-child{display:none}}
+.sby{text-align:center}

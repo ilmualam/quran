@@ -1,4 +1,4 @@
-/*! IlmuAlam Quran Tools v1.0 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat. Schedule maths mirror tools/plans.py */
+/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
 (()=>{"use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={
@@ -323,35 +323,39 @@ if(tj){
   qz.addEventListener("click",e=>{if(e.target.closest("[data-next]")){qi++;ask()}});
 }
 
-/* ---------- waktu solat (maths mirror tools/solat.py) ---------- */
+/* ---------- prayer-time maths (mirror tools/solat.py) + official JAKIM files: shared by waktu solat and Ramadan ---------- */
+const rad=x=>x*Math.PI/180,deg=x=>x*180/Math.PI,mod=(x,n)=>(x%n+n)%n;
+function sun(jd){const D=jd-2451545,g=mod(357.529+.98560028*D,360),q=mod(280.459+.98564736*D,360),L=mod(q+1.915*Math.sin(rad(g))+.02*Math.sin(rad(2*g)),360),e=23.439-.00000036*D;
+  const ra=mod(deg(Math.atan2(Math.cos(rad(e))*Math.sin(rad(L)),Math.cos(rad(L))))/15,24),decl=deg(Math.asin(Math.sin(rad(e))*Math.sin(rad(L))));let eqt=q/15-ra;eqt=eqt-24*Math.round(eqt/24);return[decl,eqt]}
+function jdn(y,m,d){if(m<=2){y-=1;m+=12}const A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5}
+function solatDay(y,m,d,lat,lng,fa=18,is=18,tz=8){
+  const jd=jdn(y,m,d)-lng/(15*24),noon=t=>mod(12-sun(jd+t)[1],24);
+  const at=(a,t,ccw)=>{const decl=sun(jd+t)[0];const x=(-Math.sin(rad(a))-Math.sin(rad(decl))*Math.sin(rad(lat)))/(Math.cos(rad(decl))*Math.cos(rad(lat)));const T=deg(Math.acos(Math.max(-1,Math.min(1,x))))/15;return noon(t)+(ccw?-T:T)};
+  const asr=t=>{const decl=sun(jd+t)[0];return at(-deg(Math.atan(1/(1+Math.tan(rad(Math.abs(lat-decl)))))),t,false)};
+  let f=at(fa,5/24,true),sr=at(.833,6/24,true),z=noon(12/24),a=asr(13/24),mg=at(.833,18/24,false),i=at(is,18/24,false);
+  const adj=tz-lng/15;[f,sr,z,a,mg,i]=[f,sr,z,a,mg,i].map(x=>(x+adj)*60);
+  const up=x=>Math.ceil(x+1),sub=up(f);return[sub-10,sub,Math.floor(sr),Math.ceil(z+2),up(a),up(mg),up(i)];
+}
+const hm=x=>`${pad(Math.floor(x/60))}:${pad(x%60)}`;
+const qibla=(lat,lng)=>{const p1=rad(lat),p2=rad(21.4225),dl=rad(39.8262-lng);return mod(deg(Math.atan2(Math.sin(dl),Math.cos(p1)*Math.tan(p2)-Math.sin(p1)*Math.cos(dl))),360)};
+const doy=d=>Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(d.getFullYear(),0,1))/864e5);
+const offCache={};let offIdx=null;
+function official(zone,y){
+  const k=zone+"-"+y;
+  offIdx=offIdx||fetch("/assets/data/solat/index.json").then(r=>r.ok?r.json():[]).catch(()=>[]);
+  return offIdx.then(a=>{
+    if(!zone||!a.includes(k))return null;
+    if(!(k in offCache))offCache[k]=fetch(`/assets/data/solat/${k}.json`).then(r=>r.ok?r.json():null).catch(()=>null);
+    return offCache[k];
+  });
+}
+
+/* ---------- waktu solat ---------- */
 const sw=$("#sw");
 if(sw){
-  const S=JSON.parse($("#sd").textContent),C=S.c,NM=S.n,rad=x=>x*Math.PI/180,deg=x=>x*180/Math.PI,mod=(x,n)=>(x%n+n)%n;
-  function sun(jd){const D=jd-2451545,g=mod(357.529+.98560028*D,360),q=mod(280.459+.98564736*D,360),L=mod(q+1.915*Math.sin(rad(g))+.02*Math.sin(rad(2*g)),360),e=23.439-.00000036*D;
-    const ra=mod(deg(Math.atan2(Math.cos(rad(e))*Math.sin(rad(L)),Math.cos(rad(L))))/15,24),decl=deg(Math.asin(Math.sin(rad(e))*Math.sin(rad(L))));let eqt=q/15-ra;eqt=eqt-24*Math.round(eqt/24);return[decl,eqt]}
-  function jdn(y,m,d){if(m<=2){y-=1;m+=12}const A=Math.floor(y/100),B=2-A+Math.floor(A/4);return Math.floor(365.25*(y+4716))+Math.floor(30.6001*(m+1))+d+B-1524.5}
-  function day(y,m,d,lat,lng){
-    const jd=jdn(y,m,d)-lng/(15*24),noon=t=>mod(12-sun(jd+t)[1],24);
-    const at=(a,t,ccw)=>{const decl=sun(jd+t)[0];const x=(-Math.sin(rad(a))-Math.sin(rad(decl))*Math.sin(rad(lat)))/(Math.cos(rad(decl))*Math.cos(rad(lat)));const T=deg(Math.acos(Math.max(-1,Math.min(1,x))))/15;return noon(t)+(ccw?-T:T)};
-    const asr=t=>{const decl=sun(jd+t)[0];return at(-deg(Math.atan(1/(1+Math.tan(rad(Math.abs(lat-decl)))))),t,false)};
-    let f=at(S.fa,5/24,true),sr=at(.833,6/24,true),z=noon(12/24),a=asr(13/24),mg=at(.833,18/24,false),i=at(S.is,18/24,false);
-    const adj=S.tz-lng/15;[f,sr,z,a,mg,i]=[f,sr,z,a,mg,i].map(x=>(x+adj)*60);
-    const up=x=>Math.ceil(x+1),sub=up(f);return[sub-10,sub,Math.floor(sr),Math.ceil(z+2),up(a),up(mg),up(i)];
-  }
-  const hm=x=>`${pad(Math.floor(x/60))}:${pad(x%60)}`;
-  const qibla=(lat,lng)=>{const p1=rad(lat),p2=rad(21.4225),dl=rad(39.8262-lng);return mod(deg(Math.atan2(Math.sin(dl),Math.cos(p1)*Math.tan(p2)-Math.sin(p1)*Math.cos(dl))),360)};
+  const S=JSON.parse($("#sd").textContent),C=S.c,NM=S.n,day=(y,m,d,lat,lng)=>solatDay(y,m,d,lat,lng,S.fa,S.is,S.tz);
   const sel=$("#sc"),list=$("#stimes"),tb=$("#smon tbody"),nx=$("#snext"),src=$("#ssrc"),hij=$("#shij"),qb=$("#sqib"),cap=$("#smcap"),dt0=$("#sdate");
-  const cache={};let cur=null,avail=null;
-  function official(zone,y){
-    const k=zone+"-"+y;
-    avail=avail||fetch("/assets/data/solat/index.json").then(r=>r.ok?r.json():[]).catch(()=>[]);
-    return avail.then(a=>{
-      if(!zone||!a.includes(k))return null;
-      if(!(k in cache))cache[k]=fetch(`/assets/data/solat/${k}.json`).then(r=>r.ok?r.json():null).catch(()=>null);
-      return cache[k];
-    });
-  }
-  const doy=d=>Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(d.getFullYear(),0,1))/864e5);
+  let cur=null;
   // JAKIM e-solat answers browsers directly; imsak is derived as Subuh - 10 because some zones (PLS01) publish it equal to Subuh (as the ilmualam.com widget does); cached per zone and month for offline use
   const MON={jan:0,feb:1,mar:2,mac:2,apr:3,may:4,mei:4,jun:5,jul:6,aug:7,ogo:7,sep:8,oct:9,okt:9,nov:10,dec:11,dis:11};
   const mn=v=>{const[h,m]=String(v).split(":");return +h*60+ +m};
@@ -424,5 +428,249 @@ if(sw){
       $$("td[data-k]",tr).forEach(td=>{const v=hm(t[+td.dataset.k]);if(td.textContent!==v)td.textContent=v})});
     const zd=$("#sztd");if(zd)setIf(zd,dlong(d));
   }
+}
+function saveFile(text,file){
+  const blob=new Blob([text],{type:"text/calendar;charset=utf-8"}),a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);a.download=file;document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);toast("Fail kalendar dimuat turun ✓");
+}
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+// the device's own Arabic voice, when it has one (never a network service)
+const speech={v:null,init(cb){const s=window.speechSynthesis;if(!s)return;const f=()=>{this.v=s.getVoices().find(v=>/^ar([-_]|$)/i.test(v.lang))||null;cb&&cb(!!this.v)};f();s.addEventListener?.("voiceschanged",f)},
+  say(t){const s=window.speechSynthesis;if(!s||!this.v)return;s.cancel();const u=new SpeechSynthesisUtterance(t);u.voice=this.v;u.lang=this.v.lang;u.rate=.7;s.speak(u)}};
+
+/* ---------- waktu berbuka puasa: imsakiyah Ramadan (rows mirror tools/pages4.py r_row) ---------- */
+const rdEl=$("#rd");
+if(rdEl){
+  const D=JSON.parse(rdEl.textContent),Z=D.z,start=parseD(D.start),N=D.n,KEY="puasa:"+D.y;
+  const sel=$("#rz"),tb=$("#rmt tbody"),cap=$("#rcap"),src=$("#rsrc"),ph=$("#rph"),cd=$("#rcd"),td=$("#rtd"),tdl=$("#rtdl"),zl=$("#rzl"),prog=$("#rprog");
+  const days=Array.from({length:N},(_,i)=>addD(start,i));
+  const zone=c=>{const z=Z.find(x=>x[0]===c);return z&&{code:z[0],area:z[2],lat:z[3],lng:z[4]}};
+  const calc=(z,d)=>solatDay(d.getFullYear(),d.getMonth()+1,d.getDate(),z.lat,z.lng,D.fa,D.is,D.tz);
+  const dur=t=>{const m=t[5]-t[1];return`${Math.floor(m/60)}j ${pad(m%60)}m`};
+  const dayN=d=>Math.round((d-start)/864e5);
+  let cur=null,seq=0;
+  function row(k,d,t,now){
+    const star=k>=21&&k%2?' <span class="lq" title="Malam ganjil 10 terakhir">★</span>':"",mark=k===30&&!D.off?"*":"";
+    return`<tr data-d="${k}"${iso(d)===iso(now)?' class="today"':""}><td>${k}${mark}${star}</td><td>${dshort(d)}</td>${[0,1,3,4].map(i=>`<td>${hm(t[i])}</td>`).join("")}<td><strong>${hm(t[5])}</strong></td><td>${hm(t[6])}</td><td>${dur(t)}</td><td><input type="checkbox" data-r="${k}" aria-label="Puasa hari ke-${k} selesai"></td></tr>`;
+  }
+  function srcText(nOff,code){
+    if(nOff===N)return`Sumber: <strong>jadual rasmi JAKIM</strong>, zon ${code}.`;
+    if(!nOff)return`Sumber: <strong>kiraan anggaran</strong> parameter JAKIM bagi zon ${code} (biasanya dalam lingkungan 1–2 minit). Jadual rasmi JAKIM menggantikannya secara automatik sebaik sahaja diterbitkan.`;
+    return`Sumber: <strong>jadual rasmi JAKIM</strong> bagi ${nOff} hari, selebihnya kiraan anggaran, zon ${code}.`;
+  }
+  function phase(now){
+    const k=dayN(now);
+    if(k<0)return`🌙 Ramadan ${D.y}H ${D.off?"bermula":"dijangka bermula"} <strong>${dlong(start)}</strong> · lagi ${-k} hari`;
+    if(k<N)return`🌙 Hari ke-${k+1} Ramadan ${D.y}H · ${dlong(now)}`;
+    return`🌙 Ramadan ${D.y}H telah berakhir. Selamat Hari Raya Aidilfitri, maaf zahir dan batin.`;
+  }
+  const marks=()=>new Set(store.get(KEY,[]));
+  function paintTrack(){
+    const st=marks(),past=days.filter(d=>d<today()).length,miss=days.slice(0,past).filter((_,i)=>!st.has(i+1)).length;
+    $$("input[data-r]",tb).forEach(c=>c.checked=st.has(+c.dataset.r));
+    prog.textContent=st.size||past?`✓ ${st.size} daripada ${N} hari puasa ditanda${miss?` · ${miss} hari lepas belum ditanda (semak jika perlu qada)`:""}`:"";
+  }
+  async function render(z){
+    const my=++seq,now=today(),years=[...new Set([...days,now,addD(now,1)].map(d=>d.getFullYear()))];
+    const draw=offs=>{
+      const get=d=>{const o=offs[d.getFullYear()];return o?o.t[doy(d)]:calc(z,d)},rows=days.map(get),t=get(now);
+      cur={z,rows,get};
+      setIf(tb,days.map((d,i)=>row(i+1,d,rows[i],now)).join(""));
+      setIf(cap,`Jadual imsakiyah Ramadan ${D.y}H (${start.getFullYear()}) – ${esc(z.code+" · "+z.area)}`);
+      setIf(src,srcText(days.filter(d=>offs[d.getFullYear()]).length,z.code));
+      setIf(zl,esc(z.code+" · "+z.area));setIf(tdl,`Hari ini, ${dlong(now)}`);setIf(ph,phase(now));
+      setIf(td,[[0,"Imsak"],[1,"Subuh"],[5,"Maghrib"],[6,"Isyak"]].map(([i,n])=>`<li><span>${n}</span><strong>${hm(t[i])}</strong></li>`).join(""));
+      paintTrack();tick();
+    };
+    draw({});
+    const got=await Promise.all(years.map(y=>official(z.code,y)));if(my!==seq)return;
+    const offs={};years.forEach((y,i)=>{if(got[i])offs[y]=got[i]});
+    if(Object.keys(offs).length)draw(offs);
+  }
+  const fmt=s=>{const h=Math.floor(s/3600),m=Math.floor(s%3600/60);return`${h?h+"j ":""}${pad(m)}m ${pad(s%60)}s`};
+  function tick(){
+    if(!cur)return;
+    const n=new Date(),now=today(),sec=Math.floor((n-now)/1000),t=cur.get(now),k=dayN(now);let x;
+    if(k>=0&&k<N){
+      if(sec<t[0]*60)x=`⏳ Imsak (sahur berakhir) ${hm(t[0])} · lagi ${fmt(t[0]*60-sec)}`;
+      else if(sec<t[5]*60)x=`🍽 Berbuka puasa ${hm(t[5])} · lagi ${fmt(t[5]*60-sec)}`;
+      else x=k+1<N?`✅ Selamat berbuka! Imsak esok ${hm(cur.rows[k+1][0])}`:"✅ Selamat berbuka! Hari terakhir Ramadan; Aidilfitri bergantung pada rukyah malam ini.";
+    }else if(sec<t[5]*60)x=`Maghrib hari ini ${hm(t[5])} · lagi ${fmt(t[5]*60-sec)} (puasa sunat)`;
+    else x=`Maghrib hari ini ${hm(t[5])} · imsak esok ${hm(cur.get(addD(now,1))[0])}`;
+    if(cd.textContent!==x)cd.textContent=x;
+  }
+  setInterval(tick,1000);
+  function ics(imsak){
+    const st=new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d+/,""),z=cur.z.code;
+    const at=(d,m)=>new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate(),0,m-D.tz*60)).toISOString().replace(/[-:]/g,"").replace(/\.\d+/,"");
+    const L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Ilmu Alam//Al-Quran Online//MS","CALSCALE:GREGORIAN",`X-WR-CALNAME:${icsEsc(`Ramadan ${D.y}H – ${z}`)}`];
+    const ev=(id,d,m,len,sum,desc,alarm)=>L.push("BEGIN:VEVENT",`UID:${iso(d)}-${id}-${z}@quran.ilmualam.com`,`DTSTAMP:${st}`,`DTSTART:${at(d,m)}`,`DURATION:PT${len}M`,
+      `SUMMARY:${icsEsc(sum)}`,`DESCRIPTION:${icsEsc(desc)}`,"BEGIN:VALARM","ACTION:DISPLAY",`DESCRIPTION:${icsEsc(sum)}`,`TRIGGER:-PT${alarm}M`,"END:VALARM","END:VEVENT");
+    days.forEach((d,i)=>{const t=cur.rows[i];
+      if(imsak)ev("imsak",d,t[0],10,`Imsak ${hm(t[0])} – ${i+1} Ramadan`,`Sahur berakhir. Subuh ${hm(t[1])}. Zon ${z}.`,30);
+      ev("berbuka",d,t[5],20,`Berbuka puasa ${hm(t[5])} – ${i+1} Ramadan`,`Maghrib zon ${z}. Doa: Zahabaz-zama'u wabtallatil-'uruqu wa thabatal-ajru insya-Allah. ${location.origin+location.pathname}`,10)});
+    L.push("END:VCALENDAR");return L.join("\r\n");
+  }
+  function pick(c,save){const z=zone(c)||zone(D.def);sel.value=z.code;if(save){store.set(D.key,z.code);writeHash({zon:z.code})}render(z)}
+  sel.addEventListener("change",()=>pick(sel.value,true));
+  tb.addEventListener("change",e=>{const c=e.target.closest("input[data-r]");if(!c)return;const st=marks();c.checked?st.add(+c.dataset.r):st.delete(+c.dataset.r);store.set(KEY,[...st].sort((a,b)=>a-b));paintTrack()});
+  toolbar($("#ract"),{});
+  $("#ract").addEventListener("click",e=>{const b=e.target.closest("button[data-ics]");if(b&&cur)saveFile(ics(b.dataset.ics==="bi"),`ramadan-${D.y}-${cur.z.code}${b.dataset.ics==="bi"?"-imsak":""}.ics`)});
+  $("#rgeo").addEventListener("click",()=>{
+    if(!navigator.geolocation)return toast("Lokasi tidak disokong");
+    navigator.geolocation.getCurrentPosition(p=>{const{latitude:la,longitude:lo}=p.coords;let best=Z[0],bd=1e9;
+      for(const c of Z){const dd=(c[3]-la)**2+((c[4]-lo)*Math.cos(rad(la)))**2;if(dd<bd){bd=dd;best=c}}
+      pick(best[0],true);toast(`Zon terdekat: ${best[0]}`)},()=>toast("Kebenaran lokasi ditolak"),{timeout:10000,maximumAge:6e5});
+  });
+  const zt=$("#szt");
+  if(zt)zt.addEventListener("click",e=>{const a=e.target.closest("a[data-zone]");if(!a)return;e.preventDefault();pick(a.dataset.zone,true);$("#kira").scrollIntoView({block:"start"})});
+  const h=readHash();pick(zone(h.zon)?h.zon:store.get(D.key,D.def),false);
+}
+
+/* ---------- belajar solat: step-by-step guide (cards mirror tools/pages4.py sp_card) ---------- */
+const spdEl=$("#spd");
+if(spdEl){
+  const D=JSON.parse(spdEl.textContent),c=$("#spc"),l=$("#spl"),pv=$("#spprev"),nx=$("#spnext"),pp=$("#spp");
+  let w="subuh",i=0;
+  function card(){
+    const[sid,r]=D.s[w][i];let[t,how,ar,ru,mn,src]=D.b[sid];if(sid==="niat")[ar,ru,mn]=D.w[w].niat;
+    return`<p class="spn">Rakaat ${r} daripada ${D.w[w].r} · Langkah ${i+1} / ${D.s[w].length}</p><h3 class="spt">${t}</h3><p class="spd">${how}</p><p class="dar" lang="ar" dir="rtl">${ar}</p><p class="dru"><em>${ru}</em></p><p class="dmn"><strong>Maksud:</strong> ${mn}</p><p class="dsrc">${src}</p>`;
+  }
+  const list=()=>D.s[w].map(([sid,r],k)=>`<li><button type="button" data-i="${k}"${k===i?' aria-current="step"':""}>${D.b[sid][0]} <small>R${r}</small></button></li>`).join("");
+  function show(save){
+    const N=D.s[w].length;i=Math.max(0,Math.min(N-1,i));
+    setIf(c,card());setIf(l,list());pp.max=N;pp.value=i+1;pv.disabled=i===0;nx.textContent=i===N-1?"Ulang dari awal ⟲":"Seterusnya ›";
+    $$("#spw button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.w===w)));
+    if(save){store.set("solat-w",w);writeHash({solat:w,langkah:i+1})}
+  }
+  nx.addEventListener("click",()=>{i=i===D.s[w].length-1?0:i+1;show(true);c.scrollIntoView({block:"nearest"})});
+  pv.addEventListener("click",()=>{i--;show(true)});
+  $("#spw").addEventListener("click",e=>{const b=e.target.closest("button[data-w]");if(!b)return;w=b.dataset.w;i=0;show(true)});
+  l.addEventListener("click",e=>{const b=e.target.closest("button[data-i]");if(!b)return;i=+b.dataset.i;show(true);c.scrollIntoView({block:"nearest"})});
+  for(const[id,cls]of[["#sprm","nr"],["#spmn","nm"]]){
+    const b=$(id),set=off=>{b.setAttribute("aria-pressed",String(!off));c.classList.toggle(cls,off)};
+    set(store.get("solat-"+cls,false));
+    b.addEventListener("click",()=>{const off=!c.classList.contains(cls);store.set("solat-"+cls,off);set(off)});
+  }
+  $("#panduan").addEventListener("keydown",e=>{if(e.key==="ArrowRight")nx.click();else if(e.key==="ArrowLeft"&&!pv.disabled)pv.click()});
+  toolbar($("#panduan .act"),{});
+  const h=readHash(),sw0=store.get("solat-w","subuh");
+  if(D.w[h.solat]){w=h.solat;i=clamp(h.langkah,1,99,1)-1}else if(D.w[sw0])w=sw0;
+  show(false);
+}
+const qf=$("#qf");
+if(qf){
+  const qsum=$("#qsum");
+  const run=()=>{
+    const y=clamp($("#qy").value,0,80,0),m=clamp($("#qm").value,0,11,0),d=clamp($("#qd").value,0,29,0),s=clamp($("#qs").value,1,5,1),days=y*365+m*30+d;
+    if(days<=0)return setIf(qsum,"<p>Masukkan tempoh solat fardu yang tertinggal.</p>");
+    const fd=Math.ceil(days/s);
+    setIf(qsum,`<p><strong>${num(days*5)} solat fardu</strong> perlu diqada (${num(days)} hari × 5 waktu), iaitu ${num(days*17)} rakaat.</p><p>Dengan ${s} set qada sehari (setiap set = Subuh, Zohor, Asar, Maghrib, Isyak), selesai dalam <strong>${num(fd)} hari</strong> (≈ ${r1(fd/30)} bulan): <strong>${dlong(addD(today(),fd-1))}</strong>.</p>`);
+  };
+  qf.addEventListener("input",run);qf.addEventListener("change",run);qf.addEventListener("submit",e=>{e.preventDefault();run()});run();
+}
+
+/* ---------- belajar iqra': drills generated per level (level 1 default mirrors tools/pages4.py iq_items) ---------- */
+const iqEl=$("#iqd-data");
+if(iqEl){
+  const D=JSON.parse(iqEl.textContent),g=$("#iqg"),desc=$("#iqd"),rm=$("#iqrm"),tts=$("#iqtts"),done=$("#iqdone"),prog=$("#iqprog");
+  const F="َ",V={a:F,i:"ِ",u:"ُ"},SK="ْ",SD="ّ",TN={a:"ًا",i:"ٍ",u:"ٌ"};
+  const H=D.h.filter(h=>h[0]!=="ا"&&h[0]!=="ء"),has=s=>h=>s.includes(h[0]);
+  const QAM=H.filter(has("بغحجكوخفعقيمه")),SYM=H.filter(has("تثدذرزسشصضطظلن")),QAL=H.filter(has(D.qal));
+  const pk=a=>a[Math.floor(Math.random()*a.length)],rnd=p=>Math.random()<p;
+  const vr=(h,v)=>h[2]+(v==="a"&&h[3]?"o":v);
+  let L=1,speak=false,st=store.get("iqra",{d:[],n:0});
+  function syl(h,v,last){
+    let ar=h[0]+V[v],ru=vr(h,v);
+    if(L>=4&&last&&rnd(.35)){ar=h[0]+TN[v];ru+="n"}
+    else if(L>=2&&rnd(.3)&&!(last&&L>=4)){ar+=v==="a"?"ا":v==="i"?"ي":"و";ru+=ru.slice(-1)}
+    else if(L>=4&&!last&&rnd(.4)){const c=rnd(.5)?pk(QAL):pk(H);ar+=c[0]+SK;ru+=c[2]}
+    return[ar,ru];
+  }
+  function word(){
+    const n=L===1?1+Math.floor(Math.random()*3):2+Math.floor(Math.random()*2);let ar="",ru=[],k=0;
+    if(L===5){
+      const p=Math.random();
+      if(p<.34){ar="اَلْ";ru.push("al")}
+      else if(p<.67){const h=pk(SYM);ar="اَل"+h[0]+SD+F;ru.push("a"+h[2],vr(h,"a"));k=1}
+      else{const h1=pk(H),h=pk(H);ar=h1[0]+F+h[0]+SD+F;ru.push(vr(h1,"a")+h[2],vr(h,"a"));k=1}
+    }
+    for(;k<n;k++){
+      const last=k===n-1,v=L<3?"a":L===5&&last?"u":pk(["a","a","i","u"]),h=L===5&&!k?pk(QAM):pk(H);
+      const[a,r]=L===5?[h[0]+V[v],vr(h,v)]:syl(h,v,last);ar+=a;ru.push(r);
+    }
+    return[ar,ru.join("-")];
+  }
+  const item=(ar,ru,wide)=>`<li><button type="button" class="iqi${wide?" w":""}"><span class="iqa" lang="ar" dir="rtl">${ar}</span><span class="iqr">${esc(ru)}</span></button></li>`;
+  function gen(count){
+    if(L===6)setIf(g,shuffle([...D.q6]).slice(0,4).map(q=>item(esc(q[2]),`${q[3]} · ${q[4]}`,true)).join(""));
+    else setIf(g,Array.from({length:12},()=>item(...word(),false)).join(""));
+    if(count){st.n++;store.set("iqra",st)}paint();
+  }
+  function paint(){
+    const lv=D.lv[L-1];setIf(desc,`<strong>${esc(lv[2])}.</strong> ${esc(lv[3])}`);
+    $$("#iql button").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.l===L)));
+    done.setAttribute("aria-pressed",String(st.d.includes(L)));done.textContent=st.d.includes(L)?"✓ Tahap ini selesai":"✓ Tanda tahap selesai";
+    prog.textContent=`Tahap selesai: ${st.d.length} / 6${st.d.length?" ("+[...st.d].sort().map(x=>"Iqra' "+x).join(", ")+")":""} · ${st.n} latihan dijana`;
+  }
+  $("#iql").addEventListener("click",e=>{const b=e.target.closest("button[data-l]");if(!b)return;L=+b.dataset.l;store.set("iqra-l",L);gen(false)});
+  $("#iqgen").addEventListener("click",()=>gen(true));
+  rm.addEventListener("click",()=>{const on=!g.classList.contains("show");g.classList.toggle("show",on);rm.setAttribute("aria-pressed",String(on))});
+  done.addEventListener("click",()=>{st.d=st.d.includes(L)?st.d.filter(x=>x!==L):[...st.d,L];store.set("iqra",st);paint();if(st.d.includes(L))toast(`Iqra' ${L} ditanda selesai ✓`)});
+  g.addEventListener("click",e=>{const b=e.target.closest(".iqi");if(!b)return;b.classList.toggle("on");if(speak)speech.say($(".iqa",b).textContent)});
+  speech.init(ok=>{tts.hidden=!ok});
+  tts.addEventListener("click",()=>{speak=!speak;tts.setAttribute("aria-pressed",String(speak));if(speak)toast("Ketik kotak untuk mendengar")});
+  tts.setAttribute("aria-pressed","false");
+  const l0=clamp(store.get("iqra-l",1),1,6,1);if(l0!==1){L=l0;gen(false)}else paint();
+}
+
+/* ---------- belajar mengaji: huruf hijaiyah explorer, quiz, progress checklist ---------- */
+const hjEl=$("#hjdata");
+if(hjEl){
+  const D=JSON.parse(hjEl.textContent),H=D.h,MK=Object.fromEntries(D.mk),out=$("#hjd"),ZW="‍";
+  const forms=h=>h[0]==="ء"?["ء","ء","ء","ء"]:h[4]?[h[0],h[0]+ZW,ZW+h[0]+ZW,ZW+h[0]]:[h[0],h[0],ZW+h[0],ZW+h[0]];
+  function variants(h){
+    if(h[0]==="ا")return[["أَ","a"],["إِ","i"],["أُ","u"],["آ","aa (mad)"]];
+    const c=h[0],r=h[2],o=h[3]?"o":"a",v=[[c+"َ",r+o],[c+"ِ",r+"i"],[c+"ُ",r+"u"],[c+(c==="ء"?"ً":"ًا"),r+o+"n"],[c+"ٍ",r+"in"],[c+"ٌ",r+"un"]];
+    if(c!=="ء")v.push(["اَ"+c+"ْ","a"+r],["اَ"+c+"َّ","a"+r+"-"+r+o]);
+    return v;
+  }
+  function show(i){
+    const h=H[i],f=forms(h);
+    out.innerHTML=`<div class="hjt"><span class="hjb" lang="ar">${h[0]}</span><div><p class="hjh"><strong>${esc(h[1])}</strong> · huruf ke-${i+1} daripada ${H.length}</p><p>Makhraj: <strong>${esc(MK[h[5]])}</strong></p><p class="note">${esc(h[6])}</p></div></div>`+
+      `<p class="hjfh">Bentuk tulisan</p><ul class="hjf">${["Tunggal","Awal","Tengah","Akhir"].map((n,k)=>`<li><span lang="ar">${f[k]}</span>${n}</li>`).join("")}</ul>`+
+      `<p class="hjfh">Bacaan dengan baris${speech.v?" (ketik untuk dengar)":""}</p><ul class="hjv">${variants(h).map(([a,r])=>`<li><button type="button" class="iqi on" data-say="${a}"><span class="iqa" lang="ar" dir="rtl">${a}</span><span class="iqr">${esc(r)}</span></button></li>`).join("")}</ul>`+
+      (h[4]?"":`<p class="note">${h[0]==="ء"?"Hamzah boleh ditulis bersendirian atau di atas alif, wau dan ya (أ ؤ ئ).":"Huruf ini tidak bersambung dengan huruf selepasnya."}</p>`);
+  }
+  speech.init();
+  $("#hjg").addEventListener("click",e=>{const b=e.target.closest("button[data-i]");if(!b)return;$$("#hjg button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));show(+b.dataset.i);speech.say(H[+b.dataset.i][0]);out.scrollIntoView({block:"nearest",behavior:"smooth"})});
+  out.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(b)speech.say(b.dataset.say)});
+  // quiz
+  const qz=$("#hqz");let mode="nama",qs=[],qi=0,score=0;
+  const ans=h=>mode==="nama"?h[1]:mode==="makhraj"?MK[h[5]]:h[0];
+  const ask=()=>{
+    if(qi>=qs.length){const best=store.get("hijaiyah-best",{}),b=Math.max(best[mode]||0,score);best[mode]=b;store.set("hijaiyah-best",best);
+      qz.innerHTML=`<p class="qzs">Markah anda: <strong>${score} / ${qs.length}</strong> ${score===qs.length?"— Masya-Allah, sempurna!":score>=qs.length*.7?"— Bagus!":"— Ulang kaji grid huruf di atas dan cuba lagi."}</p><p class="note">Markah terbaik (jenis ini): ${b} / ${qs.length}</p><button class="btn3" type="button" data-hq>Cuba lagi</button>`;return}
+    const h=qs[qi],ar=mode==="huruf"||mode==="bentuk",pool=mode==="makhraj"?D.mk.map(m=>m[1]):[...new Set(H.map(ans))];
+    const opts=shuffle([ans(h),...shuffle(pool.filter(x=>x!==ans(h))).slice(0,3)]);
+    const q=mode==="huruf"?`<p class="qzw hq">${esc(h[1])}</p><p class="qzr">Huruf manakah ini?</p>`:mode==="bentuk"?`<p class="qzw" lang="ar" dir="rtl">${forms(h)[2]}</p><p class="qzr">Bentuk tengah huruf apa?</p>`:`<p class="qzw" lang="ar" dir="rtl">${h[0]}</p><p class="qzr">${mode==="nama"?"Apakah nama huruf ini?":"Dari kawasan makhraj manakah huruf ini?"}</p>`;
+    qz.innerHTML=`<p class="qzn">Soalan ${qi+1} daripada ${qs.length} · Markah ${score}</p>${q}<div class="qzo">${opts.map((o,k)=>`<button class="btn2${ar?" qar":""}" type="button" data-k="${k}"${ar?' lang="ar"':""}>${esc(o)}</button>`).join("")}</div><p class="qzf" aria-live="polite"></p>`;
+    qz.dataset.opts=JSON.stringify(opts);
+  };
+  $("#hqm").addEventListener("click",e=>{const b=e.target.closest("button[data-m]");if(!b)return;mode=b.dataset.m;$$("#hqm button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));qs=[];qz.innerHTML=`<p>10 soalan rawak. Markah terbaik bagi setiap jenis kuiz disimpan dalam pelayar anda.</p><button class="btn3" type="button" data-hq>Mula kuiz</button>`});
+  qz.addEventListener("click",e=>{
+    if(e.target.closest("[data-hq]")){qs=shuffle([...H]).slice(0,10);qi=0;score=0;ask();return}
+    if(e.target.closest("[data-next]")){qi++;ask();return}
+    const b=e.target.closest("button[data-k]");if(!b||b.disabled)return;
+    const opts=JSON.parse(qz.dataset.opts),h=qs[qi],right=ans(h),ok=opts[+b.dataset.k]===right;if(ok)score++;
+    $$("button[data-k]",qz).forEach(x=>{x.disabled=true;if(opts[+x.dataset.k]===right)x.classList.add("ok");else if(x===b)x.classList.add("no")});
+    $(".qzf",qz).innerHTML=`${ok?"✓ Betul.":`✗ Jawapan: <strong>${esc(right)}</strong>.`} ${esc(h[1])} (${h[0]}): ${esc(h[6])}<br><button class="btn2" type="button" data-next>Seterusnya ›</button>`;
+  });
+  // checklist
+  const ml=$("#msl"),msp=$("#msp");
+  const paintM=()=>{const st=store.get("mengaji",{}),cs=$$("input[data-m]",ml);let k=0;cs.forEach(c=>{c.checked=!!st[c.dataset.m];if(c.checked)k++});msp.textContent=`${k} / ${cs.length} selesai${k===cs.length?" — Alhamdulillah! Teruskan dengan khatam Al-Quran.":""}`};
+  ml.addEventListener("change",e=>{const c=e.target.closest("input[data-m]");if(!c)return;const st=store.get("mengaji",{});if(c.checked)st[c.dataset.m]=1;else delete st[c.dataset.m];store.set("mengaji",st);paintM()});
+  paintM();
 }
 })();

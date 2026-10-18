@@ -26,9 +26,13 @@ def ayat(s, a):
 
 TOOLS = [
     ("waktu-solat/", "🕌", "Waktu Solat Hari Ini", "Waktu solat 64 bandar di Malaysia, kiraan ke solat seterusnya, jadual sebulan dan arah kiblat."),
+    ("waktu-berbuka-puasa/", "🌙", "Waktu Berbuka Puasa & Imsak", "Jadual imsakiyah Ramadan semua zon JAKIM, kiraan detik ke berbuka, penanda puasa dan peringatan kalendar."),
+    ("belajar-solat/", "🧎", "Cara Solat Lengkap", "Panduan solat fardu langkah demi langkah dengan bacaan Arab, Rumi dan maksud, rukun solat dan kalkulator qada."),
     ("doa-harian/", "🤲", "Himpunan Doa Harian", "Doa harian daripada hadis, doa Rabbana dan doa para nabi dari Al-Quran, serta ayat amalan."),
     ("zikir-pagi-petang/", "🌅", "Zikir Pagi & Petang", "Zikir pagi petang, selepas solat dan sebelum tidur dengan kaunter dan rujukan hadis."),
     ("belajar-tajwid/", "📘", "Belajar Tajwid", "Hukum nun mati, mim mati, mad dan qalqalah dengan contoh audio, pengesan hukum dan kuiz."),
+    ("belajar-mengaji/", "🔤", "Belajar Mengaji", "29 huruf hijaiyah dengan makhraj, bentuk sambung dan baris, kuiz huruf dan senarai semak kemajuan."),
+    ("belajar-iqra/", "📗", "Belajar Iqra' 1–6", "Latihan Iqra' interaktif tanpa had: baris, mad, tanwin, sukun, qalqalah, alif lam, sabdu dan ayat Juz 30."),
     ("jadual-khatam-al-quran/", "📅", "Jadual Khatam Al-Quran", "Kira berapa muka surat sehari dan jana jadual khatam 30 hari, Ramadan, 7 hari atau tempoh sendiri."),
     ("jadual-hafazan-al-quran/", "🧠", "Jadual Hafazan Al-Quran", "Rancang hafazan Juz 30, Al-Mulk, Yasin atau 30 juzuk dan dapatkan tarikh tamat."),
     ("tasbih-digital/", "📿", "Tasbih Digital", "Kira zikir dan tasbih selepas solat (33·33·33) dengan getaran dan kiraan tersimpan."),
@@ -681,13 +685,13 @@ def build_pages(ctx):
 </div></div>'''
     pages.append(dict(
         path="alat/", kind="hub", data=False, arabic=False,
-        title="Alat Al-Quran & Islamik Percuma: Khatam, Hafazan, Tasbih",
+        title="Alat Al-Quran & Islamik Percuma: Ramadan, Solat, Iqra', Tajwid",
         ogtitle="Alat Al-Quran & Islamik Percuma",
-        desc="Koleksi alat Al-Quran percuma dalam Bahasa Melayu: jadual khatam, jadual hafazan, tasbih digital, cari ayat ikut topik dan senarai 30 juzuk. Tanpa akaun.",
+        desc="Alat Al-Quran & Islamik percuma: waktu berbuka puasa, waktu solat, cara solat, belajar mengaji, Iqra', tajwid, jadual khatam, hafazan dan tasbih. Tanpa akaun.",
         crumbs=[("Alat", None)], body=body, faq=[],
         itemlist=dict(name="Alat Al-Quran", items=[{"@type": "ListItem", "position": i + 1, "name": n, "url": SITE + p} for i, (p, _, n, _) in enumerate(TOOLS)]),
         about=["Al-Quran"], schema="CollectionPage",
-        llms="Direktori alat Al-Quran percuma: jadual khatam, jadual hafazan, tasbih digital, carian ayat (terjemahan Melayu) dan senarai 30 juzuk.",
+        llms="Direktori alat Al-Quran dan Islamik percuma: waktu berbuka puasa dan imsak Ramadan, waktu solat, cara solat, belajar mengaji (huruf hijaiyah), latihan Iqra' 1–6, belajar tajwid, doa, zikir, jadual khatam, jadual hafazan, tasbih digital, carian ayat dan senarai 30 juzuk.",
     ))
 
     # ---------------- tentang ----------------

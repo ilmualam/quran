@@ -120,6 +120,7 @@ def build_state_pages(ctx):
 <caption id="smcap">Jadual waktu solat {P.BLN[day.month - 1]} {day.year} – {e(cities[zones.index(cz)][1])}</caption>
 <thead><tr><th scope="col">Tarikh</th>{"".join(f'<th scope="col">{n}</th>' for n in SL.NAMES)}</tr></thead>
 <tbody>{"".join(rows)}</tbody></table></div>
+<p class="ssrc sby">Disediakan oleh: <a href="https://www.ilmualam.com">The Ilmu Alam</a></p>
 </section>
 
 <section aria-labelledby="h-jwp">
@@ -147,7 +148,7 @@ def build_state_pages(ctx):
 <section id="negeri" aria-labelledby="h-negeri">
 <h2 id="h-negeri">Waktu Solat Negeri Lain</h2>
 {state_links(slug)}
-<p class="note">Sumber: takwim waktu solat JAKIM (e-solat.gov.my), disegerakkan setiap bulan. <a href="/waktu-solat/#kaedah">Sumber & kaedah</a>.</p>
+<p class="note">Sumber: takwim waktu solat JAKIM (e-solat.gov.my), disegerakkan setiap bulan. <a href="/waktu-solat/#kaedah">Sumber & kaedah</a>. Bulan Ramadan: <a href="/waktu-berbuka-puasa/{slug}/">waktu berbuka puasa & imsak {e(name)}</a>.</p>
 </section>
 {ad(1)}
 <section aria-labelledby="h-rel"><h2 id="h-rel">Alat Lain</h2>{tool_cards("waktu-solat/")}</section>

@@ -146,7 +146,7 @@ def build_pages2(ctx):
 
 <section id="negeri" aria-labelledby="h-negeri">
 <h2 id="h-negeri">Waktu Solat Ikut Negeri</h2>
-<p>Jadual rasmi JAKIM bagi setiap zon di negeri anda, dengan waktu hari ini untuk semua zon sekali gus.</p>
+<p>Jadual rasmi JAKIM bagi setiap zon di negeri anda, dengan waktu hari ini untuk semua zon sekali gus. Untuk bulan Ramadan, lihat <a href="/waktu-berbuka-puasa/">jadual waktu berbuka puasa & imsak</a> semua zon.</p>
 {state_links()}
 </section>
 
