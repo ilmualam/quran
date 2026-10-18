@@ -1,4 +1,4 @@
-/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
+/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, masjid, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
 (()=>{"use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={
@@ -438,6 +438,74 @@ const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()
 // the device's own Arabic voice, when it has one (never a network service)
 const speech={v:null,init(cb){const s=window.speechSynthesis;if(!s)return;const f=()=>{this.v=s.getVoices().find(v=>/^ar([-_]|$)/i.test(v.lang))||null;cb&&cb(!!this.v)};f();s.addEventListener?.("voiceschanged",f)},
   say(t){const s=window.speechSynthesis;if(!s||!this.v)return;s.cancel();const u=new SpeechSynthesisUtterance(t);u.voice=this.v;u.lang=this.v.lang;u.rate=.7;s.speak(u)}};
+
+/* ---------- cari masjid: zone prayer times + nearest mosques from OpenStreetMap (Overpass; same rules as tools/masjid.py) ---------- */
+const mdEl=$("#md");
+if(mdEl){
+  const D=JSON.parse(mdEl.textContent),NM=D.n,mt=$("#mtimes");
+  if(mt&&D.z){
+    // the build-time HTML shows the build date; redraw for today from the synced JAKIM file (else the calibrated calculation)
+    const md=$("#mdate"),rest=md.textContent.split(" · ").slice(1).join(" · ");let t=null;
+    const tick=()=>{
+      if(!t)return;const n=new Date(),mins=n.getHours()*60+n.getMinutes(),i=[1,3,4,5,6].find(k=>t[k]>mins);
+      $$("li",mt).forEach(li=>li.classList.toggle("nx",+li.dataset.i===i));
+      if(i===undefined){$("#mnext").textContent="Waktu seterusnya: Subuh esok";return}
+      const left=t[i]-mins,h=Math.floor(left/60);$("#mnext").textContent=`Waktu seterusnya: ${NM[i]} ${hm(t[i])} · lagi ${h?h+" jam ":""}${left%60} minit`;
+    };
+    const d=today();
+    official(D.z,d.getFullYear()).then(o=>{
+      t=o?o.t[doy(d)]:solatDay(d.getFullYear(),d.getMonth()+1,d.getDate(),D.lat,D.lng);
+      setIf(mt,NM.map((n,i)=>`<li data-i="${i}"><span class="sn">${n}</span><span class="st">${hm(t[i])}</span></li>`).join(""));
+      md.textContent=`${dlong(d)} · ${rest}`;
+      if(!o){const s=$("#msrc strong");if(s)s.textContent=`kiraan anggaran parameter JAKIM, zon ${D.z}`}
+      tick();
+    });
+    setInterval(tick,20000);
+  }
+  const btn=$("#mgeo"),res=$("#mres"),stat=$("#mstat");
+  const SUR=/\b(surau|musolla|musalla|musholla|musolah|mushola|madrasah|madrasatul)\b/i,MAS=/\b(masjid|mosque|jami|jamek)\b/i,KIND={m:"Masjid",s:"Surau",t:"Tempat solat"};
+  const kindOf=(n,tg)=>SUR.test(n)?"s":MAS.test(n)||tg.building==="mosque"?"m":"t";
+  const km=(a,b,c,d)=>{const h=Math.sin(rad(c-a)/2)**2+Math.cos(rad(a))*Math.cos(rad(c))*Math.sin(rad(d-b)/2)**2;return 12742*Math.asin(Math.sqrt(h))};
+  const kmf=x=>x<1?`${Math.round(x*1000)} m`:`${x.toFixed(1).replace(".",",")} km`;
+  const sp=s=>String(s||"").trim().replace(/\s+/g," ");
+  const EP=["https://overpass-api.de/api/interpreter","https://overpass.kumi.systems/api/interpreter"];
+  async function ask(q){
+    for(const u of EP){
+      const ac=new AbortController(),tm=setTimeout(()=>ac.abort(),25000);
+      try{const r=await fetch(u,{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"},signal:ac.signal});if(r.ok)return(await r.json()).elements||[]}catch{}finally{clearTimeout(tm)}
+    }
+    throw new Error("overpass");
+  }
+  async function near(la,lo){
+    for(const r of[3000,10000,25000]){
+      stat.textContent=`Mencari masjid dan surau dalam lingkungan ${r/1000} km…`;
+      const f=`(around:${r},${la.toFixed(5)},${lo.toFixed(5)})`,out=[];
+      for(const el of await ask(`[out:json][timeout:25];(nwr["amenity"="place_of_worship"]["religion"="muslim"]${f};nwr["building"="mosque"]${f};);out center tags qt;`)){
+        const tg=el.tags||{},n=sp(tg.name||tg["name:ms"]||tg["name:en"]),lat=el.lat??el.center?.lat,lng=el.lon??el.center?.lon;
+        if(!n||lat==null||out.some(o=>o.n.toLowerCase()===n.toLowerCase()&&km(o.lat,o.lng,lat,lng)<.15))continue;
+        const addr=[sp([tg["addr:housenumber"],tg["addr:street"]].filter(Boolean).join(" ")),sp(tg["addr:place"]||tg["addr:suburb"]),sp([tg["addr:postcode"],tg["addr:city"]].filter(Boolean).join(" "))].filter(Boolean).join(", ");
+        out.push({n,k:kindOf(n,tg),lat,lng,d:km(la,lo,lat,lng),ref:`${el.type}/${el.id}`,addr,a:tg.wheelchair==="yes"});
+      }
+      if(out.length>=5||r===25000)return{r,out:out.sort((a,b)=>a.d-b.d).slice(0,25)};
+    }
+  }
+  const li=m=>`<li class="mq" data-lat="${m.lat}" data-lng="${m.lng}"><span class="mk ${m.k}">${KIND[m.k]}</span><strong class="mqn">${esc(m.n)}</strong><span class="mqd">${kmf(m.d)} dari lokasi anda${m.a?" · ♿ akses OKU":""}</span>${m.addr?`<span class="mqa">${esc(m.addr)}</span>`:""}<span class="mql"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=${m.lat.toFixed(6)},${m.lng.toFixed(6)}" rel="noopener nofollow">Arah</a> · <a href="https://www.openstreetmap.org/${m.ref}" rel="noopener">Peta OSM</a></span></li>`;
+  function zoneAt(la,lo){let best=null,bd=1e9;for(const a of D.an){const x=km(la,lo,a[1],a[2]);if(x<bd){bd=x;best=a[0]}}return bd<60?best:null}
+  btn.addEventListener("click",()=>{
+    if(!navigator.geolocation)return toast("Lokasi tidak disokong");
+    btn.disabled=true;stat.textContent="Mendapatkan lokasi anda…";
+    navigator.geolocation.getCurrentPosition(async p=>{
+      const{latitude:la,longitude:lo}=p.coords,z=zoneAt(la,lo);
+      const zt=z?` Zon waktu solat anda: ${z===D.z?`<strong>${z}</strong> (halaman ini)`:`<a href="${D.zs[z][0]}">${z} · ${esc(D.zs[z][1])}</a>`}.`:"";
+      try{
+        const{r,out}=await near(la,lo);
+        setIf(res,out.map(li).join(""));
+        stat.innerHTML=(out.length?`${out.length} tempat solat terdekat dalam ${r/1000} km, disusun mengikut jarak garis lurus.`:`Tiada masjid atau surau dipetakan dalam ${r/1000} km.`)+zt+` © <a href="https://www.openstreetmap.org/copyright" rel="noopener">penyumbang OpenStreetMap</a>`;
+      }catch{stat.innerHTML="Carian OpenStreetMap tidak berjaya buat masa ini. Cuba lagi sebentar"+(mt?", atau lihat senarai zon di bawah.":".")+zt}
+      btn.disabled=false;
+    },()=>{btn.disabled=false;stat.textContent="Kebenaran lokasi ditolak. Benarkan lokasi dalam tetapan pelayar, atau pilih zon anda di bawah.";toast("Kebenaran lokasi ditolak")},{timeout:15000,maximumAge:3e5,enableHighAccuracy:true});
+  });
+}
 
 /* ---------- waktu berbuka puasa: imsakiyah Ramadan (rows mirror tools/pages4.py r_row) ---------- */
 const rdEl=$("#rd");

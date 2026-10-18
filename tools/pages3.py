@@ -3,6 +3,7 @@ state, today's times, the month for the capital zone) and month-specific facts, 
 import json, os, calendar, datetime as dt
 import solat as SL
 import plans as P
+import masjid as MQ
 from pages import e, faq_html, hero, side, meta_line, table, tool_cards, SITE, TBB
 
 HB = ["Muharam", "Safar", "Rabiulawal", "Rabiulakhir", "Jamadilawal", "Jamadilakhir", "Rejab", "Syaaban", "Ramadan", "Syawal", "Zulkaedah", "Zulhijjah"]
@@ -135,6 +136,7 @@ def build_state_pages(ctx):
 <section id="zon" aria-labelledby="h-zon">
 <h2 id="h-zon">{"Semua Zon Waktu Solat " + e(name) + " Hari Ini" if many else "Zon Waktu Solat " + e(name)}</h2>
 <p class="note">Waktu bagi <span id="sztd">{P.dlong(day)}</span>. Klik kod zon untuk melihat jadual sebulan zon tersebut.</p>
+<p class="note">📍 Masjid & surau ikut zon: {" · ".join(f'<a href="/cari-masjid/{MQ.ZONEINFO[z[0]][0]}/">{z[0]} {e(MQ.ZONEINFO[z[0]][1][0][0])}</a>' for z in zones)}</p>
 <div class="tw" tabindex="0" role="region" aria-label="Waktu solat hari ini bagi setiap zon"><table class="plan szt" id="szt">
 <thead><tr><th scope="col">Zon & kawasan</th><th scope="col">Subuh</th><th scope="col">Zohor</th><th scope="col">Asar</th><th scope="col">Maghrib</th><th scope="col">Isyak</th></tr></thead>
 <tbody>{zrows}</tbody></table></div>

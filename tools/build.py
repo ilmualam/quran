@@ -5,6 +5,7 @@ from pages import build_pages, tool_cards
 from pages2 import build_pages2
 from pages3 import build_state_pages
 from pages4 import build_pages4
+from pages5 import build_masjid_pages
 from urllib.parse import quote, urlparse
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -155,7 +156,7 @@ if ADS_ON:
            "media-src https://everyayah.com; object-src 'none'; base-uri 'self'; form-action https://api.follow.it")
 else:
     csp = (f"default-src 'none'; script-src 'self' '{sha(THEME_JS)}'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; worker-src 'self'; "
-           "media-src https://everyayah.com; connect-src 'self' https://www.e-solat.gov.my; manifest-src 'self'; base-uri 'self'; form-action https://api.follow.it")
+           "media-src https://everyayah.com; connect-src 'self' https://www.e-solat.gov.my https://overpass-api.de https://overpass.kumi.systems; manifest-src 'self'; base-uri 'self'; form-action https://api.follow.it")
 ADMETA = f'<meta name="google-adsense-account" content="{e(ADS_CLIENT)}">\n' if ADS_CLIENT else ""
 HEADER = open(f"{SCR}/header.html", encoding="utf8").read()
 FOOTER = open(f"{SCR}/footer.html", encoding="utf8").read()
@@ -198,11 +199,11 @@ def page_graph(pg, url, ogimg):
           "inLanguage": "ms-MY", "isPartOf": {"@id": SITE + "#website"}, "breadcrumb": {"@id": url + "#crumbs"},
           "primaryImageOfPage": {"@type": "ImageObject", "url": ogimg, "width": 1200, "height": 630},
           "dateModified": TODAY, "author": {"@id": MAIN + "#org"}, "publisher": {"@id": MAIN + "#org"},
-          "about": [{"@type": "Thing", "name": a} for a in pg.get("about", [])],
+          "about": [{"@type": "Thing", "name": a} for a in pg.get("about", [])] + ([{"@id": pg["about_ref"]}] if pg.get("about_ref") else []),
           "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", ".box"]}}
     if pg["path"] != "dasar-privasi.html":
         wp["datePublished"] = pg.get("published", PUBLISHED)
-    nodes = [ORG, WEBSITE, wp, {"@type": "BreadcrumbList", "@id": url + "#crumbs", "itemListElement": crumbs}]
+    nodes = [ORG, WEBSITE, wp, {"@type": "BreadcrumbList", "@id": url + "#crumbs", "itemListElement": crumbs}] + pg.get("nodes", [])
     if pg.get("app"):
         a = pg["app"]
         wp["mainEntity"] = {"@id": url + "#app"}
@@ -228,7 +229,7 @@ NOTFOUND = ('<div class="hero sm"><div class="wrap"><h1>Halaman Tidak Dijumpai (
             '<p><a class="btn3" href="/">📖 Ke laman utama Al-Quran Online</a></p></section></div></div>')
 # the monthly prayer-time sync rebuilds with SOLAT_DATE=<today in MYT> so the state pages' month facts stay current
 SOLAT_DAY = os.environ.get("SOLAT_DATE") or TODAY
-PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages4({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
+PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages4({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_masjid_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
     dict(path="dasar-privasi.html", kind="info", data=False, arabic=False, title="Dasar Privasi – Al-Quran Online | Ilmu Alam",
          ogtitle="Dasar Privasi – Al-Quran Online",
          desc="Dasar privasi Al-Quran Online (quran.ilmualam.com): data yang disimpan dalam pelayar anda, kuki, iklan Google AdSense dan hak anda di bawah PDPA 2010.",
@@ -242,7 +243,7 @@ OUTPUTS = {"": PAGE}
 for pg in PAGES:
     url = SITE + pg["path"]
     slug = pg.get("og") or pg["path"].strip("/").replace(".html", "")
-    ogp = og.card(slug, pg["ogtitle"], pg["desc"]) if not pg.get("noindex") else None
+    ogp = og.card(slug, *pg.get("ogcard", (pg["ogtitle"], pg["desc"]))) if not pg.get("noindex") else None
     ogimg = SITE + ogp if ogp else OGIMG
     data = (f'<script type="application/json" id="qd">{plans.jsdata()}</script>\n' if pg.get("data") else "") + (pg.get("extra_data", "") + "\n" if pg.get("extra_data") else "")
     html_out = render(LAYOUT, {
@@ -288,7 +289,7 @@ open(f"{REPO}/sitemap.xml", "w", newline="\n").write(
  + "</urlset>\n")
 
 lines = [f"- [{S[n][1]} ({n}) – {S[n][2]}, {AYAT[n]} ayat]({URLS.get(n, SITE + '#surah-' + str(n))})" for n in range(1, 115)]
-tool_lines = [f"- [{p['title']}]({SITE}{p['path']}): {p['llms']}" for p in PAGES if p["kind"] in ("tool", "ref", "hub")]
+tool_lines = [f"- [{p['title']}]({SITE}{p['path']}): {p['llms']}" for p in PAGES if p["kind"] in ("tool", "ref", "hub") and not p.get("noindex")]
 info_lines = [f"- [{p['title']}]({SITE}{p['path']}): {p['llms']}" for p in PAGES if p["kind"] == "info" and not p.get("noindex")]
 open(f"{REPO}/llms.txt", "w", encoding="utf8", newline="\n").write(f"""# Al-Quran Online – Ilmu Alam
 
@@ -334,8 +335,9 @@ cta = open(f"{SCR}/surah-cta.js", encoding="utf8").read().replace("{{MAP}}", jso
 cta = "".join(c if ord(c) < 128 else "".join(f"\\u{int.from_bytes(b[i:i + 2], 'big'):04x}" for b in [c.encode("utf-16-be")] for i in range(0, len(b), 2)) for c in cta)
 open(f"{REPO}/assets/js/surah-cta.js", "w", encoding="ascii", newline="\n").write(cta)
 
-# service worker: version = hash of everything it precaches, so any deploy busts the old cache
-PAGE_PATHS = [p["path"] for p in PAGES]
+# service worker: version = hash of everything it precaches, so any deploy busts the old cache.
+# The 60 masjid zone pages are left out of the precache (they are cached when visited) so installing stays light.
+PAGE_PATHS = [p["path"] for p in PAGES if not p.get("nocache")]
 ASSETS = ["assets/js/quran-home.js", "assets/js/alat.js", "assets/data/cari.json", "assets/fonts/amiri-arabic-400-normal.woff2", "manifest.webmanifest",
           "favicon.ico", "assets/icons/logo-64.webp", "assets/icons/favicon-96.png", "assets/icons/icon-192.png", "assets/icons/icon-512.png"]
 PRE = ["./"] + PAGE_PATHS + ASSETS
