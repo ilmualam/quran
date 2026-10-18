@@ -248,6 +248,45 @@ await pg.check('#msl input[data-m=huruf]');await pg.reload({waitUntil:'networkid
 ok(await pg.isChecked('#msl input[data-m=huruf]')&&(await pg.textContent('#msp')).startsWith('1 /'),'mengaji checklist persisted');
 ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
 
+// cari masjid: zone page times JS == build, JSON-LD (Place, Mosque list, BreadcrumbList), nearest search with mocked GPS + Overpass
+{
+  const fs2=await import('fs');
+  const slug=fs2.readdirSync(TOOLS+'../cari-masjid/').find(f=>f.startsWith('sgr01-'));
+  pg=await open(`cari-masjid/${slug}/`);
+  const strip=e=>{const c=e.cloneNode(true);c.querySelectorAll('.nx').forEach(x=>x.removeAttribute('class'));return c.innerHTML};
+  ok(await raw(`cari-masjid/${slug}/`,'#mtimes')===await pg.$eval('#mtimes',strip),'masjid zone: times JS == build');
+  ok(/lagi|esok/.test(await pg.textContent('#mnext')),'masjid zone countdown: '+await pg.textContent('#mnext'));
+  const g=JSON.parse(await pg.$eval('script[type="application/ld+json"]',s=>s.textContent))['@graph'],types=g.map(n=>n['@type']);
+  ok(['Place','BreadcrumbList','FAQPage','CollectionPage'].every(t=>types.includes(t)),'masjid zone JSON-LD: '+types.join(','));
+  ok(g.find(n=>n['@type']==='BreadcrumbList').itemListElement.length===3,'masjid zone breadcrumb 3 levels');
+  if(fs2.existsSync(TOOLS+'../assets/data/masjid/SGR01.json')){
+    const il=g.find(n=>n['@type']==='ItemList');
+    ok(il&&il.itemListElement.length>0&&il.itemListElement.every(x=>['Mosque','PlaceOfWorship'].includes(x.item['@type'])&&x.item.geo.latitude),'masjid zone ItemList of Mosque/PlaceOfWorship ('+(il?il.itemListElement.length:0)+')');
+    ok((await pg.$$('#senarai .mq')).length>0&&(await pg.textContent('#senarai .osm')).includes('OpenStreetMap'),'masjid zone list + OSM credit');
+  }
+  ok(await pg.$eval(`#kira a[href^="/waktu-solat/selangor/"]`,a=>a.getAttribute('href'))==='/waktu-solat/selangor/#bandar=SGR01','masjid zone links to prayer-times tool');
+  ok(pg.errs.length===0,'masjid zone no errors '+pg.errs);
+  const c3=await browser.newContext({viewport:{width:390,height:844},geolocation:{latitude:3.0738,longitude:101.5183},permissions:['geolocation']});
+  const el=(id,n,la,lo,t={})=>({type:'node',id,lat:la,lon:lo,tags:{amenity:'place_of_worship',religion:'muslim',...(n?{name:n}:{}),...t}});
+  const body=JSON.stringify({elements:[el(1,'Surau Al-Ikhlas',3.080,101.520),el(2,'Masjid Sultan Salahuddin Abdul Aziz Shah',3.0786,101.5206,{'addr:street':'Persiaran Masjid','addr:city':'Shah Alam'}),
+    el(3,'Masjid Sultan Salahuddin Abdul Aziz Shah',3.0787,101.5206),el(4,'',3.074,101.519),{type:'way',id:5,center:{lat:3.090,lon:101.530},tags:{building:'mosque',name:'Masjid Bulatan <Seksyen 7>'}},
+    el(6,'Musolla Stesen',3.070,101.515),el(7,'Tempat Solat Pasar',3.060,101.500)]});
+  let hits=0;
+  await c3.route('https://overpass-api.de/**',r=>{hits++;r.fulfill({status:504,body:'busy'})});  // first endpoint down -> mirror
+  await c3.route('https://overpass.kumi.systems/**',r=>r.fulfill({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body}));
+  await c3.route('https://www.e-solat.gov.my/**',r=>r.fulfill({status:200,contentType:'application/json',body:'{}'}));
+  const p3=await c3.newPage();const errs=[];p3.on('pageerror',e=>errs.push(e.message));
+  await p3.goto(B+'cari-masjid/',{waitUntil:'networkidle'});
+  await p3.click('#mgeo');await p3.waitForSelector('#mres li');
+  const names=await p3.$$eval('#mres .mqn',a=>a.map(x=>x.textContent));
+  ok(hits>0&&names.length===5&&names[0]==='Musolla Stesen'&&names[1]==='Masjid Sultan Salahuddin Abdul Aziz Shah','near me: mirror used, deduped, nearest first: '+names.join(' | '));
+  ok(await p3.$eval('#mres',e=>!e.querySelector('script,b')&&e.textContent.includes('<Seksyen 7>')),'near me: names escaped');
+  ok(JSON.stringify(await p3.$$eval('#mres .mk',a=>a.map(x=>x.className)))===JSON.stringify(['mk s','mk m','mk s','mk m','mk t']),'near me: masjid/surau kinds');
+  ok((await p3.textContent('#mstat')).includes('SGR01')&&await p3.$eval('#mstat a[href^="/cari-masjid/sgr01-"]',a=>!!a),'near me: zone detected + linked');
+  ok(errs.length===0,'near me no errors '+errs);
+  await c3.close();
+}
+
 // header: hamburger menu (popover), site search, footer subscribe form
 pg=await open('belajar-iqra/');
 await pg.click('.mnb');ok(await pg.isVisible('#menu a[href="/waktu-berbuka-puasa/"]'),'hamburger opens full menu');

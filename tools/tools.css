@@ -236,3 +236,24 @@ li:has(> .iqi.w){grid-column:1/-1}
 .iqt .tjw{font-size:1.4rem;white-space:nowrap}
 @media print{.rst,.spnav,.spx,#qada,#latih .act,#hjg,#kuiz,#kemajuan,#rf{display:none!important}.rmt{min-width:0}.rmt th:last-child,.rmt td:last-child{display:none}}
 .sby{text-align:center}
+/* cari masjid */
+.mnear{margin-top:16px;padding-top:14px;border-top:1px solid var(--bd)}
+.mnear h3{margin:0 0 4px;font-size:1.05rem}
+.mql2{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+.mq{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:1px solid var(--bd);border-radius:12px;background:var(--card);min-width:0}
+.mqn{font-size:1rem;overflow-wrap:anywhere}
+.mk{align-self:flex-start;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:999px;border:1px solid var(--bd);color:var(--sub)}
+.mk.m{background:var(--d);border-color:var(--d);color:#fff}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .mk.m{background:var(--g);border-color:var(--g);color:#04130a}}
+:root[data-theme=dark] .mk.m{background:var(--g);border-color:var(--g);color:#04130a}
+.mqd,.mqa{font-size:.84rem;color:var(--sub);overflow-wrap:anywhere}
+.mql{font-size:.88rem}
+.mql a{font-weight:700}
+.osm{font-size:.85rem;color:var(--sub)}
+.mzl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.mzl a{font-weight:700}
+table.mzt{min-width:520px}
+table.mzt th,table.mzt td{vertical-align:top}
+table.mzt th:first-child{width:28%}
+table.mzt th:last-child,table.mzt td:last-child{width:18%;text-align:right}
+.mnear.top{margin-top:0;padding-top:0;border-top:0}

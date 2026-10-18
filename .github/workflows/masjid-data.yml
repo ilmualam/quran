@@ -1,0 +1,39 @@
+# Keeps assets/data/masjid/ (masjid & surau per JAKIM zone, from OpenStreetMap via the Overpass API) in sync, then rebuilds
+# so /cari-masjid/ and its 60 zone pages are pre-rendered with the current list. A zone page is noindex until its file exists.
+# Runs monthly, on demand, and when the fetcher changes. Data © OpenStreetMap contributors, ODbL 1.0.
+name: Masjid & surau (OpenStreetMap)
+on:
+  schedule:
+    - cron: "41 19 8 * *"   # 03:41 MYT on the 9th of every month
+  workflow_dispatch:
+  push:
+    paths:
+      - tools/masjid.py
+      - tools/masjid_fetch.py
+      - .github/workflows/masjid-data.yml
+permissions:
+  contents: write
+concurrency:
+  group: data-sync-${{ github.ref }}  # shared with solat-data.yml: one data commit at a time
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch masjid & surau from OpenStreetMap
+        run: python3 tools/masjid_fetch.py
+      - name: Rebuild site
+        run: SOLAT_DATE="$(TZ=Asia/Kuala_Lumpur date +%F)" python3 tools/build.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/data/masjid assets/data/cari.json cari-masjid waktu-solat waktu-berbuka-puasa sw.js llms.txt sitemap.xml
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "Update masjid & surau from OpenStreetMap ($(date -u +%F))"
+          git push
