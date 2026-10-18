@@ -4,13 +4,14 @@ from surahs import S, MADANI, ALIAS, POPULAR, ARTICLES
 from pages import build_pages, tool_cards
 from pages2 import build_pages2
 from pages3 import build_state_pages
+from pages4 import build_pages4
 from urllib.parse import quote, urlparse
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCR = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://quran.ilmualam.com/"
 MAIN = "https://www.ilmualam.com/"
-TODAY = "2026-10-17"
+TODAY = "2026-10-18"
 BULAN = ["Januari", "Februari", "Mac", "April", "Mei", "Jun", "Julai", "Ogos", "September", "Oktober", "November", "Disember"]
 TODAYMS = f"{int(TODAY[8:])} {BULAN[int(TODAY[5:7]) - 1]} {TODAY[:4]}"
 OGIMG = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJxqp-Slnk0sIXWrsKrRUlkwOb7NZPN-JVM3fRd5hg4RN6Ppx9k2X0jMNzMhz3Z6JS1vXNpZqEBCA4MyAuwJDs_FZD6wbPG-YiL2_znJmH6880F69I_bZbxUw7HT7xCM79S9KF_MrPcmXLHNPkpyxQiXRHSx0OhfIEyxqiVbOQ142DUKEDaS8BnNzss44/w1200-h630-p-k-no-nu/al-quran-online-baca-digital.webp"
@@ -196,7 +197,7 @@ def page_graph(pg, url, ogimg):
           "about": [{"@type": "Thing", "name": a} for a in pg.get("about", [])],
           "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", ".box"]}}
     if pg["path"] != "dasar-privasi.html":
-        wp["datePublished"] = PUBLISHED
+        wp["datePublished"] = pg.get("published", PUBLISHED)
     nodes = [ORG, WEBSITE, wp, {"@type": "BreadcrumbList", "@id": url + "#crumbs", "itemListElement": crumbs}]
     if pg.get("app"):
         a = pg["app"]
@@ -223,7 +224,7 @@ NOTFOUND = ('<div class="hero sm"><div class="wrap"><h1>Halaman Tidak Dijumpai (
             '<p><a class="btn3" href="/">📖 Ke laman utama Al-Quran Online</a></p></section></div></div>')
 # the monthly prayer-time sync rebuilds with SOLAT_DATE=<today in MYT> so the state pages' month facts stay current
 SOLAT_DAY = os.environ.get("SOLAT_DATE") or TODAY
-PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
+PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages4({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
     dict(path="dasar-privasi.html", kind="info", data=False, arabic=False, title="Dasar Privasi – Al-Quran Online | Ilmu Alam",
          ogtitle="Dasar Privasi – Al-Quran Online",
          desc="Dasar privasi Al-Quran Online (quran.ilmualam.com): data yang disimpan dalam pelayar anda, kuki, iklan Google AdSense dan hak anda di bawah PDPA 2010.",
@@ -305,7 +306,7 @@ ICONS = [
  {"src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
  {"src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
  {"src": "assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]
-SC = [("Surah Yasin", "Yasin", "./#surah-36"), ("Surah Al-Kahfi", "Al-Kahfi", "./#surah-18"),
+SC = [("Waktu Berbuka Puasa", "Berbuka", "./waktu-berbuka-puasa/"), ("Surah Yasin", "Yasin", "./#surah-36"), ("Surah Al-Kahfi", "Al-Kahfi", "./#surah-18"),
       ("Tasbih Digital", "Tasbih", "./tasbih-digital/"), ("Jadual Khatam Al-Quran", "Khatam", "./jadual-khatam-al-quran/")]
 open(f"{REPO}/manifest.webmanifest", "w", encoding="utf8", newline="\n").write(json.dumps({
  "id": "/", "name": "Al-Quran Online – Ilmu Alam", "short_name": "Al-Quran", "description": DESC, "lang": "ms-MY", "dir": "ltr",

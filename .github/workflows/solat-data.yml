@@ -1,5 +1,5 @@
 # Keeps assets/data/solat/ in sync with the official JAKIM timetable, then rebuilds the site so
-# /waktu-solat/ and the 15 state pages are pre-rendered with official times and current month facts. Runs monthly, on demand, and when the fetcher changes.
+# /waktu-solat/, /waktu-berbuka-puasa/ and their state pages are pre-rendered with official times and current month facts. Next year's timetable is tried from October so the Ramadan pages switch to official times as soon as JAKIM publishes them. Runs monthly, on demand, and when the fetcher changes.
 name: Prayer times (JAKIM)
 on:
   schedule:
@@ -32,7 +32,7 @@ jobs:
           YEARS: ${{ github.event.inputs.years }}
         run: |
           Y="$(printf '%s' "$YEARS" | tr -cd '0-9 ')"
-          if [ -z "$Y" ]; then Y="$(date -u +%Y)"; [ "$(date -u +%m)" = "12" ] && Y="$Y $(( $(date -u +%Y) + 1 ))"; fi
+          if [ -z "$Y" ]; then Y="$(date -u +%Y)"; [ "$(date -u +%m)" -ge 10 ] && Y="$Y $(( $(date -u +%Y) + 1 ))"; fi
           python3 tools/solat_fetch.py $Y
       - name: Rebuild site
         run: SOLAT_DATE="$(TZ=Asia/Kuala_Lumpur date +%F)" python3 tools/build.py
@@ -40,7 +40,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/data/solat waktu-solat sw.js llms.txt
+          git add assets/data/solat waktu-solat waktu-berbuka-puasa sw.js llms.txt sitemap.xml
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Update JAKIM prayer timetables ($(date -u +%F))"
           git push
