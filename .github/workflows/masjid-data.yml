@@ -22,6 +22,8 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}  # the branch tip when this job starts (jobs queue in data-sync), not the triggering commit, so the push fast-forwards
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
