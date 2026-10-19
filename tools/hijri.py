@@ -62,14 +62,22 @@ def _official_days():
 
 
 def build_table():
-    """Complete official months [(hy, hm, start day number, length)] + the tabular offset that best matches them."""
+    """Official months [(hy, hm, start day number, length, full?)] + the tabular offset that best matches them.
+    A month cut by the edge of the synced data still counts: its start follows from any of its days (day n is hd - 1 days
+    after the 1st). Its length is known when the next month's 1st is synced (full); otherwise only the synced days are."""
     days = _official_days()
-    starts = sorted(n for n, h in days.items() if h[2] == 1)
+    by = {}
+    for n, (hy, hm, hd) in days.items():
+        s = n - hd + 1
+        k = by.setdefault((hy, hm), [s, n])
+        k[1] = max(k[1], n)
     months = []
-    for a, b in zip(starts, starts[1:]):
-        hy, hm, _ = days[a]
-        if b - a in (29, 30) and all(n in days for n in range(a, b)):
-            months.append((hy, hm, a, b - a))
+    for (hy, hm), (s, last) in sorted(by.items(), key=lambda x: x[1][0]):
+        nxt = (hy + 1, 1) if hm == 12 else (hy, hm + 1)
+        if nxt in by and by[nxt][0] - s in (29, 30):
+            months.append((hy, hm, s, by[nxt][0] - s, True))
+        else:
+            months.append((hy, hm, s, last - s + 1, False))
     diffs = collections.Counter(n - tab_h2d(*h) for n, h in days.items())
     off = diffs.most_common(1)[0][0] if diffs else 0
     return months, off
@@ -81,25 +89,26 @@ MONTHS, OFF = build_table()
 def g2h(d):
     """date -> (hy, hm, hd, official?)"""
     n = dn(d)
-    for hy, hm, s, ln in MONTHS:
+    for hy, hm, s, ln, _ in MONTHS:
         if s <= n < s + ln:
             return hy, hm, n - s + 1, True
     return tab_d2h(n - OFF) + (False,)
 
 
 def month_len(hy, hm):
-    for y, m, s, ln in MONTHS:
-        if (y, m) == (hy, hm):
-            return ln, True
     ny, nm = (hy + 1, 1) if hm == 12 else (hy, hm + 1)
-    return tab_h2d(ny, nm, 1) - tab_h2d(hy, hm, 1), False
+    tab = tab_h2d(ny, nm, 1) - tab_h2d(hy, hm, 1)
+    for y, m, s, ln, full in MONTHS:
+        if (y, m) == (hy, hm):
+            return (ln, True) if full else (max(ln, tab), False)
+    return tab, False
 
 
 def h2g(hy, hm, hd):
     """(hy, hm, hd) -> (date, official?)"""
-    for y, m, s, ln in MONTHS:
+    for y, m, s, ln, full in MONTHS:
         if (y, m) == (hy, hm):
-            return dd(s + hd - 1), True
+            return dd(s + hd - 1), full or hd <= ln
     return dd(tab_h2d(hy, hm, hd) + OFF), False
 
 
@@ -160,11 +169,11 @@ def grid_html(y, mo, today):
 
 
 def js_data():
-    return {"m": [[a, b, c, d] for a, b, c, d in MONTHS], "off": OFF, "bh": BH, "ev": [[k, m, d, n, t] for k, m, d, n, t in EVENTS]}
+    return {"m": [[a, b, c, d, int(f)] for a, b, c, d, f in MONTHS], "off": OFF, "bh": BH, "ev": [[k, m, d, n, t] for k, m, d, n, t in EVENTS]}
 
 
 if __name__ == "__main__":
-    print(len(MONTHS), "official months", MONTHS[0][:2], "->", MONTHS[-1][:2], "| tabular offset", OFF)
+    print(len(MONTHS), "official months", MONTHS[0], "->", MONTHS[-1], "| tabular offset", OFF)
     for d in (dt.date(2026, 10, 19), dt.date(2027, 2, 8), dt.date(2030, 1, 1), dt.date(1990, 5, 1)):
         print(d, g2h(d))
     for e in events_from(dt.date(2026, 10, 19), 6):

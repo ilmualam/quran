@@ -293,7 +293,7 @@ ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
   for(const s of ['#hbig','#har','#hmas','#hmag','#hmt','#hgrid','#hev tbody','#hsl','#hgo','#hho'])
     ok(await raw('kalendar-hijrah/',s)===await pg.$eval(s,e=>e.innerHTML),`hijri ${s} JS == build`);
   const ds=[];for(let t=Date.UTC(1950,0,1);t<Date.UTC(2080,0,1);t+=37*864e5)ds.push(new Date(t).toISOString().slice(0,10));
-  ds.push('2026-06-15','2026-06-16','2027-02-07','2027-02-08','2027-03-09','2027-03-10','2027-12-31','2028-01-01');
+  ds.push('2026-01-01','2027-12-31','2028-01-10','2026-06-15','2026-06-16','2027-02-07','2027-02-08','2027-03-09','2027-03-10','2027-12-31','2028-01-01');
   const js=await pg.evaluate(ds=>ds.map(s=>{const[y,m,d]=s.split('-').map(Number);const p=document.createElement('p');return s}),ds);
   fs.writeFileSync('/tmp/hj-dates.json',JSON.stringify(ds));
   const py=JSON.parse(execSync(`cd ${TOOLS} && python3 -c "import json,datetime as d,hijri as H;print(json.dumps([list(H.g2h(d.date.fromisoformat(s))) for s in json.load(open('/tmp/hj-dates.json'))]))"`).toString());
@@ -318,6 +318,12 @@ ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
   const [dl2]=await Promise.all([pg.waitForEvent('download'),pg.click('#hics')]);
   const ics2=fs.readFileSync(await dl2.path(),'utf8');ok((ics2.match(/BEGIN:VEVENT/g)||[]).length>20&&ics2.includes('Aidilfitri'),'hijri .ics events: '+(ics2.match(/BEGIN:VEVENT/g)||[]).length);
   ok(pg.errs.length===0,'hijri no errors '+pg.errs);
+  ok(jsv[ds.indexOf('2026-01-01')].includes('11 Rejab 1447 H')&&!jsv[ds.indexOf('2026-01-01')].includes('anggaran'),'edge month kept official: '+jsv[ds.indexOf('2026-01-01')]);
+  // a visitor in New York at 10:00 local = 22:00 in Malaysia: Malaysian day, already past Maghrib
+  const c4=await browser.newContext({timezoneId:'America/New_York'});const p4=await c4.newPage();await p4.clock.setFixedTime(new Date('2026-10-18T14:00:00Z'));
+  await p4.goto(B+'kalendar-hijrah/',{waitUntil:'networkidle'});
+  ok((await p4.textContent('#hmas')).startsWith('Ahad, 18 Oktober 2026')&&(await p4.textContent('#hmag')).startsWith('Sudah masuk malam 8 Jamadilawal'),'hijri uses Malaysian time abroad: '+await p4.textContent('#hmag'));
+  await c4.close();
 }
 // tahlil: personalisation, pronoun switch, shared link, view, counter, majlis mode
 {

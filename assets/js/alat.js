@@ -357,8 +357,11 @@ const dfrom=n=>{const u=new Date(n*864e5);return new Date(u.getUTCFullYear(),u.g
 const HE=-492148,tabH2d=(y,m,d)=>d+Math.ceil(29.5*(m-1))+(y-1)*354+Math.floor((3+11*y)/30)+HE-1;
 function tabD2h(n){const y=Math.floor((30*(n-HE)+10646)/10631),m=Math.min(12,Math.ceil((n-(29+tabH2d(y,1,1)))/29.5)+1);return[y,m,n-tabH2d(y,m,1)+1]}
 function g2h(d){const n=dnum(d);for(const[y,m,s,l]of HJ.m)if(n>=s&&n<s+l)return[y,m,n-s+1,true];return[...tabD2h(n-HJ.off),false]}
-function hMonthLen(y,m){const r=HJ.m.find(x=>x[0]===y&&x[1]===m);if(r)return[r[3],true];const[ny,nm]=m===12?[y+1,1]:[y,m+1];return[tabH2d(ny,nm,1)-tabH2d(y,m,1),false]}
-function h2g(y,m,d){const r=HJ.m.find(x=>x[0]===y&&x[1]===m);return r?[dfrom(r[2]+d-1),true]:[dfrom(tabH2d(y,m,d)+HJ.off),false]}
+// month rows: [hy, hm, start day, length, full]; a month cut by the end of the synced data has only its synced days (full 0)
+function hMonthLen(y,m){const[ny,nm]=m===12?[y+1,1]:[y,m+1],tab=tabH2d(ny,nm,1)-tabH2d(y,m,1),r=HJ.m.find(x=>x[0]===y&&x[1]===m);return r?(r[4]?[r[3],true]:[Math.max(r[3],tab),false]):[tab,false]}
+function h2g(y,m,d){const r=HJ.m.find(x=>x[0]===y&&x[1]===m);return r?[dfrom(r[2]+d-1),!!r[4]||d<=r[3]]:[dfrom(tabH2d(y,m,d)+HJ.off),false]}
+// the Hijri pages follow Malaysian time (UTC+8) whatever the device's time zone, like the JAKIM timetable they read
+const mytNow=()=>new Date(Date.now()+288e5),mytDay=()=>{const u=mytNow();return new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())};
 const hstr=h=>`${h[2]} ${HJ.bh[h[1]-1]} ${h[0]} H`;
 function hEvents(d,n){
   const hy=g2h(d)[0],out=[];
@@ -562,16 +565,16 @@ if(hgEl&&HJ){
   }
   const zs=$("#hz");let cy,cm,zone=store.get("hijri-zone",HJ.def);if(!HJ.zc[zone])zone=HJ.def;zs.value=zone;
   async function drawToday(){
-    const d=today(),h=g2h(d),nh=g2h(addD(d,1)),o=await official(zone,d.getFullYear()),z=HJ.zc[zone];
-    const t=o?o.t[doy(d)]:solatDay(d.getFullYear(),d.getMonth()+1,d.getDate(),z[0],z[1]),n=new Date(),mins=n.getHours()*60+n.getMinutes();
+    const d=mytDay(),h=g2h(d),nh=g2h(addD(d,1)),o=await official(zone,d.getFullYear()),z=HJ.zc[zone];
+    const t=o?o.t[doy(d)]:solatDay(d.getFullYear(),d.getMonth()+1,d.getDate(),z[0],z[1]),u=mytNow(),mins=u.getUTCHours()*60+u.getUTCMinutes();
     setIf($("#hbig"),hstr(h));setIf($("#hans"),hstr(h));setIf($("#har"),`${AD(h[2])} ${BHA[h[1]-1]} ${AD(h[0])} هـ`);
     setIf($("#hmas"),`${dlong(d)} · ${h[3]?"takwim rasmi JAKIM":"anggaran kiraan (takwim JAKIM belum tersedia)"}`);
     setIf($("#hmag"),mins>=t[5]?`Sudah masuk malam ${nh[2]} ${BH[nh[1]-1]} (selepas Maghrib ${hm(t[5])}, zon ${zone}).`:`Hari Hijrah bermula waktu Maghrib: selepas ${hm(t[5])} (zon ${zone}) masuk malam ${nh[2]} ${BH[nh[1]-1]}.`);
   }
-  const drawGrid=()=>{setIf(hgEl,gridHtml(cy,cm,today()));setIf($("#hmt"),monTitle(cy,cm))};
+  const drawGrid=()=>{setIf(hgEl,gridHtml(cy,cm,mytDay()));setIf($("#hmt"),monTitle(cy,cm))};
   function goto(y,m,save){const d=new Date(y,m,1);cy=d.getFullYear();cm=d.getMonth();drawGrid();if(save)writeHash({bulan:`${cy}-${pad(cm+1)}`})}
   $("#hprev").addEventListener("click",()=>goto(cy,cm-1,true));$("#hnext").addEventListener("click",()=>goto(cy,cm+1,true));
-  $("#htod").addEventListener("click",()=>{const d=today();goto(d.getFullYear(),d.getMonth(),false);history.replaceState(null,"",location.pathname)});
+  $("#htod").addEventListener("click",()=>{const d=mytDay();goto(d.getFullYear(),d.getMonth(),false);history.replaceState(null,"",location.pathname)});
   zs.addEventListener("change",()=>{zone=zs.value;store.set("hijri-zone",zone);drawToday()});
   // converter
   const hg=$("#hg"),hhd=$("#hhd"),hhm=$("#hhm"),hhy=$("#hhy");
@@ -581,20 +584,20 @@ if(hgEl&&HJ){
   hg.addEventListener("input",conv1);[hhd,hhm,hhy].forEach(x=>x.addEventListener("input",conv2));
   // Hijri age, next Hijri birthday, zakat haul
   const nextH=(m,dd,from)=>{for(let y=g2h(from)[0];;y++){const[g]=h2g(y,m,Math.min(dd,hMonthLen(y,m)[0]));if(g>=from)return[g,y]}};
-  $("#hlahir").addEventListener("input",e=>{const b=parseD(e.target.value),t=today();if(!b||b>t)return;
+  $("#hlahir").addEventListener("input",e=>{const b=parseD(e.target.value),t=mytDay();if(!b||b>t)return;
     const hb=g2h(b),ht=g2h(t),ah=ht[0]-hb[0]-((ht[1]<hb[1]||(ht[1]===hb[1]&&ht[2]<hb[2]))?1:0);
     const am=t.getFullYear()-b.getFullYear()-((t.getMonth()<b.getMonth()||(t.getMonth()===b.getMonth()&&t.getDate()<b.getDate()))?1:0);
     const[g,y]=nextH(hb[1],hb[2],t),n=Math.round((g-t)/864e5);
     setIf($("#hlo"),`<p>Tarikh lahir Hijrah: <strong>${hstr(hb)}</strong>${hb[3]?"":" (anggaran)"}.</p><p>Umur: <strong>${ah} tahun Hijrah</strong> (${am} tahun Masihi).</p><p>Hari lahir Hijrah seterusnya (${hb[2]} ${BH[hb[1]-1]} ${y} H): <strong>${dlong(g)}</strong>${n?`, lagi ${n} hari`:", hari ini"}.</p>`)});
-  $("#hhaul").addEventListener("input",e=>{const s=parseD(e.target.value);if(!s)return;const h=g2h(s),y=h[0]+1,[g,o]=h2g(y,h[1],Math.min(h[2],hMonthLen(y,h[1])[0])),n=Math.round((g-today())/864e5);
+  $("#hhaul").addEventListener("input",e=>{const s=parseD(e.target.value);if(!s)return;const h=g2h(s),y=h[0]+1,[g,o]=h2g(y,h[1],Math.min(h[2],hMonthLen(y,h[1])[0])),n=Math.round((g-mytDay())/864e5);
     setIf($("#hho2"),`<p>Mula: ${hstr(h)}. Haul cukup pada <strong>${dlong(g)}</strong> (${hstr(g2h(g))})${o?"":", anggaran"}, ${Math.round((g-s)/864e5)} hari kemudian${n>0?`, lagi ${n} hari`:n===0?", iaitu hari ini":""}.</p>`)});
   $("#hics").addEventListener("click",()=>{
-    const d=today(),ev=hEvents(d,24).map(([,name,note,h,g])=>({d:g,t:name,x:`${hstr(h)}. ${note}`}));
+    const d=mytDay(),ev=hEvents(d,24).map(([,name,note,h,g])=>({d:g,t:name,x:`${hstr(h)}. ${note}`}));
     for(let i=0;i<366;i++){const x=addD(d,i),h=g2h(x);if(h[2]>=13&&h[2]<=15&&!(h[1]===12&&h[2]===13)&&h[1]!==9)ev.push({d:x,t:`Puasa sunat Ayyamul Bidh (${h[2]} ${BH[h[1]-1]})`,x:"Sunat berpuasa 13, 14 dan 15 setiap bulan Hijrah."})}
     saveFile(icsCal(ev.sort((a,b)=>a.d-b.d)),`kalendar-hijrah-${d.getFullYear()}.ics`);
   });
   toolbar($("#hact"),{});
-  const d0=today(),hb=readHash().bulan&&/^(\d{4})-(\d{2})$/.exec(readHash().bulan);
+  const d0=mytDay(),hb=readHash().bulan&&/^(\d{4})-(\d{2})$/.exec(readHash().bulan);
   if(hb)goto(+hb[1],+hb[2]-1,false);else goto(d0.getFullYear(),d0.getMonth(),false);
   setIf($("#hev tbody"),evRows(d0));setIf($("#hsl"),sunatList(d0));
   if(hg.value!==iso(d0)){hg.value=iso(d0);conv1();const h=g2h(d0);hhd.value=h[2];hhm.value=h[1];hhy.value=h[0];conv2()}
@@ -617,8 +620,8 @@ if(tlEl&&HJ){
     $("#tlcn").textContent=j==="ll"||j==="pp"?(n.trim()||"Arwah ahli keluarga kami"):[t,n.trim()||"[nama arwah]",b.trim()?`${bb} ${b.trim()}`:""].filter(Boolean).join(" ");
     const doaLi=$("#doa");doaLi.dataset.txt=`Doa untuk arwah\n\n${ar}\n\n${ru}\n\n${mn}`;
     const d=parseD(td.value),hl=$("#tlhaul");
-    if(d&&d<=today()){
-      const h=g2h(d),now=today();let y=g2h(now)[0]-1,g;
+    if(d&&d<=mytDay()){
+      const h=g2h(d),now=mytDay();let y=g2h(now)[0]-1,g;
       do{y++;g=h2g(y,h[1],Math.min(h[2],hMonthLen(y,h[1])[0]))[0]}while(g<now);
       const left=Math.round((g-now)/864e5);
       hl.innerHTML=`Meninggal: <strong>${hstr(h)}</strong>${h[3]?"":" (anggaran)"} (jika selepas Maghrib, tarikh Hijrahnya sehari kemudian). Haul seterusnya: <strong>${dlong(g)}</strong>, ${h[2]} ${TD.bh[h[1]-1]} ${y} H${left?`, lagi ${left} hari`:", hari ini"}.`;

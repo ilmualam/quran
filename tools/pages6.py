@@ -114,7 +114,7 @@ def build_kalendar(ctx):
         ("Bagaimana mengira haul zakat?",
          "Haul ialah genap satu tahun Hijrah (354 atau 355 hari) harta dimiliki, bukan satu tahun Masihi. Masukkan tarikh mula pemilikan dalam kalkulator haul di atas untuk mendapatkan tarikh cukup haul. Untuk jumlah zakat, rujuk kalkulator zakat dan lembaga zakat negeri anda."),
     ]
-    title = "Tarikh Hijrah Hari Ini & Kalendar Islam 1448 H (Rasmi JAKIM)"
+    title = f"Tarikh Hijrah Hari Ini & Kalendar Islam {h[0]} H (Rasmi JAKIM)"
     body = hero(f"Tarikh Hijrah Hari Ini & Kalendar Islam {h[0]} H",
                 "Tarikh Hijrah rasmi JAKIM, kalendar bulanan dengan hari puasa sunat, penukar tarikh, hari kebesaran Islam, umur Hijrah dan tarikh haul zakat.",
                 [("Kalendar Hijrah", None)])
@@ -139,7 +139,7 @@ def build_kalendar(ctx):
 <div class="prose">
 <h2 id="h-jwp" class="sr">Ringkasan</h2>
 <div class="box"><p><strong>Jawapan ringkas:</strong> Tarikh Hijrah hari ini, <strong>{P.dlong(day)}</strong>, ialah <strong id="hans">{big}</strong> mengikut {"takwim rasmi JAKIM" if h[3] else "kiraan anggaran"}. Hari Hijrah bermula waktu Maghrib.{f" 1 Ramadan {ram[0][0]} H jatuh pada <strong>{P.dlong(ram[1])}</strong> dan Aidilfitri pada <strong>{P.dlong(fitri[1])}</strong>." if ram and fitri else ""}</p></div>
-{meta_line(T_, TMS)}
+{meta_line(day.isoformat(), f"{day.day} {P.BLN[day.month - 1]} {day.year}")}
 {share(SITE + "kalendar-hijrah/", "Tarikh Hijrah hari ini & kalendar Islam rasmi JAKIM:")}
 </div>
 </section>
@@ -154,7 +154,7 @@ def build_kalendar(ctx):
 <div class="fl"><label for="hhy">Tahun Hijrah</label><input type="number" id="hhy" min="1" max="1600" value="{h[0]}" inputmode="numeric"></div>
 <p class="hout w2" id="hho" aria-live="polite">{H.hstr(h)} = <strong>{P.dlong(day)}</strong>{"" if h[3] else " (anggaran)"}</p>
 </form>
-<p class="note">Tarikh dalam julat takwim JAKIM ({P.dlong(H.dd(H.MONTHS[0][2]))} – {P.dlong(H.dd(H.MONTHS[-1][2] + H.MONTHS[-1][3] - 1))}) adalah rasmi. Di luar julat itu, kalendar tabular Islam digunakan; ia mungkin berbeza satu hari.</p>
+<p class="note">Tarikh dalam julat takwim JAKIM ({P.dlong(H.dd(min(n for n in H._official_days())))} – {P.dlong(H.dd(max(n for n in H._official_days())))}) adalah rasmi. Di luar julat itu, kalendar tabular Islam digunakan; ia mungkin berbeza satu hari.</p>
 </section>
 
 <section id="kebesaran" aria-labelledby="h-keb">
@@ -202,9 +202,9 @@ def build_kalendar(ctx):
 </div>
 {side([("kira", "Tarikh hari ini & kalendar"), ("tukar", "Tukar tarikh"), ("kebesaran", "Hari kebesaran"), ("puasa-sunat", "Puasa sunat"), ("kalkulator", "Umur Hijrah & haul"), ("tahun", f"Kalendar {h[0]} H"), ("faq", "Soalan lazim")], "kalendar-hijrah/")}
 </div>'''
-    return [dict(path="kalendar-hijrah/", kind="tool", data=False, arabic=False, extra_data=f'<script type="application/json" id="hd">{hd}</script>',
+    return [dict(path="kalendar-hijrah/", kind="tool", data=False, arabic=False, modified=day.isoformat(), extra_data=f'<script type="application/json" id="hd">{hd}</script>',
                  title=title, ogtitle="Tarikh Hijrah Hari Ini & Kalendar Islam",
-                 desc="Tarikh Hijrah hari ini rasmi JAKIM, kalendar Islam 1448 H dengan puasa sunat, penukar tarikh Masihi-Hijrah, hari kebesaran Islam, umur Hijrah & haul zakat.",
+                 desc=f"Tarikh Hijrah hari ini rasmi JAKIM, kalendar Islam {h[0]} H dengan puasa sunat, penukar tarikh Masihi-Hijrah, hari kebesaran Islam, umur Hijrah & haul zakat.",
                  crumbs=[("Kalendar Hijrah", None)], body=body, faq=faq, about=["Kalendar Hijrah", "Takwim Islam", "Puasa sunat"],
                  app=dict(name="Kalendar Hijrah Malaysia", features=["Tarikh Hijrah hari ini daripada takwim rasmi JAKIM", "Hari Hijrah bertukar ikut waktu Maghrib zon anda",
                                                                      "Kalendar bulanan dengan puasa sunat dan hari haram berpuasa", "Penukar tarikh Masihi ↔ Hijrah",
