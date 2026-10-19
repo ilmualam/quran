@@ -33,7 +33,7 @@ ok((await pg.textContent('#kprog')).includes('2 daripada 30'),'progress text');
 await pg.reload({waitUntil:'networkidle'});
 ok(await pg.isChecked('#kt input[data-d="2"]'),'progress persisted');
 const [dl]=await Promise.all([pg.waitForEvent('download'),pg.click('[data-act=ics]')]);
-const fs=await import('fs');const p2=await dl.path();const ics=fs.readFileSync(p2,'utf8');
+const fs=await import('fs');globalThis.fs=fs;const p2=await dl.path();const ics=fs.readFileSync(p2,'utf8');
 ok(ics.startsWith('BEGIN:VCALENDAR')&&(ics.match(/BEGIN:VEVENT/g)||[]).length===30,'ics 30 events '+dl.suggestedFilename());
 ok(pg.errs.length===0,'khatam no errors '+pg.errs);
 
@@ -285,6 +285,67 @@ ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
   ok((await p3.textContent('#mstat')).includes('SGR01')&&await p3.$eval('#mstat a[href^="/cari-masjid/sgr01-"]',a=>!!a),'near me: zone detected + linked');
   ok(errs.length===0,'near me no errors '+errs);
   await c3.close();
+}
+
+// kalendar hijrah: build == JS for today; JS hijri engine == tools/hijri.py over 1950-2080; converter, age, haul, .ics
+{
+  pg=await open('kalendar-hijrah/');
+  for(const s of ['#hbig','#har','#hmas','#hmag','#hmt','#hgrid','#hev tbody','#hsl','#hgo','#hho'])
+    ok(await raw('kalendar-hijrah/',s)===await pg.$eval(s,e=>e.innerHTML),`hijri ${s} JS == build`);
+  const ds=[];for(let t=Date.UTC(1950,0,1);t<Date.UTC(2080,0,1);t+=37*864e5)ds.push(new Date(t).toISOString().slice(0,10));
+  ds.push('2026-01-01','2027-12-31','2028-01-10','2026-06-15','2026-06-16','2027-02-07','2027-02-08','2027-03-09','2027-03-10','2027-12-31','2028-01-01');
+  const js=await pg.evaluate(ds=>ds.map(s=>{const[y,m,d]=s.split('-').map(Number);const p=document.createElement('p');return s}),ds);
+  fs.writeFileSync('/tmp/hj-dates.json',JSON.stringify(ds));
+  const py=JSON.parse(execSync(`cd ${TOOLS} && python3 -c "import json,datetime as d,hijri as H;print(json.dumps([list(H.g2h(d.date.fromisoformat(s))) for s in json.load(open('/tmp/hj-dates.json'))]))"`).toString());
+  await pg.fill('#hg',ds[0]);
+  const jsv=[];for(const s of ds){await pg.fill('#hg',s);jsv.push(await pg.textContent('#hgo'))}
+  const pyv=ds.map((s,i)=>{const h=py[i];return `${s} = ${h[2]} ${['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijjah'][h[1]-1]} ${h[0]} H${h[3]?'':' (anggaran)'}`});
+  const bad=ds.filter((s,i)=>jsv[i]!==pyv[i]);
+  ok(bad.length===0,`hijri g2h JS == Python on ${ds.length} dates `+bad.slice(0,3));
+  ok(jsv[ds.indexOf('2027-02-08')].includes('1 Ramadan 1448 H')&&!jsv[ds.indexOf('2027-02-08')].includes('anggaran'),'2027-02-08 = 1 Ramadan 1448 (official)');
+  await pg.selectOption('#hhd','1');await pg.selectOption('#hhm','10');await pg.fill('#hhy','1448');
+  ok((await pg.textContent('#hho')).includes('Rabu, 10 Mac 2027'),'1 Syawal 1448 -> '+await pg.textContent('#hho'));
+  await pg.selectOption('#hhd','30');await pg.selectOption('#hhm','9');
+  ok(/hanya ada 29 hari|Mac 2027/.test(await pg.textContent('#hho')),'30 Ramadan handled: '+await pg.textContent('#hho'));
+  for(const [y,m] of [[2026,11],[2027,2],[2030,3]]){
+    while(true){const t=await pg.textContent('#hmt');const want=['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'][m-1]+' '+y;if(t.startsWith(want))break;await pg.click('#hnext')}
+    const pyg=execSync(`cd ${TOOLS} && python3 -c "import hijri as H,datetime as d;print(H.grid_html(${y},${m},d.date(2026,10,18)),end='')"`).toString();
+    ok(pyg===await pg.$eval('#hgrid',e=>e.innerHTML),`hijri grid ${y}-${m} JS == Python`);
+  }
+  ok(await pg.$$eval('#hgrid .hc.ma',a=>a.length)>0,'grid marks sunat days');
+  await pg.fill('#hlahir','1990-05-01');ok(/tahun Hijrah/.test(await pg.textContent('#hlo')),'hijri age: '+(await pg.textContent('#hlo')).slice(0,90));
+  await pg.fill('#hhaul','2026-01-01');ok(/Haul cukup pada/.test(await pg.textContent('#hho2')),'haul: '+(await pg.textContent('#hho2')).slice(0,90));
+  const [dl2]=await Promise.all([pg.waitForEvent('download'),pg.click('#hics')]);
+  const ics2=fs.readFileSync(await dl2.path(),'utf8');ok((ics2.match(/BEGIN:VEVENT/g)||[]).length>20&&ics2.includes('Aidilfitri'),'hijri .ics events: '+(ics2.match(/BEGIN:VEVENT/g)||[]).length);
+  ok(pg.errs.length===0,'hijri no errors '+pg.errs);
+  ok(jsv[ds.indexOf('2026-01-01')].includes('11 Rejab 1447 H')&&!jsv[ds.indexOf('2026-01-01')].includes('anggaran'),'edge month kept official: '+jsv[ds.indexOf('2026-01-01')]);
+  // a visitor in New York at 10:00 local = 22:00 in Malaysia: Malaysian day, already past Maghrib
+  const c4=await browser.newContext({timezoneId:'America/New_York'});const p4=await c4.newPage();await p4.clock.setFixedTime(new Date('2026-10-18T14:00:00Z'));
+  await p4.goto(B+'kalendar-hijrah/',{waitUntil:'networkidle'});
+  ok((await p4.textContent('#hmas')).startsWith('Ahad, 18 Oktober 2026')&&(await p4.textContent('#hmag')).startsWith('Sudah masuk malam 8 Jamadilawal'),'hijri uses Malaysian time abroad: '+await p4.textContent('#hmag'));
+  await c4.close();
+}
+// tahlil: personalisation, pronoun switch, shared link, view, counter, majlis mode
+{
+  pg=await open('tahlil-ringkas/');
+  ok(await pg.$$eval('#tls li.tls',a=>a.length)>=25,'tahlil steps: '+await pg.$$eval('#tls li.tls',a=>a.length));
+  ok((await pg.getAttribute('#fatihah1 button[data-play]','data-play'))==='1:1 1:2 1:3 1:4 1:5 1:6 1:7','tahlil audio refs');
+  await pg.fill('#tln','Ahmad');await pg.fill('#tlb','Ismail');
+  ok((await pg.textContent('#tlh')).includes('roh Allahyarham Ahmad bin Ismail: Al-Fatihah'),'hadiah personalised');
+  await pg.selectOption('#tlj','p');
+  ok((await pg.textContent('#tlda')).includes('لَهَا')&&(await pg.textContent('#tlh')).includes('Allahyarhamah Ahmad binti Ismail'),'pronoun switched to perempuan');
+  await pg.selectOption('#tlj','ll');ok((await pg.textContent('#tldr')).includes('lahum'),'pronoun ramai');
+  const py=execSync(`cd ${TOOLS} && python3 -c "import tahlil as T;print(T.hadiah('l','Ahmad','Ismail'),end='')"`).toString();
+  await pg.selectOption('#tlj','l');ok((await pg.textContent('#tlh'))===py,'hadiah JS == Python');
+  await pg.goto(B+'tahlil-ringkas/#nama=Siti&j=p&t=2025-03-01',{waitUntil:'networkidle'});await pg.reload({waitUntil:'networkidle'});
+  ok((await pg.textContent('#tlcn'))==='Allahyarhamah Siti'&&/Haul seterusnya/.test(await pg.textContent('#tlhaul')),'shared link loads name + haul: '+await pg.textContent('#tlhaul'));
+  await pg.click('#tlv button[data-v=ar]');ok(!(await pg.isVisible('#kursi .dru'))&&await pg.isVisible('#kursi .dar')&&await pg.isVisible('#hadiah .dmn'),'view Arab only');
+  await pg.click('#tlv button[data-v=""]');
+  for(let i=0;i<7;i++)await pg.click('#irhamna .zc');ok((await pg.textContent('#irhamna .zc')).includes('Selesai'),'irhamna counter 7');
+  await pg.click('#tlbig');ok(await pg.evaluate(()=>document.body.classList.contains('tlbig'))&&(await pg.$$eval('#tls li.tls',a=>a.filter(x=>getComputedStyle(x).display!=='none').length))===1,'majlis mode shows one reading');
+  await pg.keyboard.press('ArrowRight');ok((await pg.textContent('#tlpos')).startsWith('2 /'),'majlis next');
+  await pg.keyboard.press('Escape');ok(!(await pg.evaluate(()=>document.body.classList.contains('tlbig'))),'majlis exit');
+  ok(pg.errs.length===0,'tahlil no errors '+pg.errs);
 }
 
 // header: hamburger menu (popover), site search, footer subscribe form

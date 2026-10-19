@@ -6,6 +6,7 @@ from pages2 import build_pages2
 from pages3 import build_state_pages
 from pages4 import build_pages4
 from pages5 import build_masjid_pages
+from pages6 import build_pages6
 from urllib.parse import quote, urlparse
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -192,13 +193,13 @@ def header_for(path):
     return HEADER.replace(href, f'<a href="/{path}" aria-current="page">') if path and href in HEADER else HEADER
 
 
-def page_graph(pg, url, ogimg):
+def page_graph(pg, url, ogimg, mod):
     crumbs = [{"@type": "ListItem", "position": 1, "name": "Al-Quran Online", "item": SITE}]
     crumbs += [{"@type": "ListItem", "position": i, "name": n, "item": SITE + p if p is not None else url} for i, (n, p) in enumerate(pg["crumbs"], 2)]
     wp = {"@type": pg.get("schema", "WebPage"), "@id": url + "#webpage", "url": url, "name": pg["title"], "description": pg["desc"],
           "inLanguage": "ms-MY", "isPartOf": {"@id": SITE + "#website"}, "breadcrumb": {"@id": url + "#crumbs"},
           "primaryImageOfPage": {"@type": "ImageObject", "url": ogimg, "width": 1200, "height": 630},
-          "dateModified": TODAY, "author": {"@id": MAIN + "#org"}, "publisher": {"@id": MAIN + "#org"},
+          "dateModified": mod, "author": {"@id": MAIN + "#org"}, "publisher": {"@id": MAIN + "#org"},
           "about": [{"@type": "Thing", "name": a} for a in pg.get("about", [])] + ([{"@id": pg["about_ref"]}] if pg.get("about_ref") else []),
           "speakable": {"@type": "SpeakableSpecification", "cssSelector": ["h1", ".box"]}}
     if pg["path"] != "dasar-privasi.html":
@@ -229,7 +230,7 @@ NOTFOUND = ('<div class="hero sm"><div class="wrap"><h1>Halaman Tidak Dijumpai (
             '<p><a class="btn3" href="/">📖 Ke laman utama Al-Quran Online</a></p></section></div></div>')
 # the monthly prayer-time sync rebuilds with SOLAT_DATE=<today in MYT> so the state pages' month facts stay current
 SOLAT_DAY = os.environ.get("SOLAT_DATE") or TODAY
-PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages4({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_masjid_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
+PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages4({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_masjid_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages6({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
     dict(path="dasar-privasi.html", kind="info", data=False, arabic=False, title="Dasar Privasi – Al-Quran Online | Ilmu Alam",
          ogtitle="Dasar Privasi – Al-Quran Online",
          desc="Dasar privasi Al-Quran Online (quran.ilmualam.com): data yang disimpan dalam pelayar anda, kuki, iklan Google AdSense dan hak anda di bawah PDPA 2010.",
@@ -246,13 +247,14 @@ for pg in PAGES:
     ogp = og.card(slug, *pg.get("ogcard", (pg["ogtitle"], pg["desc"]))) if not pg.get("noindex") else None
     ogimg = SITE + ogp if ogp else OGIMG
     data = (f'<script type="application/json" id="qd">{plans.jsdata()}</script>\n' if pg.get("data") else "") + (pg.get("extra_data", "") + "\n" if pg.get("extra_data") else "")
+    mod = pg.get("modified", TODAY)  # pages whose content follows the build day (daily refresh) carry that day
     html_out = render(LAYOUT, {
         "{{HEADER}}": header_for(pg["path"]), "{{FOOTER}}": FOOTER, "{{BODY}}": pg["body"], "{{DATA}}": data,
         "{{SCRIPTS}}": '<script src="/assets/js/alat.js" defer></script>\n' if pg["kind"] == "tool" else "",
         "{{PRELOAD}}": FONT_PRELOAD if pg.get("arabic") else "", "{{ICONS}}": ICON_LINKS, "{{ADMETA}}": ADMETA, "{{CSP}}": csp,
         "{{ROBOTS}}": "noindex,follow" if pg.get("noindex") else "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
         "{{OGTYPE}}": "website", "{{TITLE}}": e(pg["title"]), "{{OGTITLE}}": e(pg["ogtitle"]), "{{DESC}}": e(pg["desc"]), "{{URL}}": url, "{{OGIMG}}": ogimg,
-        "{{CSS}}": css_page, "{{THEMEJS}}": THEME_JS, "{{JSONLD}}": page_graph(pg, url, ogimg), "{{TODAY}}": TODAY, "{{MAIN}}": MAIN})
+        "{{CSS}}": css_page, "{{THEMEJS}}": THEME_JS, "{{JSONLD}}": page_graph(pg, url, ogimg, mod), "{{TODAY}}": mod, "{{MAIN}}": MAIN})
     assert len(pg["title"]) <= 70 and len(pg["desc"]) <= 160, (pg["path"], len(pg["title"]), len(pg["desc"]))
     out = f"{REPO}/{pg['path']}" + ("index.html" if pg["path"].endswith("/") else "")
     os.makedirs(os.path.dirname(out), exist_ok=True)
@@ -278,14 +280,14 @@ SEARCH += [[f"Surah {S[n][1]} ({n})", f"/#surah-{n}", f"{S[n][2]} · {AYAT[n]} a
 open(f"{REPO}/assets/data/cari.json", "w", encoding="utf8", newline="\n").write(json.dumps(SEARCH, ensure_ascii=False, separators=(",", ":")))
 
 # ---- supporting files ----
-INDEXED = [""] + [p["path"] for p in PAGES if not p.get("noindex")]
+INDEXED = [("", TODAY)] + [(p["path"], p.get("modified", TODAY)) for p in PAGES if not p.get("noindex")]
 BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended"]
 robots = f"# robots.txt for {SITE}\n# Everything is public. Search engines and AI answer engines are welcome.\n\nUser-agent: *\nAllow: /\n\n"
 robots += "".join(f"User-agent: {b}\nAllow: /\n\n" for b in BOTS) + f"Sitemap: {SITE}sitemap.xml\n"
 open(f"{REPO}/robots.txt", "w", newline="\n").write(robots)
 open(f"{REPO}/sitemap.xml", "w", newline="\n").write(
  '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
- + "".join(f"  <url>\n    <loc>{SITE}{p}</loc>\n    <lastmod>{TODAY}</lastmod>\n  </url>\n" for p in INDEXED)
+ + "".join(f"  <url>\n    <loc>{SITE}{p}</loc>\n    <lastmod>{m}</lastmod>\n  </url>\n" for p, m in INDEXED)
  + "</urlset>\n")
 
 lines = [f"- [{S[n][1]} ({n}) – {S[n][2]}, {AYAT[n]} ayat]({URLS.get(n, SITE + '#surah-' + str(n))})" for n in range(1, 115)]

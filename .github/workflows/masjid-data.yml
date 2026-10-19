@@ -22,6 +22,8 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}  # the branch tip when this job starts (jobs queue in data-sync), not the triggering commit, so the push fast-forwards
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -33,7 +35,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/data/masjid assets/data/cari.json cari-masjid waktu-solat waktu-berbuka-puasa sw.js llms.txt sitemap.xml
+          git add assets/data/masjid assets/data/cari.json cari-masjid kalendar-hijrah waktu-solat waktu-berbuka-puasa sw.js llms.txt sitemap.xml
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Update masjid & surau from OpenStreetMap ($(date -u +%F))"
           git push
