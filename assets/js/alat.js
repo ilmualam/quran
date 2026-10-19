@@ -1,4 +1,4 @@
-/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, masjid, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
+/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
 (()=>{"use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={
@@ -350,6 +350,32 @@ function official(zone,y){
   });
 }
 
+/* ---------- hijri calendar (mirror tools/hijri.py): JAKIM's official months, tabular calendar + offset outside them ---------- */
+const HJ=JSON.parse(($("#hd")||$("#tdat"))?.textContent||"null");
+const dnum=d=>Math.round(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
+const dfrom=n=>{const u=new Date(n*864e5);return new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())};
+const HE=-492148,tabH2d=(y,m,d)=>d+Math.ceil(29.5*(m-1))+(y-1)*354+Math.floor((3+11*y)/30)+HE-1;
+function tabD2h(n){const y=Math.floor((30*(n-HE)+10646)/10631),m=Math.min(12,Math.ceil((n-(29+tabH2d(y,1,1)))/29.5)+1);return[y,m,n-tabH2d(y,m,1)+1]}
+function g2h(d){const n=dnum(d);for(const[y,m,s,l]of HJ.m)if(n>=s&&n<s+l)return[y,m,n-s+1,true];return[...tabD2h(n-HJ.off),false]}
+function hMonthLen(y,m){const r=HJ.m.find(x=>x[0]===y&&x[1]===m);if(r)return[r[3],true];const[ny,nm]=m===12?[y+1,1]:[y,m+1];return[tabH2d(ny,nm,1)-tabH2d(y,m,1),false]}
+function h2g(y,m,d){const r=HJ.m.find(x=>x[0]===y&&x[1]===m);return r?[dfrom(r[2]+d-1),true]:[dfrom(tabH2d(y,m,d)+HJ.off),false]}
+const hstr=h=>`${h[2]} ${HJ.bh[h[1]-1]} ${h[0]} H`;
+function hEvents(d,n){
+  const hy=g2h(d)[0],out=[];
+  for(const y of[hy,hy+1,hy+2])for(const[k,m,dd,name,note]of HJ.ev){const[g,o]=h2g(y,m,dd);if(g>=d)out.push([k,name,note,[y,m,dd],g,o])}
+  return out.sort((a,b)=>a[4]-b[4]).slice(0,n);
+}
+function hMarks(d){
+  const[,hm,hd]=g2h(d),m=[],wd=d.getDay();
+  if((hm===10&&hd===1)||(hm===12&&hd>=10&&hd<=13))m.push("h");
+  else if(hm===9)m.push("r");
+  else if((hm===12&&hd===9)||(hm===1&&(hd===9||hd===10))||(hd>=13&&hd<=15))m.push("a");
+  else if(hm===10&&hd>=2)m.push("s");
+  if((wd===1||wd===4)&&!m.includes("h")&&!m.includes("r"))m.push("w");
+  if(HJ.ev.some(([,em,ed])=>em===hm&&ed===hd))m.push("e");
+  return m;
+}
+
 /* ---------- waktu solat ---------- */
 const sw=$("#sw");
 if(sw){
@@ -505,6 +531,137 @@ if(mdEl){
       btn.disabled=false;
     },()=>{btn.disabled=false;stat.textContent="Kebenaran lokasi ditolak. Benarkan lokasi dalam tetapan pelayar, atau pilih zon anda di bawah.";toast("Kebenaran lokasi ditolak")},{timeout:15000,maximumAge:3e5,enableHighAccuracy:true});
   });
+}
+
+/* ---------- kalendar hijrah (HTML mirrors tools/pages6.py + tools/hijri.py) ---------- */
+const hgEl=$("#hgrid");
+if(hgEl&&HJ){
+  const AD=s=>String(s).replace(/\d/g,c=>"٠١٢٣٤٥٦٧٨٩"[c]),BHA=["مُحَرَّم","صَفَر","رَبِيعُ الأَوَّل","رَبِيعُ الآخِر","جُمَادَى الأُولَى","جُمَادَى الآخِرَة","رَجَب","شَعْبَان","رَمَضَان","شَوَّال","ذُو القَعْدَة","ذُو الحِجَّة"];
+  const BH=HJ.bh;
+  function gridHtml(y,mo,td){
+    const first=new Date(y,mo,1),nd=new Date(y,mo+1,0).getDate();
+    let s=["Ahd","Isn","Sel","Rab","Kha","Jum","Sab"].map(x=>`<span class="hw">${x}</span>`).join("")+'<span class="hc x"></span>'.repeat(first.getDay());
+    for(let k=1;k<=nd;k++){const d=new Date(y,mo,k),[,hm,hd,o]=g2h(d),mk=hMarks(d);
+      const cls=["hc",...mk.map(x=>"m"+x),...(iso(d)===iso(td)?["td"]:[])].join(" ");
+      s+=`<span class="${cls}" data-d="${iso(d)}"><b>${k}</b><i>${hd}${o?"":"*"}</i>${hd===1||k===1?`<span class="hm">${BH[hm-1]}</span>`:""}</span>`}
+    return s;
+  }
+  function monTitle(y,mo){
+    const a=g2h(new Date(y,mo,1)),b=g2h(new Date(y,mo+1,0));
+    const span=a[0]===b[0]&&a[1]===b[1]?`${BH[a[1]-1]} ${a[0]} H`:a[0]===b[0]?`${BH[a[1]-1]} – ${BH[b[1]-1]} ${b[0]} H`:`${BH[a[1]-1]} ${a[0]} – ${BH[b[1]-1]} ${b[0]} H`;
+    return`${BLN[mo]} ${y} · ${span}`;
+  }
+  const evRows=d=>hEvents(d,12).map(([k,name,note,h,g,o])=>{const n=Math.round((g-d)/864e5);
+    return`<tr data-k="${k}"><td><strong>${name}</strong><span class="za">${note}</span></td><td>${hstr(h)}</td><td>${dlong(g)}${o?"":"*"}</td><td>${n===0?"Hari ini":`lagi ${n} hari`}</td></tr>`}).join("");
+  function sunatList(d){
+    const out=[];
+    for(let i=0;i<60&&out.length<6;i++){const x=addD(d,i);if(!hMarks(x).includes("a"))continue;const h=g2h(x);
+      const why=h[1]===12&&h[2]===9?"Hari Arafah":h[1]===1&&h[2]===9?"Tasu'a":h[1]===1&&h[2]===10?"Asyura":"Ayyamul Bidh";
+      out.push(`<li><strong>${dshort(x)}</strong> · ${hstr(h)} · ${why}</li>`)}
+    return out.join("");
+  }
+  const zs=$("#hz");let cy,cm,zone=store.get("hijri-zone",HJ.def);if(!HJ.zc[zone])zone=HJ.def;zs.value=zone;
+  async function drawToday(){
+    const d=today(),h=g2h(d),nh=g2h(addD(d,1)),o=await official(zone,d.getFullYear()),z=HJ.zc[zone];
+    const t=o?o.t[doy(d)]:solatDay(d.getFullYear(),d.getMonth()+1,d.getDate(),z[0],z[1]),n=new Date(),mins=n.getHours()*60+n.getMinutes();
+    setIf($("#hbig"),hstr(h));setIf($("#hans"),hstr(h));setIf($("#har"),`${AD(h[2])} ${BHA[h[1]-1]} ${AD(h[0])} هـ`);
+    setIf($("#hmas"),`${dlong(d)} · ${h[3]?"takwim rasmi JAKIM":"anggaran kiraan (takwim JAKIM belum tersedia)"}`);
+    setIf($("#hmag"),mins>=t[5]?`Sudah masuk malam ${nh[2]} ${BH[nh[1]-1]} (selepas Maghrib ${hm(t[5])}, zon ${zone}).`:`Hari Hijrah bermula waktu Maghrib: selepas ${hm(t[5])} (zon ${zone}) masuk malam ${nh[2]} ${BH[nh[1]-1]}.`);
+  }
+  const drawGrid=()=>{setIf(hgEl,gridHtml(cy,cm,today()));setIf($("#hmt"),monTitle(cy,cm))};
+  function goto(y,m,save){const d=new Date(y,m,1);cy=d.getFullYear();cm=d.getMonth();drawGrid();if(save)writeHash({bulan:`${cy}-${pad(cm+1)}`})}
+  $("#hprev").addEventListener("click",()=>goto(cy,cm-1,true));$("#hnext").addEventListener("click",()=>goto(cy,cm+1,true));
+  $("#htod").addEventListener("click",()=>{const d=today();goto(d.getFullYear(),d.getMonth(),false);history.replaceState(null,"",location.pathname)});
+  zs.addEventListener("change",()=>{zone=zs.value;store.set("hijri-zone",zone);drawToday()});
+  // converter
+  const hg=$("#hg"),hhd=$("#hhd"),hhm=$("#hhm"),hhy=$("#hhy");
+  const conv1=()=>{const d=parseD(hg.value);if(!d)return;const h=g2h(d);setIf($("#hgo"),`${iso(d)} = <strong>${hstr(h)}</strong>${h[3]?"":" (anggaran)"}`)};
+  const conv2=()=>{const y=clamp(hhy.value,1,1600,0),m=+hhm.value,d=+hhd.value;if(!y)return;const[ln]=hMonthLen(y,m);
+    if(d>ln)return setIf($("#hho"),`${BH[m-1]} ${y} H hanya ada ${ln} hari.`);const[g,o]=h2g(y,m,d);setIf($("#hho"),`${hstr([y,m,d])} = <strong>${dlong(g)}</strong>${o?"":" (anggaran)"}`)};
+  hg.addEventListener("input",conv1);[hhd,hhm,hhy].forEach(x=>x.addEventListener("input",conv2));
+  // Hijri age, next Hijri birthday, zakat haul
+  const nextH=(m,dd,from)=>{for(let y=g2h(from)[0];;y++){const[g]=h2g(y,m,Math.min(dd,hMonthLen(y,m)[0]));if(g>=from)return[g,y]}};
+  $("#hlahir").addEventListener("input",e=>{const b=parseD(e.target.value),t=today();if(!b||b>t)return;
+    const hb=g2h(b),ht=g2h(t),ah=ht[0]-hb[0]-((ht[1]<hb[1]||(ht[1]===hb[1]&&ht[2]<hb[2]))?1:0);
+    const am=t.getFullYear()-b.getFullYear()-((t.getMonth()<b.getMonth()||(t.getMonth()===b.getMonth()&&t.getDate()<b.getDate()))?1:0);
+    const[g,y]=nextH(hb[1],hb[2],t),n=Math.round((g-t)/864e5);
+    setIf($("#hlo"),`<p>Tarikh lahir Hijrah: <strong>${hstr(hb)}</strong>${hb[3]?"":" (anggaran)"}.</p><p>Umur: <strong>${ah} tahun Hijrah</strong> (${am} tahun Masihi).</p><p>Hari lahir Hijrah seterusnya (${hb[2]} ${BH[hb[1]-1]} ${y} H): <strong>${dlong(g)}</strong>${n?`, lagi ${n} hari`:", hari ini"}.</p>`)});
+  $("#hhaul").addEventListener("input",e=>{const s=parseD(e.target.value);if(!s)return;const h=g2h(s),y=h[0]+1,[g,o]=h2g(y,h[1],Math.min(h[2],hMonthLen(y,h[1])[0])),n=Math.round((g-today())/864e5);
+    setIf($("#hho2"),`<p>Mula: ${hstr(h)}. Haul cukup pada <strong>${dlong(g)}</strong> (${hstr(g2h(g))})${o?"":", anggaran"}, ${Math.round((g-s)/864e5)} hari kemudian${n>0?`, lagi ${n} hari`:n===0?", iaitu hari ini":""}.</p>`)});
+  $("#hics").addEventListener("click",()=>{
+    const d=today(),ev=hEvents(d,24).map(([,name,note,h,g])=>({d:g,t:name,x:`${hstr(h)}. ${note}`}));
+    for(let i=0;i<366;i++){const x=addD(d,i),h=g2h(x);if(h[2]>=13&&h[2]<=15&&!(h[1]===12&&h[2]===13)&&h[1]!==9)ev.push({d:x,t:`Puasa sunat Ayyamul Bidh (${h[2]} ${BH[h[1]-1]})`,x:"Sunat berpuasa 13, 14 dan 15 setiap bulan Hijrah."})}
+    saveFile(icsCal(ev.sort((a,b)=>a.d-b.d)),`kalendar-hijrah-${d.getFullYear()}.ics`);
+  });
+  toolbar($("#hact"),{});
+  const d0=today(),hb=readHash().bulan&&/^(\d{4})-(\d{2})$/.exec(readHash().bulan);
+  if(hb)goto(+hb[1],+hb[2]-1,false);else goto(d0.getFullYear(),d0.getMonth(),false);
+  setIf($("#hev tbody"),evRows(d0));setIf($("#hsl"),sunatList(d0));
+  if(hg.value!==iso(d0)){hg.value=iso(d0);conv1();const h=g2h(d0);hhd.value=h[2];hhm.value=h[1];hhy.value=h[0];conv2()}
+  drawToday();setInterval(drawToday,60000);
+}
+
+/* ---------- tahlil ringkas: name + pronoun of the deceased, haul, view, audio, print, majlis mode (texts mirror tools/tahlil.py) ---------- */
+const tlEl=$("#tls");
+if(tlEl&&HJ){
+  const TD=HJ,sec=$("#bacaan"),nm=$("#tln"),bp=$("#tlb"),jj=$("#tlj"),td=$("#tld");
+  function hadiah(j,nama,bapa){
+    const[t,b]=TD.gel[j];
+    const who=j==="ll"||j==="pp"?`roh-roh ${nama.trim()||"ahli keluarga kami"} yang telah kembali ke rahmatullah`
+      :"roh "+[t,nama.trim()||"[nama arwah]",bapa.trim()?`${b} ${bapa.trim()}`:""].filter(Boolean).join(" ");
+    return`Ke hadrat Nabi Muhammad SAW, keluarga dan sahabat baginda, para nabi dan rasul, para wali dan ulama, kedua ibu bapa kami, seluruh muslimin dan muslimat, dan khususnya kepada ${who}: Al-Fatihah.`;
+  }
+  function update(save){
+    const j=TD.doa[jj.value]?jj.value:"l",n=nm.value,b=bp.value,[t,bb]=TD.gel[j],[ar,ru,mn]=TD.doa[j];
+    $("#tlh").textContent=hadiah(j,n,b);$("#tlda").textContent=ar;$("#tldr").textContent=ru;$("#tldm").textContent=mn;
+    $("#tlcn").textContent=j==="ll"||j==="pp"?(n.trim()||"Arwah ahli keluarga kami"):[t,n.trim()||"[nama arwah]",b.trim()?`${bb} ${b.trim()}`:""].filter(Boolean).join(" ");
+    const doaLi=$("#doa");doaLi.dataset.txt=`Doa untuk arwah\n\n${ar}\n\n${ru}\n\n${mn}`;
+    const d=parseD(td.value),hl=$("#tlhaul");
+    if(d&&d<=today()){
+      const h=g2h(d),now=today();let y=g2h(now)[0]-1,g;
+      do{y++;g=h2g(y,h[1],Math.min(h[2],hMonthLen(y,h[1])[0]))[0]}while(g<now);
+      const left=Math.round((g-now)/864e5);
+      hl.innerHTML=`Meninggal: <strong>${hstr(h)}</strong>${h[3]?"":" (anggaran)"} (jika selepas Maghrib, tarikh Hijrahnya sehari kemudian). Haul seterusnya: <strong>${dlong(g)}</strong>, ${h[2]} ${TD.bh[h[1]-1]} ${y} H${left?`, lagi ${left} hari`:", hari ini"}.`;
+      $("#tlcd").textContent=`${dlong(d)} · ${hstr(h)}`;
+    }else{hl.textContent="Masukkan tarikh meninggal untuk tarikh Hijrah dan tarikh haul arwah.";$("#tlcd").textContent=""}
+    if(save)store.set("tahlil",{n,b,j,t:td.value});
+  }
+  const h0=readHash(),s0=h0.nama!=null||h0.j?{n:h0.nama||"",b:h0.bapa||"",j:h0.j||"l",t:h0.t||""}:store.get("tahlil",{n:"",b:"",j:"l",t:""});
+  nm.value=s0.n||"";bp.value=s0.b||"";jj.value=TD.doa[s0.j]?s0.j:"l";td.value=parseD(s0.t)?s0.t:"";
+  $("#tlf").addEventListener("input",()=>update(true));update(false);
+  $("#tlshare").addEventListener("click",()=>{
+    const o={nama:nm.value.trim(),j:jj.value};if(bp.value.trim())o.bapa=bp.value.trim();if(td.value)o.t=td.value;
+    const url=`${location.origin}${location.pathname}#${new URLSearchParams(o)}`,txt=`Bacaan tahlil untuk ${$("#tlcn").textContent}:`;
+    if(navigator.share)navigator.share({title:"Tahlil Ringkas",text:txt,url}).catch(()=>{});else copy(`${txt} ${url}`,"Pautan tahlil disalin ✓");
+  });
+  // view + font size
+  const views=["","ar-ru","ar","ru"];let v=store.get("tahlil-v","");if(!views.includes(v))v="";
+  const setV=x=>{v=x;views.forEach(k=>k&&sec.classList.toggle("v-"+k,k===v));$$("#tlv button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.v===v)));store.set("tahlil-v",v)};
+  $("#tlv").addEventListener("click",e=>{const b=e.target.closest("button[data-v]");if(b)setV(b.dataset.v)});setV(v);
+  let fs=clamp(store.get("tahlil-fs",0),-2,4,0);const setFs=()=>{sec.style.setProperty("--tlz",String(1+fs*.15));store.set("tahlil-fs",fs)};setFs();
+  $("#tlact").addEventListener("click",e=>{const b=e.target.closest("button[data-fs]");if(b){fs=clamp(fs+ +b.dataset.fs,-2,4,0);setFs()}});
+  $("#tlprint").addEventListener("click",()=>print());
+  // audio: EveryAyah, one ayah after another
+  const au=new Audio();let queue=[],playing=null;
+  const stopA=()=>{au.pause();queue=[];if(playing)playing.textContent="▶ Dengar";playing=null;$("#tlplay").textContent="▶ Dengar semua ayat"};
+  const next=()=>{const r=queue.shift();if(!r)return stopA();const[s,a]=r.split(":");au.src=`https://everyayah.com/data/Alafasy_128kbps/${pad3(s)}${pad3(a)}.mp3`;au.play().catch(stopA)};
+  const pad3=x=>String(x).padStart(3,"0");
+  au.addEventListener("ended",next);au.addEventListener("error",()=>{toast("Audio tidak dapat dimainkan");stopA()});
+  tlEl.addEventListener("click",e=>{const b=e.target.closest("button[data-play]");if(!b)return;const was=playing===b;stopA();if(was)return;playing=b;b.textContent="■ Henti";queue=b.dataset.play.split(" ");next()});
+  $("#tlplay").addEventListener("click",e=>{if(queue.length||!au.paused){stopA();return}stopA();queue=$$("button[data-play]",tlEl).flatMap(b=>b.dataset.play.split(" "));e.currentTarget.textContent="■ Henti audio";next()});
+  // majlis mode: one reading at a time, large text, screen kept on
+  const items=$$("li.tls",tlEl),nav=$("#tlnav");let idx=0,lock=null,big=false;
+  const show=i=>{idx=Math.max(0,Math.min(items.length-1,i));items.forEach((li,k)=>li.classList.toggle("on",k===idx));$("#tlpos").textContent=`${idx+1} / ${items.length}`;window.scrollTo(0,0)};
+  async function setBig(on){
+    big=on;document.body.classList.toggle("tlbig",on);nav.hidden=!on;
+    if(on){show(idx);try{lock=await navigator.wakeLock?.request("screen")}catch{}try{await document.documentElement.requestFullscreen?.()}catch{}}
+    else{items.forEach(li=>li.classList.remove("on"));lock?.release?.();lock=null;if(document.fullscreenElement)document.exitFullscreen?.().catch(()=>{});items[idx]?.scrollIntoView({block:"start"})}
+  }
+  $("#tlbig").addEventListener("click",()=>setBig(true));
+  nav.addEventListener("click",e=>{const b=e.target.closest("button[data-nav]");if(!b)return;const n=+b.dataset.nav;n?show(idx+n):setBig(false)});
+  tlEl.addEventListener("click",e=>{if(big&&!e.target.closest("button,a"))show(idx+1)});
+  document.addEventListener("keydown",e=>{if(!big)return;if(["ArrowRight","ArrowDown","PageDown"," "].includes(e.key)){e.preventDefault();show(idx+1)}else if(["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){e.preventDefault();show(idx-1)}else if(e.key==="Escape")setBig(false)});
+  document.addEventListener("fullscreenchange",()=>{if(big&&!document.fullscreenElement)setBig(false)});
 }
 
 /* ---------- waktu berbuka puasa: imsakiyah Ramadan (rows mirror tools/pages4.py r_row) ---------- */

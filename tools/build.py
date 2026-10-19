@@ -6,6 +6,7 @@ from pages2 import build_pages2
 from pages3 import build_state_pages
 from pages4 import build_pages4
 from pages5 import build_masjid_pages
+from pages6 import build_pages6
 from urllib.parse import quote, urlparse
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -229,7 +230,7 @@ NOTFOUND = ('<div class="hero sm"><div class="wrap"><h1>Halaman Tidak Dijumpai (
             '<p><a class="btn3" href="/">📖 Ke laman utama Al-Quran Online</a></p></section></div></div>')
 # the monthly prayer-time sync rebuilds with SOLAT_DATE=<today in MYT> so the state pages' month facts stay current
 SOLAT_DAY = os.environ.get("SOLAT_DATE") or TODAY
-PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages4({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_masjid_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
+PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages4({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_masjid_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages6({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
     dict(path="dasar-privasi.html", kind="info", data=False, arabic=False, title="Dasar Privasi – Al-Quran Online | Ilmu Alam",
          ogtitle="Dasar Privasi – Al-Quran Online",
          desc="Dasar privasi Al-Quran Online (quran.ilmualam.com): data yang disimpan dalam pelayar anda, kuki, iklan Google AdSense dan hak anda di bawah PDPA 2010.",
