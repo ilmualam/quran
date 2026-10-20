@@ -1,7 +1,8 @@
 """Fetches the official JAKIM prayer timetable for every zone used in tools/solat.py and writes
 assets/data/solat/<ZONE>-<YEAR>.json. Runs in GitHub Actions (.github/workflows/solat-data.yml).
 Source 1: www.e-solat.gov.my (JAKIM). Source 2: api.waktusolat.app (open mirror of JAKIM data).
-A zone file is written only when a full year passes validation; otherwise the site falls back to calculation."""
+A zone file is written only when a full year passes validation; otherwise the site falls back to calculation.
+Past years (e.g. `python3 tools/solat_fetch.py 2024 2025`) fetch only WLY01, for the official Hijri dates."""
 import json, os, sys, time, datetime as dt, urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from solat import CITIES, ZONES, solat_day
@@ -81,10 +82,15 @@ def main():
     except Exception as e:
         print("zone list unavailable:", repr(e))
     ok, bad = [], []
+    this_year = dt.date.today().year
     for year in years:
-        for z in zones:
+        # a past year only serves the Hijri calendar (tools/hijri.py), whose column is national: one zone is enough.
+        # e-solat's yearly endpoint only answers for the current year, so past years go straight to the monthly mirror.
+        past = year < this_year
+        sources = (("waktusolat.app (JAKIM)", waktusolat),) if past else (("JAKIM e-solat", esolat), ("waktusolat.app (JAKIM)", waktusolat))
+        for z in (["WLY01"] if past else zones):
             days, src = None, None
-            for name, fn in (("JAKIM e-solat", esolat), ("waktusolat.app (JAKIM)", waktusolat)):
+            for name, fn in sources:
                 try:
                     got = fn(z, year)
                     if valid(got, year, f"{z} {year} {name}"):
