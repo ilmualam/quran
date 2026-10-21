@@ -114,7 +114,7 @@ def doa_cards(items):
             src_ = (e(src) + " · " if src else "") + qref(int(s), a1)
         else:
             ar_, ru_, mn_, src_ = e(ar), e(ru), e(mn), e(src)
-        mn_ = mn_.replace(e("[HAJAT]"), '<mark class="hjv">(urusan ini)</mark>')
+        mn_ = mn_.replace(e("[HAJAT]"), '<mark class="shm">(urusan ini)</mark>')
         out.append(card(id_, title, ar_, ru_, mn_, src_, extra=note))
     return "".join(out)
 
@@ -276,7 +276,7 @@ CONTENT = {
 
 def extra_html(kind):
     if kind == "hajat":
-        return ('<div class="hjf"><label for="hjin">Tulis urusan atau hajat anda (pilihan)</label><input id="hjin" maxlength="120" autocomplete="off" '
+        return ('<div class="shf"><label for="hjin">Tulis urusan atau hajat anda (pilihan)</label><input id="hjin" maxlength="120" autocomplete="off" '
                 'placeholder="cth: menerima tawaran kerja di syarikat X"><p class="note">Ia dimasukkan ke dalam maksud doa di bawah supaya anda menghayatinya. Tidak dihantar ke mana-mana.</p></div>')
     if kind == "jenazah":
         return ('<div class="fl"><label for="jj">Jenazah</label><select id="jj">' + "".join(f'<option value="{k}">{e(n)}</option>' for k, n in T.JANTINA)
