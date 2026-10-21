@@ -346,3 +346,25 @@ body:has(.tlb) .hero{display:none!important}
 .jvh.ok{color:var(--lk)}.jvh.mb{color:#a86d00}.jvh.no{color:#c03b3b}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]) .jvh.mb{color:#e3c15a}:root:not([data-theme=light]) .jvh.no{color:#ff8a80}}
 :root[data-theme=dark] .jvh.mb{color:#e3c15a}:root[data-theme=dark] .jvh.no{color:#ff8a80}
+/* asmaul husna */
+.and{margin:0 0 14px;padding:14px;border:1px solid var(--bd);border-radius:14px;background:var(--muted);text-align:center}
+.and p{margin:0 0 4px}
+.ana{font:400 1.9rem/1.7 var(--ar)}
+.and .ana{font-size:2.4rem}
+.anl{list-style:none;margin:0;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr))}
+.anc{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 10px 8px;border:1px solid var(--bd);border-radius:14px;background:var(--card);text-align:center}
+.anc[hidden]{display:none}
+.anc.done{border-color:var(--g);box-shadow:inset 0 0 0 1px var(--g)}
+.ann{position:absolute;top:6px;left:8px;font-size:.75rem;font-weight:800;color:var(--sub)}
+.anr{font-weight:800}
+.anm{font-size:.86rem;color:var(--sub)}
+.anq{font-size:.74rem;color:var(--sub);margin-top:2px}
+.anq a{font-weight:700}
+.anh{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:.82rem;font-weight:700}
+.anh input{width:18px;height:18px;accent-color:var(--g)}
+.ankd{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:220px;margin:0 0 10px;padding:24px 16px;border:1px solid var(--bd);border-radius:18px;background:var(--card);text-align:center;cursor:pointer}
+.ankd .ana{font-size:3rem}
+.ankd .anr{font-size:1.3rem}.ankd .anm{font-size:1.05rem}
+/* zakat fitrah */
+.zft{font-size:2rem;font-weight:900;margin:0 0 4px;font-variant-numeric:tabular-nums}
+@media print{.anc{break-inside:avoid}.and,#anmode,#anq,.anh,#anp{display:none!important}.anl{grid-template-columns:repeat(4,1fr)}}

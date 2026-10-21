@@ -410,6 +410,31 @@ ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
   ok(pg.errs.length===0,'jamak no errors '+pg.errs);
 }
 
+// zakat fitrah: result + timeline JS == build/Python; asmaul husna: name of day, search, ticks, flashcards, quiz
+{
+  const Z='zakat-fitrah/';pg=await open(Z);
+  for(const s of ['#zfo','#zfl'])ok(await raw(Z,s)===await pg.$eval(s,e=>e.innerHTML),`zakat ${s} JS == build`);
+  await pg.selectOption('#zfs','kuala-lumpur');await pg.selectOption('#zft','2');await pg.fill('#zfa','3');await pg.fill('#zfk','4');await pg.dispatchEvent('#zff','input');
+  const py=execSync(`cd ${TOOLS} && python3 -c "import pages9 as P;print(P.zf_result('kuala-lumpur',2,7),end='')"`).toString();
+  ok(py===await pg.$eval('#zfo',e=>e.innerHTML)&&(await pg.textContent('#zfo')).includes('RM175.00')&&(await pg.textContent('#zfo')).includes('18.2 kg'),'zakat KL premium 7 orang = RM175 JS == Python');
+  await pg.selectOption('#zfs','sarawak');ok((await pg.$$eval('#zft option',o=>o.length))===1&&(await pg.textContent('#zfo')).includes('RM52.50'),'zakat Sarawak single rate: '+await pg.textContent('#zfo .zft'));
+  await pg.reload({waitUntil:'networkidle'});ok((await pg.inputValue('#zfs'))==='sarawak'&&(await pg.textContent('#zfo')).includes('RM52.50'),'zakat inputs persisted');
+  ok((await pg.textContent('#zfl')).includes('Ramadan 1448 H bermula Isnin, 8 Februari 2027')&&(await pg.textContent('#zfl')).includes('Maghrib Selasa, 9 Mac 2027'),'zakat timeline 1448: '+(await pg.textContent('#zfl .swh')));
+  ok(pg.errs.length===0,'zakat no errors '+pg.errs);
+  const AH='asmaul-husna/';pg=await open(AH);
+  ok(await raw(AH,'#and')===await pg.$eval('#and',e=>e.innerHTML),'asmaul name of day JS == build');
+  ok((await pg.$$eval('#anl .anc',a=>a.length))===99&&(await pg.$$eval('#anl .anq a',a=>a.length))>=70,'asmaul 99 cards, Quran refs: '+await pg.$$eval('#anl .anq a',a=>a.length));
+  ok((await pg.getAttribute('#nama-1 .anq a','href'))==='/#surah-1-ayat-3','Ar-Rahman -> Al-Fatihah 3');
+  await pg.fill('#anq','rezeki');ok((await pg.$$eval('#anl .anc',a=>a.filter(x=>!x.hidden).map(x=>x.querySelector('.anr').textContent))).includes('Ar-Razzaq'),'asmaul search rezeki -> Ar-Razzaq');
+  await pg.fill('#anq','');await pg.check('#nama-17 input');await pg.check('#nama-1 input');ok((await pg.textContent('#anp')).startsWith('2 / 99'),'asmaul ticks');
+  await pg.reload({waitUntil:'networkidle'});ok(await pg.isChecked('#nama-17 input'),'asmaul ticks persisted');
+  await pg.click('#anmode button[data-m="kad"]');await pg.click('#ankd');ok((await pg.textContent('#ankd')).includes('Yang Maha'),'asmaul flashcard reveal');
+  await pg.click('#anmode button[data-m="kuiz"]');await pg.click('#anqz [data-aq]');
+  for(let i=0;i<10;i++){await pg.click('#anqz button[data-o]');await pg.click('#anqz [data-next]')}
+  ok(/Markah anda: \d+ \/ 10/.test(await pg.textContent('#anqz')),'asmaul quiz completes');
+  ok(pg.errs.length===0,'asmaul no errors '+pg.errs);
+}
+
 // header: hamburger menu (popover), site search, footer subscribe form
 pg=await open('belajar-iqra/');
 await pg.click('.mnb');ok(await pg.isVisible('#menu a[href="/waktu-berbuka-puasa/"]'),'hamburger opens full menu');

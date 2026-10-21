@@ -1,4 +1,4 @@
-/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, solat sunat, jamak & qasar, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
+/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, solat sunat, jamak & qasar, zakat fitrah, asmaul husna, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
 (()=>{"use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={
@@ -351,7 +351,7 @@ function official(zone,y){
 }
 
 /* ---------- hijri calendar (mirror tools/hijri.py): JAKIM's official months, tabular calendar + offset outside them ---------- */
-const HJ=JSON.parse(($("#hd")||$("#tdat"))?.textContent||"null");
+const HJ=JSON.parse(($("#hd")||$("#tdat")||$("#zfd"))?.textContent||"null");
 const dnum=d=>Math.round(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
 const dfrom=n=>{const u=new Date(n*864e5);return new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())};
 const HE=-492148,tabH2d=(y,m,d)=>d+Math.ceil(29.5*(m-1))+(y-1)*354+Math.floor((3+11*y)/30)+HE-1;
@@ -873,6 +873,70 @@ if(jmdEl){
   const h=readHash();if(byName(h.dari))fr.value=byName(h.dari)[0];if(byName(h.ke))to.value=byName(h.ke)[0];if(parseD(h.tiba))t1.value=h.tiba;if(parseD(h.pulang))t2.value=h.pulang;
   if(h.dari||h.ke||h.tiba)run(false);
 }
+/* ---------- zakat fitrah: household total and the coming Ramadan's payment timeline (mirror tools/pages9.py) ---------- */
+const zfdEl=$("#zfd");
+if(zfdEl&&HJ){
+  const Z=JSON.parse(zfdEl.textContent),st=$("#zfs"),ti=$("#zft"),na=$("#zfa"),nk=$("#zfk"),out=$("#zfo");
+  const rm=x=>{const[s,d]=x.toFixed(2).split(".");return`RM${s.replace(/\B(?=(\d{3})+(?!\d))/g,",")}.${d}`};
+  function zfResult(s,t,n){const r=Z.r[s],k=Math.min(t,r.length-1);
+    return`<p class="zft">${rm(r[k]*n)}</p><p>${n} orang × ${rm(r[k])} (${esc(Z.t[k])}, ${esc(Z.n[s])}). Jika dibayar dengan beras: <strong>${(Z.g*n).toFixed(1)} kg</strong> (${n} gantang Baghdad).</p>`}
+  function zfTimeline(d){
+    let hy=g2h(d)[0],y=[hy,hy+1].find(x=>h2g(x,10,1)[0]>=d)??hy+1;
+    const[r1,o1]=h2g(y,9,1),[eid]=h2g(y,10,1),last=addD(eid,-1),n=Math.round((r1-d)/864e5);
+    const rows=[["Harus (boleh) dibayar",`${dlong(r1)} hingga sebelum Maghrib ${dlong(last)}`,"sepanjang Ramadan; ramai membayar awal"],["Wajib",`Maghrib ${dlong(last)}`,"masuk 1 Syawal: setiap Muslim yang hidup ketika itu wajib dizakatkan"],
+      ["Paling afdal",`Pagi ${dlong(eid)}`,"selepas Subuh hingga sebelum solat sunat Aidilfitri"],["Makruh",`${dlong(eid)}, selepas solat raya`,"hingga terbenam matahari 1 Syawal"],["Haram (wajib qada)",`Selepas Maghrib ${dlong(eid)}`,"melewatkan tanpa uzur berdosa dan wajib diqada"]];
+    return`<p class="swh">Ramadan ${y} H ${o1?"bermula":"dijangka bermula"} ${dlong(r1)}${n>0?` · lagi ${n} hari`:""}</p><ul class="swr">${rows.map(([a,b,c])=>`<li><span class="swl">${a}</span><strong>${b}</strong><em>${c}</em></li>`).join("")}</ul>`;
+  }
+  const tierOpts=s=>Z.r[s].map((r,i)=>`<option value="${i}">${esc(Z.t[i])}: ${rm(r)}</option>`).join("");
+  function run(save){
+    const s=Z.r[st.value]?st.value:"selangor",t=clamp(ti.value,0,2,0),n=clamp(na.value,0,50,0)+clamp(nk.value,0,50,0);
+    setIf(out,n?zfResult(s,t,n):"<p>Masukkan bilangan ahli keluarga.</p>");
+    if(save)store.set("zakat-fitrah",{s,t,a:na.value,k:nk.value});
+  }
+  st.addEventListener("change",()=>{const t=ti.value;setIf(ti,tierOpts(st.value));ti.value=String(Math.min(+t,Z.r[st.value].length-1));run(true)});
+  $("#zff").addEventListener("input",e=>{if(e.target!==st)run(true)});
+  const sv=store.get("zakat-fitrah",null);
+  if(sv&&Z.r[sv.s]){st.value=sv.s;setIf(ti,tierOpts(sv.s));ti.value=String(Math.min(sv.t,Z.r[sv.s].length-1));na.value=sv.a;nk.value=sv.k;run(false)}
+  const u=new Date(Date.now()+288e5);setIf($("#zfl"),zfTimeline(new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())));
+}
+
+/* ---------- asmaul husna: name of the day, search, memorised ticks, flashcards, quiz ---------- */
+const asdEl=$("#asd");
+if(asdEl){
+  const N=JSON.parse(asdEl.textContent).n,list=$("#anl"),q=$("#anq"),prog=$("#anp");
+  const u=new Date(Date.now()+288e5),d0=new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate()),t=doy(d0)%99;
+  $("#anda").textContent=N[t][0];$("#andr").textContent=`${t+1}. ${N[t][1]}`;$("#andm").textContent=N[t][2];
+  $("#and .swl").textContent=`Nama hari ini · ${dlong(d0)}`;
+  let got=new Set(store.get("asmaul",[]));
+  const paint=()=>{$$("input[data-n]",list).forEach(c=>{c.checked=got.has(+c.dataset.n);c.closest(".anc").classList.toggle("done",c.checked)});prog.textContent=`${got.size} / 99 dihafal${got.size===99?" · Masya-Allah, lengkap!":""}`};
+  list.addEventListener("change",e=>{const c=e.target.closest("input[data-n]");if(!c)return;c.checked?got.add(+c.dataset.n):got.delete(+c.dataset.n);store.set("asmaul",[...got].sort((a,b)=>a-b));paint()});
+  q.addEventListener("input",()=>{const v=q.value.trim().toLowerCase();$$(".anc",list).forEach(li=>li.hidden=!!v&&!li.dataset.q.includes(v)&&li.querySelector(".ann").textContent!==v)});
+  paint();speech.init();
+  // flashcards
+  let k=t,show=false;const kd=$("#ankd");
+  const drawK=()=>{const[ar,ru,mn]=N[k];kd.innerHTML=`<span class="ann">${k+1} / 99</span><span class="ana" lang="ar" dir="rtl">${esc(ar)}</span>${show?`<span class="anr">${esc(ru)}</span><span class="anm">${esc(mn)}</span>`:'<span class="note">Tekan untuk lihat maksud</span>'}`;$('#ankad [data-k="0"]').textContent=show?"Sembunyi maksud":"Tunjuk maksud"};
+  $("#ankad").addEventListener("click",e=>{const b=e.target.closest("[data-k]");if(!b)return;const a=b.dataset.k;
+    if(a==="r"){k=Math.floor(Math.random()*99);show=false}else if(a==="s")speech.say(N[k][0]);else if(a==="0")show=!show;else{k=(k+ +a+99)%99;show=false}drawK()});
+  kd.addEventListener("click",()=>{show=!show;drawK()});kd.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();show=!show;drawK()}});
+  // quiz: arabic -> meaning, 10 questions
+  const qz=$("#anqz");let qs=[],qi=0,score=0;
+  const ask=()=>{
+    if(qi>=qs.length){const b=Math.max(store.get("asmaul-best",0),score);store.set("asmaul-best",b);
+      qz.innerHTML=`<p class="qzs">Markah anda: <strong>${score} / ${qs.length}</strong></p><p class="note">Markah terbaik: ${b} / 10</p><button class="btn3" type="button" data-aq>Cuba lagi</button>`;return}
+    const i=qs[qi],opts=shuffle([i,...shuffle([...Array(99).keys()].filter(x=>x!==i)).slice(0,3)]);qz.dataset.o=opts.join(",");
+    qz.innerHTML=`<p class="qzn">Soalan ${qi+1} daripada ${qs.length} · Markah ${score}</p><p class="qzw" lang="ar" dir="rtl">${esc(N[i][0])}</p><p class="qzr">Apakah maksud nama ini?</p><div class="qzo">${opts.map(o=>`<button class="btn2" type="button" data-o="${o}">${esc(N[o][2])}</button>`).join("")}</div><p class="qzf" aria-live="polite"></p>`};
+  qz.addEventListener("click",e=>{
+    if(e.target.closest("[data-aq]")){qs=shuffle([...Array(99).keys()]).slice(0,10);qi=0;score=0;ask();return}
+    if(e.target.closest("[data-next]")){qi++;ask();return}
+    const b=e.target.closest("button[data-o]");if(!b||b.disabled)return;const i=qs[qi],ok=+b.dataset.o===i;if(ok)score++;
+    $$("button[data-o]",qz).forEach(x=>{x.disabled=true;if(+x.dataset.o===i)x.classList.add("ok");else if(x===b)x.classList.add("no")});
+    $(".qzf",qz).innerHTML=`${ok?"✓ Betul.":"✗ Jawapan:"} <strong>${esc(N[i][1])}</strong>: ${esc(N[i][2])}<br><button class="btn2" type="button" data-next>Seterusnya ›</button>`});
+  $("#anmode").addEventListener("click",e=>{const b=e.target.closest("button[data-m]");if(!b)return;const m=b.dataset.m;
+    $$("#anmode button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));$("#anlist").hidden=m!=="senarai";$("#ankad").hidden=m!=="kad";$("#ankuiz").hidden=m!=="kuiz";
+    if(m==="kad")drawK();if(m==="kuiz"&&!qs.length)qz.innerHTML='<p>10 soalan rawak: pilih maksud bagi setiap nama.</p><button class="btn3" type="button" data-aq>Mula kuiz</button>'});
+  toolbar($("#kira > .act"),{});
+}
+
 const qf=$("#qf");
 if(qf){
   const qsum=$("#qsum");
