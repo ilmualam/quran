@@ -1,4 +1,4 @@
-/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, solat sunat, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
+/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, solat sunat, jamak & qasar, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
 (()=>{"use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={
@@ -763,10 +763,10 @@ if(spdEl){
   // /belajar-solat/ (fardu) and the /solat-sunat/ pages share this player; a sunat page names its default prayer and storage key
   let w=D.def||"subuh",i=0;const SK=D.key||"solat-w";spdEl._sp={D,show:()=>show(false)};
   function card(){
-    const[sid,r]=D.s[w][i];let[t,how,ar,ru,mn,src]=D.b[sid];if(sid==="niat"||sid==="j-niat")[ar,ru,mn]=D.w[w].niat;
-    return`<p class="spn">${D.w[w].u||"Rakaat"} ${r} daripada ${D.w[w].r} · Langkah ${i+1} / ${D.s[w].length}</p><h3 class="spt">${t}</h3><p class="spd">${how}</p><p class="dar" lang="ar" dir="rtl">${ar}</p><p class="dru"><em>${ru}</em></p><p class="dmn"><strong>Maksud:</strong> ${mn}</p><p class="dsrc">${src}</p>`;
+    const[sid,r]=D.s[w][i];let[t,how,ar,ru,mn,src]=D.b[sid];if(sid==="niat"||sid==="j-niat")[ar,ru,mn]=D.w[w].niat;else if(sid==="niat2")[ar,ru,mn]=D.w[w].niat2;
+    return`<p class="spn">${typeof r==="string"?r:`${D.w[w].u||"Rakaat"} ${r} daripada ${D.w[w].r}`} · Langkah ${i+1} / ${D.s[w].length}</p><h3 class="spt">${t}</h3><p class="spd">${how}</p><p class="dar" lang="ar" dir="rtl">${ar}</p><p class="dru"><em>${ru}</em></p><p class="dmn"><strong>Maksud:</strong> ${mn}</p><p class="dsrc">${src}</p>`;
   }
-  const list=()=>D.s[w].map(([sid,r],k)=>`<li><button type="button" data-i="${k}"${k===i?' aria-current="step"':""}>${D.b[sid][0]} <small>R${r}</small></button></li>`).join("");
+  const list=()=>D.s[w].map(([sid,r],k)=>`<li><button type="button" data-i="${k}"${k===i?' aria-current="step"':""}>${D.b[sid][0]} <small>${typeof r==="string"?r:"R"+r}</small></button></li>`).join("");
   function show(save){
     const N=D.s[w].length;i=Math.max(0,Math.min(N-1,i));
     setIf(c,card());setIf(l,list());pp.max=N;pp.value=i+1;pv.disabled=i===0;nx.textContent=i===N-1?"Ulang dari awal ⟲":"Seterusnya ›";
@@ -783,7 +783,7 @@ if(spdEl){
     b.addEventListener("click",()=>{const off=!c.classList.contains(cls);store.set("solat-"+cls,off);set(off)});
   }
   $("#panduan").addEventListener("keydown",e=>{if(e.key==="ArrowRight")nx.click();else if(e.key==="ArrowLeft"&&!pv.disabled)pv.click()});
-  toolbar($("#panduan .act"),{});
+  $$("#panduan .act").forEach(a=>toolbar(a,{}));
   const h=readHash(),sw0=store.get(SK,w);
   if(D.w[h.solat]){w=h.solat;i=clamp(h.langkah,1,99,1)-1}else if(D.w[sw0])w=sw0;
   show(false);
@@ -805,13 +805,16 @@ if(swEl&&swdEl){
       if(kind==="tahajjud")rows.push(["Malam bermula",hmx(t[5]),"Maghrib"],["Separuh malam",hmx(t[5]+Math.floor(night/2)),`malam ini ${dur(night)}`]);
       rows.push(["Sepertiga malam terakhir",hmx(last),"waktu paling afdal untuk tahajjud, doa dan witir"],["Berakhir",hmx(tn[1]),"masuk waktu Subuh esok"]);
     }
+    if(kind==="jamak")rows.push(["Jamak taqdim Zohor + Asar",`${hmx(t[3])}–${hmx(t[4])}`,"kedua-duanya dalam waktu Zohor"],["Jamak takhir Zohor + Asar",`${hmx(t[4])}–${hmx(t[5])}`,"dalam waktu Asar; niat takhir dibuat semasa waktu Zohor"],
+      ["Jamak taqdim Maghrib + Isyak",`${hmx(t[5])}–${hmx(t[6])}`,"kedua-duanya dalam waktu Maghrib"],["Jamak takhir Maghrib + Isyak",`${hmx(t[6])}–${hmx(tn[1])}`,"dalam waktu Isyak hingga sebelum Subuh esok"],["Subuh",hmx(t[1]),"tidak boleh dijamak atau diqasar"]);
     if(kind==="hub")rows.push(["Dilarang: selepas Subuh",`${hmx(t[1])}–${hmx(t[2]+20)}`,"selepas solat Subuh hingga matahari naik"],["Dilarang: istiwa'",`sebelum ${hmx(t[3])}`,"beberapa minit sebelum Zohor, ketika matahari tegak"],
       ["Dilarang: selepas Asar",`${hmx(t[4])}–${hmx(t[5])}`,"selepas solat Asar hingga matahari terbenam"]);
     return`<p class="swh">${dlong(d)} · zon ${z}</p><ul class="swr">${rows.map(([a,b,c])=>`<li><span class="swl">${a}</span><strong>${b}</strong><em>${c}</em></li>`).join("")}</ul>`;
   }
-  let z=store.get("sunat-zone",SD.def);if(!SD.zc[z])z=SD.def;zs.value=z;
+  let z=kind==="jamak"?SD.def:store.get("sunat-zone",SD.def);if(!SD.zc[z])z=SD.def;zs.value=z;
   async function draw(){const d=msk(),[t,tn]=await Promise.all([times(z,d),times(z,addD(d,1))]);setIf(out,swCard(t,tn,z,d))}
-  zs.addEventListener("change",()=>{z=zs.value;store.set("sunat-zone",z);draw()});draw();
+  zs.addEventListener("change",()=>{z=zs.value;if(kind!=="jamak")store.set("sunat-zone",z);draw()});
+  swEl._zone=v=>{if(SD.zc[v]&&v!==z){z=v;zs.value=v;draw()}};draw();
 }
 const spX=$("#spd")?._sp;
 if(spX&&spX.D.jz){
@@ -833,6 +836,42 @@ if(trw){
   $("#tru").addEventListener("click",()=>{st.c=Math.max(0,st.c-1);paint()});$("#trr").addEventListener("click",()=>{st.c=0;paint()});
   try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith("ilmq:tarawih:")&&k!=="ilmq:"+key)localStorage.removeItem(k)}}catch{}
   paint();
+}
+/* ---------- jamak & qasar: musafir calculator (verdict mirrors tools/pages8.py verdict_html) ---------- */
+const jmdEl=$("#jmd");
+if(jmdEl){
+  const J=JSON.parse(jmdEl.textContent),fr=$("#jfrom"),to=$("#jto"),t1=$("#jt1"),t2=$("#jt2"),out=$("#jout");
+  const byName=n=>J.tw.find(t=>t[0].toLowerCase()===String(n).trim().toLowerCase());
+  const km=(a,b,c,d)=>{const h=Math.sin(rad(c-a)/2)**2+Math.cos(rad(a))*Math.cos(rad(c))*Math.sin(rad(d-b)/2)**2;return 12742*Math.asin(Math.sqrt(h))};
+  function jVerdict(a,b,stay){
+    const k=Math.floor(km(a[2],a[3],b[2],b[3])+.5);let head,cls,why;
+    if(k>=J.mh){head="✅ Layak jamak &amp; qasar";cls="ok";why=`Jarak garis lurus ${a[0]} → ${b[0]} ialah ${k} km, melebihi 2 marhalah (≈${J.mh} km). Jarak jalan biasanya lebih jauh lagi.`}
+    else if(k>=J.mb){head="⚠️ Semak jarak jalan";cls="mb";why=`Jarak garis lurus ${k} km. Jarak jalan biasanya 20–40% lebih jauh; jika laluan anda ${J.mh} km atau lebih, anda layak.`}
+    else{head="❌ Belum mencapai 2 marhalah";cls="no";why=`Jarak garis lurus ${k} km; jarak jalan jarang mencecah ${J.mh} km. Solatlah penuh pada waktunya.`}
+    let s=`<p class="jvh ${cls}">${head}</p><p>${why} <a href="https://www.google.com/maps/dir/?api=1&amp;origin=${a[2]},${a[3]}&amp;destination=${b[2]},${b[3]}" rel="noopener nofollow">Semak jarak jalan di Google Maps ↗</a></p>`;
+    if(stay){const full=Math.round((stay[1]-stay[0])/864e5)-1;
+      if(full<-1)s+="<p>Tarikh pulang mesti selepas tarikh tiba.</p>";
+      else if(full>=4)s+=`<p>Tinggal <strong>${full} hari penuh</strong> (tidak termasuk hari tiba dan hari pulang): anda dikira bermukim sebaik tiba di ${b[0]}; jamak dan qasar hanya semasa perjalanan pergi dan pulang.</p>`;
+      else s+=`<p>Tinggal <strong>${Math.max(full,0)} hari penuh</strong> (kurang daripada 4): boleh jamak dan qasar sepanjang berada di ${b[0]} hingga pulang.</p>`}
+    return s+`<p class="note">Waktu jamak di bawah mengikut zon destinasi, ${b[4]}.</p>`;
+  }
+  function run(save){
+    const a=byName(fr.value),b=byName(to.value);
+    if(!a||!b)return setIf(out,`<p>Pilih bandar daripada senarai (${J.tw.length} bandar di Malaysia).</p>`);
+    const d1=parseD(t1.value),d2=parseD(t2.value);
+    setIf(out,jVerdict(a,b,d1&&d2?[d1,d2]:null));
+    swEl?._zone?.(b[4]);
+    if(save){const o={dari:a[0],ke:b[0]};if(d1)o.tiba=t1.value;if(d2)o.pulang=t2.value;writeHash(o)}
+  }
+  $("#jmf").addEventListener("input",()=>run(true));$("#jmf").addEventListener("change",()=>run(true));
+  $("#jgeo").addEventListener("click",()=>{
+    if(!navigator.geolocation)return toast("Lokasi tidak disokong");
+    navigator.geolocation.getCurrentPosition(p=>{const{latitude:la,longitude:lo}=p.coords;let best=J.tw[0],bd=1e9;
+      for(const t of J.tw){const x=km(la,lo,t[2],t[3]);if(x<bd){bd=x;best=t}}
+      fr.value=best[0];run(true);toast(`Bandar terdekat: ${best[0]}`)},()=>toast("Kebenaran lokasi ditolak"),{timeout:10000,maximumAge:6e5});
+  });
+  const h=readHash();if(byName(h.dari))fr.value=byName(h.dari)[0];if(byName(h.ke))to.value=byName(h.ke)[0];if(parseD(h.tiba))t1.value=h.tiba;if(parseD(h.pulang))t2.value=h.pulang;
+  if(h.dari||h.ke||h.tiba)run(false);
 }
 const qf=$("#qf");
 if(qf){

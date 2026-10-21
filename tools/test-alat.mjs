@@ -384,6 +384,32 @@ ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
   ok(pg.errs.length===0,'tarawih no errors '+pg.errs);
 }
 
+// jamak & qasar: calculator verdict JS == Python, stay rule, zone follows destination, jamak card JS == build/Python, two-niat player
+{
+  const P='solat-jamak-qasar/';
+  pg=await open(P);
+  for(const s of ['#jout','#swo','#spc'])ok(await raw(P,s)===await pg.$eval(s,e=>e.innerHTML),`jamak ${s} JS == build`);
+  const pyv=(a,b,st)=>execSync(`cd ${TOOLS} && python3 -c "import pages8 as J,datetime as d;T={t[0]:t for t in J.towns()};print(J.verdict_html(T['${a}'],T['${b}'],${st||'None'}),end='')"`).toString();
+  for(const [a,b] of [['Shah Alam','Klang'],['Seremban','Kuala Lumpur'],['Johor Bahru','Kota Kinabalu']]){
+    await pg.fill('#jfrom',a);await pg.fill('#jto',b);await pg.dispatchEvent('#jmf','input');
+    ok(await pg.$eval('#jout',e=>e.innerHTML)===pyv(a,b),`jamak verdict ${a}→${b} JS == Python: `+(await pg.textContent('#jout .jvh')));
+  }
+  await pg.fill('#jfrom','Kuala Lumpur');await pg.fill('#jto','Kota Bharu');await pg.fill('#jt1','2026-11-01');await pg.fill('#jt2','2026-11-08');await pg.dispatchEvent('#jmf','input');
+  ok(await pg.$eval('#jout',e=>e.innerHTML)===pyv('Kuala Lumpur','Kota Bharu','(d.date(2026,11,1),d.date(2026,11,8))')&&(await pg.textContent('#jout')).includes('6 hari penuh'),'jamak stay ≥4 days -> mukim');
+  await pg.waitForFunction(()=>document.querySelector('#swo').textContent.includes('KTN01'));
+  const py=execSync(`cd ${TOOLS} && python3 -c "import pages7 as P,ramadan as R,datetime as d;D=d.date(2026,10,18);print(P.sw_card('jamak',R.day_times('KTN01',D)[0],R.day_times('KTN01',D+d.timedelta(1))[0],'KTN01',D),end='')"`).toString();
+  ok(py===await pg.$eval('#swo',e=>e.innerHTML),'jamak card follows destination zone KTN01 == Python');
+  ok(pg.url().includes('dari=Kuala+Lumpur')&&pg.url().includes('ke=Kota+Bharu'),'jamak hash '+pg.url());
+  await pg.reload({waitUntil:'networkidle'});ok((await pg.inputValue('#jto'))==='Kota Bharu'&&(await pg.textContent('#jout')).includes('6 hari penuh'),'jamak link restores trip');
+  // player: Zohor then Asar, each with its own niat
+  const N=await pg.$$eval('#spl li',a=>a.length);
+  const all=[];for(let i=0;i<N;i++){all.push(await pg.textContent('#spc'));await pg.click('#spnext')}
+  ok(all[0].includes('مَجْمُوعًا مَعَ الْعَصْرِ جَمْعَ تَقْدِيمٍ')&&all.some(t=>t.includes('Niat Solat Kedua')&&t.includes('مَجْمُوعًا مَعَ الظُّهْرِ')),'jamak player: Zohor niat + Asar niat2');
+  ok(all.some(t=>t.startsWith('Zohor 2/2'))&&all.some(t=>t.startsWith('Asar 1/2')),'jamak step labels');
+  await pg.click('#spw button[data-w="mi-takhir"]');ok((await pg.textContent('#spc')).includes('جَمْعَ تَأْخِيرٍ')&&(await pg.textContent('#spc')).includes('ثَلَاثَ'),'jamak Maghrib takhir niat (3 rakaat, no qasar)');
+  ok(pg.errs.length===0,'jamak no errors '+pg.errs);
+}
+
 // header: hamburger menu (popover), site search, footer subscribe form
 pg=await open('belajar-iqra/');
 await pg.click('.mnb');ok(await pg.isVisible('#menu a[href="/waktu-berbuka-puasa/"]'),'hamburger opens full menu');

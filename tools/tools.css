@@ -339,3 +339,10 @@ body:has(.tlb) .hero{display:none!important}
 .trs{font-size:1.15rem;font-weight:800;margin:4px 0 10px}
 #panduan>.fl{max-width:360px}
 .chips2[hidden]{display:none}
+/* jamak & qasar */
+.jv{margin:6px 0 16px;padding:12px 14px;border:1px solid var(--bd);border-radius:14px;background:var(--card)}
+.jv p{margin:0 0 6px}
+.jvh{font-size:1.15rem;font-weight:900}
+.jvh.ok{color:var(--lk)}.jvh.mb{color:#a86d00}.jvh.no{color:#c03b3b}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .jvh.mb{color:#e3c15a}:root:not([data-theme=light]) .jvh.no{color:#ff8a80}}
+:root[data-theme=dark] .jvh.mb{color:#e3c15a}:root[data-theme=dark] .jvh.no{color:#ff8a80}

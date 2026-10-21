@@ -35,7 +35,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/data/masjid assets/data/cari.json cari-masjid kalendar-hijrah solat-sunat waktu-solat waktu-berbuka-puasa sw.js llms.txt sitemap.xml
+          git add assets/data/masjid assets/data/cari.json cari-masjid kalendar-hijrah solat-sunat solat-jamak-qasar waktu-solat waktu-berbuka-puasa sw.js llms.txt sitemap.xml
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Update masjid & surau from OpenStreetMap ($(date -u +%F))"
           git push

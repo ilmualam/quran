@@ -79,6 +79,12 @@ def sw_card(kind, t, tn, zone, day):
             rows += [("Malam bermula", hmx(t[5]), "Maghrib"), ("Separuh malam", hmx(t[5] + night // 2), f"malam ini {dur(night)}")]
         rows.append(("Sepertiga malam terakhir", hmx(last), "waktu paling afdal untuk tahajjud, doa dan witir"))
         rows.append(("Berakhir", hmx(tn[1]), "masuk waktu Subuh esok"))
+    if kind == "jamak":
+        rows += [("Jamak taqdim Zohor + Asar", f"{hmx(t[3])}–{hmx(t[4])}", "kedua-duanya dalam waktu Zohor"),
+                 ("Jamak takhir Zohor + Asar", f"{hmx(t[4])}–{hmx(t[5])}", "dalam waktu Asar; niat takhir dibuat semasa waktu Zohor"),
+                 ("Jamak taqdim Maghrib + Isyak", f"{hmx(t[5])}–{hmx(t[6])}", "kedua-duanya dalam waktu Maghrib"),
+                 ("Jamak takhir Maghrib + Isyak", f"{hmx(t[6])}–{hmx(tn[1])}", "dalam waktu Isyak hingga sebelum Subuh esok"),
+                 ("Subuh", hmx(t[1]), "tidak boleh dijamak atau diqasar")]
     if kind == "hub":
         rows += [("Dilarang: selepas Subuh", f"{hmx(t[1])}–{hmx(t[2] + 20)}", "selepas solat Subuh hingga matahari naik"),
                  ("Dilarang: istiwa'", f"sebelum {hmx(t[3])}", "beberapa minit sebelum Zohor, ketika matahari tegak"),
@@ -345,7 +351,7 @@ def build_pages7(ctx):
 <section id="lain" aria-labelledby="h-lain">
 <h2 id="h-lain">Solat Sunat Lain</h2>
 {plinks(key)}
-<p class="note"><a href="/{HUB}">Semua solat sunat & waktu dilarang solat hari ini</a> · <a href="/belajar-solat/">Cara solat fardu</a> · <a href="/waktu-solat/">Waktu solat hari ini</a> · <a href="/cari-masjid/">Masjid terdekat</a></p>
+<p class="note"><a href="/{HUB}">Semua solat sunat & waktu dilarang solat hari ini</a> · <a href="/belajar-solat/">Cara solat fardu</a> · <a href="/solat-jamak-qasar/">Jamak & qasar (musafir)</a> · <a href="/waktu-solat/">Waktu solat hari ini</a> · <a href="/cari-masjid/">Masjid terdekat</a></p>
 </section>
 {ad(1)}
 <section aria-labelledby="h-rel"><h2 id="h-rel">Alat Lain</h2>{tool_cards(HUB)}</section>
