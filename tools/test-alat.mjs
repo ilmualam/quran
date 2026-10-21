@@ -348,6 +348,42 @@ ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
   ok(pg.errs.length===0,'tahlil no errors '+pg.errs);
 }
 
+// solat sunat: hub + pages; time cards JS == build and == Python for another zone; player; jenazah pronouns; hajat text; tarawih counter
+{
+  for(const p of ['solat-sunat/','solat-sunat/solat-dhuha/','solat-sunat/solat-tahajjud/','solat-sunat/solat-witir/']){
+    pg=await open(p);
+    ok(await raw(p,'#swo')===await pg.$eval('#swo',e=>e.innerHTML),`sunat ${p} time card JS == build`);
+    if(p!=='solat-sunat/')ok(await raw(p,'#spc')===await pg.$eval('#spc',e=>e.innerHTML),`sunat ${p} player JS == build`);
+    ok(pg.errs.length===0,`sunat ${p} no errors `+pg.errs);
+  }
+  for(const [p,k] of [['solat-sunat/','hub'],['solat-sunat/solat-tahajjud/','tahajjud']]){
+    pg=await open(p);await pg.selectOption('#swz','SBH07');await pg.waitForFunction(()=>document.querySelector('#swo').textContent.includes('SBH07'));
+    const py=execSync(`cd ${TOOLS} && python3 -c "import pages7 as P,ramadan as R,datetime as d;D=d.date(2026,10,18);print(P.sw_card('${k}',R.day_times('SBH07',D)[0],R.day_times('SBH07',D+d.timedelta(1))[0],'SBH07',D),end='')"`).toString();
+    ok(py===await pg.$eval('#swo',e=>e.innerHTML),`sunat ${k} card SBH07 JS == Python`);
+  }
+  pg=await open('solat-sunat/solat-dhuha/');
+  const g=JSON.parse(await pg.$eval('script[type="application/ld+json"]',s=>s.textContent))['@graph'];
+  ok(g.some(n=>n['@type']==='HowTo'&&n.step.length>10)&&g.some(n=>n['@type']==='FAQPage'),'dhuha JSON-LD HowTo + FAQ');
+  await pg.click('#spnext');ok((await pg.textContent('#spc')).includes('Takbiratul Ihram'),'dhuha player next step');
+  pg=await open('solat-sunat/solat-jenazah/');
+  ok((await pg.textContent('#spc')).includes('Takbir 1 daripada 4'),'jenazah unit = takbir');
+  await pg.selectOption('#jj','p');
+  ok((await pg.textContent('#spc')).includes('هٰذِهِ الْمَيِّتَةِ')&&(await pg.textContent('#niat')).includes('hazihil-mayyitati'),'jenazah niat -> perempuan');
+  for(let i=0;i<3;i++)await pg.click('#spnext');
+  ok((await pg.textContent('#spc')).includes('لَهَا')&&(await pg.textContent('#spc')).includes('Takbir 3'),'jenazah takbir 3 doa -> laha');
+  await pg.click('#spnext');ok((await pg.textContent('#spc')).includes('ajraha'),'jenazah takbir 4 doa -> ajraha');
+  await pg.selectOption('#jj','ll');ok((await pg.textContent('#spc')).includes('ajrahum'),'jenazah ramai');
+  ok(pg.errs.length===0,'jenazah no errors '+pg.errs);
+  pg=await open('solat-sunat/solat-istikharah/');await pg.fill('#hjin','menerima tawaran kerja');
+  ok((await pg.$$eval('.hjv',a=>a.map(x=>x.textContent))).every(t=>t==='(menerima tawaran kerja)'),'istikharah hajat inserted');
+  pg=await open('solat-sunat/solat-tarawih/');
+  for(let i=0;i<5;i++)await pg.click('#trb');
+  ok((await pg.textContent('#trs')).startsWith('Salam ke-6 daripada 10 · rakaat 11–12 · separuh'),'tarawih counter: '+await pg.textContent('#trs'));
+  await pg.click('#trn button[data-n="8"]');ok((await pg.textContent('#trs')).startsWith('✓ 8 rakaat'),'tarawih 8 done');
+  await pg.reload({waitUntil:'networkidle'});ok((await pg.textContent('#trs')).startsWith('✓ 8 rakaat'),'tarawih persisted');
+  ok(pg.errs.length===0,'tarawih no errors '+pg.errs);
+}
+
 // header: hamburger menu (popover), site search, footer subscribe form
 pg=await open('belajar-iqra/');
 await pg.click('.mnb');ok(await pg.isVisible('#menu a[href="/waktu-berbuka-puasa/"]'),'hamburger opens full menu');

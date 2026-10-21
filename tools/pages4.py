@@ -343,10 +343,10 @@ def solat_data():
 def sp_card(D, w, i):
     sid, r = D["s"][w][i]
     t, how, ar, ru, mn, src = D["b"][sid]
-    if sid == "niat":
+    if sid in ("niat", "j-niat"):
         ar, ru, mn = D["w"][w]["niat"]
     N, Rk = len(D["s"][w]), D["w"][w]["r"]
-    return (f'<p class="spn">Rakaat {r} daripada {Rk} · Langkah {i + 1} / {N}</p><h3 class="spt">{t}</h3><p class="spd">{how}</p>'
+    return (f'<p class="spn">{D["w"][w].get("u", "Rakaat")} {r} daripada {Rk} · Langkah {i + 1} / {N}</p><h3 class="spt">{t}</h3><p class="spd">{how}</p>'
             f'<p class="dar" lang="ar" dir="rtl">{ar}</p><p class="dru"><em>{ru}</em></p><p class="dmn"><strong>Maksud:</strong> {mn}</p><p class="dsrc">{src}</p>')
 
 

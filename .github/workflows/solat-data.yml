@@ -42,7 +42,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/data/solat waktu-solat waktu-berbuka-puasa cari-masjid kalendar-hijrah sw.js llms.txt sitemap.xml
+          git add assets/data/solat waktu-solat waktu-berbuka-puasa cari-masjid kalendar-hijrah solat-sunat sw.js llms.txt sitemap.xml
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Update JAKIM prayer timetables ($(date -u +%F))"
           git push

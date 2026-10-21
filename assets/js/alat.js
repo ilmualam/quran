@@ -1,4 +1,4 @@
-/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
+/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, solat sunat, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
 (()=>{"use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={
@@ -760,17 +760,18 @@ if(rdEl){
 const spdEl=$("#spd");
 if(spdEl){
   const D=JSON.parse(spdEl.textContent),c=$("#spc"),l=$("#spl"),pv=$("#spprev"),nx=$("#spnext"),pp=$("#spp");
-  let w="subuh",i=0;
+  // /belajar-solat/ (fardu) and the /solat-sunat/ pages share this player; a sunat page names its default prayer and storage key
+  let w=D.def||"subuh",i=0;const SK=D.key||"solat-w";spdEl._sp={D,show:()=>show(false)};
   function card(){
-    const[sid,r]=D.s[w][i];let[t,how,ar,ru,mn,src]=D.b[sid];if(sid==="niat")[ar,ru,mn]=D.w[w].niat;
-    return`<p class="spn">Rakaat ${r} daripada ${D.w[w].r} · Langkah ${i+1} / ${D.s[w].length}</p><h3 class="spt">${t}</h3><p class="spd">${how}</p><p class="dar" lang="ar" dir="rtl">${ar}</p><p class="dru"><em>${ru}</em></p><p class="dmn"><strong>Maksud:</strong> ${mn}</p><p class="dsrc">${src}</p>`;
+    const[sid,r]=D.s[w][i];let[t,how,ar,ru,mn,src]=D.b[sid];if(sid==="niat"||sid==="j-niat")[ar,ru,mn]=D.w[w].niat;
+    return`<p class="spn">${D.w[w].u||"Rakaat"} ${r} daripada ${D.w[w].r} · Langkah ${i+1} / ${D.s[w].length}</p><h3 class="spt">${t}</h3><p class="spd">${how}</p><p class="dar" lang="ar" dir="rtl">${ar}</p><p class="dru"><em>${ru}</em></p><p class="dmn"><strong>Maksud:</strong> ${mn}</p><p class="dsrc">${src}</p>`;
   }
   const list=()=>D.s[w].map(([sid,r],k)=>`<li><button type="button" data-i="${k}"${k===i?' aria-current="step"':""}>${D.b[sid][0]} <small>R${r}</small></button></li>`).join("");
   function show(save){
     const N=D.s[w].length;i=Math.max(0,Math.min(N-1,i));
     setIf(c,card());setIf(l,list());pp.max=N;pp.value=i+1;pv.disabled=i===0;nx.textContent=i===N-1?"Ulang dari awal ⟲":"Seterusnya ›";
     $$("#spw button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.w===w)));
-    if(save){store.set("solat-w",w);writeHash({solat:w,langkah:i+1})}
+    if(save){store.set(SK,w);writeHash({solat:w,langkah:i+1})}
   }
   nx.addEventListener("click",()=>{i=i===D.s[w].length-1?0:i+1;show(true);c.scrollIntoView({block:"nearest"})});
   pv.addEventListener("click",()=>{i--;show(true)});
@@ -783,9 +784,55 @@ if(spdEl){
   }
   $("#panduan").addEventListener("keydown",e=>{if(e.key==="ArrowRight")nx.click();else if(e.key==="ArrowLeft"&&!pv.disabled)pv.click()});
   toolbar($("#panduan .act"),{});
-  const h=readHash(),sw0=store.get("solat-w","subuh");
+  const h=readHash(),sw0=store.get(SK,w);
   if(D.w[h.solat]){w=h.solat;i=clamp(h.langkah,1,99,1)-1}else if(D.w[sw0])w=sw0;
   show(false);
+}
+/* ---------- solat sunat: today's sunat windows for a zone (mirror tools/pages7.py sw_card), jenazah pronouns, hajat text, tarawih counter ---------- */
+const swEl=$("#sw2"),swdEl=$("#swd");
+if(swEl&&swdEl){
+  const SD=JSON.parse(swdEl.textContent),kind=swEl.dataset.k,zs=$("#swz"),out=$("#swo");
+  const hmx=x=>hm(((x%1440)+1440)%1440),dur=m=>`${Math.floor(m/60)} jam ${m%60} minit`;
+  const msk=()=>{const u=new Date(Date.now()+288e5);return new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())};
+  async function times(z,d){const o=await official(z,d.getFullYear()),c=SD.zc[z];return o?o.t[doy(d)]:solatDay(d.getFullYear(),d.getMonth()+1,d.getDate(),c[0],c[1])}
+  function swCard(t,tn,z,d){
+    const rows=[];
+    if(kind==="dhuha"||kind==="hub")rows.push(["Dhuha bermula",hmx(t[2]+20),`kira-kira 20 minit selepas syuruk (${hmx(t[2])}), apabila matahari naik setinggi tombak`],
+      ["Dhuha paling afdal",hmx(t[2]+Math.floor((t[5]-t[2])/4)),"suku siang, ketika panas mula terasa"],["Dhuha berakhir",hmx(t[3]),"sebelum masuk Zohor; elakkan beberapa minit sebelumnya (istiwa')"]);
+    if(kind==="tahajjud"||kind==="witir"||kind==="hub"){
+      const night=tn[1]+1440-t[5],last=tn[1]+1440-Math.floor(night/3);
+      if(kind==="witir")rows.push(["Witir bermula",hmx(t[6]),"selepas solat Isyak"]);
+      if(kind==="tahajjud")rows.push(["Malam bermula",hmx(t[5]),"Maghrib"],["Separuh malam",hmx(t[5]+Math.floor(night/2)),`malam ini ${dur(night)}`]);
+      rows.push(["Sepertiga malam terakhir",hmx(last),"waktu paling afdal untuk tahajjud, doa dan witir"],["Berakhir",hmx(tn[1]),"masuk waktu Subuh esok"]);
+    }
+    if(kind==="hub")rows.push(["Dilarang: selepas Subuh",`${hmx(t[1])}–${hmx(t[2]+20)}`,"selepas solat Subuh hingga matahari naik"],["Dilarang: istiwa'",`sebelum ${hmx(t[3])}`,"beberapa minit sebelum Zohor, ketika matahari tegak"],
+      ["Dilarang: selepas Asar",`${hmx(t[4])}–${hmx(t[5])}`,"selepas solat Asar hingga matahari terbenam"]);
+    return`<p class="swh">${dlong(d)} · zon ${z}</p><ul class="swr">${rows.map(([a,b,c])=>`<li><span class="swl">${a}</span><strong>${b}</strong><em>${c}</em></li>`).join("")}</ul>`;
+  }
+  let z=store.get("sunat-zone",SD.def);if(!SD.zc[z])z=SD.def;zs.value=z;
+  async function draw(){const d=msk(),[t,tn]=await Promise.all([times(z,d),times(z,addD(d,1))]);setIf(out,swCard(t,tn,z,d))}
+  zs.addEventListener("change",()=>{z=zs.value;store.set("sunat-zone",z);draw()});draw();
+}
+const spX=$("#spd")?._sp;
+if(spX&&spX.D.jz){
+  const D=spX.D,jj=$("#jj");
+  const setJ=k=>{const v=D.jz[k]||D.jz.l;D.w.jenazah.niat=v.niat;[2,3,4].forEach((n,x)=>{D.b["j-t3"][n]=v.t3[x];D.b["j-t4"][n]=v.t4[x]});$$("#niat .dar,#niat .dru,#niat .dmn").forEach((el,x)=>{el.innerHTML=x===2?`<strong>Maksud:</strong> ${v.niat[2]}`:x===1?`<em>${v.niat[1]}</em>`:v.niat[0]});spX.show()};
+  jj.value=store.get("jenazah-j","l");if(!D.jz[jj.value])jj.value="l";setJ(jj.value);
+  jj.addEventListener("change",()=>{store.set("jenazah-j",jj.value);setJ(jj.value)});
+}
+const hjIn=$("#hjin");
+if(hjIn){const put=()=>{const v=hjIn.value.trim();$$(".hjv").forEach(m=>m.textContent=v?`(${v})`:"(urusan ini)")};hjIn.addEventListener("input",put)}
+const trw=$("#trw");
+if(trw){
+  const key="tarawih:"+iso(today());let st=Object.assign({n:20,c:0},store.get(key,{}));
+  const paint=()=>{const S=st.n/2;$$("#trn button").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.n===st.n)));
+    $("#trs").textContent=st.c>=S?`✓ ${st.n} rakaat tarawih selesai. Teruskan dengan witir (3 rakaat: 2 + 1).`:`Salam ke-${st.c+1} daripada ${S} · rakaat ${st.c*2+1}–${st.c*2+2}${st.c===S/2?" · separuh, rehat sebentar":""}`;
+    $("#trb").disabled=st.c>=S;store.set(key,st)};
+  $("#trn").addEventListener("click",e=>{const b=e.target.closest("button[data-n]");if(b){st.n=+b.dataset.n;st.c=Math.min(st.c,st.n/2);paint()}});
+  $("#trb").addEventListener("click",()=>{st.c++;if(navigator.vibrate)try{navigator.vibrate(20)}catch{}paint()});
+  $("#tru").addEventListener("click",()=>{st.c=Math.max(0,st.c-1);paint()});$("#trr").addEventListener("click",()=>{st.c=0;paint()});
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith("ilmq:tarawih:")&&k!=="ilmq:"+key)localStorage.removeItem(k)}}catch{}
+  paint();
 }
 const qf=$("#qf");
 if(qf){
