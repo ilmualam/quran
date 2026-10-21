@@ -1,4 +1,4 @@
-/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
+/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, solat sunat, jamak & qasar, zakat fitrah, asmaul husna, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
 (()=>{"use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={
@@ -351,7 +351,7 @@ function official(zone,y){
 }
 
 /* ---------- hijri calendar (mirror tools/hijri.py): JAKIM's official months, tabular calendar + offset outside them ---------- */
-const HJ=JSON.parse(($("#hd")||$("#tdat"))?.textContent||"null");
+const HJ=JSON.parse(($("#hd")||$("#tdat")||$("#zfd"))?.textContent||"null");
 const dnum=d=>Math.round(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
 const dfrom=n=>{const u=new Date(n*864e5);return new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())};
 const HE=-492148,tabH2d=(y,m,d)=>d+Math.ceil(29.5*(m-1))+(y-1)*354+Math.floor((3+11*y)/30)+HE-1;
@@ -760,17 +760,18 @@ if(rdEl){
 const spdEl=$("#spd");
 if(spdEl){
   const D=JSON.parse(spdEl.textContent),c=$("#spc"),l=$("#spl"),pv=$("#spprev"),nx=$("#spnext"),pp=$("#spp");
-  let w="subuh",i=0;
+  // /belajar-solat/ (fardu) and the /solat-sunat/ pages share this player; a sunat page names its default prayer and storage key
+  let w=D.def||"subuh",i=0;const SK=D.key||"solat-w";spdEl._sp={D,show:()=>show(false)};
   function card(){
-    const[sid,r]=D.s[w][i];let[t,how,ar,ru,mn,src]=D.b[sid];if(sid==="niat")[ar,ru,mn]=D.w[w].niat;
-    return`<p class="spn">Rakaat ${r} daripada ${D.w[w].r} · Langkah ${i+1} / ${D.s[w].length}</p><h3 class="spt">${t}</h3><p class="spd">${how}</p><p class="dar" lang="ar" dir="rtl">${ar}</p><p class="dru"><em>${ru}</em></p><p class="dmn"><strong>Maksud:</strong> ${mn}</p><p class="dsrc">${src}</p>`;
+    const[sid,r]=D.s[w][i];let[t,how,ar,ru,mn,src]=D.b[sid];if(sid==="niat"||sid==="j-niat")[ar,ru,mn]=D.w[w].niat;else if(sid==="niat2")[ar,ru,mn]=D.w[w].niat2;
+    return`<p class="spn">${typeof r==="string"?r:`${D.w[w].u||"Rakaat"} ${r} daripada ${D.w[w].r}`} · Langkah ${i+1} / ${D.s[w].length}</p><h3 class="spt">${t}</h3><p class="spd">${how}</p><p class="dar" lang="ar" dir="rtl">${ar}</p><p class="dru"><em>${ru}</em></p><p class="dmn"><strong>Maksud:</strong> ${mn}</p><p class="dsrc">${src}</p>`;
   }
-  const list=()=>D.s[w].map(([sid,r],k)=>`<li><button type="button" data-i="${k}"${k===i?' aria-current="step"':""}>${D.b[sid][0]} <small>R${r}</small></button></li>`).join("");
+  const list=()=>D.s[w].map(([sid,r],k)=>`<li><button type="button" data-i="${k}"${k===i?' aria-current="step"':""}>${D.b[sid][0]} <small>${typeof r==="string"?r:"R"+r}</small></button></li>`).join("");
   function show(save){
     const N=D.s[w].length;i=Math.max(0,Math.min(N-1,i));
     setIf(c,card());setIf(l,list());pp.max=N;pp.value=i+1;pv.disabled=i===0;nx.textContent=i===N-1?"Ulang dari awal ⟲":"Seterusnya ›";
     $$("#spw button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.w===w)));
-    if(save){store.set("solat-w",w);writeHash({solat:w,langkah:i+1})}
+    if(save){store.set(SK,w);writeHash({solat:w,langkah:i+1})}
   }
   nx.addEventListener("click",()=>{i=i===D.s[w].length-1?0:i+1;show(true);c.scrollIntoView({block:"nearest"})});
   pv.addEventListener("click",()=>{i--;show(true)});
@@ -782,11 +783,160 @@ if(spdEl){
     b.addEventListener("click",()=>{const off=!c.classList.contains(cls);store.set("solat-"+cls,off);set(off)});
   }
   $("#panduan").addEventListener("keydown",e=>{if(e.key==="ArrowRight")nx.click();else if(e.key==="ArrowLeft"&&!pv.disabled)pv.click()});
-  toolbar($("#panduan .act"),{});
-  const h=readHash(),sw0=store.get("solat-w","subuh");
+  $$("#panduan .act").forEach(a=>toolbar(a,{}));
+  const h=readHash(),sw0=store.get(SK,w);
   if(D.w[h.solat]){w=h.solat;i=clamp(h.langkah,1,99,1)-1}else if(D.w[sw0])w=sw0;
   show(false);
 }
+/* ---------- solat sunat: today's sunat windows for a zone (mirror tools/pages7.py sw_card), jenazah pronouns, hajat text, tarawih counter ---------- */
+const swEl=$("#sw2"),swdEl=$("#swd");
+if(swEl&&swdEl){
+  const SD=JSON.parse(swdEl.textContent),kind=swEl.dataset.k,zs=$("#swz"),out=$("#swo");
+  const hmx=x=>hm(((x%1440)+1440)%1440),dur=m=>`${Math.floor(m/60)} jam ${m%60} minit`;
+  const msk=()=>{const u=new Date(Date.now()+288e5);return new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())};
+  async function times(z,d){const o=await official(z,d.getFullYear()),c=SD.zc[z];return o?o.t[doy(d)]:solatDay(d.getFullYear(),d.getMonth()+1,d.getDate(),c[0],c[1])}
+  function swCard(t,tn,z,d){
+    const rows=[];
+    if(kind==="dhuha"||kind==="hub")rows.push(["Dhuha bermula",hmx(t[2]+20),`kira-kira 20 minit selepas syuruk (${hmx(t[2])}), apabila matahari naik setinggi tombak`],
+      ["Dhuha paling afdal",hmx(t[2]+Math.floor((t[5]-t[2])/4)),"suku siang, ketika panas mula terasa"],["Dhuha berakhir",hmx(t[3]),"sebelum masuk Zohor; elakkan beberapa minit sebelumnya (istiwa')"]);
+    if(kind==="tahajjud"||kind==="witir"||kind==="hub"){
+      const night=tn[1]+1440-t[5],last=tn[1]+1440-Math.floor(night/3);
+      if(kind==="witir")rows.push(["Witir bermula",hmx(t[6]),"selepas solat Isyak"]);
+      if(kind==="tahajjud")rows.push(["Malam bermula",hmx(t[5]),"Maghrib"],["Separuh malam",hmx(t[5]+Math.floor(night/2)),`malam ini ${dur(night)}`]);
+      rows.push(["Sepertiga malam terakhir",hmx(last),"waktu paling afdal untuk tahajjud, doa dan witir"],["Berakhir",hmx(tn[1]),"masuk waktu Subuh esok"]);
+    }
+    if(kind==="jamak")rows.push(["Jamak taqdim Zohor + Asar",`${hmx(t[3])}–${hmx(t[4])}`,"kedua-duanya dalam waktu Zohor"],["Jamak takhir Zohor + Asar",`${hmx(t[4])}–${hmx(t[5])}`,"dalam waktu Asar; niat takhir dibuat semasa waktu Zohor"],
+      ["Jamak taqdim Maghrib + Isyak",`${hmx(t[5])}–${hmx(t[6])}`,"kedua-duanya dalam waktu Maghrib"],["Jamak takhir Maghrib + Isyak",`${hmx(t[6])}–${hmx(tn[1])}`,"dalam waktu Isyak hingga sebelum Subuh esok"],["Subuh",hmx(t[1]),"tidak boleh dijamak atau diqasar"]);
+    if(kind==="hub")rows.push(["Dilarang: selepas Subuh",`${hmx(t[1])}–${hmx(t[2]+20)}`,"selepas solat Subuh hingga matahari naik"],["Dilarang: istiwa'",`sebelum ${hmx(t[3])}`,"beberapa minit sebelum Zohor, ketika matahari tegak"],
+      ["Dilarang: selepas Asar",`${hmx(t[4])}–${hmx(t[5])}`,"selepas solat Asar hingga matahari terbenam"]);
+    return`<p class="swh">${dlong(d)} · zon ${z}</p><ul class="swr">${rows.map(([a,b,c])=>`<li><span class="swl">${a}</span><strong>${b}</strong><em>${c}</em></li>`).join("")}</ul>`;
+  }
+  let z=kind==="jamak"?SD.def:store.get("sunat-zone",SD.def);if(!SD.zc[z])z=SD.def;zs.value=z;
+  async function draw(){const d=msk(),[t,tn]=await Promise.all([times(z,d),times(z,addD(d,1))]);setIf(out,swCard(t,tn,z,d))}
+  zs.addEventListener("change",()=>{z=zs.value;if(kind!=="jamak")store.set("sunat-zone",z);draw()});
+  swEl._zone=v=>{if(SD.zc[v]&&v!==z){z=v;zs.value=v;draw()}};draw();
+}
+const spX=$("#spd")?._sp;
+if(spX&&spX.D.jz){
+  const D=spX.D,jj=$("#jj");
+  const setJ=k=>{const v=D.jz[k]||D.jz.l;D.w.jenazah.niat=v.niat;[2,3,4].forEach((n,x)=>{D.b["j-t3"][n]=v.t3[x];D.b["j-t4"][n]=v.t4[x]});$$("#niat .dar,#niat .dru,#niat .dmn").forEach((el,x)=>{el.innerHTML=x===2?`<strong>Maksud:</strong> ${v.niat[2]}`:x===1?`<em>${v.niat[1]}</em>`:v.niat[0]});spX.show()};
+  jj.value=store.get("jenazah-j","l");if(!D.jz[jj.value])jj.value="l";setJ(jj.value);
+  jj.addEventListener("change",()=>{store.set("jenazah-j",jj.value);setJ(jj.value)});
+}
+const hjIn=$("#hjin");
+if(hjIn){const put=()=>{const v=hjIn.value.trim();$$(".hjv").forEach(m=>m.textContent=v?`(${v})`:"(urusan ini)")};hjIn.addEventListener("input",put)}
+const trw=$("#trw");
+if(trw){
+  const key="tarawih:"+iso(today());let st=Object.assign({n:20,c:0},store.get(key,{}));
+  const paint=()=>{const S=st.n/2;$$("#trn button").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.n===st.n)));
+    $("#trs").textContent=st.c>=S?`✓ ${st.n} rakaat tarawih selesai. Teruskan dengan witir (3 rakaat: 2 + 1).`:`Salam ke-${st.c+1} daripada ${S} · rakaat ${st.c*2+1}–${st.c*2+2}${st.c===S/2?" · separuh, rehat sebentar":""}`;
+    $("#trb").disabled=st.c>=S;store.set(key,st)};
+  $("#trn").addEventListener("click",e=>{const b=e.target.closest("button[data-n]");if(b){st.n=+b.dataset.n;st.c=Math.min(st.c,st.n/2);paint()}});
+  $("#trb").addEventListener("click",()=>{st.c++;if(navigator.vibrate)try{navigator.vibrate(20)}catch{}paint()});
+  $("#tru").addEventListener("click",()=>{st.c=Math.max(0,st.c-1);paint()});$("#trr").addEventListener("click",()=>{st.c=0;paint()});
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith("ilmq:tarawih:")&&k!=="ilmq:"+key)localStorage.removeItem(k)}}catch{}
+  paint();
+}
+/* ---------- jamak & qasar: musafir calculator (verdict mirrors tools/pages8.py verdict_html) ---------- */
+const jmdEl=$("#jmd");
+if(jmdEl){
+  const J=JSON.parse(jmdEl.textContent),fr=$("#jfrom"),to=$("#jto"),t1=$("#jt1"),t2=$("#jt2"),out=$("#jout");
+  const byName=n=>J.tw.find(t=>t[0].toLowerCase()===String(n).trim().toLowerCase());
+  const km=(a,b,c,d)=>{const h=Math.sin(rad(c-a)/2)**2+Math.cos(rad(a))*Math.cos(rad(c))*Math.sin(rad(d-b)/2)**2;return 12742*Math.asin(Math.sqrt(h))};
+  function jVerdict(a,b,stay){
+    const k=Math.floor(km(a[2],a[3],b[2],b[3])+.5);let head,cls,why;
+    if(k>=J.mh){head="✅ Layak jamak &amp; qasar";cls="ok";why=`Jarak garis lurus ${a[0]} → ${b[0]} ialah ${k} km, melebihi 2 marhalah (≈${J.mh} km). Jarak jalan biasanya lebih jauh lagi.`}
+    else if(k>=J.mb){head="⚠️ Semak jarak jalan";cls="mb";why=`Jarak garis lurus ${k} km. Jarak jalan biasanya 20–40% lebih jauh; jika laluan anda ${J.mh} km atau lebih, anda layak.`}
+    else{head="❌ Belum mencapai 2 marhalah";cls="no";why=`Jarak garis lurus ${k} km; jarak jalan jarang mencecah ${J.mh} km. Solatlah penuh pada waktunya.`}
+    let s=`<p class="jvh ${cls}">${head}</p><p>${why} <a href="https://www.google.com/maps/dir/?api=1&amp;origin=${a[2]},${a[3]}&amp;destination=${b[2]},${b[3]}" rel="noopener nofollow">Semak jarak jalan di Google Maps ↗</a></p>`;
+    if(stay){const full=Math.round((stay[1]-stay[0])/864e5)-1;
+      if(full<-1)s+="<p>Tarikh pulang mesti selepas tarikh tiba.</p>";
+      else if(full>=4)s+=`<p>Tinggal <strong>${full} hari penuh</strong> (tidak termasuk hari tiba dan hari pulang): anda dikira bermukim sebaik tiba di ${b[0]}; jamak dan qasar hanya semasa perjalanan pergi dan pulang.</p>`;
+      else s+=`<p>Tinggal <strong>${Math.max(full,0)} hari penuh</strong> (kurang daripada 4): boleh jamak dan qasar sepanjang berada di ${b[0]} hingga pulang.</p>`}
+    return s+`<p class="note">Waktu jamak di bawah mengikut zon destinasi, ${b[4]}.</p>`;
+  }
+  function run(save){
+    const a=byName(fr.value),b=byName(to.value);
+    if(!a||!b)return setIf(out,`<p>Pilih bandar daripada senarai (${J.tw.length} bandar di Malaysia).</p>`);
+    const d1=parseD(t1.value),d2=parseD(t2.value);
+    setIf(out,jVerdict(a,b,d1&&d2?[d1,d2]:null));
+    swEl?._zone?.(b[4]);
+    if(save){const o={dari:a[0],ke:b[0]};if(d1)o.tiba=t1.value;if(d2)o.pulang=t2.value;writeHash(o)}
+  }
+  $("#jmf").addEventListener("input",()=>run(true));$("#jmf").addEventListener("change",()=>run(true));
+  $("#jgeo").addEventListener("click",()=>{
+    if(!navigator.geolocation)return toast("Lokasi tidak disokong");
+    navigator.geolocation.getCurrentPosition(p=>{const{latitude:la,longitude:lo}=p.coords;let best=J.tw[0],bd=1e9;
+      for(const t of J.tw){const x=km(la,lo,t[2],t[3]);if(x<bd){bd=x;best=t}}
+      fr.value=best[0];run(true);toast(`Bandar terdekat: ${best[0]}`)},()=>toast("Kebenaran lokasi ditolak"),{timeout:10000,maximumAge:6e5});
+  });
+  const h=readHash();if(byName(h.dari))fr.value=byName(h.dari)[0];if(byName(h.ke))to.value=byName(h.ke)[0];if(parseD(h.tiba))t1.value=h.tiba;if(parseD(h.pulang))t2.value=h.pulang;
+  if(h.dari||h.ke||h.tiba)run(false);
+}
+/* ---------- zakat fitrah: household total and the coming Ramadan's payment timeline (mirror tools/pages9.py) ---------- */
+const zfdEl=$("#zfd");
+if(zfdEl&&HJ){
+  const Z=JSON.parse(zfdEl.textContent),st=$("#zfs"),ti=$("#zft"),na=$("#zfa"),nk=$("#zfk"),out=$("#zfo");
+  const rm=x=>{const[s,d]=x.toFixed(2).split(".");return`RM${s.replace(/\B(?=(\d{3})+(?!\d))/g,",")}.${d}`};
+  function zfResult(s,t,n){const r=Z.r[s],k=Math.min(t,r.length-1);
+    return`<p class="zft">${rm(r[k]*n)}</p><p>${n} orang × ${rm(r[k])} (${esc(Z.t[k])}, ${esc(Z.n[s])}). Jika dibayar dengan beras: <strong>${(Z.g*n).toFixed(1)} kg</strong> (${n} gantang Baghdad).</p>`}
+  function zfTimeline(d){
+    let hy=g2h(d)[0],y=[hy,hy+1].find(x=>h2g(x,10,1)[0]>=d)??hy+1;
+    const[r1,o1]=h2g(y,9,1),[eid]=h2g(y,10,1),last=addD(eid,-1),n=Math.round((r1-d)/864e5);
+    const rows=[["Harus (boleh) dibayar",`${dlong(r1)} hingga sebelum Maghrib ${dlong(last)}`,"sepanjang Ramadan; ramai membayar awal"],["Wajib",`Maghrib ${dlong(last)}`,"masuk 1 Syawal: setiap Muslim yang hidup ketika itu wajib dizakatkan"],
+      ["Paling afdal",`Pagi ${dlong(eid)}`,"selepas Subuh hingga sebelum solat sunat Aidilfitri"],["Makruh",`${dlong(eid)}, selepas solat raya`,"hingga terbenam matahari 1 Syawal"],["Haram (wajib qada)",`Selepas Maghrib ${dlong(eid)}`,"melewatkan tanpa uzur berdosa dan wajib diqada"]];
+    return`<p class="swh">Ramadan ${y} H ${o1?"bermula":"dijangka bermula"} ${dlong(r1)}${n>0?` · lagi ${n} hari`:""}</p><ul class="swr">${rows.map(([a,b,c])=>`<li><span class="swl">${a}</span><strong>${b}</strong><em>${c}</em></li>`).join("")}</ul>`;
+  }
+  const tierOpts=s=>Z.r[s].map((r,i)=>`<option value="${i}">${esc(Z.t[i])}: ${rm(r)}</option>`).join("");
+  function run(save){
+    const s=Z.r[st.value]?st.value:"selangor",t=clamp(ti.value,0,2,0),n=clamp(na.value,0,50,0)+clamp(nk.value,0,50,0);
+    setIf(out,n?zfResult(s,t,n):"<p>Masukkan bilangan ahli keluarga.</p>");
+    if(save)store.set("zakat-fitrah",{s,t,a:na.value,k:nk.value});
+  }
+  st.addEventListener("change",()=>{const t=ti.value;setIf(ti,tierOpts(st.value));ti.value=String(Math.min(+t,Z.r[st.value].length-1));run(true)});
+  $("#zff").addEventListener("input",e=>{if(e.target!==st)run(true)});
+  const sv=store.get("zakat-fitrah",null);
+  if(sv&&Z.r[sv.s]){st.value=sv.s;setIf(ti,tierOpts(sv.s));ti.value=String(Math.min(sv.t,Z.r[sv.s].length-1));na.value=sv.a;nk.value=sv.k;run(false)}
+  const u=new Date(Date.now()+288e5);setIf($("#zfl"),zfTimeline(new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())));
+}
+
+/* ---------- asmaul husna: name of the day, search, memorised ticks, flashcards, quiz ---------- */
+const asdEl=$("#asd");
+if(asdEl){
+  const N=JSON.parse(asdEl.textContent).n,list=$("#anl"),q=$("#anq"),prog=$("#anp");
+  const u=new Date(Date.now()+288e5),d0=new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate()),t=doy(d0)%99;
+  $("#anda").textContent=N[t][0];$("#andr").textContent=`${t+1}. ${N[t][1]}`;$("#andm").textContent=N[t][2];
+  $("#and .swl").textContent=`Nama hari ini · ${dlong(d0)}`;
+  let got=new Set(store.get("asmaul",[]));
+  const paint=()=>{$$("input[data-n]",list).forEach(c=>{c.checked=got.has(+c.dataset.n);c.closest(".anc").classList.toggle("done",c.checked)});prog.textContent=`${got.size} / 99 dihafal${got.size===99?" · Masya-Allah, lengkap!":""}`};
+  list.addEventListener("change",e=>{const c=e.target.closest("input[data-n]");if(!c)return;c.checked?got.add(+c.dataset.n):got.delete(+c.dataset.n);store.set("asmaul",[...got].sort((a,b)=>a-b));paint()});
+  q.addEventListener("input",()=>{const v=q.value.trim().toLowerCase();$$(".anc",list).forEach(li=>li.hidden=!!v&&!li.dataset.q.includes(v)&&li.querySelector(".ann").textContent!==v)});
+  paint();speech.init();
+  // flashcards
+  let k=t,show=false;const kd=$("#ankd");
+  const drawK=()=>{const[ar,ru,mn]=N[k];kd.innerHTML=`<span class="ann">${k+1} / 99</span><span class="ana" lang="ar" dir="rtl">${esc(ar)}</span>${show?`<span class="anr">${esc(ru)}</span><span class="anm">${esc(mn)}</span>`:'<span class="note">Tekan untuk lihat maksud</span>'}`;$('#ankad [data-k="0"]').textContent=show?"Sembunyi maksud":"Tunjuk maksud"};
+  $("#ankad").addEventListener("click",e=>{const b=e.target.closest("[data-k]");if(!b)return;const a=b.dataset.k;
+    if(a==="r"){k=Math.floor(Math.random()*99);show=false}else if(a==="s")speech.say(N[k][0]);else if(a==="0")show=!show;else{k=(k+ +a+99)%99;show=false}drawK()});
+  kd.addEventListener("click",()=>{show=!show;drawK()});kd.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();show=!show;drawK()}});
+  // quiz: arabic -> meaning, 10 questions
+  const qz=$("#anqz");let qs=[],qi=0,score=0;
+  const ask=()=>{
+    if(qi>=qs.length){const b=Math.max(store.get("asmaul-best",0),score);store.set("asmaul-best",b);
+      qz.innerHTML=`<p class="qzs">Markah anda: <strong>${score} / ${qs.length}</strong></p><p class="note">Markah terbaik: ${b} / 10</p><button class="btn3" type="button" data-aq>Cuba lagi</button>`;return}
+    const i=qs[qi],opts=shuffle([i,...shuffle([...Array(99).keys()].filter(x=>x!==i)).slice(0,3)]);qz.dataset.o=opts.join(",");
+    qz.innerHTML=`<p class="qzn">Soalan ${qi+1} daripada ${qs.length} · Markah ${score}</p><p class="qzw" lang="ar" dir="rtl">${esc(N[i][0])}</p><p class="qzr">Apakah maksud nama ini?</p><div class="qzo">${opts.map(o=>`<button class="btn2" type="button" data-o="${o}">${esc(N[o][2])}</button>`).join("")}</div><p class="qzf" aria-live="polite"></p>`};
+  qz.addEventListener("click",e=>{
+    if(e.target.closest("[data-aq]")){qs=shuffle([...Array(99).keys()]).slice(0,10);qi=0;score=0;ask();return}
+    if(e.target.closest("[data-next]")){qi++;ask();return}
+    const b=e.target.closest("button[data-o]");if(!b||b.disabled)return;const i=qs[qi],ok=+b.dataset.o===i;if(ok)score++;
+    $$("button[data-o]",qz).forEach(x=>{x.disabled=true;if(+x.dataset.o===i)x.classList.add("ok");else if(x===b)x.classList.add("no")});
+    $(".qzf",qz).innerHTML=`${ok?"✓ Betul.":"✗ Jawapan:"} <strong>${esc(N[i][1])}</strong>: ${esc(N[i][2])}<br><button class="btn2" type="button" data-next>Seterusnya ›</button>`});
+  $("#anmode").addEventListener("click",e=>{const b=e.target.closest("button[data-m]");if(!b)return;const m=b.dataset.m;
+    $$("#anmode button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));$("#anlist").hidden=m!=="senarai";$("#ankad").hidden=m!=="kad";$("#ankuiz").hidden=m!=="kuiz";
+    if(m==="kad")drawK();if(m==="kuiz"&&!qs.length)qz.innerHTML='<p>10 soalan rawak: pilih maksud bagi setiap nama.</p><button class="btn3" type="button" data-aq>Mula kuiz</button>'});
+  toolbar($("#kira > .act"),{});
+}
+
 const qf=$("#qf");
 if(qf){
   const qsum=$("#qsum");

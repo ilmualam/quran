@@ -343,10 +343,13 @@ def solat_data():
 def sp_card(D, w, i):
     sid, r = D["s"][w][i]
     t, how, ar, ru, mn, src = D["b"][sid]
-    if sid == "niat":
+    if sid in ("niat", "j-niat"):
         ar, ru, mn = D["w"][w]["niat"]
+    elif sid == "niat2":  # second prayer of a jamak pair
+        ar, ru, mn = D["w"][w]["niat2"]
     N, Rk = len(D["s"][w]), D["w"][w]["r"]
-    return (f'<p class="spn">Rakaat {r} daripada {Rk} · Langkah {i + 1} / {N}</p><h3 class="spt">{t}</h3><p class="spd">{how}</p>'
+    where = r if isinstance(r, str) else f'{D["w"][w].get("u", "Rakaat")} {r} daripada {Rk}'  # a jamak pair labels its steps "Zohor 1/2"
+    return (f'<p class="spn">{where} · Langkah {i + 1} / {N}</p><h3 class="spt">{t}</h3><p class="spd">{how}</p>'
             f'<p class="dar" lang="ar" dir="rtl">{ar}</p><p class="dru"><em>{ru}</em></p><p class="dmn"><strong>Maksud:</strong> {mn}</p><p class="dsrc">{src}</p>')
 
 
@@ -354,7 +357,7 @@ CUR = ' aria-current="step"'
 
 
 def sp_list(D, w, cur):
-    return "".join(f'<li><button type="button" data-i="{i}"{CUR if i == cur else ""}>{D["b"][sid][0]} <small>R{r}</small></button></li>'
+    return "".join(f'<li><button type="button" data-i="{i}"{CUR if i == cur else ""}>{D["b"][sid][0]} <small>{r if isinstance(r, str) else "R" + str(r)}</small></button></li>'
                    for i, (sid, r) in enumerate(D["s"][w]))
 
 

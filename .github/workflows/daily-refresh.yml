@@ -28,7 +28,16 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add waktu-solat waktu-berbuka-puasa cari-masjid kalendar-hijrah sw.js llms.txt sitemap.xml assets/data/cari.json
+          P="waktu-solat waktu-berbuka-puasa cari-masjid kalendar-hijrah solat-sunat solat-jamak-qasar asmaul-husna zakat-fitrah sw.js llms.txt sitemap.xml assets/data/cari.json"
+          git add $P
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Daily refresh ($(TZ=Asia/Kuala_Lumpur date +%F))"
-          git push
+          # another job or a code push may have moved the branch meanwhile: take those commits, rebuild the generated pages on top, retry
+          for i in 1 2 3; do
+            git push && exit 0
+            git pull --rebase -X theirs origin "$GITHUB_REF_NAME"
+            SOLAT_DATE="$(TZ=Asia/Kuala_Lumpur date +%F)" python3 tools/build.py
+            git add $P
+            git commit --amend --no-edit
+          done
+          exit 1

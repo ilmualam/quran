@@ -348,6 +348,93 @@ ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
   ok(pg.errs.length===0,'tahlil no errors '+pg.errs);
 }
 
+// solat sunat: hub + pages; time cards JS == build and == Python for another zone; player; jenazah pronouns; hajat text; tarawih counter
+{
+  for(const p of ['solat-sunat/','solat-sunat/solat-dhuha/','solat-sunat/solat-tahajjud/','solat-sunat/solat-witir/']){
+    pg=await open(p);
+    ok(await raw(p,'#swo')===await pg.$eval('#swo',e=>e.innerHTML),`sunat ${p} time card JS == build`);
+    if(p!=='solat-sunat/')ok(await raw(p,'#spc')===await pg.$eval('#spc',e=>e.innerHTML),`sunat ${p} player JS == build`);
+    ok(pg.errs.length===0,`sunat ${p} no errors `+pg.errs);
+  }
+  for(const [p,k] of [['solat-sunat/','hub'],['solat-sunat/solat-tahajjud/','tahajjud']]){
+    pg=await open(p);await pg.selectOption('#swz','SBH07');await pg.waitForFunction(()=>document.querySelector('#swo').textContent.includes('SBH07'));
+    const py=execSync(`cd ${TOOLS} && python3 -c "import pages7 as P,ramadan as R,datetime as d;D=d.date(2026,10,18);print(P.sw_card('${k}',R.day_times('SBH07',D)[0],R.day_times('SBH07',D+d.timedelta(1))[0],'SBH07',D),end='')"`).toString();
+    ok(py===await pg.$eval('#swo',e=>e.innerHTML),`sunat ${k} card SBH07 JS == Python`);
+  }
+  pg=await open('solat-sunat/solat-dhuha/');
+  const g=JSON.parse(await pg.$eval('script[type="application/ld+json"]',s=>s.textContent))['@graph'];
+  ok(g.some(n=>n['@type']==='HowTo'&&n.step.length>10)&&g.some(n=>n['@type']==='FAQPage'),'dhuha JSON-LD HowTo + FAQ');
+  await pg.click('#spnext');ok((await pg.textContent('#spc')).includes('Takbiratul Ihram'),'dhuha player next step');
+  pg=await open('solat-sunat/solat-jenazah/');
+  ok((await pg.textContent('#spc')).includes('Takbir 1 daripada 4'),'jenazah unit = takbir');
+  await pg.selectOption('#jj','p');
+  ok((await pg.textContent('#spc')).includes('هٰذِهِ الْمَيِّتَةِ')&&(await pg.textContent('#niat')).includes('hazihil-mayyitati'),'jenazah niat -> perempuan');
+  for(let i=0;i<3;i++)await pg.click('#spnext');
+  ok((await pg.textContent('#spc')).includes('لَهَا')&&(await pg.textContent('#spc')).includes('Takbir 3'),'jenazah takbir 3 doa -> laha');
+  await pg.click('#spnext');ok((await pg.textContent('#spc')).includes('ajraha'),'jenazah takbir 4 doa -> ajraha');
+  await pg.selectOption('#jj','ll');ok((await pg.textContent('#spc')).includes('ajrahum'),'jenazah ramai');
+  ok(pg.errs.length===0,'jenazah no errors '+pg.errs);
+  pg=await open('solat-sunat/solat-istikharah/');await pg.fill('#hjin','menerima tawaran kerja');
+  ok((await pg.$$eval('.hjv',a=>a.map(x=>x.textContent))).every(t=>t==='(menerima tawaran kerja)'),'istikharah hajat inserted');
+  pg=await open('solat-sunat/solat-tarawih/');
+  for(let i=0;i<5;i++)await pg.click('#trb');
+  ok((await pg.textContent('#trs')).startsWith('Salam ke-6 daripada 10 · rakaat 11–12 · separuh'),'tarawih counter: '+await pg.textContent('#trs'));
+  await pg.click('#trn button[data-n="8"]');ok((await pg.textContent('#trs')).startsWith('✓ 8 rakaat'),'tarawih 8 done');
+  await pg.reload({waitUntil:'networkidle'});ok((await pg.textContent('#trs')).startsWith('✓ 8 rakaat'),'tarawih persisted');
+  ok(pg.errs.length===0,'tarawih no errors '+pg.errs);
+}
+
+// jamak & qasar: calculator verdict JS == Python, stay rule, zone follows destination, jamak card JS == build/Python, two-niat player
+{
+  const P='solat-jamak-qasar/';
+  pg=await open(P);
+  for(const s of ['#jout','#swo','#spc'])ok(await raw(P,s)===await pg.$eval(s,e=>e.innerHTML),`jamak ${s} JS == build`);
+  const pyv=(a,b,st)=>execSync(`cd ${TOOLS} && python3 -c "import pages8 as J,datetime as d;T={t[0]:t for t in J.towns()};print(J.verdict_html(T['${a}'],T['${b}'],${st||'None'}),end='')"`).toString();
+  for(const [a,b] of [['Shah Alam','Klang'],['Seremban','Kuala Lumpur'],['Johor Bahru','Kota Kinabalu']]){
+    await pg.fill('#jfrom',a);await pg.fill('#jto',b);await pg.dispatchEvent('#jmf','input');
+    ok(await pg.$eval('#jout',e=>e.innerHTML)===pyv(a,b),`jamak verdict ${a}→${b} JS == Python: `+(await pg.textContent('#jout .jvh')));
+  }
+  await pg.fill('#jfrom','Kuala Lumpur');await pg.fill('#jto','Kota Bharu');await pg.fill('#jt1','2026-11-01');await pg.fill('#jt2','2026-11-08');await pg.dispatchEvent('#jmf','input');
+  ok(await pg.$eval('#jout',e=>e.innerHTML)===pyv('Kuala Lumpur','Kota Bharu','(d.date(2026,11,1),d.date(2026,11,8))')&&(await pg.textContent('#jout')).includes('6 hari penuh'),'jamak stay ≥4 days -> mukim');
+  await pg.waitForFunction(()=>document.querySelector('#swo').textContent.includes('KTN01'));
+  const py=execSync(`cd ${TOOLS} && python3 -c "import pages7 as P,ramadan as R,datetime as d;D=d.date(2026,10,18);print(P.sw_card('jamak',R.day_times('KTN01',D)[0],R.day_times('KTN01',D+d.timedelta(1))[0],'KTN01',D),end='')"`).toString();
+  ok(py===await pg.$eval('#swo',e=>e.innerHTML),'jamak card follows destination zone KTN01 == Python');
+  ok(pg.url().includes('dari=Kuala+Lumpur')&&pg.url().includes('ke=Kota+Bharu'),'jamak hash '+pg.url());
+  await pg.reload({waitUntil:'networkidle'});ok((await pg.inputValue('#jto'))==='Kota Bharu'&&(await pg.textContent('#jout')).includes('6 hari penuh'),'jamak link restores trip');
+  // player: Zohor then Asar, each with its own niat
+  const N=await pg.$$eval('#spl li',a=>a.length);
+  const all=[];for(let i=0;i<N;i++){all.push(await pg.textContent('#spc'));await pg.click('#spnext')}
+  ok(all[0].includes('مَجْمُوعًا مَعَ الْعَصْرِ جَمْعَ تَقْدِيمٍ')&&all.some(t=>t.includes('Niat Solat Kedua')&&t.includes('مَجْمُوعًا مَعَ الظُّهْرِ')),'jamak player: Zohor niat + Asar niat2');
+  ok(all.some(t=>t.startsWith('Zohor 2/2'))&&all.some(t=>t.startsWith('Asar 1/2')),'jamak step labels');
+  await pg.click('#spw button[data-w="mi-takhir"]');ok((await pg.textContent('#spc')).includes('جَمْعَ تَأْخِيرٍ')&&(await pg.textContent('#spc')).includes('ثَلَاثَ'),'jamak Maghrib takhir niat (3 rakaat, no qasar)');
+  ok(pg.errs.length===0,'jamak no errors '+pg.errs);
+}
+
+// zakat fitrah: result + timeline JS == build/Python; asmaul husna: name of day, search, ticks, flashcards, quiz
+{
+  const Z='zakat-fitrah/';pg=await open(Z);
+  for(const s of ['#zfo','#zfl'])ok(await raw(Z,s)===await pg.$eval(s,e=>e.innerHTML),`zakat ${s} JS == build`);
+  await pg.selectOption('#zfs','kuala-lumpur');await pg.selectOption('#zft','2');await pg.fill('#zfa','3');await pg.fill('#zfk','4');await pg.dispatchEvent('#zff','input');
+  const py=execSync(`cd ${TOOLS} && python3 -c "import pages9 as P;print(P.zf_result('kuala-lumpur',2,7),end='')"`).toString();
+  ok(py===await pg.$eval('#zfo',e=>e.innerHTML)&&(await pg.textContent('#zfo')).includes('RM175.00')&&(await pg.textContent('#zfo')).includes('18.2 kg'),'zakat KL premium 7 orang = RM175 JS == Python');
+  await pg.selectOption('#zfs','sarawak');ok((await pg.$$eval('#zft option',o=>o.length))===1&&(await pg.textContent('#zfo')).includes('RM52.50'),'zakat Sarawak single rate: '+await pg.textContent('#zfo .zft'));
+  await pg.reload({waitUntil:'networkidle'});ok((await pg.inputValue('#zfs'))==='sarawak'&&(await pg.textContent('#zfo')).includes('RM52.50'),'zakat inputs persisted');
+  ok((await pg.textContent('#zfl')).includes('Ramadan 1448 H bermula Isnin, 8 Februari 2027')&&(await pg.textContent('#zfl')).includes('Maghrib Selasa, 9 Mac 2027'),'zakat timeline 1448: '+(await pg.textContent('#zfl .swh')));
+  ok(pg.errs.length===0,'zakat no errors '+pg.errs);
+  const AH='asmaul-husna/';pg=await open(AH);
+  ok(await raw(AH,'#and')===await pg.$eval('#and',e=>e.innerHTML),'asmaul name of day JS == build');
+  ok((await pg.$$eval('#anl .anc',a=>a.length))===99&&(await pg.$$eval('#anl .anq a',a=>a.length))>=70,'asmaul 99 cards, Quran refs: '+await pg.$$eval('#anl .anq a',a=>a.length));
+  ok((await pg.getAttribute('#nama-1 .anq a','href'))==='/#surah-1-ayat-3','Ar-Rahman -> Al-Fatihah 3');
+  await pg.fill('#anq','rezeki');ok((await pg.$$eval('#anl .anc',a=>a.filter(x=>!x.hidden).map(x=>x.querySelector('.anr').textContent))).includes('Ar-Razzaq'),'asmaul search rezeki -> Ar-Razzaq');
+  await pg.fill('#anq','');await pg.check('#nama-17 input');await pg.check('#nama-1 input');ok((await pg.textContent('#anp')).startsWith('2 / 99'),'asmaul ticks');
+  await pg.reload({waitUntil:'networkidle'});ok(await pg.isChecked('#nama-17 input'),'asmaul ticks persisted');
+  await pg.click('#anmode button[data-m="kad"]');await pg.click('#ankd');ok((await pg.textContent('#ankd')).includes('Yang Maha'),'asmaul flashcard reveal');
+  await pg.click('#anmode button[data-m="kuiz"]');await pg.click('#anqz [data-aq]');
+  for(let i=0;i<10;i++){await pg.click('#anqz button[data-o]');await pg.click('#anqz [data-next]')}
+  ok(/Markah anda: \d+ \/ 10/.test(await pg.textContent('#anqz')),'asmaul quiz completes');
+  ok(pg.errs.length===0,'asmaul no errors '+pg.errs);
+}
+
 // header: hamburger menu (popover), site search, footer subscribe form
 pg=await open('belajar-iqra/');
 await pg.click('.mnb');ok(await pg.isVisible('#menu a[href="/waktu-berbuka-puasa/"]'),'hamburger opens full menu');
