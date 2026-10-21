@@ -203,7 +203,7 @@ def build_zp(ctx):
 <section id="faq" aria-labelledby="h-faq">
 <h2 id="h-faq">Soalan Lazim: Zakat Pendapatan</h2>
 {faq_html(faq)}
-<p class="note">Lihat juga <a href="/zakat-fitrah/">kadar zakat fitrah semua negeri</a> dan <a href="/kalendar-hijrah/">kalendar Hijrah</a>.</p>
+<p class="note">Lihat juga <a href="/zakat-simpanan/">zakat simpanan & ASB</a>, <a href="/zakat-emas/">zakat emas</a>, <a href="/zakat-perniagaan/">zakat perniagaan</a>, <a href="/zakat-fitrah/">kadar zakat fitrah semua negeri</a> dan <a href="/kalendar-hijrah/">kalendar Hijrah</a>.</p>
 </section>
 {ad(1)}
 <section aria-labelledby="h-rel"><h2 id="h-rel">Alat Lain</h2>{tool_cards(path)}</section>

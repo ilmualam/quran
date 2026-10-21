@@ -1,4 +1,4 @@
-/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, solat sunat, jamak & qasar, zakat fitrah, zakat pendapatan, asmaul husna, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
+/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, solat sunat, jamak & qasar, zakat fitrah, zakat pendapatan, simpanan, emas, perniagaan, faraid, asmaul husna, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
 (()=>{"use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={
@@ -351,7 +351,7 @@ function official(zone,y){
 }
 
 /* ---------- hijri calendar (mirror tools/hijri.py): JAKIM's official months, tabular calendar + offset outside them ---------- */
-const HJ=JSON.parse(($("#hd")||$("#tdat")||$("#zfd"))?.textContent||"null");
+const HJ=JSON.parse(($("#hd")||$("#tdat")||$("#zfd")||$("#zsdat"))?.textContent||"null");
 const dnum=d=>Math.round(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
 const dfrom=n=>{const u=new Date(n*864e5);return new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())};
 const HE=-492148,tabH2d=(y,m,d)=>d+Math.ceil(29.5*(m-1))+(y-1)*354+Math.floor((3+11*y)/30)+HE-1;
@@ -960,6 +960,210 @@ if(zpEl){
   });
   const sv=store.get("zakat-pendapatan",null);
   if(sv&&typeof sv==="object"){for(const k in F)if(sv[k]!=null)F[k].value=sv[k];rlEdited=!!sv.rlu;pressP();run(false)}
+}
+
+/* ---------- zakat simpanan, emas, perniagaan (mirror tools/pages11.py) ---------- */
+const zkEl=$("#zsdat")||$("#zedat")||$("#zbdat");
+if(zkEl){
+  const Z=JSON.parse(zkEl.textContent),r2=x=>Math.floor(x*100+.5)/100;
+  const n2=x=>{const[a,b]=x.toFixed(2).split(".");return`${a.replace(/\B(?=(\d{3})+(?!\d))/g,",")}.${b}`};
+  const rm=x=>"RM"+n2(r2(x)),gram=x=>n2(r2(x))+" g",num=x=>x.toFixed(2).replace(/\.?0+$/,"");
+  const nv=(el,mx=1e9)=>{const v=parseFloat(el.value);return Number.isFinite(v)?Math.min(mx,Math.max(0,v)):0};
+  const RATES={h:[.025,"2.5% (tahun Hijrah)"],m:[.02577,"2.577% (tahun Masihi)"]};
+  const verdict=(ok,t,z,x)=>ok?`<p class="jvh ok">✅ Wajib ${t}</p><p class="zft">${rm(z)}</p>${x}`:`<p class="jvh no">❌ Belum wajib ${t}</p>${x}`;
+  const sumA=a=>a.reduce((s,x)=>s+x,0);
+  // persist every field of the form; restore before the first run
+  function wire(form,key,run,act){
+    form.addEventListener("input",e=>{run(e.target);const v={};$$("input,select",form).forEach(x=>v[x.id]=x.type==="checkbox"?x.checked:x.value);store.set(key,v)});
+    act.addEventListener("click",e=>{const b=e.target.closest("button[data-act]");if(!b)return;
+      if(b.dataset.act==="copy")copy($(".jv",form).innerText.replace(/\n{2,}/g,"\n")+"\n"+location.href,"Keputusan disalin ✓");
+      else if(b.dataset.act==="reset"){form.reset();store.set(key,null);run(null)}});
+    const sv=store.get(key,null);
+    if(sv&&typeof sv==="object"){for(const id in sv){const x=document.getElementById(id);if(x&&form.contains(x)){if(x.type==="checkbox")x.checked=!!sv[id];else x.value=sv[id]}}run(null)}
+  }
+  const nisabWire=(st,ns,au,t)=>{if(t===au)ns.value=String(Math.round(Z.g*nv(au)));if(t===st)ns.value=String(Z.n[st.value]??Math.round(Z.g*(nv(au)||Z.au)))};
+  if(zkEl.id==="zsdat"){
+    const f=$("#zsf"),out=$("#zsr"),ho=$("#zsho");
+    function zsResult(i){
+      const[rate,rl]=RATES[i.hy],total=sumA(i.b)+(i.dv?sumA(i.d):0);
+      if(total<=0)return"<p>Masukkan baki terendah simpanan anda.</p>";
+      const ok=total>=i.ns,z=ok?r2(total*rate):0;
+      const extra=ok?`<p>${rl} × ${rm(total)}. Zakat simpanan juga layak rebat cukai pendapatan (Seksyen 6A(3)).</p>`:`<p>Jumlah dikira ${rm(total)} kurang daripada nisab ${rm(i.ns)}.</p>`;
+      const tr=Z.acc.map((a,k)=>i.b[k]||i.d[k]?`<tr><th scope="row">${a}</th><td data-l="Baki terendah">${rm(i.b[k])}</td><td data-l="Dividen/hibah">${i.dv?rm(i.d[k]):"–"}</td><td data-l="Dikira">${rm(i.b[k]+(i.dv?i.d[k]:0))}</td></tr>`:"").join("");
+      return verdict(ok,"zakat simpanan",z,extra)+`<div class="tw"><table class="zpt rt"><thead><tr><th scope="col">Akaun</th><th scope="col">Baki terendah</th><th scope="col">Dividen/hibah</th><th scope="col">Dikira</th></tr></thead><tbody>${tr}<tr><th scope="row"><strong>Jumlah</strong></th><td></td><td></td><td data-l="Dikira"><strong>${rm(total)}</strong></td></tr></tbody></table></div>`;
+    }
+    const inp=()=>({hy:$("#zsh").value==="m"?"m":"h",b:Z.acc.map((_,k)=>nv($("#zsb"+k))),d:Z.acc.map((_,k)=>nv($("#zsd"+k))),dv:$("#zsdv").checked,ns:nv($("#zsn"))});
+    function haul(){
+      const s=parseD($("#zsmula").value);if(!s){setIf(ho,"");return}
+      let g,o=true;
+      if($("#zsh").value==="m")g=new Date(s.getFullYear()+1,s.getMonth(),s.getDate());
+      else{const h=g2h(s),y=h[0]+1;[g,o]=h2g(y,h[1],Math.min(h[2],hMonthLen(y,h[1])[0]))}
+      const n=Math.round((g-mytDay())/864e5);
+      setIf(ho,`<p>Haul cukup pada <strong>${dlong(g)}</strong> (${hstr(g2h(g))})${o?"":", anggaran"}${n>0?`, lagi ${n} hari`:n===0?", iaitu hari ini":", sudah berlalu"}.</p>`);
+    }
+    const run=t=>{nisabWire($("#zss"),$("#zsn"),$("#zsau"),t);setIf(out,zsResult(inp()));haul()};
+    zkEl._calc=zsResult;wire(f,"zakat-simpanan",run,$("#zsact"));
+  }else if(zkEl.id==="zedat"){
+    const f=$("#zef"),out=$("#zer");
+    function zeResult(i){
+      const[rate,rl]=RATES[i.hy];
+      if(sumA(i.g)<=0)return"<p>Masukkan berat emas anda.</p>";
+      const u=Z.u[i.s],kept=i.g[0]*i.k[0]/1000+i.g[2]*i.k[2]/1000,exg=u?Math.max(0,i.g[1]-u):i.g[1],exp=exg*i.k[1]/1000,tot=kept+exp;
+      const ok=tot>0&&(tot>=Z.g||(u>0&&exg>0)),val=r2(tot*i.au),z=ok?r2(val*rate):0;
+      const un=u?`uruf ${Z.nm[i.s]} ${u} g`:`${Z.nm[i.s]} tiada uruf`;
+      const extra=ok?`<p>${gram(tot)} emas tulen × RM${num(i.au)}/g = ${rm(val)} × ${rl}.</p>`:`<p>Emas dikira ${gram(tot)} tulen, kurang daripada nisab ${Z.g} g; emas dipakai tidak melebihi ${un}.</p>`;
+      const rows=[["Emas simpanan (jongkong, syiling, akaun emas)",0,i.g[0]*i.k[0]/1000],[`Perhiasan dipakai (${un})`,1,exp],["Perhiasan tidak dipakai / disimpan",2,i.g[2]*i.k[2]/1000]];
+      const tr=rows.map(([a,k,c])=>i.g[k]?`<tr><th scope="row">${a}</th><td data-l="Berat">${gram(i.g[k])}</td><td data-l="Ketulenan">${i.k[k]}</td><td data-l="Dikira (tulen)">${gram(c)}</td></tr>`:"").join("");
+      return verdict(ok,"zakat emas",z,extra)+`<div class="tw"><table class="zpt rt"><thead><tr><th scope="col">Jenis</th><th scope="col">Berat</th><th scope="col">Ketulenan</th><th scope="col">Dikira (tulen)</th></tr></thead><tbody>${tr}<tr><th scope="row"><strong>Jumlah</strong></th><td></td><td></td><td data-l="Dikira (tulen)"><strong>${gram(tot)}</strong></td></tr></tbody></table></div>`;
+    }
+    const inp=()=>({s:Z.u[$("#zes").value]!=null?$("#zes").value:"selangor",hy:$("#zeh").value==="m"?"m":"h",au:nv($("#zeau")),g:[0,1,2].map(k=>nv($("#zeg"+k))),k:[0,1,2].map(k=>clamp($("#zek"+k).value,1,999,999))});
+    const run=()=>setIf(out,zeResult(inp()));
+    zkEl._calc=zeResult;wire(f,"zakat-emas",run,$("#zeact"));
+  }else{
+    const f=$("#zbf"),out=$("#zbr");
+    function zbResult(i){
+      const[rate,rl]=RATES[i.hy],aset=i.t+i.st+i.p+i.a,base0=Math.max(0,aset-i.l-i.x),base=base0*i.m/100;
+      if(aset<=0)return"<p>Masukkan aset semasa perniagaan anda.</p>";
+      const ok=base>=i.ns&&base>0,z=ok?r2(base*rate):0;
+      const extra=ok?`<p>${rl} × ${rm(base)} (modal kerja bersih bahagian Muslim).</p>`:`<p>Modal kerja bersih ${rm(base)} kurang daripada nisab ${rm(i.ns)}.</p>`;
+      const rows=[["Jumlah aset semasa",rm(aset)],["Tolak liabiliti semasa",rm(i.l)],["Tolak pelarasan",rm(i.x)],["Modal kerja bersih",rm(base0)],[`Bahagian pemilikan Muslim (${num(i.m)}%)`,rm(base)],["<strong>Zakat perniagaan</strong>",`<strong>${rm(z)}</strong>`]];
+      return verdict(ok,"zakat perniagaan",z,extra)+`<div class="tw"><table class="zpt"><tbody>${rows.map(([a,b])=>`<tr><th scope="row">${a}</th><td>${b}</td></tr>`).join("")}</tbody></table></div>`;
+    }
+    const inp=()=>({hy:$("#zbh").value==="m"?"m":"h",t:nv($("#zbt")),st:nv($("#zbst")),p:nv($("#zbp")),a:nv($("#zba")),l:nv($("#zbl")),x:nv($("#zbx")),m:nv($("#zbm"),100),ns:nv($("#zbn"))});
+    const run=t=>{nisabWire($("#zbs"),$("#zbn"),$("#zbau"),t);setIf(out,zbResult(inp()))};
+    zkEl._calc=zbResult;wire(f,"zakat-perniagaan",run,$("#zbact"));
+  }
+}
+
+/* ---------- faraid (mirror tools/faraid.py): Shafi'i, fractions and integer sen ---------- */
+const frdEl=$("#frdat");
+if(frdEl){
+  const D=JSON.parse(frdEl.textContent),KEYS=D.h.map(x=>x[0]),LABEL={},MAXN={};D.h.forEach(([k,l,m])=>{LABEL[k]=l;MAXN[k]=m});
+  const SHORT=D.sh,CHAIN=D.ch,NOTES=D.nt;
+  const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b]}return a};
+  const F=(n,d=1)=>{if(d<0){n=-n;d=-d}const g=gcd(n,d)||1;return[n/g,d/g]};
+  const add=(a,b)=>F(a[0]*b[1]+b[0]*a[1],a[1]*b[1]),sub=(a,b)=>F(a[0]*b[1]-b[0]*a[1],a[1]*b[1]),mul=(a,b)=>F(a[0]*b[0],a[1]*b[1]),div=(a,b)=>F(a[0]*b[1],a[1]*b[0]);
+  const gt=(a,b)=>a[0]*b[1]>b[0]*a[1],Z=[0,1],ONE=[1,1],sum=v=>v.reduce(add,Z),isZ=a=>a[0]===0;
+  const lcm=(a,b)=>a/gcd(a,b)*b;
+  function faraid(h,radd){
+    const n={};for(const k of KEYS){const v=parseInt(h[k],10);n[k]=Math.max(0,Math.min(MAXN[k],Number.isFinite(v)?v:0))}
+    const ex={},block=(k,r)=>{if(n[k]&&!(k in ex))ex[k]=r},live=k=>n[k]>0&&!(k in ex);
+    const desc=n.al+n.ap+n.cl+n.cp>0;
+    if(n.al){block("cl","al");block("cp","al")}else if(n.ap>=2&&!n.cl)block("cp","ap2");
+    if(n.bp)block("dt","bp");
+    if(n.ib){block("ni","ib");block("nb","ib")}
+    if(n.bp)block("nb","bp");
+    for(const k of["sil","sip"])for(const b of["al","ap","cl","cp","bp","dt"])if(live(b))block(k,b);
+    for(const k of["skl","skp","sbl","sbp"])for(const b of["al","cl","bp"])if(live(b))block(k,b);
+    if(live("dt")&&["skl","skp","sbl","sbp"].some(live))return{rows:[],ex:[],bm:Z,base:0,aul:0,note:"",bad:true};
+    const fdesc=live("ap")||live("cp"),ag={skp_ag:live("skp")&&!n.skl&&fdesc};
+    for(const k of["sbl","sbp"]){if(live("skl"))block(k,"skl");else if(ag.skp_ag)block(k,"skp_ag")}
+    if(live("sbp")&&n.skp>=2&&!n.sbl)block("sbp","skp2");
+    ag.sbp_ag=live("sbp")&&!n.sbl&&fdesc;
+    for(let i=8;i<CHAIN.length;i++){const k=CHAIN[i];for(const b of CHAIN.slice(0,i))if(b in ag?ag[b]:live(b)){block(k,b);break}}
+    const fard={},asab={},basis={};
+    const sibs=n.skl+n.skp+n.sbl+n.sbp+n.sil+n.sip;let spouse=Z,note="";
+    if(live("su"))fard.su=spouse=desc?F(1,4):F(1,2);
+    if(live("is"))fard.is=spouse=desc?F(1,8):F(1,4);
+    if(live("ib")){
+      if(desc||sibs>=2)fard.ib=F(1,6);
+      else if(live("bp")&&!isZ(spouse)){fard.ib=div(sub(ONE,spouse),F(3));note="umar";basis.ib="1/3 baki ('umariyyatain)"}
+      else fard.ib=F(1,3);
+    }
+    for(const k of["bp","dt"])if(live(k)){
+      if(live("al")||live("cl"))fard[k]=F(1,6);
+      else if(desc){fard[k]=F(1,6);asab[k]=1;basis[k]="1/6 + asabah"}
+      else asab[k]=1;
+    }
+    const gm=["ni","nb"].filter(live);for(const k of gm)fard[k]=F(1,6*gm.length);
+    if(live("ap")){if(live("al")){asab.al=2;asab.ap=1}else fard.ap=n.ap===1?F(1,2):F(2,3)}else if(live("al"))asab.al=2;
+    if(live("cp")){if(live("cl")){asab.cl=2;asab.cp=1}else if(!n.ap)fard.cp=n.cp===1?F(1,2):F(2,3);else{fard.cp=F(1,6);basis.cp="1/6 (takmilah 2/3)"}}
+    else if(live("cl"))asab.cl=2;
+    const ut=live("sil")||live("sip")?n.sil+n.sip:0;
+    const mus=ut>=2&&live("skl")&&live("su")&&(live("ib")||gm.length>0)&&!desc&&!live("bp")&&!live("dt");
+    if(ut){
+      const share=ut===1?F(1,6):F(1,3),heads=ut+(mus?n.skl+n.skp:0);
+      for(const k of mus?["sil","sip","skl","skp"]:["sil","sip"])if(live(k)){fard[k]=mul(share,F(n[k],heads));if(mus)basis[k]="1/3 dikongsi sama rata (musytarakah)"}
+      if(mus)note="mus";
+    }
+    if(!mus){
+      if(live("skl")){asab.skl=2;if(live("skp"))asab.skp=1}
+      else if(live("skp")){if(ag.skp_ag){asab.skp=1;basis.skp="Asabah ma'al ghair"}else fard.skp=n.skp===1?F(1,2):F(2,3)}
+      if(live("sbl")){asab.sbl=2;if(live("sbp"))asab.sbp=1}
+      else if(live("sbp")){
+        if(ag.sbp_ag){asab.sbp=1;basis.sbp="Asabah ma'al ghair"}
+        else if(n.skp===1&&live("skp")){fard.sbp=F(1,6);basis.sbp="1/6 (takmilah 2/3)"}
+        else fard.sbp=n.sbp===1?F(1,2):F(2,3);
+      }
+    }
+    for(const k of CHAIN.slice(8))if(live(k))asab[k]=1;
+    const fk=Object.keys(fard),base=fk.length?fk.map(k=>fard[k][1]).reduce(lcm,1):1,tot=sum(fk.map(k=>fard[k]));
+    const aul=gt(tot,ONE)?mul(tot,F(base))[0]:0;
+    const share={};for(const k of fk)share[k]=gt(tot,ONE)?div(fard[k],tot):fard[k];
+    const rest=gt(tot,ONE)?Z:sub(ONE,tot);let bm=Z;
+    if(!isZ(rest)){
+      const ak=Object.keys(asab);
+      if(ak.length){const w=ak.reduce((s,k)=>s+asab[k]*n[k],0);for(const k of ak)share[k]=add(share[k]||Z,mul(rest,F(asab[k]*n[k],w)))}
+      else{
+        const pool=fk.filter(k=>k!=="su"&&k!=="is");
+        if(radd&&pool.length){const pt=sum(pool.map(k=>fard[k]));for(const k of pool)share[k]=add(share[k],div(mul(rest,fard[k]),pt));note=note||"radd"}
+        else bm=rest;
+      }
+    }
+    const rows=[],mixed=new Set(Object.values(asab)).size>1;
+    for(const k of KEYS)if(live(k)){
+      let b;
+      if(k in basis)b=basis[k];
+      else if(k in asab)b=k in fard?"Fardh + asabah":"Asabah"+(mixed?" (lelaki 2 : perempuan 1)":"");
+      else if((k==="ni"||k==="nb")&&gm.length===2)b="1/6 dikongsi";
+      else if((k==="sil"||k==="sip")&&ut>1)b="1/3 dikongsi";
+      else b="Fardh"+(n[k]>1?" dikongsi":"");
+      rows.push([k,n[k],share[k]||Z,b]);
+    }
+    return{rows,ex:KEYS.filter(k=>k in ex).map(k=>[k,n[k],ex[k]]),bm,base:fk.length?base:0,aul,note,bad:false};
+  }
+  const fmtSen=s=>`RM${Math.floor(s/100).toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")}.${String(s%100).padStart(2,"0")}`;
+  const part=(e,f,c=1)=>{const num=e*f[0],den=f[1]*c;return Math.floor((2*num+den)/(2*den))};
+  const pct=f=>{const h=Math.floor((20000*f[0]+f[1])/(2*f[1]));return`${Math.floor(h/100)}.${String(h%100).padStart(2,"0")}%`};
+  const frs=f=>f[1]!==1?`${f[0]}/${f[1]}`:String(f[0]);
+  function faraidHtml(h,e,radd){
+    const r=faraid(h,radd);
+    if(r.bad)return'<p class="jvh mb">⚠️ Kes datuk bersama saudara seibu sebapa/sebapa</p><p>Pembahagian datuk bersama adik-beradik (muqasamah) mempunyai kaedah khas dan khilaf ulama. Kalkulator ini tidak mengiranya; sila rujuk Mahkamah Syariah atau Pejabat Pusaka Kecil.</p>';
+    if(!r.rows.length&&!r.ex.length)return`<p class="jvh no">Tiada waris dipilih</p><p>Jika tiada waris langsung, keseluruhan harta (${fmtSen(e)}) diserahkan kepada Baitulmal.</p>`;
+    let out=`<p class="frs">Harta untuk dibahagi: <strong>${fmtSen(e)}</strong>`;
+    if(r.base)out+=` · Asal masalah <strong>${r.base}</strong>`+(r.aul?`, <strong>'aul kepada ${r.aul}</strong>`:"");
+    out+="</p>";
+    if(r.note)out+=`<p class="note">${NOTES[r.note]}</p>`;
+    let tr="";
+    for(const[k,c,sh,b]of r.rows)tr+=`<tr><th scope="row">${LABEL[k]}${c>1?` × ${c}`:""}</th><td data-l="Bahagian">${frs(sh)}<small>${b}</small></td><td data-l="%">${pct(sh)}</td><td data-l="Seorang">${fmtSen(part(e,sh,c))}</td><td data-l="Jumlah">${fmtSen(part(e,sh))}</td></tr>`;
+    if(!isZ(r.bm))tr+=`<tr><th scope="row">Baitulmal</th><td data-l="Bahagian">${frs(r.bm)}<small>Baki tanpa asabah</small></td><td data-l="%">${pct(r.bm)}</td><td data-l="Seorang">–</td><td data-l="Jumlah">${fmtSen(part(e,r.bm))}</td></tr>`;
+    out+=`<div class="tw"><table class="frt rt"><thead><tr><th scope="col">Waris</th><th scope="col">Bahagian</th><th scope="col">%</th><th scope="col">Seorang</th><th scope="col">Jumlah</th></tr></thead><tbody>${tr}</tbody></table></div>`;
+    if(r.ex.length)out+='<p class="frh">Terhalang (mahjub)</p><ul class="frx">'+r.ex.map(([k,c,w])=>`<li><strong>${LABEL[k]}${c>1?` × ${c}`:""}</strong>: terhalang oleh ${SHORT[w]}</li>`).join("")+"</ul>";
+    return out;
+  }
+  const estate=(g,d,f,w)=>{const net=Math.max(0,g-d-f),ww=Math.min(w,Math.floor(net/3));return[net-ww,ww]};
+  const fm=$("#frf"),out=$("#frr"),est=$("#fre");
+  const toSen=el=>{const v=parseFloat(el.value);return Number.isFinite(v)&&v>0?Math.round(Math.min(v,1e8)*100):0};
+  function read(){
+    const sx=$("#frsx").value,h={};
+    for(const k of KEYS){const el=$("#fr-"+k);if(!el||el.closest("[hidden]"))continue;h[k]=el.type==="checkbox"?(el.checked?1:0):el.value}
+    if(sx==="l")h.su=0;else h.is=0;
+    return h;
+  }
+  function run(save){
+    const male=$("#frsx").value==="l";$("#frw-su").hidden=male;$("#frw-is").hidden=!male;
+    const[e,w]=estate(toSen($("#frg")),toSen($("#frdb")),toSen($("#frfu")),toSen($("#frws")));
+    setIf(est,`Harta bersih selepas hutang, kos jenazah${w?` dan wasiat ${fmtSen(w)}`:" dan wasiat"}: <strong>${fmtSen(e)}</strong>`);
+    setIf(out,faraidHtml(read(),e,$("#frrd").checked));
+    if(save){const v={};$$("input,select",fm).forEach(x=>v[x.id]=x.type==="checkbox"?x.checked:x.value);store.set("faraid",v)}
+  }
+  frdEl._calc=(h,e,radd)=>faraidHtml(h,e,radd);
+  fm.addEventListener("input",()=>run(true));
+  $("#fract").addEventListener("click",ev=>{const b=ev.target.closest("button[data-act]");if(!b)return;
+    if(b.dataset.act==="copy")copy(out.innerText.replace(/\n{2,}/g,"\n")+"\n"+location.href,"Keputusan disalin ✓");
+    else if(b.dataset.act==="reset"){fm.reset();run(true)}});
+  const sv=store.get("faraid",null);
+  if(sv&&typeof sv==="object"){for(const id in sv){const x=document.getElementById(id);if(x&&fm.contains(x)){if(x.type==="checkbox")x.checked=!!sv[id];else x.value=sv[id]}}run(false)}
 }
 
 /* ---------- asmaul husna: name of the day, search, memorised ticks, flashcards, quiz ---------- */
