@@ -122,7 +122,7 @@ def build_zakat(ctx):
 <section id="faq" aria-labelledby="h-faq">
 <h2 id="h-faq">Soalan Lazim: Zakat Fitrah</h2>
 {faq_html(faq)}
-<p class="note">Lihat juga <a href="/waktu-berbuka-puasa/">waktu berbuka puasa & imsak</a>, <a href="/kalendar-hijrah/">kalendar Hijrah</a> dan <a href="/solat-sunat/solat-tarawih/">solat tarawih</a>.</p>
+<p class="note">Lihat juga <a href="/zakat-pendapatan/">kalkulator zakat pendapatan</a>, <a href="/waktu-berbuka-puasa/">waktu berbuka puasa & imsak</a>, <a href="/kalendar-hijrah/">kalendar Hijrah</a> dan <a href="/solat-sunat/solat-tarawih/">solat tarawih</a>.</p>
 </section>
 {ad(1)}
 <section aria-labelledby="h-rel"><h2 id="h-rel">Alat Lain</h2>{tool_cards(path)}</section>

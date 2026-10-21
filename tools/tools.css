@@ -332,8 +332,8 @@ body:has(.tlb) .hero{display:none!important}
 .swl{font-size:.8rem;font-weight:800;color:var(--sub)}
 .swr strong{font-size:1.25rem;font-variant-numeric:tabular-nums}
 .swr em{font-style:normal;font-size:.78rem;color:var(--sub)}
-.hjf{margin:0 0 14px}.hjf label{display:block;font-weight:800;margin:0 0 4px}.hjf input{width:100%}
-.hjv{background:rgba(201,154,30,.22);color:inherit;border-radius:6px;padding:0 3px}
+.shf{margin:0 0 14px}.shf label{display:block;font-weight:800;margin:0 0 4px}.shf input{width:100%}
+.shm{background:rgba(201,154,30,.22);color:inherit;border-radius:6px;padding:0 3px}
 .trw{margin:0 0 18px;padding:12px 14px;border:1px solid var(--bd);border-radius:14px;background:var(--muted)}
 .trw h3{margin:0 0 8px;font-size:1.05rem}
 .trs{font-size:1.15rem;font-weight:800;margin:4px 0 10px}
@@ -367,4 +367,16 @@ body:has(.tlb) .hero{display:none!important}
 .ankd .anr{font-size:1.3rem}.ankd .anm{font-size:1.05rem}
 /* zakat fitrah */
 .zft{font-size:2rem;font-weight:900;margin:0 0 4px;font-variant-numeric:tabular-nums}
+/* zakat pendapatan */
+.zft small{font-size:.9rem;font-weight:700;color:var(--sub)}
+#zpf>.jv,.zpx{grid-column:1/-1}
+.zpx{border:1px solid var(--bd);border-radius:14px;background:var(--card)}
+.zpx summary{cursor:pointer;font-weight:800;padding:12px 14px;min-height:46px}
+.zpd{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));padding:0 14px 14px}
+.zpd .chips2{grid-column:1/-1;margin:0;padding:0;flex-wrap:wrap;-webkit-mask-image:none;mask-image:none}
+.zpt{min-width:0;width:100%;font-size:.86rem;font-variant-numeric:tabular-nums}
+.zpt th,.zpt td{padding:8px 6px}
+.zpt td{text-align:right;white-space:nowrap}
+.zpt th[scope=row]{font-weight:600;text-align:left}
+.zpt thead th+th{text-align:right}
 @media print{.anc{break-inside:avoid}.and,#anmode,#anq,.anh,#anp{display:none!important}.anl{grid-template-columns:repeat(4,1fr)}}

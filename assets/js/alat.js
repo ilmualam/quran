@@ -1,4 +1,4 @@
-/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, solat sunat, jamak & qasar, zakat fitrah, asmaul husna, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
+/*! IlmuAlam Quran Tools v1.1 | © ilmualam.com | khatam, hafazan, tasbih, cari ayat, solat, solat sunat, jamak & qasar, zakat fitrah, zakat pendapatan, asmaul husna, masjid, kalendar Hijrah, tahlil, Ramadan, Iqra', mengaji. Schedule maths mirror tools/plans.py */
 (()=>{"use strict";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const store={
@@ -824,7 +824,7 @@ if(spX&&spX.D.jz){
   jj.addEventListener("change",()=>{store.set("jenazah-j",jj.value);setJ(jj.value)});
 }
 const hjIn=$("#hjin");
-if(hjIn){const put=()=>{const v=hjIn.value.trim();$$(".hjv").forEach(m=>m.textContent=v?`(${v})`:"(urusan ini)")};hjIn.addEventListener("input",put)}
+if(hjIn){const put=()=>{const v=hjIn.value.trim();$$(".shm").forEach(m=>m.textContent=v?`(${v})`:"(urusan ini)")};hjIn.addEventListener("input",put)}
 const trw=$("#trw");
 if(trw){
   const key="tarawih:"+iso(today());let st=Object.assign({n:20,c:0},store.get(key,{}));
@@ -898,6 +898,68 @@ if(zfdEl&&HJ){
   const sv=store.get("zakat-fitrah",null);
   if(sv&&Z.r[sv.s]){st.value=sv.s;setIf(ti,tierOpts(sv.s));ti.value=String(Math.min(sv.t,Z.r[sv.s].length-1));na.value=sv.a;nk.value=sv.k;run(false)}
   const u=new Date(Date.now()+288e5);setIf($("#zfl"),zfTimeline(new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())));
+}
+
+/* ---------- zakat pendapatan: gross vs net, state nisab, tax rebate (mirror tools/pages10.py) ---------- */
+const zpEl=$("#zpdat");
+if(zpEl){
+  const Z=JSON.parse(zpEl.textContent),f=$("#zpf"),out=$("#zpr"),F={};
+  ["s","m","g","el","b","o","d","ni","ai","nk","ak","ib","kw","lt","ns","au","rl"].forEach(k=>F[k]=$("#zp"+k));
+  const r2=x=>Math.floor(x*100+.5)/100;
+  const rm=x=>{const[a,b]=x.toFixed(2).split(".");return`RM${a.replace(/\B(?=(\d{3})+(?!\d))/g,",")}.${b}`};
+  const nv=(el,mx=1e9)=>{const v=parseFloat(el.value);return Number.isFinite(v)?Math.min(mx,Math.max(0,v)):0};
+  function tax(ci){let t=0,lo=0;for(const[hi,r]of Z.bd){if(ci>lo)t+=(Math.min(ci,hi)-lo)*r;lo=hi}if(ci<=35000)t-=400;return Math.max(0,t)}
+  function zpCalc(i){
+    const wages=12*(i.g+i.el)+i.b,total=wages+i.o,kwsp=wages*i.kw/100;
+    const ded=i.d+i.ni*i.ai+i.nk*i.ak+i.ib+kwsp+i.lt,relief=i.rl!=null?i.rl:9000+Math.min(kwsp,4000)+2000*i.nk;
+    const tx=r2(tax(Math.max(0,total-relief))),o={total:r2(total),kwsp:r2(kwsp),relief:r2(relief),tax:tx};
+    for(const[m,base]of[["kasar",total],["bersih",Math.max(0,total-ded)]]){
+      const ok=base>=i.ns&&base>0,z=ok?r2(base*.025):0,rb=Math.min(z,tx);
+      o[m]={ded:r2(m==="kasar"?0:ded),base:r2(base),ok,z,mo:r2(z/12),rb,cost:r2(z-rb)};
+    }
+    return o;
+  }
+  function zpResult(i){
+    const c=zpCalc(i),m=c[i.m],nm={kasar:"kaedah kasar",bersih:"kaedah bersih (dengan tolakan)"};
+    let head;
+    if(m.ok)head=`<p class="jvh ok">✅ Wajib zakat pendapatan (${nm[i.m]})</p><p class="zft">${rm(m.z)} <small>setahun</small></p>`+
+      `<p>Potongan gaji: <strong>${rm(m.mo)} sebulan</strong> × 12. `+(m.rb>0?`Zakat ini ditolak terus daripada cukai pendapatan (rebat ${rm(m.rb)}), jadi <strong>kos sebenar anda ${rm(m.cost)}</strong>.`:"Tiada cukai untuk ditolak, jadi tiada rebat cukai.")+"</p>";
+    else head=`<p class="jvh no">❌ Belum cukup nisab (${nm[i.m]})</p><p>Pendapatan dikira ${rm(m.base)} kurang daripada nisab ${rm(i.ns)}. Zakat pendapatan belum wajib; bersedekah tetap digalakkan.</p>`;
+    const K=c.kasar,B=c.bersih,yn=v=>v?"Ya":"Tidak",st=x=>`<strong>${x}</strong>`;
+    const rows=[["Jumlah pendapatan setahun",rm(c.total),rm(c.total)],["Tolakan","–",rm(B.ded)],["Pendapatan dikira",rm(K.base),rm(B.base)],["Cukup nisab?",yn(K.ok),yn(B.ok)],
+      [st("Zakat setahun (2.5%)"),st(rm(K.z)),st(rm(B.z))],["Sebulan",rm(K.mo),rm(B.mo)],["Rebat cukai daripada zakat",rm(K.rb),rm(B.rb)],[st("Kos sebenar zakat"),st(rm(K.cost)),st(rm(B.cost))]];
+    const ci=c.total-c.relief;
+    return head+`<div class="tw"><table class="zpt"><thead><tr><th scope="col">Perkara</th><th scope="col">Kasar</th><th scope="col">Bersih</th></tr></thead><tbody>${rows.map(([a,b,d])=>`<tr><th scope="row">${a}</th><td>${b}</td><td>${d}</td></tr>`).join("")}</tbody></table></div>`+
+      `<p class="note">Anggaran cukai sebelum zakat: <strong>${rm(c.tax)}</strong> (pendapatan bercukai ${rm(Math.max(0,ci))} selepas pelepasan ${rm(c.relief)}, kadar YA2025${ci<=35000?", termasuk rebat diri RM400":""}). KWSP pekerja: ${rm(c.kwsp)}.</p>`;
+  }
+  let rlEdited=false;
+  const inputs=()=>({s:F.s.value,m:F.m.value==="bersih"?"bersih":"kasar",g:nv(F.g),el:nv(F.el),b:nv(F.b),o:nv(F.o),d:nv(F.d),ni:clamp(F.ni.value,0,4,0),ai:nv(F.ai),nk:clamp(F.nk.value,0,30,0),ak:nv(F.ak),
+    ib:nv(F.ib),kw:nv(F.kw,30),lt:nv(F.lt),ns:nv(F.ns),rl:rlEdited?nv(F.rl):null});
+  const pressP=()=>$$("#zpp button").forEach(b=>{const p=Z.p[b.dataset.p];b.setAttribute("aria-pressed",String(nv(F.d)===p[0]&&nv(F.ai)===p[1]&&nv(F.ak)===p[2]))});
+  const applyP=k=>{const p=Z.p[k];[F.d.value,F.ai.value,F.ak.value]=p.map(String);pressP()};
+  const nisabOf=s=>Z.n[s]??Math.round(Z.g*(nv(F.au)||Z.au));
+  function run(save){
+    const i=inputs();
+    if(!rlEdited){const c=zpCalc(i);F.rl.value=String(c.relief)}
+    setIf(out,zpResult(i));
+    if(save){const v={};for(const k in F)v[k]=F[k].value;v.rlu=rlEdited;store.set("zakat-pendapatan",v)}
+  }
+  f.addEventListener("input",e=>{
+    const t=e.target;
+    if(t===F.rl)rlEdited=true;
+    if(t===F.au)F.ns.value=String(Math.round(Z.g*nv(F.au)));
+    if(t===F.s){F.ns.value=String(nisabOf(F.s.value));applyP(F.s.value==="selangor"?"lzs":"asas")}
+    if(t===F.d||t===F.ai||t===F.ak)pressP();
+    run(true);
+  });
+  $("#zpp").addEventListener("click",e=>{const b=e.target.closest("button[data-p]");if(b){applyP(b.dataset.p);run(true)}});
+  $("#kira .act").addEventListener("click",e=>{
+    const b=e.target.closest("button[data-act]");if(!b)return;
+    if(b.dataset.act==="copy")copy(out.innerText.replace(/\n{2,}/g,"\n")+"\n"+location.href,"Keputusan disalin ✓");
+    else if(b.dataset.act==="reset"){const D=Z.def;for(const k in D)if(F[k]&&D[k]!=null)F[k].value=String(D[k]);F.au.value=String(Z.au);rlEdited=false;pressP();run(true)}
+  });
+  const sv=store.get("zakat-pendapatan",null);
+  if(sv&&typeof sv==="object"){for(const k in F)if(sv[k]!=null)F[k].value=sv[k];rlEdited=!!sv.rlu;pressP();run(false)}
 }
 
 /* ---------- asmaul husna: name of the day, search, memorised ticks, flashcards, quiz ---------- */
