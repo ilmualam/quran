@@ -27,6 +27,7 @@ def ayat(s, a):
 TOOLS = [
     ("waktu-solat/", "🕌", "Waktu Solat Hari Ini", "Waktu solat 64 bandar di Malaysia, kiraan ke solat seterusnya, jadual sebulan dan arah kiblat."),
     ("asmaul-husna/", "✨", "Asmaul Husna", "99 nama Allah dengan maksud, ayat Al-Quran, kad hafalan, kuiz dan penjejak hafalan."),
+    ("kisah-nabi/", "📜", "Kisah 25 Nabi", "Kisah 25 nabi dan rasul daripada Al-Quran, mukjizat, Ulul Azmi dan setiap ayat yang menyebut nama mereka."),
     ("zakat-pendapatan/", "💼", "Zakat Pendapatan", "Kalkulator zakat gaji: kaedah kasar vs bersih, nisab negeri, potongan bulanan dan kos sebenar selepas rebat cukai."),
     ("zakat-simpanan/", "🏦", "Zakat Simpanan & ASB", "Zakat wang simpanan, ASB, Tabung Haji dan simpanan tetap: baki terendah, nisab negeri dan tarikh haul."),
     ("zakat-emas/", "🥇", "Zakat Emas", "Zakat emas simpanan dan perhiasan ikut ketulenan dan had uruf 15 negeri."),
