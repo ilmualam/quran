@@ -24,7 +24,7 @@ import json, os, sys, urllib.request, urllib.error
 API = os.environ.get("CF_API_BASE", "https://api.cloudflare.com/client/v4")
 HOST = os.environ.get("CF_HOST", "quran.ilmualam.com")
 ZONE = os.environ.get("CF_ZONE", "ilmualam.com")
-TOKEN = os.environ.get("CF_API_TOKEN", "")
+TOKEN = os.environ.get("CF_API_TOKEN", "").strip()  # a pasted secret often carries a trailing newline
 DRY = os.environ.get("DRY_RUN", "") in ("1", "true", "yes")
 HOSTX = f'(http.host eq "{HOST}")'
 
@@ -47,12 +47,19 @@ KEEP = ("id", "ref", "description", "expression", "action", "action_parameters",
 
 def call(method, path, body=None):
     req = urllib.request.Request(API + path, method=method, data=json.dumps(body).encode() if body is not None else None,
-                                 headers={"Authorization": f"Bearer {TOKEN}", "Content-Type": "application/json"})
+                                 headers={"Authorization": f"Bearer {TOKEN}", "Content-Type": "application/json",
+                                          "User-Agent": "ilmualam-quran-cloudflare/1.0"})  # Cloudflare may block the default Python-urllib agent
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
-            return r.status, json.load(r)
+            status, raw = r.status, r.read()
     except urllib.error.HTTPError as e:
-        return e.code, json.loads(e.read() or b"{}")
+        status, raw = e.code, e.read()
+    except (urllib.error.URLError, ValueError, OSError) as e:
+        die(f"{method} {path}: request failed ({e}). If it mentions the header, re-create the CF_API_TOKEN secret with only the token.")
+    try:
+        return status, json.loads(raw or b"{}")
+    except ValueError:
+        die(f"{method} {path}: HTTP {status}, not a Cloudflare API reply: {raw[:300].decode('utf8', 'replace')}")
 
 
 def die(msg, res=None):
