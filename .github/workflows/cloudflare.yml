@@ -1,0 +1,33 @@
+# Applies the Cloudflare settings for quran.ilmualam.com (see tools/cloudflare.py for what and why).
+# One-time setup: Settings > Secrets and variables > Actions > New repository secret CF_API_TOKEN, then Actions > Cloudflare settings > Run workflow.
+name: Cloudflare settings (quran.ilmualam.com)
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only show what would change"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply rules
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: python3 tools/cloudflare.py
+      - name: Check the live site
+        if: ${{ !inputs.dry_run }}
+        run: |
+          sleep 20
+          for u in / /assets/js/alat.js /sw.js; do
+            for i in 1 2; do
+              echo "== https://quran.ilmualam.com$u (request $i)"
+              curl -sSI "https://quran.ilmualam.com$u" | grep -iE '^(HTTP|cache-control|cf-cache-status)'
+            done
+          done

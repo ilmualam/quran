@@ -6,7 +6,8 @@ const DATA = "ilmq-data-v1"; // surah JSON rarely changes; kept across deploys a
 const PRE = {{PRE}};
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(SHELL).then(c => c.addAll(PRE)).then(() => self.skipWaiting()));
+  // cache: "reload" skips the browser HTTP cache, so a new version never precaches a file left over from the old one
+  e.waitUntil(caches.open(SHELL).then(c => c.addAll(PRE.map(u => new Request(u, { cache: "reload" })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", e => {
@@ -17,8 +18,8 @@ self.addEventListener("activate", e => {
   );
 });
 
-function fresh(req, cacheName) {
-  return fetch(req).then(res => {
+function fresh(req, cacheName, init) {
+  return fetch(req, init).then(res => {
     if (res.ok && res.type === "basic") {
       const copy = res.clone();
       caches.open(cacheName).then(c => c.put(req, copy));
@@ -47,7 +48,7 @@ self.addEventListener("fetch", e => {
   const bucket = /\/(data-surah|assets\/data)\//.test(url.pathname) ? DATA : SHELL;
   e.respondWith(
     caches.match(req).then(hit => {
-      const net = fresh(req, bucket);
+      const net = fresh(req, bucket, { cache: "no-cache" }); // revalidate with the server (a cheap 304), not the HTTP cache
       if (hit) {
         e.waitUntil(net.catch(() => {}));
         return hit;
