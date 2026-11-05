@@ -100,6 +100,14 @@ def sha(s):
 
 THEME_JS = 'try{var t=localStorage.getItem("ilmq:theme");if(t){t=JSON.parse(t);if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}}catch(e){}'
 
+# Google Tag Manager. Shared tahlil links carry the deceased's name in the hash (#nama=...), and GA4 can record the
+# full URL, so those views load no tags. The snippet's hash goes in the CSP, so any edit here is picked up by the build.
+GTM_ID = "GTM-WSR3DZ2D"
+GTM_JS = ("if(!/[#&]nama=/.test(location.hash))(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});"
+          "var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;"
+          "j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})"
+          f"(window,document,'script','dataLayer','{GTM_ID}');")
+
 from cssbuild import build as build_css, mini
 css = build_css(f"{SCR}/home.css", f"{REPO}/assets/css/quran.min.css")
 # tool/info pages: landing styles + tool styles, without the reader widget CSS
@@ -160,12 +168,18 @@ def ad(i):
 ADS_ON = bool(ADS_CLIENT and any(ADS_SLOTS))
 if ADS_ON:
     # AdSense loads scripts, frames and pixels from many rotating Google hosts, so the strict policy is relaxed
-    csp = (f"default-src 'self'; script-src 'self' '{sha(THEME_JS)}' 'unsafe-inline' 'unsafe-eval' https:; style-src 'unsafe-inline' https:; "
+    csp = (f"default-src 'self'; script-src 'self' '{sha(THEME_JS)}' '{sha(GTM_JS)}' 'unsafe-inline' 'unsafe-eval' https:; style-src 'unsafe-inline' https:; "
            "img-src 'self' data: https:; font-src 'self' https:; frame-src https:; connect-src 'self' https:; worker-src 'self'; "
            "media-src https://everyayah.com; object-src 'none'; base-uri 'self'; form-action https://api.follow.it")
 else:
-    csp = (f"default-src 'none'; script-src 'self' '{sha(THEME_JS)}'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; worker-src 'self'; "
-           "media-src https://everyayah.com; connect-src 'self' https://www.e-solat.gov.my https://overpass-api.de https://overpass.kumi.systems; manifest-src 'self'; base-uri 'self'; form-action https://api.follow.it")
+    # Google hosts from developers.google.com/tag-platform/security/guides/csp: GTM, its preview mode, and GA4 with Ads endpoints (.com.my = Malaysian visitors).
+    # Inline code stays blocked, so GTM Custom HTML tags and Custom JavaScript variables will not run.
+    G_HITS = "https://www.googletagmanager.com https://*.google-analytics.com https://*.google.com https://*.google.com.my https://*.g.doubleclick.net"
+    csp = (f"default-src 'none'; script-src 'self' '{sha(THEME_JS)}' '{sha(GTM_JS)}' https://www.googletagmanager.com https://tagmanager.google.com; "
+           "style-src 'unsafe-inline' https://www.googletagmanager.com https://tagmanager.google.com https://fonts.googleapis.com; "
+           f"img-src 'self' data: {G_HITS} https://ssl.gstatic.com https://www.gstatic.com; font-src 'self' data: https://fonts.gstatic.com; worker-src 'self'; "
+           f"media-src https://everyayah.com; connect-src 'self' https://www.e-solat.gov.my https://overpass-api.de https://overpass.kumi.systems {G_HITS} https://pagead2.googlesyndication.com; "
+           "frame-src https://www.googletagmanager.com; manifest-src 'self'; base-uri 'self'; form-action https://api.follow.it")
 ADMETA = f'<meta name="google-adsense-account" content="{e(ADS_CLIENT)}">\n' if ADS_CLIENT else ""
 HEADER = open(f"{SCR}/header.html", encoding="utf8").read()
 FOOTER = open(f"{SCR}/footer.html", encoding="utf8").read()
@@ -182,7 +196,7 @@ rep = {
  "{{SHARE}}": share_bar(SITE, "Baca Al-Quran online percuma – 114 surah, audio & terjemahan Melayu:"),
  "{{AD1}}": ad(0), "{{AD2}}": ad(1), "{{AD3}}": ad(2),
  "{{CSP}}": csp, "{{TITLE}}": e(TITLE), "{{DESC}}": e(DESC), "{{SITE}}": SITE, "{{MAIN}}": MAIN, "{{OGIMG}}": OGIMG,
- "{{CSS}}": css, "{{THEMEJS}}": THEME_JS, "{{JSONLD}}": JSONLD, "{{GRID}}": GRID, "{{POP}}": POP,
+ "{{CSS}}": css, "{{THEMEJS}}": THEME_JS, "{{GTMJS}}": GTM_JS, "{{JSONLD}}": JSONLD, "{{GRID}}": GRID, "{{POP}}": POP,
  "{{TOOLS}}": tool_cards(""), "{{POPIDS}}": ",".join(map(str, POPULAR)), "{{FAQ}}": faq_html, "{{HUKUM}}": e(HUKUM_TITLE), "{{TODAYMS}}": TODAYMS, "{{TODAY}}": TODAY,
 }
 PAGE = render(PAGE, rep)
@@ -231,7 +245,8 @@ def page_graph(pg, url, ogimg, mod):
     return json.dumps({"@context": "https://schema.org", "@graph": nodes}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
 
-PRIV_BODY = render(open(f"{SCR}/privacy.html", encoding="utf8").read(), {"{{MAIN}}": MAIN, "{{TODAYMS}}": TODAYMS, "{{TODAY}}": TODAY})
+PRIV_DATE, PRIV_DATEMS = "2026-11-06", "6 November 2026"  # effective date: change when the policy text changes
+PRIV_BODY = render(open(f"{SCR}/privacy.html", encoding="utf8").read(), {"{{MAIN}}": MAIN, "{{TODAYMS}}": PRIV_DATEMS, "{{TODAY}}": PRIV_DATE})
 NOTFOUND = ('<div class="hero sm"><div class="wrap"><h1>Halaman Tidak Dijumpai (404)</h1><p class="lead">Pautan ini mungkin telah berubah. '
             'Cuba salah satu pautan di bawah.</p></div></div><div class="wrap mn pg1"><div class="ct"><section aria-labelledby="h-404">'
             '<h2 id="h-404">Mungkin anda mencari</h2>' + tool_cards(None, "tcards big") +
@@ -239,7 +254,7 @@ NOTFOUND = ('<div class="hero sm"><div class="wrap"><h1>Halaman Tidak Dijumpai (
 # the monthly prayer-time sync rebuilds with SOLAT_DATE=<today in MYT> so the state pages' month facts stay current
 SOLAT_DAY = os.environ.get("SOLAT_DATE") or TODAY
 PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages4({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_masjid_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages14({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages6({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages7({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_jamak({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages9({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + [build_zp({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad})] + build_pages11({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [build_faraid({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad})] + build_pages13({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
-    dict(path="dasar-privasi.html", kind="info", data=False, arabic=False, title="Dasar Privasi – Al-Quran Online | Ilmu Alam",
+    dict(path="dasar-privasi.html", kind="info", data=False, arabic=False, modified=PRIV_DATE, title="Dasar Privasi – Al-Quran Online | Ilmu Alam",
          ogtitle="Dasar Privasi – Al-Quran Online",
          desc="Dasar privasi Al-Quran Online (quran.ilmualam.com): data yang disimpan dalam pelayar anda, kuki, iklan Google AdSense dan hak anda di bawah PDPA 2010.",
          crumbs=[("Dasar Privasi", None)], body=PRIV_BODY, faq=[], about=["Dasar privasi"],
@@ -262,7 +277,7 @@ for pg in PAGES:
         "{{PRELOAD}}": FONT_PRELOAD if pg.get("arabic") else "", "{{ICONS}}": ICON_LINKS, "{{ADMETA}}": ADMETA, "{{CSP}}": csp,
         "{{ROBOTS}}": "noindex,follow" if pg.get("noindex") else "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
         "{{OGTYPE}}": "website", "{{TITLE}}": e(pg["title"]), "{{OGTITLE}}": e(pg["ogtitle"]), "{{DESC}}": e(pg["desc"]), "{{URL}}": url, "{{OGIMG}}": ogimg,
-        "{{CSS}}": css_page, "{{THEMEJS}}": THEME_JS, "{{JSONLD}}": page_graph(pg, url, ogimg, mod), "{{TODAY}}": mod, "{{MAIN}}": MAIN})
+        "{{CSS}}": css_page, "{{THEMEJS}}": THEME_JS, "{{GTMJS}}": GTM_JS, "{{JSONLD}}": page_graph(pg, url, ogimg, mod), "{{TODAY}}": mod, "{{MAIN}}": MAIN})
     assert len(pg["title"]) <= 70 and len(pg["desc"]) <= 160, (pg["path"], len(pg["title"]), len(pg["desc"]))
     out = f"{REPO}/{pg['path']}" + ("index.html" if pg["path"].endswith("/") else "")
     os.makedirs(os.path.dirname(out), exist_ok=True)
