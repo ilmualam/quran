@@ -1,0 +1,62 @@
+# Tells Bing (and the other IndexNow engines: Yandex, Seznam, Naver; Bing also feeds ChatGPT search and Copilot) which pages
+# changed, right after a push to main deploys. Only the HTML files that the push changed are sent, so the daily "hari ini"
+# refresh (pushed by github-actions, which does not trigger this workflow) is not re-submitted every day. Google does not
+# use IndexNow; it reads sitemap.xml. The key file 19666f43a81a722aff67058f62e622a5.txt at the site root proves ownership (public by design).
+name: IndexNow ping
+on:
+  push:
+    branches: [main]
+    paths: ["**.html", "sitemap.xml"]
+  workflow_dispatch:
+    inputs:
+      all:
+        description: "Submit every URL in sitemap.xml (use once after big launches)"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      HOST: quran.ilmualam.com
+      KEY: 19666f43a81a722aff67058f62e622a5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Collect changed URLs
+        env:
+          ALL: ${{ github.event.inputs.all }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ "$ALL" = "true" ]; then
+            grep -o '<loc>[^<]*' sitemap.xml | sed 's/<loc>//' > urls.txt
+          else
+            base="$BEFORE"; git cat-file -e "$base^{commit}" 2>/dev/null || base="HEAD~1"
+            git diff --name-only --diff-filter=AM "$base" HEAD -- '*.html' | grep -v '^tools/' | grep -v '^404.html$' \
+              | sed -e 's#index\.html$##' -e "s#^#https://$HOST/#" > urls.txt || true
+            # keep only URLs that are in the sitemap (indexable pages)
+            grep -o '<loc>[^<]*' sitemap.xml | sed 's/<loc>//' > sm.txt
+            grep -Fxf sm.txt urls.txt > u.txt || true; mv u.txt urls.txt
+          fi
+          head -n 10000 urls.txt > u.txt; mv u.txt urls.txt
+          echo "$(wc -l < urls.txt) URL(s)"
+      - name: Wait for GitHub Pages to publish
+        run: sleep 120
+      - name: Submit to IndexNow
+        run: |
+          [ -s urls.txt ] || { echo "Nothing to submit"; exit 0; }
+          python3 - <<'PY'
+          import json, os, urllib.request
+          urls = [u.strip() for u in open("urls.txt") if u.strip()]
+          body = json.dumps({"host": os.environ["HOST"], "key": os.environ["KEY"],
+                             "keyLocation": f"https://{os.environ['HOST']}/{os.environ['KEY']}.txt", "urlList": urls}).encode()
+          req = urllib.request.Request("https://api.indexnow.org/indexnow", body, {"Content-Type": "application/json; charset=utf-8", "User-Agent": "ilmualam-indexnow"})
+          try:
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  print("IndexNow", r.status, len(urls), "URL(s)")
+          except urllib.error.HTTPError as e:
+              print("IndexNow HTTP", e.code, e.read()[:300]); raise SystemExit(0 if e.code in (202, 429) else 1)
+          PY
