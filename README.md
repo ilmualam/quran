@@ -149,6 +149,14 @@ Install it once in Blogger (**Layout → Add a Gadget → HTML/JavaScript**, or 
 
 GitHub Pages serves the `main` branch root as-is: `.nojekyll` turns Jekyll off because the Python build already produces the final HTML, sitemap, canonical tags and JSON-LD (Jekyll would only add build time and ignore files it doesn't understand); `CNAME` points it at `quran.ilmualam.com`. Pushing to `main` deploys within about a minute. Each build changes the service worker's version hash, so returning visitors get the new version on their next visit.
 
+## Cloudflare
+
+DNS for ilmualam.com is on Cloudflare and `quran` is proxied to GitHub Pages. Everything below applies to this host only; the Blogger site on www is not touched.
+
+- **Settings:** `tools/cloudflare.py`, run by *Actions → Cloudflare settings → Run workflow*. One-time: create a Cloudflare API token (My Profile → API Tokens → Create Custom Token) with **Zone · Zone · Read**, **Zone · Config Rules · Edit** and **Zone · Cache Rules · Edit**, limited to the ilmualam.com zone, and save it as the repository secret `CF_API_TOKEN`. It sets SSL to Full for this host, turns off Rocket Loader, Email Obfuscation, Zaraz and RUM (they inject scripts that the CSP blocks), caches pages at the edge for the origin's 10 minutes, makes browsers follow the origin's cache time instead of the zone's 1 day, and never caches `/sw.js` or the manifest. Rules are tagged `quran_`; a run replaces only those, so it is safe to repeat. Tick *dry run* to preview.
+- **www.quran.ilmualam.com:** free Universal SSL covers only one level of subdomain, so a plain DNS record would show a certificate error. `tools/cloudflare-www-redirect.js` is a Worker that 301-redirects to the same path here; a Worker custom domain gets its own certificate. Workers & Pages → Create → Worker → paste the file → Deploy → Settings → Domains & Routes → Add → Custom domain `www.quran.ilmualam.com`.
+- Keep Rocket Loader and Email Obfuscation off for this host if they are ever switched on zone-wide.
+
 ## Legacy widgets (do not delete blindly)
 
 `engine/`, `micro/`, `assets/khatam/` and the older files in `assets/js/` and `assets/css/` (`quran-engine*.js`, `quran.v2*.css`, `doa-kerja-js`, `sitemap.js`, …) are not used by quran.ilmualam.com. Older posts on www.ilmualam.com may still load them from this domain, though. Before removing any of them, search the Blogger theme and posts for the filename.
