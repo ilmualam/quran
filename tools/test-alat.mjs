@@ -264,7 +264,7 @@ ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
     ok(il&&il.itemListElement.length>0&&il.itemListElement.every(x=>['Mosque','PlaceOfWorship'].includes(x.item['@type'])&&x.item.geo.latitude),'masjid zone ItemList of Mosque/PlaceOfWorship ('+(il?il.itemListElement.length:0)+')');
     ok((await pg.$$('#senarai .mq')).length>0&&(await pg.textContent('#senarai .osm')).includes('OpenStreetMap'),'masjid zone list + OSM credit');
   }
-  ok(await pg.$eval(`#kira a[href^="/waktu-solat/selangor/"]`,a=>a.getAttribute('href'))==='/waktu-solat/selangor/#bandar=SGR01','masjid zone links to prayer-times tool');
+  ok(await pg.$eval(`#kira a[href^="/waktu-solat/selangor/"]`,a=>a.getAttribute('href'))==='/waktu-solat/selangor/sgr01-shah-alam-petaling-gombak/','masjid zone links to its prayer-times zone page');
   ok(pg.errs.length===0,'masjid zone no errors '+pg.errs);
   const c3=await browser.newContext({viewport:{width:390,height:844},geolocation:{latitude:3.0738,longitude:101.5183},permissions:['geolocation']});
   const el=(id,n,la,lo,t={})=>({type:'node',id,lat:la,lon:lo,tags:{amenity:'place_of_worship',religion:'muslim',...(n?{name:n}:{}),...t}});
@@ -498,6 +498,22 @@ ok((await pg.textContent('#srr li:first-child strong')).includes('Johor'),'searc
 await pg.keyboard.press('Enter');await pg.waitForURL(/waktu-berbuka-puasa\/johor\//);ok(true,'search Enter navigates to first result');
 ok((await pg.getAttribute('footer .fi-form','action')).startsWith('https://api.follow.it/'),'footer subscribe form');
 ok(pg.errs.length===0,'header no errors '+pg.errs);
+
+// per-zone pages (tools/pages14.py) and per-state zakat fitrah (tools/pages9.py)
+{const ZS='waktu-solat/selangor/sgr01-shah-alam-petaling-gombak/';pg=await open(ZS);
+ok(await raw(ZS,'#stimes')===(await pg.$eval('#stimes',e=>e.innerHTML)).replace(' class="nx"',''),'solat zone page: times JS == build');
+ok(await raw(ZS,'#smon tbody')===await pg.$eval('#smon tbody',e=>e.innerHTML),'solat zone page: month JS == build');
+await pg.selectOption('#sc','SGR03');await pg.waitForURL(/sgr03-klang-kuala-langat\//);ok(true,'solat zone select opens that zone page');
+ok(pg.errs.length===0,'solat zone no errors '+pg.errs);
+const ZR='waktu-berbuka-puasa/johor/jhr04-batu-pahat-muar-segamat/';pg=await open(ZR);
+ok(await raw(ZR,'#rmt tbody')===await pg.$eval('#rmt tbody',e=>e.innerHTML),'berbuka zone page: imsakiyah JS == build');
+await pg.click('#szt a[data-zone="JHR02"]');await pg.waitForURL(/jhr02-johor-bahru-kota-tinggi\//);ok(true,'berbuka zone table opens that zone page');
+pg=await open('waktu-berbuka-puasa/johor/');await pg.click('#szt a[data-zone="JHR02"]');await pg.waitForTimeout(300);
+ok(pg.url().includes('/waktu-berbuka-puasa/johor/#zon=JHR02')&&(await pg.inputValue('#rz'))==='JHR02','state page zone click still switches in place');
+const ZF='zakat-fitrah/kedah/';pg=await open(ZF);
+ok((await pg.inputValue('#zfs'))==='kedah'&&(await pg.textContent('#zfo')).includes('Kedah'),'zakat fitrah state page keeps its state over the saved one');
+await pg.fill('#zfa','5');await pg.fill('#zfk','0');ok((await pg.textContent('#zfo')).includes('RM45.00'),'zakat fitrah Kedah 5 x RM9 = RM45');
+ok(pg.errs.length===0,'zakat state no errors '+pg.errs);}
 
 // home reader still works from root + reader link from tool page
 pg=await open('jadual-khatam-al-quran/');

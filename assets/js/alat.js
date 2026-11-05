@@ -436,7 +436,7 @@ if(sw){
   setInterval(tick,20000);
   const byslug=s=>{const c=C.find(x=>x[0]===s);return c&&{slug:c[0],name:c[1],lat:c[3],lng:c[4],zone:c[5]}};
   const DEF=S.def||"kuala-lumpur",KEY=S.key||"solat";
-  function pick(slug,save){const l=byslug(slug)||byslug(DEF);sel.value=l.slug;if(save){store.set(KEY,l.slug);writeHash({bandar:l.slug})}render(l)}
+  function pick(slug,save){if(save&&S.go&&S.go[slug]){location.href=S.go[slug];return}const l=byslug(slug)||byslug(DEF);sel.value=l.slug;if(save){store.set(KEY,l.slug);writeHash({bandar:l.slug})}render(l)}
   sel.addEventListener("change",()=>pick(sel.value,true));
   $("#sgeo").addEventListener("click",()=>{
     if(!navigator.geolocation)return toast("Lokasi tidak disokong");
@@ -740,7 +740,7 @@ if(rdEl){
       ev("berbuka",d,t[5],20,`Berbuka puasa ${hm(t[5])} – ${i+1} Ramadan`,`Maghrib zon ${z}. Doa: Zahabaz-zama'u wabtallatil-'uruqu wa thabatal-ajru insya-Allah. ${location.origin+location.pathname}`,10)});
     L.push("END:VCALENDAR");return L.join("\r\n");
   }
-  function pick(c,save){const z=zone(c)||zone(D.def);sel.value=z.code;if(save){store.set(D.key,z.code);writeHash({zon:z.code})}render(z)}
+  function pick(c,save){if(save&&D.go&&D.go[c]){location.href=D.go[c];return}const z=zone(c)||zone(D.def);sel.value=z.code;if(save){store.set(D.key,z.code);writeHash({zon:z.code})}render(z)}
   sel.addEventListener("change",()=>pick(sel.value,true));
   tb.addEventListener("change",e=>{const c=e.target.closest("input[data-r]");if(!c)return;const st=marks();c.checked?st.add(+c.dataset.r):st.delete(+c.dataset.r);store.set(KEY,[...st].sort((a,b)=>a-b));paintTrack()});
   toolbar($("#ract"),{});
@@ -889,13 +889,15 @@ if(zfdEl&&HJ){
   }
   const tierOpts=s=>Z.r[s].map((r,i)=>`<option value="${i}">${esc(Z.t[i])}: ${rm(r)}</option>`).join("");
   function run(save){
-    const s=Z.r[st.value]?st.value:"selangor",t=clamp(ti.value,0,2,0),n=clamp(na.value,0,50,0)+clamp(nk.value,0,50,0);
+    const s=Z.r[st.value]?st.value:(Z.def||"selangor"),t=clamp(ti.value,0,2,0),n=clamp(na.value,0,50,0)+clamp(nk.value,0,50,0);
     setIf(out,n?zfResult(s,t,n):"<p>Masukkan bilangan ahli keluarga.</p>");
     if(save)store.set("zakat-fitrah",{s,t,a:na.value,k:nk.value});
   }
   st.addEventListener("change",()=>{const t=ti.value;setIf(ti,tierOpts(st.value));ti.value=String(Math.min(+t,Z.r[st.value].length-1));run(true)});
   $("#zff").addEventListener("input",e=>{if(e.target!==st)run(true)});
   const sv=store.get("zakat-fitrah",null);
+  // a state page keeps its own state; only the household sizes carry over
+  if(sv&&Z.def)sv.s=Z.def;
   if(sv&&Z.r[sv.s]){st.value=sv.s;setIf(ti,tierOpts(sv.s));ti.value=String(Math.min(sv.t,Z.r[sv.s].length-1));na.value=sv.a;nk.value=sv.k;run(false)}
   const u=new Date(Date.now()+288e5);setIf($("#zfl"),zfTimeline(new Date(u.getUTCFullYear(),u.getUTCMonth(),u.getUTCDate())));
 }

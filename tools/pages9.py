@@ -60,13 +60,30 @@ def zf_timeline(day):
     return f'<p class="swh">{head}</p><ul class="swr">' + "".join(f'<li><span class="swl">{a}</span><strong>{b}</strong><em>{c}</em></li>' for a, b, c in rows) + "</ul>"
 
 
+def zf_tool(day, state, label=False):
+    """Household calculator + payment timeline (assets/js/alat.js redraws the same markup)."""
+    names = {s[0]: s[1] for s in SL.STATES}
+    return f'''<section id="kira" class="tool" aria-labelledby="h-kira">
+<h2 id="h-kira">🌾 Kalkulator Zakat Fitrah Keluarga{" " + e(names[state]) if label else ""}</h2>
+<form class="frm" id="zff" novalidate>
+<div class="fl"><label for="zfs">Negeri (tempat anda berada pada malam raya)</label><select id="zfs">{"".join(f'<option value="{k}"{" selected" if k == state else ""}>{e(names[k])}</option>' for k in ZF)}</select></div>
+<div class="fl"><label for="zft">Jenis beras dimakan</label><select id="zft">{"".join(f'<option value="{i}">{e(TIER[i])}: {rm(ZF[state][i])}</option>' for i in range(len(ZF[state])))}</select></div>
+<div class="fl"><label for="zfa">Dewasa (diri sendiri, isteri, ibu bapa ditanggung)</label><input id="zfa" type="number" min="0" max="50" value="2" inputmode="numeric"></div>
+<div class="fl"><label for="zfk">Anak & bayi (lahir sebelum Maghrib akhir Ramadan)</label><input id="zfk" type="number" min="0" max="50" value="2" inputmode="numeric"></div>
+</form>
+<div class="jv" id="zfo" aria-live="polite">{zf_result(state, 0, 4)}</div>
+<div class="sw2"><h3 id="h-tl">🗓 Bila Perlu Bayar: Ramadan Akan Datang</h3><div id="zfl">{zf_timeline(day)}</div>
+<p class="note">Tarikh daripada <a href="/kalendar-hijrah/">kalendar Hijrah</a> (takwim JAKIM apabila tersedia); awal Ramadan dan Syawal tertakluk pengisytiharan rasmi.</p></div>
+</section>'''
+
+
 def build_zakat(ctx):
     T_, TMS = ctx["TODAY"], ctx["TODAYMS"]
     day = dt.date.fromisoformat(ctx.get("SOLAT_DAY") or T_)
     share, ad = ctx["share"], ctx["ad"]
     path = "zakat-fitrah/"
     names = {s[0]: s[1] for s in SL.STATES}
-    rows = [[f"<strong>{e(names[k])}</strong>"] + [rm(v[i]) if i < len(v) else "–" for i in range(3)]
+    rows = [[f'<strong><a href="/zakat-fitrah/{k}/">{e(names[k])}</a></strong>'] + [rm(v[i]) if i < len(v) else "–" for i in range(3)]
             + [f'<a href="{ZF_SRC[k][1]}" rel="noopener">{e(ZF_SRC[k][0])}</a>' if k in ZF_SRC else "Laporan media, Feb 2026"] for k, v in ZF.items()]
     opts = "".join(f'<option value="{k}"{" selected" if k == "selangor" else ""}>{e(names[k])}</option>' for k in ZF)
     lo, hi = min(v[0] for v in ZF.values()), max(v[-1] for v in ZF.values())
@@ -82,18 +99,7 @@ def build_zakat(ctx):
                 f"Kadar zakat fitrah {ZF_HIJRI}H bagi 15 negeri, kalkulator untuk seisi keluarga, berat beras, dan tarikh bayaran untuk Ramadan akan datang.",
                 [("Zakat Fitrah", None)])
     body += f'''<div class="wrap mn"><div class="ct">
-<section id="kira" class="tool" aria-labelledby="h-kira">
-<h2 id="h-kira">🌾 Kalkulator Zakat Fitrah Keluarga</h2>
-<form class="frm" id="zff" novalidate>
-<div class="fl"><label for="zfs">Negeri (tempat anda berada pada malam raya)</label><select id="zfs">{opts}</select></div>
-<div class="fl"><label for="zft">Jenis beras dimakan</label><select id="zft">{"".join(f'<option value="{i}">{e(TIER[i])}: {rm(ZF["selangor"][i])}</option>' for i in range(len(ZF["selangor"])))}</select></div>
-<div class="fl"><label for="zfa">Dewasa (diri sendiri, isteri, ibu bapa ditanggung)</label><input id="zfa" type="number" min="0" max="50" value="2" inputmode="numeric"></div>
-<div class="fl"><label for="zfk">Anak & bayi (lahir sebelum Maghrib akhir Ramadan)</label><input id="zfk" type="number" min="0" max="50" value="2" inputmode="numeric"></div>
-</form>
-<div class="jv" id="zfo" aria-live="polite">{zf_result("selangor", 0, 4)}</div>
-<div class="sw2"><h3 id="h-tl">🗓 Bila Perlu Bayar: Ramadan Akan Datang</h3><div id="zfl">{zf_timeline(day)}</div>
-<p class="note">Tarikh daripada <a href="/kalendar-hijrah/">kalendar Hijrah</a> (takwim JAKIM apabila tersedia); awal Ramadan dan Syawal tertakluk pengisytiharan rasmi.</p></div>
-</section>
+{zf_tool(day, "selangor")}
 
 <section aria-labelledby="h-jwp">
 <div class="prose">
@@ -224,4 +230,110 @@ def build_asmaul(ctx):
 
 
 def build_pages9(ctx):
-    return [build_asmaul(ctx), build_zakat(ctx)]
+    return [build_asmaul(ctx), build_zakat(ctx)] + build_zakat_states(ctx)
+
+
+# ======================= ZAKAT FITRAH: one page per state =======================
+# the body that collects zakat fitrah in each state (names only: confirm channels with the body itself)
+ZF_AUTH = {
+    "perlis": "Majlis Agama Islam dan Adat Istiadat Melayu Perlis (MAIPs)", "kedah": "Lembaga Zakat Negeri Kedah (LZNK)",
+    "pulau-pinang": "Zakat Pulau Pinang (ZPP), Majlis Agama Islam Negeri Pulau Pinang", "perak": "Majlis Agama Islam dan Adat Melayu Perak (MAIPk)",
+    "kelantan": "Majlis Agama Islam dan Adat Istiadat Melayu Kelantan (MAIK)", "terengganu": "Majlis Agama Islam dan Adat Melayu Terengganu (MAIDAM)",
+    "pahang": "Majlis Ugama Islam dan Adat Resam Melayu Pahang (MUIP)", "selangor": "Lembaga Zakat Selangor (LZS), Majlis Agama Islam Selangor",
+    "negeri-sembilan": "Pusat Zakat Negeri Sembilan (PZNS), Majlis Agama Islam Negeri Sembilan", "melaka": "Pusat Zakat Melaka, Majlis Agama Islam Melaka",
+    "johor": "Majlis Agama Islam Negeri Johor (MAINJ)", "sabah": "Pusat Zakat Sabah, Majlis Ugama Islam Sabah (MUIS)",
+    "sarawak": "Tabung Baitulmal Sarawak (TBS), Majlis Islam Sarawak", "kuala-lumpur": "Pusat Pungutan Zakat, Majlis Agama Islam Wilayah Persekutuan (PPZ-MAIWP)",
+    "labuan": "Majlis Agama Islam Wilayah Persekutuan (MAIWP), Labuan",
+}
+assert set(ZF_AUTH) == set(ZF)
+
+
+def build_zakat_states(ctx):
+    T_ = ctx["TODAY"]
+    day = dt.date.fromisoformat(ctx.get("SOLAT_DAY") or T_)
+    share, ad = ctx["share"], ctx["ad"]
+    names = {s[0]: s[1] for s in SL.STATES}
+    mins = sorted(ZF, key=lambda k: ZF[k][0])
+    avg = sum(ZF[k][0] for k in ZF) / len(ZF)
+    nxt = zf_season(day)
+    r1, o1 = H.h2g(nxt, 9, 1)
+    pages = []
+    for st, v in ZF.items():
+        name, path = names[st], f"zakat-fitrah/{st}/"
+        auth = ZF_AUTH[st]
+        tiers = [TIER[i] for i in range(len(v))]
+        srcl = (f'<a href="{ZF_SRC[st][1]}" rel="noopener">{e(ZF_SRC[st][0])}</a>' if st in ZF_SRC else "laporan media, Februari " + str(ZF_YEAR))
+        rates = ", ".join(rm(x) for x in v)
+        same = [names[k] for k in ZF if k != st and ZF[k][0] == v[0]]
+        rank = sorted({ZF[k][0] for k in ZF}).index(v[0])
+        lo_st, hi_st = names[mins[0]], names[mins[-1]]
+        hh = [[f"<strong>{n} orang</strong>"] + [rm(x * n) for x in v] + [f"{GANTANG * n:.1f} kg"] for n in (1, 2, 3, 4, 5, 6, 7, 8, 10)]
+        cmp_rows = [[(f"<strong>{e(names[k])}</strong>" if k == st else f'<a href="/zakat-fitrah/{k}/">{e(names[k])}</a>'), rm(ZF[k][0]), rm(ZF[k][-1])] for k in mins]
+        multi = sum(1 for z in SL.ZONES if z[1] == st) > 1
+        ram = (f'<a href="/waktu-berbuka-puasa/{st}/">Waktu berbuka puasa {e(name)}</a>' + (" (semua zon)" if multi else ""))
+        faq = [
+            (f"Berapa kadar zakat fitrah {name} {ZF_YEAR}?",
+             f"Kadar zakat fitrah {name} bagi {ZF_HIJRI}H/{ZF_YEAR} ialah {rates} seorang" + (f", mengikut jenis beras: {'; '.join(f'{tiers[i]} {rm(x)}' for i, x in enumerate(v))}." if len(v) > 1 else ".")),
+            (f"Berapa zakat fitrah untuk keluarga 5 orang di {name}?",
+             f"{rm(v[0] * 5)} pada kadar minimum ({rm(v[0])} × 5)" + (f", atau {rm(v[-1] * 5)} pada kadar {tiers[-1].lower()}." if len(v) > 1 else ".") + f" Jika dibayar dengan beras: {GANTANG * 5:.0f} kg."),
+            (f"Siapa yang menguruskan zakat fitrah di {name}?",
+             f"Zakat fitrah di {name} dipungut di bawah {auth}, melalui amil yang dilantik, kaunter dan saluran dalam talian rasminya. Pastikan anda membayar kepada amil bertauliah dan simpan resit."),
+            (f"Saya tinggal di {name} tetapi beraya di negeri lain. Kadar mana perlu saya bayar?",
+             "Kadar negeri tempat anda berada ketika terbenam matahari pada hari terakhir Ramadan, kerana itulah saat zakat fitrah menjadi wajib. Jika dibayar awal di negeri asal, ia tetap sah menurut kebanyakan majlis agama; jika ragu, tanya amil negeri tersebut."),
+            (f"Bilakah kadar zakat fitrah {name} {ZF_YEAR + 1} diumumkan?",
+             f"Lazimnya pada Januari hingga Februari, sebelum Ramadan. Ramadan {nxt}H {'bermula' if o1 else 'dijangka bermula'} {P.dlong(r1)}; halaman ini dikemas kini sebaik kadar baharu diumumkan oleh {auth.split(',')[0]}."),
+        ]
+        answer = (f"Kadar zakat fitrah <strong>{e(name)} {ZF_HIJRI}H/{ZF_YEAR}: {rates} seorang</strong>"
+                  + (" mengikut jenis beras yang dimakan" if len(v) > 1 else "") + f". Keluarga 4 orang membayar {rm(v[0] * 4)} pada kadar minimum. "
+                  f"Dipungut oleh {e(auth)}. Wajib ketika Maghrib malam raya; paling afdal pagi raya sebelum solat sunat Aidilfitri.")
+        title = f"Zakat Fitrah {name} {ZF_YEAR}: Kadar & Kalkulator Keluarga"
+        if len(title) > 70:
+            title = f"Zakat Fitrah {name} {ZF_YEAR}: Kadar & Kalkulator"
+        desc = f"Kadar zakat fitrah {name} {ZF_HIJRI}H/{ZF_YEAR} ({rates} seorang), kalkulator keluarga, jumlah 1–10 orang, berat beras dan tarikh bayaran Ramadan."
+        if len(desc) > 160:
+            desc = f"Kadar zakat fitrah {name} {ZF_YEAR} ({rates} seorang), kalkulator keluarga, jumlah 1–10 orang dan tarikh bayaran Ramadan."
+        crumbs = [("Zakat Fitrah", "zakat-fitrah/"), (name, None)]
+        body = hero(f"Zakat Fitrah {e(name)} {ZF_YEAR}: Kadar & Kalkulator",
+                    f"Kadar {ZF_HIJRI}H bagi {e(name)}, jumlah untuk seisi keluarga, berat beras dan bila perlu dibayar untuk Ramadan akan datang.", crumbs)
+        body += f'''<div class="wrap mn"><div class="ct">
+{zf_tool(day, st, True)}
+
+<section aria-labelledby="h-jwp">
+<div class="prose">
+<h2 id="h-jwp" class="sr">Ringkasan</h2>
+<div class="box"><p><strong>Jawapan ringkas:</strong> {answer}</p></div>
+{meta_line(day.isoformat(), f"{day.day} {P.BLN[day.month - 1]} {day.year}")}
+{share(SITE + path, f"Kadar zakat fitrah {name} {ZF_YEAR} + kalkulator keluarga:")}
+</div>
+</section>
+
+<section id="kadar" aria-labelledby="h-kadar">
+<h2 id="h-kadar">Jumlah Zakat Fitrah {e(name)} Ikut Bilangan Ahli Keluarga</h2>
+{table(["Bilangan"] + [f"{t}<br>{rm(x)}" for t, x in zip(["Tempatan", "Import", "Premium"], v)] + ["Beras"], hh, f"Zakat fitrah {name} ikut bilangan orang")}
+<p class="note">Sumber kadar: {srcl}. Kadar ditetapkan setiap tahun oleh {e(auth)}; sahkan dengan amil atau pusat zakat sebelum membayar. Kadar {ZF_HIJRI + 1}H/{ZF_YEAR + 1} dikemas kini sebaik diumumkan (lazimnya Januari–Februari).</p>
+</section>
+{ad(0)}
+<section id="banding" aria-labelledby="h-banding">
+<h2 id="h-banding">{e(name)} Berbanding Negeri Lain</h2>
+<p>Kadar minimum {e(name)} ({rm(v[0])}) {"ialah antara yang terendah" if rank == 0 else ("ialah antara yang tertinggi" if v[0] == ZF[mins[-1]][0] else "berada di pertengahan")} di Malaysia; purata kadar minimum 15 negeri ialah {rm(avg)}. Terendah: {e(lo_st)} ({rm(ZF[mins[0]][0])}); tertinggi: {e(hi_st)} ({rm(ZF[mins[-1]][0])}).{(" Kadar minimum yang sama: " + e(", ".join(same)) + ".") if same else ""}</p>
+{table(["Negeri", "Kadar minimum", "Kadar tertinggi"], cmp_rows, "Kadar zakat fitrah semua negeri")}
+</section>
+
+<section id="faq" aria-labelledby="h-faq">
+<h2 id="h-faq">Soalan Lazim: Zakat Fitrah {e(name)}</h2>
+{faq_html(faq)}
+<p class="note">Hukum, dalil dan syarat wajib: <a href="/zakat-fitrah/#hukum">panduan zakat fitrah</a> · Ramadan: {ram} · <a href="/zakat-pendapatan/">Zakat pendapatan</a> · <a href="/kalendar-hijrah/">Kalendar Hijrah</a></p>
+</section>
+{ad(1)}
+<section aria-labelledby="h-rel"><h2 id="h-rel">Alat Lain</h2>{tool_cards("zakat-fitrah/")}</section>
+</div>
+{side([("kira", "Kalkulator keluarga"), ("h-tl", "Bila perlu bayar"), ("kadar", "Jumlah ikut keluarga"), ("banding", "Banding negeri lain"), ("faq", "Soalan lazim")], "zakat-fitrah/")}
+</div>'''
+        zd = json.dumps({"r": ZF, "t": TIER, "n": {k: names[k] for k in ZF}, "g": GANTANG, "def": st, **H.js_data()}, ensure_ascii=False, separators=(",", ":"))
+        pages.append(dict(path=path, kind="tool", data=False, arabic=False, modified=day.isoformat(), nocache=True,
+                          extra_data=f'<script type="application/json" id="zfd">{zd}</script>',
+                          title=title, ogtitle=f"Zakat Fitrah {name} {ZF_YEAR}", desc=desc, og="zakat-fitrah-negeri",
+                          ogcard=("Kadar Zakat Fitrah Ikut Negeri", "Kadar setiap negeri, jumlah untuk seisi keluarga dan tarikh bayaran Ramadan."),
+                          crumbs=crumbs, body=body, faq=faq, about=[f"Zakat fitrah {name}", "Zakat fitrah", name],
+                          llms=f"Kadar zakat fitrah {name} {ZF_HIJRI}H/{ZF_YEAR}: {rates} seorang ({'; '.join(tiers)}). Pemungut: {auth}. Keluarga 4 orang: {rm(v[0] * 4)} (minimum)."))
+    return pages

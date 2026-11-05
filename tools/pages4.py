@@ -7,7 +7,7 @@ import solat as SL
 import plans as P
 from pages import e, faq_html, hero, side, meta_line, table, tool_cards, SITE, TBB
 from pages2 import card, ayah, quran_block, qref
-from pages3 import areas
+from pages3 import areas, zpath
 
 PUB = "2026-10-18"
 J = lambda o: json.dumps(o, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
@@ -50,7 +50,7 @@ def lailatul(s):
     return [(k, s["start"] + dt.timedelta(k - 2)) for k in (21, 23, 25, 27, 29)]
 
 
-def ramadan_tool(zones, defz, AREA, s, day, key, state_name=None):
+def ramadan_tool(zones, defz, AREA, s, day, key, state_name=None, go=None):
     """The shared timetable tool: zone picker, status + countdown, 30-day imsakiyah with fasting tracker."""
     rows, _ = R.timetable(defz, s)
     n_off = sum(1 for _, d, _ in rows if R.official(defz, d.year))
@@ -67,7 +67,7 @@ def ramadan_tool(zones, defz, AREA, s, day, key, state_name=None):
     yr = s["start"].year
     note30 = "" if s["official"] else "* Hari ke-30 hanya jika anak bulan Syawal tidak kelihatan pada petang 29 Ramadan. "
     data = J({"y": s["y"], "start": s["start"].isoformat(), "n": s["n"], "off": s["official"], "def": defz, "key": key,
-              "z": [[z[0], z[1], AREA[z[0]], z[3], z[4]] for z in zones], "fa": SL.FAJR, "is": SL.ISHA, "tz": SL.TZ})
+              "z": [[z[0], z[1], AREA[z[0]], z[3], z[4]] for z in zones], "fa": SL.FAJR, "is": SL.ISHA, "tz": SL.TZ, **({"go": go} if go else {})})
     html = f'''<section id="kira" class="tool" aria-labelledby="h-kira">
 <h2 id="h-kira" class="sr">Jadual waktu berbuka puasa dan imsak</h2>
 <form class="frm" id="rf" novalidate>
@@ -245,7 +245,7 @@ def build_ramadan(ctx):
         url = f"waktu-berbuka-puasa/{slug}/"
         many = len(sz) > 1
         allz = {z[0]: R.timetable(z[0], s)[0] for z in sz}
-        zrows = "".join(f'<tr data-z="{z[0]}"><th scope="row"><a href="#zon={z[0]}" data-zone="{z[0]}">{z[0]}</a><span class="za">{e(AREA[z[0]])}</span></th>'
+        zrows = "".join(f'<tr data-z="{z[0]}"><th scope="row"><a href="#zon={z[0]}" data-zone="{z[0]}">{z[0]}</a><span class="za">{f'<a href="/{zpath("waktu-berbuka-puasa/", z[0])}">{e(AREA[z[0]])}</a>' if many else e(AREA[z[0]])}</span></th>'
                         f"<td>{SL.hm(allz[z[0]][0][2][0])}</td><td><strong>{SL.hm(allz[z[0]][0][2][5])}</strong></td>"
                         f"<td>{SL.hm(allz[z[0]][-1][2][0])}</td><td><strong>{SL.hm(allz[z[0]][-1][2][5])}</strong></td></tr>" for z in sz)
         mg = [r[2][5] for r in rows]
@@ -309,7 +309,7 @@ def build_ramadan(ctx):
 <section id="negeri" aria-labelledby="h-negeri">
 <h2 id="h-negeri">Waktu Berbuka Puasa Negeri Lain</h2>
 <ul class="rel sts">{"".join(f'<li><a href="/waktu-berbuka-puasa/{s2}/">Berbuka Puasa {e(n2)}</a></li>' for s2, n2, _, _ in SL.STATES if s2 != slug)}</ul>
-<p class="note">Waktu solat harian sepanjang tahun: <a href="/waktu-solat/{slug}/">Waktu Solat {e(name)}</a>.</p>
+<p class="note">Waktu solat harian sepanjang tahun: <a href="/waktu-solat/{slug}/">Waktu Solat {e(name)}</a> · Zakat fitrah: <a href="/zakat-fitrah/{slug}/">kadar {e(name)} & kalkulator</a>.</p>
 </section>
 {ad(1)}
 <section aria-labelledby="h-rel"><h2 id="h-rel">Alat Lain</h2>{tool_cards("waktu-berbuka-puasa/")}</section>

@@ -7,7 +7,7 @@ import masjid as M
 import ramadan as R
 import plans as P
 from pages import e, faq_html, hero, side, meta_line, tool_cards, SITE
-from pages3 import areas
+from pages3 import areas, zpath
 
 HUB = "cari-masjid/"
 API = "https://www.e-solat.gov.my/index.php?r=esolatApi/TakwimSolat&period=month&zone="
@@ -213,7 +213,7 @@ def build_masjid_pages(ctx):
 <p class="sdate" id="mdate">{P.dlong(day)} · {code} · {e(AREA[code])}</p>
 <ol class="stimes" id="mtimes">{times_li(t)}</ol>
 <p class="snext" id="mnext" aria-live="polite">&nbsp;</p>
-<p class="ssrc" id="msrc">Sumber: <strong>{src}</strong>. Jadual sebulan: <a href="/waktu-solat/{slug_state}/#bandar={code}">Waktu Solat {e(state)} ›</a></p>
+<p class="ssrc" id="msrc">Sumber: <strong>{src}</strong>. Jadual sebulan: <a href="/{zpath("waktu-solat/", code)}">Waktu Solat {e(short(code))} ({code}) ›</a></p>
 </div>
 {near_tool(f"Cari masjid dan surau paling hampir dari tempat anda sekarang, disusun mengikut jarak, dengan pautan arah.")}
 </section>
@@ -240,7 +240,7 @@ def build_masjid_pages(ctx):
 <caption>Waktu solat zon {code} ({e(AREA[code])}) mulai {P.dlong(day)}</caption>
 <thead><tr><th scope="col">Tarikh</th>{"".join(f'<th scope="col">{x}</th>' for x in SL.NAMES)}</tr></thead>
 <tbody>{wrows}</tbody></table></div>
-<p class="note">Maghrib minggu ini antara {SL.hm(mfrom)} dan {SL.hm(mto)}. Jadual sebulan, semua zon dan arah kiblat: <a href="/waktu-solat/{slug_state}/#bandar={code}">Waktu Solat {e(state)}</a> · <a href="/waktu-solat/">Waktu Solat Malaysia</a>.</p>
+<p class="note">Maghrib minggu ini antara {SL.hm(mfrom)} dan {SL.hm(mto)}. Jadual sebulan, semua zon dan arah kiblat: <a href="/{zpath("waktu-solat/", code)}">Waktu Solat {e(short(code))} ({code})</a> · <a href="/waktu-solat/{slug_state}/">Waktu Solat {e(state)}</a> · <a href="/waktu-solat/">Waktu Solat Malaysia</a>.</p>
 </section>
 {ad(0)}
 <section id="faq" aria-labelledby="h-faq">
@@ -251,7 +251,7 @@ def build_masjid_pages(ctx):
 <section id="zon-lain" aria-labelledby="h-zl">
 <h2 id="h-zl">{"Zon Lain di " + e(state) if others else "Negeri Lain"}</h2>
 <ul class="rel sts">{"".join(f'<li><a href="/{url_of(z)}">{z} · {e(short(z))}</a></li>' for z in others) if others else "".join(f'<li><a href="/{url_of(st[3])}">{e(st[1])}</a></li>' for st in SL.STATES if st[0] != slug_state)}</ul>
-<p class="note"><a href="/{HUB}">Semua 60 zon JAKIM</a> · Ramadan: <a href="/waktu-berbuka-puasa/{slug_state}/">waktu berbuka puasa {e(state)}</a> · <a href="/belajar-solat/">Cara solat lengkap</a></p>
+<p class="note"><a href="/{HUB}">Semua 60 zon JAKIM</a> · Ramadan: <a href="/{zpath("waktu-berbuka-puasa/", code)}">waktu berbuka puasa {e(short(code))}</a> · <a href="/belajar-solat/">Cara solat lengkap</a></p>
 </section>
 {ad(1)}
 <section aria-labelledby="h-rel"><h2 id="h-rel">Alat Lain</h2>{tool_cards(HUB)}</section>

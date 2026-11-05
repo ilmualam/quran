@@ -27,6 +27,35 @@ def areas():
     return out
 
 
+def zpath(base, code):
+    """URL path of a zone's own page under base ("waktu-solat/" or "waktu-berbuka-puasa/"); states with one zone use the state page."""
+    st = next(z[1] for z in SL.ZONES if z[0] == code)
+    return f"{base}{st}/{MQ.ZONEINFO[code][0]}/" if sum(1 for z in SL.ZONES if z[1] == st) > 1 else f"{base}{st}/"
+
+
+def solat_tool(name, day, doy, cd, cz, cities, opts, times, rows, qb, hijs, src=None):
+    """Today + month timetable tool (assets/js/alat.js redraws the same markup)."""
+    return f'''<section id="kira" class="tool" aria-labelledby="h-kira">
+<h2 id="h-kira" class="sr">Waktu solat {e(name)}</h2>
+<form class="frm" id="sf" novalidate>
+<div class="fl w2"><label for="sc">Zon</label><select id="sc">{opts}</select></div>
+</form>
+<div class="act" id="sact"><button class="btn2" type="button" id="sgeo">📍 Zon terdekat saya</button><button class="btn2" type="button" data-act="link">🔗 Salin pautan</button><button class="btn2" type="button" data-act="print">🖨 Cetak jadual</button></div>
+<div id="sw" class="sw">
+<p class="sdate"><span id="sdate">{P.dlong(day)} · {e(next(c[1] for c in cities if c[0] == cz[0]))}</span><br><span id="shij" class="shij">{e(hijs)}</span></p>
+<ol class="stimes" id="stimes">{times}</ol>
+<p class="snext" id="snext" aria-live="polite">&nbsp;</p>
+<p class="ssrc" id="ssrc">{src or f'Sumber: <strong>jadual rasmi JAKIM</strong>, zon {cz[0]} ({e(cd["src"])}).'}</p>
+<p class="sqb">🧭 Arah kiblat: <strong id="sqib">{qb:.1f}°</strong> dari utara benar · <a href="{TBB}arah-kiblat/" rel="noopener">Kompas kiblat ↗</a></p>
+</div>
+<div class="tw" tabindex="0" role="region" aria-label="Jadual waktu solat sebulan"><table class="plan smon" id="smon">
+<caption id="smcap">Jadual waktu solat {P.BLN[day.month - 1]} {day.year} – {e(next(c[1] for c in cities if c[0] == cz[0]))}</caption>
+<thead><tr><th scope="col">Tarikh</th>{"".join(f'<th scope="col">{n}</th>' for n in SL.NAMES)}</tr></thead>
+<tbody>{"".join(rows)}</tbody></table></div>
+<p class="ssrc sby">Disediakan oleh: <a href="https://www.ilmualam.com">The Ilmu Alam</a></p>
+</section>'''
+
+
 def state_links(skip=None):
     return '<ul class="rel sts">' + "".join(f'<li><a href="/waktu-solat/{s}/">Waktu Solat {e(n)}</a></li>' for s, n, _, _ in SL.STATES if s != skip) + "</ul>"
 
@@ -57,7 +86,8 @@ def build_state_pages(ctx):
             r = cd["t"][doy - day.day + k]
             cls = ' class="today"' if k == day.day else ""
             rows.append(f'<tr{cls}><td>{k} {P.BLS[day.month - 1]}</td>' + "".join(f"<td>{SL.hm(x)}</td>" for x in r) + "</tr>")
-        zrows = "".join(f'<tr data-z="{z[0]}"><th scope="row"><a href="#bandar={z[0]}" data-zone="{z[0]}">{z[0]}</a><span class="za">{e(AREA[z[0]])}</span></th>'
+        many = len(zones) > 1
+        zrows = "".join(f'<tr data-z="{z[0]}"><th scope="row"><a href="#bandar={z[0]}" data-zone="{z[0]}">{z[0]}</a><span class="za">{f'<a href="/{zpath("waktu-solat/", z[0])}">{e(AREA[z[0]])}</a>' if many else e(AREA[z[0]])}</span></th>'
                         + "".join(f'<td data-k="{k}">{SL.hm(data[z[0]]["t"][doy][k])}</td>' for k in (1, 3, 4, 5, 6)) + "</tr>" for z in zones)
         opts = "".join(f'<option value="{c[0]}"{" selected" if c[0] == cz[0] else ""}>{e(c[1])}</option>' for c in cities)
         sdata = json.dumps({"api": API, "c": cities, "n": SL.NAMES, "fa": SL.FAJR, "is": SL.ISHA, "tz": SL.TZ, "hb": HB,
@@ -104,25 +134,7 @@ def build_state_pages(ctx):
                     f"Jadual rasmi JAKIM bagi {'semua ' + str(len(zones)) + ' zon' if many else 'zon ' + cz[0]} di {e(name)}: waktu hari ini, kiraan ke solat seterusnya dan jadual sebulan.",
                     [("Waktu Solat", "waktu-solat/"), (name, None)])
         body += f'''<div class="wrap mn"><div class="ct">
-<section id="kira" class="tool" aria-labelledby="h-kira">
-<h2 id="h-kira" class="sr">Waktu solat {e(name)}</h2>
-<form class="frm" id="sf" novalidate>
-<div class="fl w2"><label for="sc">Zon</label><select id="sc">{opts}</select></div>
-</form>
-<div class="act" id="sact"><button class="btn2" type="button" id="sgeo">📍 Zon terdekat saya</button><button class="btn2" type="button" data-act="link">🔗 Salin pautan</button><button class="btn2" type="button" data-act="print">🖨 Cetak jadual</button></div>
-<div id="sw" class="sw">
-<p class="sdate"><span id="sdate">{P.dlong(day)} · {e(cities[zones.index(cz)][1])}</span><br><span id="shij" class="shij">{e(hijs)}</span></p>
-<ol class="stimes" id="stimes">{times}</ol>
-<p class="snext" id="snext" aria-live="polite">&nbsp;</p>
-<p class="ssrc" id="ssrc">Sumber: <strong>jadual rasmi JAKIM</strong>, zon {cz[0]} ({e(cd["src"])}).</p>
-<p class="sqb">🧭 Arah kiblat: <strong id="sqib">{qb:.1f}°</strong> dari utara benar · <a href="{TBB}arah-kiblat/" rel="noopener">Kompas kiblat ↗</a></p>
-</div>
-<div class="tw" tabindex="0" role="region" aria-label="Jadual waktu solat sebulan"><table class="plan smon" id="smon">
-<caption id="smcap">Jadual waktu solat {P.BLN[day.month - 1]} {day.year} – {e(cities[zones.index(cz)][1])}</caption>
-<thead><tr><th scope="col">Tarikh</th>{"".join(f'<th scope="col">{n}</th>' for n in SL.NAMES)}</tr></thead>
-<tbody>{"".join(rows)}</tbody></table></div>
-<p class="ssrc sby">Disediakan oleh: <a href="https://www.ilmualam.com">The Ilmu Alam</a></p>
-</section>
+{solat_tool(name, day, doy, cd, cz, cities, opts, times, rows, qb, hijs)}
 
 <section aria-labelledby="h-jwp">
 <div class="prose">
