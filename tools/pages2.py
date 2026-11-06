@@ -214,6 +214,7 @@ def build_pages2(ctx):
 <div class="box"><p><strong>Jawapan ringkas:</strong> Doa yang paling banyak dibaca Rasulullah SAW ialah <strong>doa Sapu Jagat</strong>: <em>Rabbana atina fid-dunya hasanah, wa fil-akhirati hasanah, wa qina 'azaban-nar</em> (Al-Baqarah 2:201; HR Al-Bukhari, no. 6389). Halaman ini menghimpunkan doa harian daripada hadis sahih berserta rujukan, {sum(len(v) for v in dq_cards.values())} doa daripada Al-Quran (doa Rabbana dan doa para nabi) serta ayat amalan seperti Ayat Kursi.</p></div>
 {meta_line(T, TMS)}
 {share(SITE + "doa-harian/", "Himpunan doa harian & doa Rabbana (Arab, Rumi, maksud):")}
+<p class="note"><strong>Halaman khusus:</strong> <a href="/ayat-kursi/">Ayat Kursi</a> · <a href="/amanar-rasul/">Amanar Rasul</a> · <a href="/doa-qunut/">Doa Qunut</a> · <a href="/doa-iftitah/">Doa Iftitah</a> · <a href="/tahiyat-akhir/">Tahiyat Akhir</a> · <a href="/doa-selepas-solat/">Doa Selepas Solat</a> · <a href="/doa-sebelum-tidur/">Doa Sebelum Tidur</a> · <a href="/doa-makan/">Doa Makan</a> · <a href="/doa-masuk-tandas/">Doa Masuk Tandas</a></p>
 </div>
 </section>
 
@@ -289,6 +290,7 @@ def build_pages2(ctx):
 <div class="box"><p><strong>Jawapan ringkas:</strong> Zikir pagi dibaca <strong>selepas Subuh hingga matahari naik</strong> dan zikir petang <strong>selepas Asar hingga Maghrib</strong>. Teras zikirnya ialah Ayat Kursi, 3 Qul (3 kali), Sayyidul Istighfar, “Bismillahil-lazi la yadurru” (3 kali), “Raditu billahi rabba” (3 kali) dan “Hasbiyallah” (7 kali), semuanya dengan rujukan hadis di bawah. Ketik butang kiraan pada setiap zikir untuk menanda bacaan anda.</p></div>
 {meta_line(T, TMS)}
 {share(SITE + "zikir-pagi-petang/", "Zikir pagi & petang lengkap dengan kaunter:")}
+<p class="note"><strong>Halaman khusus:</strong> <a href="/doa-selepas-solat/">Zikir & doa selepas solat</a> · <a href="/doa-sebelum-tidur/">Doa & amalan sebelum tidur</a> · <a href="/ayat-kursi/">Ayat Kursi</a> · <a href="/amanar-rasul/">Amanar Rasul</a></p>
 </div>
 </section>
 {zsec("pagi-petang", "🌅 Zikir Pagi & Petang", I.Z_PAGI_PETANG, "Lafaz petang dinyatakan di bawah zikir yang berbeza. Kiraan disimpan dalam pelayar anda dan bermula semula setiap hari.")}
