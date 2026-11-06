@@ -362,7 +362,7 @@ function ensureFooter(root){
   const foot=document.createElement("footer");
   foot.className="foot";
   foot.style.cssText="justify-content:center;text-align:center;font-size:13px";
-  foot.innerHTML='<span>© 2026 <strong><a href="https://www.ilmualam.com/" rel="noopener">IlmuAlam.com</a></strong> • <a href="https://www.ilmualam.com/p/al-quran-online.html" rel="noopener">Al-Quran Digital Online</a></span>';
+  foot.innerHTML='<span>© 2026 <strong><a href="https://www.ilmualam.com/" rel="noopener">IlmuAlam.com</a></strong> • <a href="https://quran.ilmualam.com" rel="noopener">Al-Quran</a> <a href="https://www.ilmualam.com/p/al-quran-online.html" rel="noopener">Rumi Online</a></span>';
   root.appendChild(foot);
 }
 
