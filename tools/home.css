@@ -140,6 +140,7 @@ dd{margin:2px 0 0;color:var(--sub)}
 .sa{font:400 1.4rem/1.5 var(--ar);text-align:right;color:var(--lk)}
 .sd{grid-column:2/4;font-size:.86rem;color:var(--sub);line-height:1.4}
 .sc .x{display:block;padding:4px 14px 10px 68px;min-height:32px;font-size:.84rem;font-weight:600;color:var(--lk)}
+.sc .x a{color:inherit}
 .none{padding:24px;text-align:center;color:var(--sub);background:var(--card);border:1px dashed var(--bd);border-radius:var(--r)}
 /* faq */
 details.q{background:var(--card);border:1px solid var(--bd);border-radius:14px;margin:0 0 10px}
