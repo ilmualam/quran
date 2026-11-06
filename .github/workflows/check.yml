@@ -1,0 +1,21 @@
+# Runs on every pull request: the Quran data integrity check (counts, ids, pinned checksums) and a full build,
+# whose own asserts (titles, descriptions, ayah totals, Asmaul Husna / Kisah Nabi references) must pass.
+name: Check (Quran data + build)
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Quran data integrity
+        run: python3 tools/validate_quran.py
+      - name: Build
+        run: SOLAT_DATE="$(TZ=Asia/Kuala_Lumpur date +%F)" python3 tools/build.py

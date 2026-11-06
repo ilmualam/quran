@@ -104,6 +104,8 @@ table.plan td a{font-weight:700;text-decoration:none}
 .dar .an{font-size:1.1rem;color:var(--sub)}
 .dru{color:var(--sub);font-size:.95rem;margin:0 0 6px}
 .dmn{margin:0 0 6px}
+.dar.sbas,.dru.sbas{text-align:center}
+.sv .dh .note{white-space:nowrap;text-decoration:none}
 .dnote{font-size:.9rem;color:var(--sub);border-left:3px solid var(--gold);padding-left:10px}
 .df{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding-top:8px;border-top:1px dashed var(--bd);font-size:.85rem}
 .dsrc{color:var(--sub)}

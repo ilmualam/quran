@@ -15,6 +15,7 @@ from pages11 import build_pages11
 from pages12 import build_faraid
 from pages13 import build_pages13
 from pages14 import build_pages14
+from pages15 import build_pages15, PATH as SURAH_PAGE
 from urllib.parse import quote, urlparse
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,6 +36,10 @@ ADS_SLOTS = ["", "", ""]  # after the surah list, after "Konteks Malaysia", afte
 
 URLS = ARTICLES
 MISSING = [n for n in range(1, 115) if n not in URLS]
+
+# ---- Quran data integrity (counts, ids, empty fields, pinned checksums) before anything is generated ----
+import validate_quran
+validate_quran.main()
 
 # ---- ayah counts straight from the data ----
 AYAT = {}
@@ -61,14 +66,15 @@ for n in range(1, 115):
     kn = "Madaniyyah" if kind == "d" else "Makkiyyah"
     meta = f"{kn} · Juz {juz}"
     q = normq(f"{n} {ru} {mean} {ar} {ALIAS.get(n, '')}")
-    art = (f'<a class="x" href="{URLS[n]}" rel="noopener">Artikel penuh ↗</a>' if n in URLS else "")
+    links = ([f'<a href="/{SURAH_PAGE[n]}">Teks penuh</a>'] if n in SURAH_PAGE else []) + ([f'<a href="{URLS[n]}" rel="noopener">Artikel penuh ↗</a>'] if n in URLS else [])
+    art = f'<span class="x">{" · ".join(links)}</span>' if links else ""
     cards.append(
         f'<li class="sc" data-n="{n}" data-t="{kind}" data-q="{e(q)}" data-ar="{e(ar)}" data-name="{e(ru)}" data-mean="{e(mean)}" data-ayat="{AYAT[n]}" data-meta="{meta}">'
         f'<a class="m" href="#surah-{n}"><span class="num">{n}</span><span class="nm">{e(ru)}</span>'
         f'<span class="sa" lang="ar" dir="rtl">{e(ar)}</span>'
         f'<span class="sd">{e(mean)} · {AYAT[n]} ayat · {meta}</span></a>{art}</li>'
     )
-    items.append({"@type": "ListItem", "position": n, "name": f"Surah {ru}", "url": URLS.get(n, f"{SITE}#surah-{n}")})
+    items.append({"@type": "ListItem", "position": n, "name": f"Surah {ru}", "url": SITE + SURAH_PAGE[n] if n in SURAH_PAGE else URLS.get(n, f"{SITE}#surah-{n}")})
 GRID = "\n".join(cards)
 
 POP = "".join(f'<li><a href="#surah-{n}">{e(S[n][1])}</a></li>' for n in POPULAR)
@@ -253,7 +259,7 @@ NOTFOUND = ('<div class="hero sm"><div class="wrap"><h1>Halaman Tidak Dijumpai (
             '<p><a class="btn3" href="/">📖 Ke laman utama Al-Quran Online</a></p></section></div></div>')
 # the monthly prayer-time sync rebuilds with SOLAT_DATE=<today in MYT> so the state pages' month facts stay current
 SOLAT_DAY = os.environ.get("SOLAT_DATE") or TODAY
-PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages4({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_masjid_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages14({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages6({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages7({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_jamak({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages9({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + [build_zp({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad})] + build_pages11({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [build_faraid({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad})] + build_pages13({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
+PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages4({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_state_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_masjid_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages14({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages6({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages7({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_jamak({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + build_pages9({"TODAY": TODAY, "TODAYMS": TODAYMS, "SOLAT_DAY": SOLAT_DAY, "share": share_bar, "ad": ad}) + [build_zp({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad})] + build_pages11({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [build_faraid({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad})] + build_pages13({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages15({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + build_pages({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "ad": ad}) + [
     dict(path="dasar-privasi.html", kind="info", data=False, arabic=False, modified=PRIV_DATE, title="Dasar Privasi – Al-Quran Online | Ilmu Alam",
          ogtitle="Dasar Privasi – Al-Quran Online",
          desc="Dasar privasi Al-Quran Online (quran.ilmualam.com): data yang disimpan dalam pelayar anda, kuki, iklan Google AdSense dan hak anda di bawah PDPA 2010.",
