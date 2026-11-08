@@ -3,6 +3,7 @@ import json, os, datetime as dt
 import ibadah as I
 import solat as SL
 import plans as P
+import rumi_ms as RM
 from pages import e, faq_html, hero, side, meta_line, table, tool_cards, SITE, MAIN, TBB
 from pages3 import state_links
 
@@ -22,7 +23,7 @@ def qref(s, a):
 def quran_block(refs):
     """Arabic + Rumi + translation for a list of (s, a) straight from the dataset."""
     ar = " ".join(f'{e(ayah(s, a)["arabic"])} <span class="an">﴿{a}﴾</span>' for s, a in refs)
-    ru = " ".join(e(ayah(s, a)["rumi"]) for s, a in refs)
+    ru = " ".join(e(RM.rumi(s, a, ayah(s, a)["rumi"])) for s, a in refs)
     tr = " ".join(e(ayah(s, a)["translation"]) for s, a in refs)
     return ar, ru, tr
 
