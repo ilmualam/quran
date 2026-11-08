@@ -8,6 +8,7 @@ kind="tool" so alat.js adds the copy buttons and the daily zikir counters (same 
 import ibadah as I
 import ibadah2 as I2
 import plans as P
+import rumi_ms as RM
 from pages import e, faq_html, hero, side, meta_line, table, tool_cards, SITE
 from pages2 import card, quran_block, qref, zref
 
@@ -265,7 +266,8 @@ def build_pages16(ctx):
                 secs.append(zsec("amalan", "Amalan Sebelum Tidur (Sunnah)", z_items(TIDUR), len(TIDUR),
                                  "Amalan Rasulullah SAW sebelum tidur, termasuk tasbih Fatimah (33·33·34). Kiraan bermula semula setiap hari."))
             else:
-                secs.append(f'<section class="dsec" id="{sid}" aria-labelledby="h-{sid}"><h2 id="h-{sid}">{h}</h2>{html}</section>')
+                note = (f'<p class="note">{e(RM.credit())}</p>' if sid == "bacaan" and path in ("ayat-kursi/", "amanar-rasul/") and RM.live(2) else "")
+                secs.append(f'<section class="dsec" id="{sid}" aria-labelledby="h-{sid}"><h2 id="h-{sid}">{h}</h2>{html}{note}</section>')
             if len(secs) == 1:
                 secs.append(ad(0))
         toc = [(sid, h or ("Wirid" if sid == "wirid" else "Amalan")) for sid, h, _ in d["sections"]] + [("faq", "Soalan lazim"), ("lain", "Doa lain")]

@@ -8,6 +8,7 @@ the Blogger article (ARTICLES) keeps the long-form "kelebihan / tafsir" content 
 Virtues listed here carry the hadith reference and, where scholars grade it weak, say so."""
 import json
 import plans as P
+import rumi_ms as RM
 from surahs import S, MADANI, ARTICLES
 from pages import e, faq_html, hero, side, meta_line, table, tool_cards, SITE
 
@@ -80,13 +81,13 @@ def ayah_list(n, ayat):
     out = []
     if n not in (1, 9):
         out.append(f'<p class="dar sbas" lang="ar" dir="rtl">{e(BASMALAH["arabic"])}</p>'
-                   f'<p class="dru sbas"><em>{e(BASMALAH["rumi"])}</em></p>')
+                   f'<p class="dru sbas"><em>{e(RM.RUMI[(1, 1)] if RM.live(n) else BASMALAH["rumi"])}</em></p>')
     for v in ayat:
         a = v["id"]
         out.append(f'<article class="dw sv" id="ayat-{a}"><header class="dh"><h3>Ayat {a}</h3>'
                    f'<a class="note" href="/#surah-{n}-ayat-{a}" aria-label="Dengar ayat {a} dalam pembaca">▶ Dengar</a></header>'
                    f'<p class="dar" lang="ar" dir="rtl">{e(v["arabic"])} <span class="an">﴿{a}﴾</span></p>'
-                   f'<p class="dru"><em>{e(v["rumi"])}</em></p><p class="dmn">{e(v["translation"])}</p></article>')
+                   f'<p class="dru"><em>{e(RM.rumi(n, a, v["rumi"]))}</em></p><p class="dmn">{e(v["translation"])}</p></article>')
     return "".join(out)
 
 
@@ -156,7 +157,7 @@ def build_pages15(ctx):
 
 <section class="dsec" id="bacaan" aria-labelledby="h-bacaan">
 <h2 id="h-bacaan">Bacaan {e(nm)} Penuh ({f["n"]} Ayat)</h2>
-<p class="note">Teks Arab Uthmani, Rumi dan terjemahan Abdullah Muhammad Basmeih, dipaparkan tanpa suntingan daripada dataset laman ini. Tekan “▶ Dengar” untuk audio ayat itu dalam pembaca.</p>
+<p class="note">Teks Arab Uthmani dan terjemahan Abdullah Muhammad Basmeih, dipaparkan tanpa suntingan daripada dataset laman ini. {e(RM.credit()) if RM.live(n) else ""} Rumi hanya alat bantu bacaan. Tekan “▶ Dengar” untuk audio ayat itu dalam pembaca.</p>
 {ayah_list(n, ayat)}
 </section>
 {ad(0)}
