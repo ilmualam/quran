@@ -1,6 +1,6 @@
 """Printable review sheet for the Malay Rumi in tools/rumi_ms.py, for a qualified teacher to check before it is published.
 
-python3 tools/rumi_review.py <out.html>   (print it, or save it as PDF from the browser)
+python3 tools/rumi_review.py <out.html> [18,67]   (optional surah list; print it, or save it as PDF from the browser)
 
 Each row: reference, Arabic (from data-surah/), the current English-style Rumi, the proposed Malay Rumi, a box for corrections.
 The sheet is not part of the site; write it outside the repository root."""
@@ -23,10 +23,12 @@ CONV = """- Mad (bacaan panjang) ditulis dengan vokal berganda: aa, ii, uu.
 - Rumi hanya alat bantu; ia tidak menggantikan talaqqi dan tajwid."""
 
 
-def main(out):
+def main(out, only=None):
     rows, last = [], None
     data = {}
     for (s, a), ru in sorted(R.RUMI.items()):
+        if only and s not in only:
+            continue
         if s not in data:
             data[s] = json.load(open(f"{REPO}/data-surah/surah-{s}.json", encoding="utf8"))
         v = data[s][a - 1]
@@ -49,7 +51,7 @@ table{{width:100%;border-collapse:collapse}} td,th{{border:1px solid #999;paddin
 tr{{break-inside:avoid}} @page{{margin:14mm}}
 </style></head><body>
 <h1>Semakan Rumi Gaya Malaysia (quran.ilmualam.com)</h1>
-<p class="lead">Sila semak setiap baris (huruf tebal) berbanding bacaan riwayat Hafs. Tanda “Betul” atau tulis pembetulan. {len(R.RUMI)} ayat.
+<p class="lead">Sila semak setiap baris (huruf tebal) berbanding bacaan riwayat Hafs. Tanda “Betul” atau tulis pembetulan. {sum(1 for k in R.RUMI if not only or k[0] in only)} ayat.
 Selepas semakan, nama dan tauliah penyemak akan dipaparkan pada halaman: “Rumi gaya Malaysia, disemak oleh …”.</p>
 <p><strong>Nama penyemak:</strong> ______________________ &nbsp; <strong>Tauliah:</strong> ______________________ &nbsp; <strong>Tarikh:</strong> __________</p>
 <pre>Konvensyen ejaan:
@@ -57,8 +59,8 @@ Selepas semakan, nama dan tauliah penyemak akan dipaparkan pada halaman: “Rumi
 <table><thead><tr><th>Ayat</th><th>Arab · Rumi sedia ada · <u>Rumi cadangan</u></th><th>Status</th><th>Pembetulan</th></tr></thead>
 <tbody>{"".join(rows)}</tbody></table></body></html>"""
     open(out, "w", encoding="utf8").write(page)
-    print("Review sheet:", out, f"({len(R.RUMI)} ayat)")
+    print("Review sheet:", out, f"({len(rows) - len({k[0] for k in R.RUMI if not only or k[0] in only})} ayat)")
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "rumi-review.html")
+    main(sys.argv[1] if len(sys.argv) > 1 else "rumi-review.html", {int(x) for x in sys.argv[2].split(",")} if len(sys.argv) > 2 else None)
