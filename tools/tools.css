@@ -445,3 +445,7 @@ body:has(.tlb) .hero{display:none!important}
 .nbshx ol{padding-left:1.3em}
 @media print{.nbs,#nbgf,#nblf,#nbkf,.nbaz{display:none!important}}
 .nbadv{margin:0 0 12px}.nbadv .frm{margin:0;padding:2px 14px 14px}
+.nbaz li{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px;border:1px solid var(--bd);border-radius:12px;background:var(--card);font-size:.78rem}
+.nbaz li>a,.nbaz li>small{border:0;padding:0;background:none;color:var(--lk);font-size:.78rem}.nbaz li>small{color:var(--sub)}
+.nbaz2 li{padding:0}.nbaz2 li>a{display:flex;flex-direction:column;align-items:center;width:100%;padding:6px 4px;color:var(--text)}
+.nbaz2 a[aria-current]{background:var(--g);border-radius:12px;color:#04130a}
