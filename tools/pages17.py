@@ -109,6 +109,87 @@ def opts(pairs, sel=""):
     return "".join(f'<option value="{e(v)}"{" selected" if v == sel else ""}>{e(t)}</option>' for v, t in pairs)
 
 
+MIN_SUB = 15  # a letter page needs at least this many names, so no thin pages
+GW = {"L": "lelaki", "P": "perempuan"}
+
+
+def sub_path(g, x):
+    return f"{PATH}{GW[g]}-huruf-{x.lower()}/"
+
+
+def letter_sets(lst):
+    """(letter, gender) -> names for that page: the gender's names plus uniseks, editor's names first, then A-Z."""
+    d = defaultdict(list)
+    for r in lst:
+        for g in ("L", "P"):
+            if r[3] in (g, "U") and r[7] != "b":
+                d[(r[0][0].upper(), g)].append(r)
+    return {k: sorted(v, key=lambda r: (r[7] != "e", r[0].lower())) for k, v in d.items() if len(v) >= MIN_SUB}
+
+
+def sub_page(g, x, names, LET, by, T_, TMS, share, ad):
+    w, W = GW[g], GW[g].capitalize()
+    path, n = sub_path(g, x), len(names)
+    ed = [r for r in names if r[7] == "e"]
+    top = (ed or names)[:8]
+    qn = [r for r in names if r[8] and not r[10]][:12]
+    sn = [r for r in names if r[4] in "ns"][:12]
+    rows_ = [[f"<strong>{e(r[0])}</strong>{' ⭐' if r[7] == 'e' else ''}", f'<span lang="ar" dir="rtl" class="nbta">{e(r[1])}</span>', e(r[2]),
+              refa(r) or "–"] for r in names]
+    other = {"L": "P", "P": "L"}[g]
+    nav = "".join(f'<li><a href="/{sub_path(g, y)}"{" aria-current=page" if y == x else ""}><b>{y}</b><small>{len(LET[(y, g)])}</small></a></li>'
+                  for y in sorted({k[0] for k in LET if k[1] == g}))
+    jl = f"/{PATH}#j={g}&c={'m2' if g == 'L' else 'n2'}&h={x}&w=1"
+    lst_txt = ", ".join(f"{r[0]} ({r[2].split(';')[0].split(' (')[0].rstrip('.')})" for r in top[:5])
+    faq = [(f"Apakah nama bayi {w} Islam bermula dengan huruf {x}?",
+            f"Antara pilihan editor: {lst_txt}. Halaman ini menyenaraikan {n} nama bayi {w} Islam bermula dengan huruf {x}, setiap satu dengan tulisan Arab dan maksud."),
+           (f"Berapa banyak nama bayi {w} huruf {x} dalam senarai ini?",
+            f"{n} nama ({len(ed)} pilihan editor yang disemak), termasuk nama uniseks. {len([r for r in names if r[8]])} daripadanya ialah perkataan yang terdapat dalam Al-Quran, dengan rujukan ayat.")]
+    if qn:
+        faq.append((f"Nama {w} huruf {x} yang terdapat dalam Al-Quran?",
+                    "Perkataan nama berikut dijumpai dalam teks Al-Quran: " + ", ".join(f"{r[0]} ({P.NAMES[int(r[8].split(':')[0]) - 1]} {r[8]})" for r in qn[:8]) + ". Maksud perkataan dalam ayat mungkin berbeza daripada maksud nama."))
+    if sn:
+        faq.append((f"Nama nabi atau sahabat huruf {x} untuk anak {w}?", ", ".join(f"{r[0]}: {r[2]}" for r in sn[:6]) + "."))
+    h1 = f"Nama Bayi {W} Islam Huruf {x}: {n} Nama & Maksud"
+    body = hero(h1, f"{n} nama bayi {w} Islam bermula dengan huruf {x}, dengan tulisan Arab, maksud dan rujukan ayat Al-Quran jika perkataannya terdapat dalam Al-Quran.",
+                [("Nama Bayi Islam", PATH), (f"{W} huruf {x}", None)])
+    body += f'''<div class="wrap mn"><div class="ct">
+<section aria-labelledby="h-jwp"><div class="prose">
+<h2 id="h-jwp" class="sr">Ringkasan</h2>
+<div class="box"><p><strong>Jawapan ringkas:</strong> Nama bayi {w} Islam huruf {x} pilihan editor: {e(lst_txt)}. Senarai penuh {n} nama di bawah; nama bertanda ⭐ telah disemak editor.</p></div>
+{meta_line(T_, TMS)}
+<div class="act"><a class="btn3" href="{jl}">✨ Jana nama penuh {w} huruf {x}</a><a class="btn2" href="/{sub_path(other, x)}">Nama {GW[other]} huruf {x}</a></div>
+{share(SITE + path, f"Nama bayi {w} Islam huruf {x} dengan maksud dan tulisan Arab:")}
+</div></section>
+<section id="senarai" aria-labelledby="h-senarai">
+<h2 id="h-senarai">Senarai {n} Nama Bayi {W} Huruf {x}</h2>
+{table(["Nama", "Arab", "Maksud", "Rujukan"], rows_, f"Nama bayi {w} huruf {x}")}
+<p class="note">⭐ pilihan editor. 📖 = perkataan terdapat dalam Al-Quran (ayat pertama dan bilangan kali). Semak nama penuh dengan <a href="/{PATH}#semak">Semak Nama</a>.</p>
+</section>
+{ad(0)}
+<section id="huruf" aria-labelledby="h-huruf">
+<h2 id="h-huruf">Nama Bayi {W} Ikut Huruf</h2>
+<ul class="nbaz nbaz2">{nav}</ul>
+</section>
+<section id="faq" aria-labelledby="h-faq">
+<h2 id="h-faq">Soalan Lazim</h2>
+{faq_html(faq)}
+<p class="note">Kembali ke <a href="/{PATH}">penjana nama bayi Islam</a> untuk penjana nama penuh, carian maksud dan senarai pendek.</p>
+</section>
+</div>
+{side([("senarai", "Senarai nama"), ("huruf", "Huruf lain"), ("faq", "Soalan lazim")], PATH)}
+</div>'''
+    items = [{"@type": "ListItem", "position": i, "name": r[0], "description": r[2]} for i, r in enumerate(names, 1)]
+    return dict(path=path, kind="ref", data=False, arabic=True, published=PUB, nocache=True, schema="CollectionPage", og=f"nama-bayi-{w}",
+                ogcard=(f"Nama Bayi {W} Islam", "Nama ikut huruf A–Z dengan maksud & tulisan Arab"),
+                title=f"Nama Bayi {W} Islam Huruf {x} ({n} Nama & Maksud)", ogtitle=f"Nama Bayi {W} Islam Huruf {x}",
+                desc=f"{n} nama bayi {w} Islam huruf {x} dengan maksud dan tulisan Arab. Pilihan editor: {', '.join(r[0] for r in top[:4])}. Jana nama penuh dan semak maksud."[:160],
+                crumbs=[("Nama Bayi Islam", PATH), (f"{W} huruf {x}", None)], body=body, faq=faq,
+                about=[f"Nama bayi {w} Islam", f"Nama bayi {w} huruf {x}", "Maksud nama"],
+                itemlist=dict(name=f"Nama bayi {w} Islam huruf {x}", items=items),
+                llms=f"{n} nama bayi {w} Islam huruf {x} dengan tulisan Arab dan maksud; pilihan editor: {', '.join(r[0] for r in top[:6])}.")
+
+
 def build_pages17(ctx):
     T_, TMS = ctx["TODAY"], ctx["TODAYMS"]
     share, ad = ctx["share"], ctx["ad"]
@@ -166,7 +247,14 @@ def build_pages17(ctx):
     wrows = [[f"<strong>{e(r[0])}</strong>", f'<span lang="ar" dir="rtl" class="nbta">{e(r[1])}</span>', e(r[2])] for r in women]
     abd = [r for r in rows if r[7] == "b"]
     arows = [[f"<strong>{e(r[0])}</strong>", f'<span lang="ar" dir="rtl" class="nbta">{e(r[1])}</span>', e(r[2])] for r in abd]
-    az = "".join(f'<li><a href="#senarai" data-h="{x}"><b>{x}</b><small>{letters[(x, "L")]} L · {letters[(x, "P")]} P</small></a></li>' for x in AZ)
+    LET = letter_sets(lst)
+    def azcell(x):
+        out = []
+        for g, w in (("L", "lelaki"), ("P", "perempuan")):
+            n = len(LET.get((x, g), []))
+            out.append(f'<a href="/{sub_path(g, x)}">{n} {w}</a>' if (x, g) in LET else f"<small>{letters[(x, g)]} {w}</small>")
+        return f'<li><b>{x}</b>{"".join(out)}</li>'
+    az = "".join(azcell(x) for x in AZ)
     avoid = [
         ["Nama khusus bagi Allah", "Ar-Rahman, Al-Khaliq, Ar-Razzaq, Al-Ahad, As-Samad, Al-Quddus, Al-Jabbar, Al-Qahhar, Al-Qayyum",
          "Gunakan bentuk hamba: Abdul Rahman, Abdul Khaliq, Abdul Razak. Ulama melarang nama yang hanya layak bagi Allah (Ibn al-Qayyim, <em>Tuhfat al-Maudud</em>)."],
@@ -232,7 +320,7 @@ def build_pages17(ctx):
 <p class="nbsum" id="nbln" aria-live="polite">Memaparkan {len(first)} daripada {N:,} nama</p>
 <ul class="nbl" id="nblr">{list_cards}</ul>
 <div class="act"><button class="btn2" type="button" id="nblm">Papar {PER} lagi</button></div>
-<h3 id="h-az">Indeks A–Z</h3>
+<h3 id="h-az">Nama Bayi Islam Ikut Huruf (A–Z)</h3>
 <ul class="nbaz" aria-labelledby="h-az">{az}</ul>
 </section>
 {ad(0)}
@@ -323,6 +411,7 @@ def build_pages17(ctx):
               "description": f"{N:,} nama Islam dengan ejaan Arab, maksud Bahasa Melayu, jantina, suku kata, tema dan rujukan ayat Al-Quran jika perkataan itu terdapat dalam Al-Quran.",
               "isAccessibleForFree": True, "creator": {"@id": "https://www.ilmualam.com/#org"}, "dateModified": T_,
               "distribution": {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": SITE + "assets/data/nama-bayi.json"}}]
+    subs = [sub_page(g, x, names, LET, by, T_, TMS, share, ad) for (x, g), names in sorted(LET.items(), key=lambda k: (k[0][1], k[0][0]))]
     return [dict(path=PATH, kind="tool", data=False, arabic=True, published=PUB, scripts=["/assets/js/nama.js"],
                  title="Nama Bayi Islam: Penjana Nama, Maksud & Ejaan Arab",
                  ogtitle="Nama Bayi Islam & Maksud", ogcard=("Nama Bayi Islam", f"{N:,} nama dengan maksud & tulisan Arab · penjana nama penuh · semak nama ikut hadis"),
@@ -334,4 +423,4 @@ def build_pages17(ctx):
                                                                    "Semak nama: Abdul + Asmaul Husna, nama khusus bagi Allah, nama makruh", "Senarai pendek dengan pautan kongsi"]),
                  llms=f"Penjana nama bayi Islam: {N:,} nama (lelaki {NLx:,}, perempuan {NPx:,}) dengan tulisan Arab dan maksud Melayu; {NQ:,} perkataan nama disahkan terdapat dalam Al-Quran dengan rujukan ayat; "
                       f"penjana nama penuh (Muhammad/Ahmad/Nur/Nurul/Siti + nama, lebih {cm} gabungan); semak nama ikut hadis (Abdullah & Abdul Rahman paling disukai Allah, HR Muslim 2132; "
-                      "nama khusus bagi Allah, Malikul Muluk HR Al-Bukhari 6205, nama makruh HR Muslim 2136-2137). Data: /assets/data/nama-bayi.json.")]
+                      "nama khusus bagi Allah, Malikul Muluk HR Al-Bukhari 6205, nama makruh HR Muslim 2136-2137). Data: /assets/data/nama-bayi.json.")] + subs
