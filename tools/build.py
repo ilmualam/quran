@@ -292,6 +292,10 @@ for pg in PAGES:
     open(out, "w", encoding="utf8", newline="\n").write(html_out)
     OUTPUTS[pg["path"]] = html_out
 
+# RSS feeds for Pinterest boards (feed/<board>.xml) and readers (feed.xml), with 2:3 pin images in assets/pin/
+import feeds
+FEEDS = feeds.build(PAGES, SITE, REPO, TODAY, PUBLISHED)
+
 # Malay translation index for /cari-ayat-al-quran/ (fetched only when the visitor starts searching)
 os.makedirs(f"{REPO}/assets/data", exist_ok=True)
 open(f"{REPO}/assets/data/terjemahan-ms.json", "w", encoding="utf8", newline="\n").write(json.dumps(
@@ -381,4 +385,5 @@ for f in ASSETS:
     h.update(open(f"{REPO}/{f}", "rb").read())
 sw = open(f"{SCR}/sw.js", encoding="utf8").read().replace("{{VER}}", h.hexdigest()[:10]).replace("{{PRE}}", json.dumps(PRE))
 open(f"{REPO}/sw.js", "w", encoding="utf8", newline="\n").write(sw)
+print("feeds", FEEDS)
 print("OK", len(PAGE), "bytes; pages", len(PAGES) + 1, "; total ayat", sum(AYAT.values()), "| ads", "ON" if ADS_ON else "off", "| surah without article link:", MISSING or "none")
