@@ -520,4 +520,17 @@ pg=await open('jadual-khatam-al-quran/');
 await pg.click('#kt tbody tr:nth-child(2) a');await pg.waitForSelector('dialog.rd[open]');
 await pg.waitForFunction(()=>document.querySelector('#ayat-142'));
 ok(pg.url().endsWith('/#surah-2-ayat-142'),'reader opens from khatam link '+pg.url());
+// nama bayi islam: generator, filter, checker, shortlist, shared link
+pg=await open('nama-bayi-islam/');
+await pg.click('#nbgo');await pg.waitForFunction(()=>document.querySelectorAll('#nbgr li.nbf').length===12);
+ok((await pg.textContent('#nbgr .nbff')).startsWith('Muhammad '),'nama: generator Muhammad + 2');
+await pg.fill('#nblq','aisyah');await pg.waitForFunction(()=>/daripada \d+ nama/.test(document.querySelector('#nbln').textContent)&&document.querySelector('#nblr .nbn').textContent==='Aisyah');
+ok(true,'nama: search finds Aisyah first');
+await pg.fill('#nbkq','Abdul Nabi bin Ali');await pg.click('#nbkf button[type=submit]');
+ok((await pg.textContent('#nbkr')).includes('bukan Asmaul Husna'),'nama: checker flags Abdul + non-Asmaul');
+await pg.fill('#nbkq','Rahman');await pg.click('#nbkf button[type=submit]');
+ok((await pg.textContent('#nbkr')).includes('khusus bagi Allah'),'nama: checker flags names reserved for Allah');
+await pg.click('#nblr li:first-child .nbs');ok((await pg.textContent('#simpan .nbcnt'))==='1','nama: shortlist saves');
+await pg.reload({waitUntil:'networkidle'});ok((await pg.textContent('#simpan .nbcnt'))==='1','nama: shortlist persisted');
+ok(pg.errs.length===0,'nama no errors '+pg.errs);
 await browser.close();

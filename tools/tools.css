@@ -408,3 +408,40 @@ body:has(.tlb) .hero{display:none!important}
 .nbars li{display:grid;grid-template-columns:minmax(120px,9.5rem) 1fr 2.6rem;align-items:center;gap:8px;font-size:.92rem}
 .nbar{display:block;height:12px;width:var(--w);min-width:4px;border-radius:6px;background:var(--g)}.nkali{font-weight:800;text-align:right}
 .nbnav{display:flex;justify-content:space-between;gap:12px;margin:0 0 14px;font-weight:700}
+/* nama bayi islam (/nama-bayi-islam/, assets/js/nama.js) */
+.nbsum{font-weight:800;margin:4px 0 10px}
+.nbgl,.nbl{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr))}
+.nbf,.nbc{position:relative;min-width:0;border:1px solid var(--bd);border-radius:14px;background:var(--card);padding:12px 14px 10px}
+.nbff,.nbn{font-weight:800;font-size:1.08rem;margin:0;padding-right:46px;overflow-wrap:anywhere}
+.nbfb{font-weight:600;font-size:.9rem;color:var(--sub)}
+.nba{font:400 1.3rem/1.9 var(--ar);margin:0 0 2px;padding-right:46px;text-align:left}
+.nbm{display:block;font-size:.88rem;color:var(--sub);margin:0}
+.nbm b{color:var(--text)}
+.nbv{font-size:.8rem;color:var(--sub);margin:4px 0 0}
+.nbt{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0;font-size:.76rem}
+.nbt span,.nbt a{padding:2px 8px;border-radius:999px;border:1px solid var(--bd);background:var(--bg);color:var(--sub);text-decoration:none}
+.nbt a{color:var(--lk);font-weight:700}
+.nbt .gL{border-color:#3b82f6}.nbt .gP{border-color:#ec4899}.nbt .gU{border-color:#8b5cf6}
+.nbt .nbaw{border-color:var(--gold)}
+.nbs{position:absolute;top:8px;right:8px;width:42px;height:42px;border-radius:50%;border:1px solid var(--bd);background:var(--bg);font-size:1.15rem;line-height:1;color:var(--sub);cursor:pointer}
+.nbs[aria-pressed=true]{background:#e11d48;border-color:#e11d48;color:#fff}
+.nbe{list-style:none;color:var(--sub);padding:10px 0}
+.nbaz{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(92px,1fr))}
+.nbaz a{display:flex;flex-direction:column;align-items:center;padding:6px 4px;border:1px solid var(--bd);border-radius:12px;background:var(--card);text-decoration:none;color:var(--text)}
+.nbaz b{font-size:1.1rem}.nbaz small{font-size:.72rem;color:var(--sub)}
+.nbck{font-weight:800;padding:10px 14px;border-radius:12px;margin:8px 0}
+.nbck.ok{background:rgba(22,163,74,.12)}.nbck.warn{background:rgba(217,119,6,.14)}.nbck.bad{background:rgba(220,38,38,.13)}
+.nbr{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:8px}
+.nbr li{display:flex;flex-direction:column;gap:2px;padding:10px 14px;border:1px solid var(--bd);border-left:5px solid #64748b;border-radius:12px;background:var(--card)}
+.nbr li.ok{border-left-color:#16a34a}.nbr li.warn{border-left-color:#d97706}.nbr li.bad{border-left-color:#dc2626}
+.nbr li span{font-size:.9rem;color:var(--sub)}
+.nbta{font-family:var(--ar);font-size:1.15rem}
+.nbr .nbta{color:var(--text)}
+.nbsv{margin:0 0 12px;padding-left:1.4em}
+.nbsv li{margin:0 0 8px}
+.nbsv li>div{display:inline-flex;flex-direction:column;vertical-align:top;max-width:calc(100% - 100px)}
+.nbsa{display:inline-flex;gap:4px;float:right}
+.nbsa .btn2{min-height:36px;padding:0 10px}
+.nbshx ol{padding-left:1.3em}
+@media print{.nbs,#nbgf,#nblf,#nbkf,.nbaz{display:none!important}}
+.nbadv{margin:0 0 12px}.nbadv .frm{margin:0;padding:2px 14px 14px}
