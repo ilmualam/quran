@@ -250,11 +250,16 @@ PAGES = [
 
 
 def build_pages16(ctx):
+    import pages18  # the second batch of doa pages; both batches list each other under "Doa lain"
+    return build_doa(PAGES, ctx, PUB, PAGES + pages18.PAGES)
+
+
+def build_doa(pages, ctx, pub, related):
     T, TMS = ctx["TODAY"], ctx["TODAYMS"]
     share, ad = ctx["share"], ctx["ad"]
     out = []
-    names = {p: d["title"].split(":")[0] for p, d in PAGES}
-    for path, d in PAGES:
+    names = {p: d["title"].split(":")[0] for p, d in related}
+    for path, d in pages:
         url = SITE + path
         secs = []
         for sid, h, html in d["sections"]:
@@ -271,7 +276,7 @@ def build_pages16(ctx):
             if len(secs) == 1:
                 secs.append(ad(0))
         toc = [(sid, h or ("Wirid" if sid == "wirid" else "Amalan")) for sid, h, _ in d["sections"]] + [("faq", "Soalan lazim"), ("lain", "Doa lain")]
-        others = "".join(f'<li><a href="/{p}">{e(names[p])}</a></li>' for p, _ in PAGES if p != path)
+        others = "".join(f'<li><a href="/{p}">{e(names[p])}</a></li>' for p, _ in related if p != path)
         crumb_hub = ("Doa Harian", "doa-harian/")
         body = hero(e(d["h1"]), e(d["lead"]), [crumb_hub, (names[path], None)])
         body += f'''<div class="wrap mn"><div class="ct{" zk" if d.get("zk") else ""}">
@@ -300,7 +305,7 @@ def build_pages16(ctx):
 {side(toc, None)}
 </div>'''
         assert len(d["title"]) <= 70 and len(d["desc"]) <= 160, (path, len(d["title"]), len(d["desc"]))
-        out.append(dict(path=path, kind="tool", data=False, arabic=True, published=PUB, nocache=True,
+        out.append(dict(path=path, kind="tool", data=False, arabic=True, published=d.get("published", pub), nocache=True,
                         title=d["title"], ogtitle=d["title"].split(":")[0], desc=d["desc"], crumbs=[crumb_hub, (names[path], None)],
                         body=body, faq=d["faq"], about=d["about"], ogcard=(d["title"].split(":")[0], "Teks Arab, Rumi & maksud, dengan rujukan hadis"),
                         llms=d["llms"]))
