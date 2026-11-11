@@ -134,7 +134,7 @@ def sub_page(g, x, names, LET, by, T_, TMS, share, ad):
     top = (ed or names)[:8]
     qn = [r for r in names if r[8] and not r[10]][:12]
     sn = [r for r in names if r[4] in "ns"][:12]
-    rows_ = [[f"<strong>{e(r[0])}</strong>{' ⭐' if r[7] == 'e' else ''}", f'<span lang="ar" dir="rtl" class="nbta">{e(r[1])}</span>', e(r[2]),
+    rows_ = [[(f'<strong><a href="/{MP[r[0].lower()]}">{e(r[0])}</a></strong>' if r[0].lower() in MP else f"<strong>{e(r[0])}</strong>") + (' ⭐' if r[7] == 'e' else ''), f'<span lang="ar" dir="rtl" class="nbta">{e(r[1])}</span>', e(r[2]),
               refa(r) or "–"] for r in names]
     other = {"L": "P", "P": "L"}[g]
     nav = "".join(f'<li><a href="/{sub_path(g, y)}"{" aria-current=page" if y == x else ""}><b>{y}</b><small>{len(LET[(y, g)])}</small></a></li>'
@@ -188,6 +188,109 @@ def sub_page(g, x, names, LET, by, T_, TMS, share, ad):
                 about=[f"Nama bayi {w} Islam", f"Nama bayi {w} huruf {x}", "Maksud nama"],
                 itemlist=dict(name=f"Nama bayi {w} Islam huruf {x}", items=items),
                 llms=f"{n} nama bayi {w} Islam huruf {x} dengan tulisan Arab dan maksud; pilihan editor: {', '.join(r[0] for r in top[:6])}.")
+
+
+MP = {}  # name (lower case) -> path of its meaning page, filled by build_pages17 before any page links to it
+MPUB = "2026-11-11"
+
+
+def slug(n):
+    return re.sub(r"[^a-z0-9]+", "-", n.lower()).strip("-")
+
+
+def m_path(n):
+    return f"{PATH}maksud-nama-{slug(n)}/"
+
+
+def maksud_page(name, rs, ed, var, T_, TMS, share, ad):
+    """One page per editor-reviewed name: meaning, Arabic, the Quran ayah where the word occurs, spelling variants,
+    pairings and names with a similar meaning. rs = the editor rows with this spelling (one per gender)."""
+    r = rs[0]
+    gs = [GW.get(x[3], "uniseks") if x[3] != "U" else "uniseks" for x in rs]
+    gtxt = " dan ".join(dict.fromkeys(gs))
+    path = m_path(name)
+    rnd = random.Random(slug(name))
+    g = r[3]
+    same = [x for x in ed if (x[3] == g or g == "U" or x[3] == "U") and x[0] != name and x[7] == "e" and " " not in x[0]]
+    th = r[6][:1]
+    sim = [x for x in same if th and th in x[6]]
+    sim = rnd.sample(sim, min(8, len(sim))) if sim else []
+    pool = [x for x in same if x[0][0] != name[0] and akey(x[1]) != akey(r[1])]
+    pairs = rnd.sample(pool, min(6, len(pool))) if r[7] != "b" else []
+    v = [x for x in var.get((akey(r[1]), r[3]), []) if x != name][:8]
+    link = lambda x: f'<a href="/{MP[x[0].lower()]}">{e(x[0])}</a>' if x[0].lower() in MP else e(x[0])
+    secs = []
+    if r[10]:
+        secs.append(("quran", f"Nama {e(name)} dalam Al-Quran",
+                     f'<p>{e(name)} ialah nama seorang nabi yang disebut dalam Al-Quran. Baca kisah, mukjizat dan setiap ayat yang menyebut namanya di <a href="/kisah-nabi/{r[10]}/">Kisah Nabi {e(name)}</a>.</p>'))
+    elif r[8]:
+        s_, a_ = map(int, r[8].split(":"))
+        ar, ru, mn = quran_block([(s_, a_)])
+        secs.append(("quran", f"Perkataan {e(name)} dalam Al-Quran",
+                     f'<p>Perkataan Arab <span lang="ar" dir="rtl" class="nbta">{e(r[1])}</span> terdapat dalam Al-Quran sebanyak <strong>{r[9]} kali</strong>. Ayat pertama yang mengandunginya:</p>'
+                     + card(f"ayat-{s_}-{a_}", f"{P.NAMES[s_ - 1]} {s_}:{a_}", ar, ru, mn, qref(s_, a_))
+                     + '<p class="note">Maksud perkataan dalam ayat mungkin berbeza sedikit daripada maksud nama, bergantung pada konteks ayat.</p>'))
+    if r[7] == "b":
+        secs.append(("asmaul", "Abdul dan Asmaul Husna", f'<p>Abdul bermaksud “hamba kepada”. {e(name)} menyambungkan Abdul dengan salah satu <a href="/asmaul-husna/">99 nama Allah</a>, '
+                     'jadi maksudnya ialah pengakuan sebagai hamba Allah. “Nama yang paling disukai Allah ialah Abdullah dan Abdul Rahman” (HR Muslim 2132).</p>'))
+    if pairs:
+        pre = "Muhammad " if g == "L" else ("Nur " if g == "P" else "")
+        secs.append(("gabung", f"Cadangan Nama Penuh dengan {e(name)}", '<ul class="nbpair">' + "".join(
+                     f"<li><strong>{e(pre)}{e(name)} {link(x)}</strong><span>{e(name)}: {e(r[2].split(';')[0])} · {e(x[0])}: {e(x[2].split(';')[0])}</span></li>" for x in pairs) + "</ul>"
+                     + f'<p><a class="btn3" href="/{PATH}#j={"P" if g == "P" else "L"}&c={"n2" if g == "P" else "m2"}&h={name[0].upper()}&w=1">✨ Jana lagi nama penuh huruf {e(name[0].upper())}</a></p>'))
+    if sim:
+        secs.append(("serupa", "Nama Lain dengan Maksud Serupa", "<ul class=\"nbsim\">" + "".join(f"<li>{link(x)}: {e(x[2].split(';')[0])}</li>" for x in sim) + "</ul>"))
+    toc = [("maksud", "Maksud")] + [(i, re.sub("<[^>]+>", "", h)) for i, h, _ in secs] + [("faq", "Soalan lazim")]
+    faq = [(f"Apakah maksud nama {name}?", f"{name} ({r[1]}) bermaksud: {r[2]}"),
+           (f"Adakah nama {name} terdapat dalam Al-Quran?",
+            (f"Ya. {name} ialah nama nabi yang disebut dalam Al-Quran." if r[10] else
+             f"Ya. Perkataan Arab {r[1]} terdapat {r[9]} kali dalam Al-Quran, pertama kali dalam {P.NAMES[int(r[8].split(':')[0]) - 1]} {r[8]}." if r[8] else
+             f"Perkataan {name} tidak dijumpai sebagai perkataan tunggal dalam teks Al-Quran. Ia tetap nama Islam yang baik maksudnya.")),
+           (f"Nama {name} untuk lelaki atau perempuan?", f"{name} ialah nama {gtxt}." + (f" Ejaan lain: {', '.join(v)}." if v else "")),
+           (f"Bagaimana menulis nama {name} dalam tulisan Arab?", f"{r[1]}, {r[5]} suku kata.")]
+    h1 = f"Maksud Nama {e(name)} dalam Islam"
+    body = hero(h1, f"Maksud nama {e(name)}, tulisan Arab, rujukan Al-Quran, ejaan lain dan cadangan nama penuh.",
+                [("Nama Bayi Islam", PATH), (f"Maksud nama {name}", None)])
+    th_txt = ", ".join(NM.THEMES[t] for t in r[6]) or "–"
+    srcl = {"n": "Nabi & keluarga Nabi", "s": "Sahabat & tokoh Islam", "u": "Nama Islam umum"}[r[4]]
+    frows = [["Nama", f"<strong>{e(name)}</strong>"], ["Tulisan Arab", f'<span lang="ar" dir="rtl" class="nbta">{e(r[1])}</span>'],
+             ["Maksud", e(r[2])], ["Jantina", gtxt.capitalize()], ["Suku kata", str(r[5])], ["Kategori", srcl], ["Tema", th_txt],
+             ["Al-Quran", refa(r) or "Tiada sebagai perkataan tunggal"]] + ([["Ejaan lain", e(", ".join(v))]] if v else [])
+    facts = '<dl class="nbdl">' + "".join(f"<dt>{k}</dt><dd>{val}</dd>" for k, val in frows) + "</dl>"
+    body += f'''<div class="wrap mn"><div class="ct">
+<section id="maksud" aria-labelledby="h-maksud"><div class="prose">
+<h2 id="h-maksud" class="sr">Maksud</h2>
+<div class="box"><p><strong>Jawapan ringkas:</strong> Nama <strong>{e(name)}</strong> (<span lang="ar" dir="rtl">{e(r[1])}</span>) bermaksud <strong>{e(r[2])}</strong>. Ia nama {e(gtxt)}{", dan perkataannya terdapat dalam Al-Quran" if r[8] and not r[10] else ""}{", nama seorang nabi dalam Al-Quran" if r[10] else ""}.</p></div>
+{meta_line(T_, TMS)}
+{facts}
+<div class="act"><a class="btn2" href="/{PATH}#semak">✅ Semak nama penuh</a><a class="btn2" href="/{PATH}">👶 Penjana nama bayi</a></div>
+{share(SITE + path, f"Maksud nama {name} dalam Islam:")}
+</div></section>
+{"".join(f'<section class="dsec" id="{i}" aria-labelledby="h-{i}"><h2 id="h-{i}">{h}</h2>{html}</section>' + (ad(0) if k == 0 else "") for k, (i, h, html) in enumerate(secs))}
+<section id="faq" aria-labelledby="h-faq">
+<h2 id="h-faq">Soalan Lazim</h2>
+{faq_html(faq)}
+<p class="note">Senarai penuh: <a href="/{sub_path("P" if g == "P" else "L", name[0].upper())}">nama bayi {"perempuan" if g == "P" else "lelaki"} huruf {e(name[0].upper())}</a> · <a href="/{PATH}">semua nama bayi Islam</a>.</p>
+</section>
+</div>
+{side(toc, PATH)}
+</div>'''
+    short = re.split(r"[;.] ", r[2])[0].rstrip(".")
+    desc = f"Maksud nama {name} dalam Islam: {short}. Tulisan Arab {r[1]}, {'rujukan Al-Quran, ' if r[8] or r[10] else ''}ejaan lain dan cadangan nama penuh."
+    if len(desc) > 160:
+        desc = (f"Maksud nama {name}: {short}"[:118].rsplit(" ", 1)[0] + "… Tulisan Arab & cadangan nama penuh.")
+    tail = "(Tulisan Arab & Al-Quran)" if r[8] or r[10] else "(Tulisan Arab & Ejaan)"
+    title = f"Maksud Nama {name} dalam Islam {tail}"
+    if len(title) > 70:
+        title = f"Maksud Nama {name} dalam Islam"
+    return dict(path=path, kind="ref", data=False, arabic=True, published=MPUB, nocache=True, og="nama-bayi-maksud",
+                ogcard=("Maksud Nama Bayi Islam", "Maksud, tulisan Arab & rujukan Al-Quran"),
+                title=title,
+                ogtitle=f"Maksud Nama {name}", desc=desc[:160], crumbs=[("Nama Bayi Islam", PATH), (f"Maksud nama {name}", None)], body=body, faq=faq,
+                about=[f"Nama {name}", "Maksud nama", "Nama bayi Islam"],
+                nodes=[{"@type": "DefinedTerm", "@id": SITE + path + "#nama", "name": name, "alternateName": r[1], "description": r[2],
+                        "inDefinedTermSet": {"@id": SITE + PATH + "#nama"}}],
+                llms=f"Maksud nama {name} ({r[1]}): {r[2]}" + (f"; dalam Al-Quran {r[8]} ({r[9]} kali)" if r[8] else ""))
 
 
 def build_pages17(ctx):
@@ -411,6 +514,14 @@ def build_pages17(ctx):
               "description": f"{N:,} nama Islam dengan ejaan Arab, maksud Bahasa Melayu, jantina, suku kata, tema dan rujukan ayat Al-Quran jika perkataan itu terdapat dalam Al-Quran.",
               "isAccessibleForFree": True, "creator": {"@id": "https://www.ilmualam.com/#org"}, "dateModified": T_,
               "distribution": {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": SITE + "assets/data/nama-bayi.json"}}]
+    edrows = [r for r in rows if r[7] in ("e", "b")]
+    groups = defaultdict(list)
+    for r in edrows:
+        groups[r[0]].append(r)
+    MP.clear()
+    MP.update({n.lower(): m_path(n) for n in groups})
+    assert len({slug(n) for n in groups}) == len(groups), "two names share a slug"
+    mpages = [maksud_page(n, rs, edrows, var, T_, TMS, share, ad) for n, rs in sorted(groups.items())]
     subs = [sub_page(g, x, names, LET, by, T_, TMS, share, ad) for (x, g), names in sorted(LET.items(), key=lambda k: (k[0][1], k[0][0]))]
     return [dict(path=PATH, kind="tool", data=False, arabic=True, published=PUB, scripts=["/assets/js/nama.js"],
                  title="Nama Bayi Islam: Penjana Nama, Maksud & Ejaan Arab",
@@ -423,4 +534,4 @@ def build_pages17(ctx):
                                                                    "Semak nama: Abdul + Asmaul Husna, nama khusus bagi Allah, nama makruh", "Senarai pendek dengan pautan kongsi"]),
                  llms=f"Penjana nama bayi Islam: {N:,} nama (lelaki {NLx:,}, perempuan {NPx:,}) dengan tulisan Arab dan maksud Melayu; {NQ:,} perkataan nama disahkan terdapat dalam Al-Quran dengan rujukan ayat; "
                       f"penjana nama penuh (Muhammad/Ahmad/Nur/Nurul/Siti + nama, lebih {cm} gabungan); semak nama ikut hadis (Abdullah & Abdul Rahman paling disukai Allah, HR Muslim 2132; "
-                      "nama khusus bagi Allah, Malikul Muluk HR Al-Bukhari 6205, nama makruh HR Muslim 2136-2137). Data: /assets/data/nama-bayi.json.")] + subs
+                      "nama khusus bagi Allah, Malikul Muluk HR Al-Bukhari 6205, nama makruh HR Muslim 2136-2137). Data: /assets/data/nama-bayi.json.")] + subs + mpages

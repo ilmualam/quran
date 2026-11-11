@@ -22,6 +22,8 @@ def board(pg):
         return None
     if any(p.startswith(d) and p != d for d in DEEP_SKIP):
         return None
+    if "/maksud-nama-" in p:  # 500 name-meaning pages would flood the board; the hub and letter pages carry it
+        return None
     if p.startswith("nama-bayi-islam/"):
         return "nama-bayi"
     if p.startswith("kisah-nabi/"):
