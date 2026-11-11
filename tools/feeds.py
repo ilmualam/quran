@@ -29,7 +29,7 @@ def board(pg):
         return "nama-bayi"
     if p.startswith("kisah-nabi/"):
         return "kisah-nabi"
-    if p.startswith("surah-"):
+    if p.startswith(("surah-", "juz-")):
         return "surah"
     if p.startswith(QURAN_DOA):
         return "quran-doa"
