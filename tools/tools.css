@@ -449,3 +449,11 @@ body:has(.tlb) .hero{display:none!important}
 .nbaz li>a,.nbaz li>small{border:0;padding:0;background:none;color:var(--lk);font-size:.78rem}.nbaz li>small{color:var(--sub)}
 .nbaz2 li{padding:0}.nbaz2 li>a{display:flex;flex-direction:column;align-items:center;width:100%;padding:6px 4px;color:var(--text)}
 .nbaz2 a[aria-current]{background:var(--g);border-radius:12px;color:#04130a}
+.nbdl{display:grid;grid-template-columns:minmax(90px,auto) 1fr;margin:0 0 16px;border:1px solid var(--bd);border-radius:14px;background:var(--card);overflow:hidden}
+.nbdl dt,.nbdl dd{margin:0;padding:10px 14px;border-top:1px solid var(--bd);overflow-wrap:anywhere}
+.nbdl dt{font-weight:800;color:var(--sub);font-size:.88rem}
+.nbdl dt:first-of-type,.nbdl dt:first-of-type+dd{border-top:0}
+.nbsim{columns:2 220px;padding-left:1.2em}.nbsim li{margin:0 0 6px;break-inside:avoid}
+.nbpair{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr))}
+.nbpair li{display:flex;flex-direction:column;gap:2px;padding:10px 14px;border:1px solid var(--bd);border-radius:12px;background:var(--card)}
+.nbpair span{font-size:.86rem;color:var(--sub)}
