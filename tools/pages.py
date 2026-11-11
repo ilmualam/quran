@@ -575,7 +575,7 @@ def build_pages(ctx):
         n = g2 - g1 + 1
         counts.append(n)
         sur = e(P.NAMES[s1 - 1]) if s1 == s2 else f"{e(P.NAMES[s1 - 1])} – {e(P.NAMES[s2 - 1])} ({s2 - s1 + 1} surah)"
-        jrows.append([f'<strong id="juz-{j}">Juz {j}</strong>',
+        jrows.append([f'<strong id="juz-{j}"><a href="/juz-{j}/">Juz {j}</a></strong>',
                       f'<a href="/#surah-{s1}-ayat-{a1}">{e(P.NAMES[s1 - 1])} {s1}:{a1}</a><span class="jar" lang="ar" dir="rtl">{e(arab(s1, a1, 3))}</span>',
                       f"{e(P.NAMES[s2 - 1])} {s2}:{a2}", f"{p1}–{p2}", P.num(n), sur])
     jmax, jmin = counts.index(max(counts)) + 1, counts.index(min(counts)) + 1
