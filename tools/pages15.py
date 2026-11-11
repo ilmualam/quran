@@ -85,6 +85,11 @@ for _n in range(1, 115):
         SURAH[_n] = ("surah-" + re.sub(r"[^a-z0-9]+", "-", S[_n][1].lower().replace("'", "")).strip("-"), S[_n][1], _v, _w)
 PATH = {n: SURAH[n][0] + "/" for n in SURAH}
 assert len(set(PATH.values())) == 114
+# Every surah also has a Sulvo-monetised article on www.ilmualam.com targeting "surah X rumi". While this subdomain shows no
+# ads, only the 10 original pages are indexed; the other 104 are noindex,follow so they serve readers without competing
+# with the paying article in search. Set INDEX_ALL = True once quran.ilmualam.com is monetised.
+INDEX_ALL = False
+INDEXED = set(SURAH) if INDEX_ALL else set(ORDER)
 
 
 def load(n):
@@ -230,7 +235,7 @@ def build_pages15(ctx):
                 "inLanguage": "ar", "position": n, "description": f"Surah ke-{n} Al-Quran, {f['kind']}, {f['n']} ayat. Maksud nama: {f['mean']}.",
                 "isPartOf": {"@type": "Book", "name": "Al-Quran", "inLanguage": "ar"},
                 "workTranslation": {"@type": "CreativeWork", "name": f"Terjemahan {nm} (Abdullah Muhammad Basmeih)", "inLanguage": "ms"}}
-        pages.append(dict(path=PATH[n], kind="ref", data=False, arabic=True, published=PUB, nocache=True,
+        pages.append(dict(path=PATH[n], kind="ref", data=False, arabic=True, published=PUB, nocache=True, noindex=n not in INDEXED,
                           title=title, ogtitle=f"{nm}: Bacaan Penuh Arab, Rumi & Terjemahan", desc=desc,
                           crumbs=[(nm, None)], body=body, faq=faq, about=[nm, "Al-Quran", "Bacaan Rumi"],
                           about_ref=url + "#surah", nodes=[work], ogcard=(f"{nm} ({f['n']} ayat)", "Bacaan penuh: Arab, Rumi, terjemahan Melayu & audio"),
