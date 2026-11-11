@@ -8,11 +8,12 @@ import og
 BOARDS = {
     "nama-bayi": ("Nama Bayi Islam", "Nama bayi Islam lelaki dan perempuan dengan maksud dan tulisan Arab, ikut huruf A–Z."),
     "quran-doa": ("Al-Quran, Doa & Zikir", "Surah pilihan, doa harian, zikir dan Asmaul Husna dengan teks Arab, rumi dan maksud."),
+    "surah": ("Surah Al-Quran: Arab, Rumi & Terjemahan", "Bacaan penuh 114 surah Al-Quran dalam tulisan Arab, Rumi dan terjemahan Bahasa Melayu."),
     "kisah-nabi": ("Kisah 25 Nabi", "Kisah 25 nabi dan rasul daripada Al-Quran dengan ayat rujukan."),
     "panduan-ibadah": ("Panduan Ibadah & Kalkulator Islam", "Cara solat, solat sunat, zakat, faraid, kalendar Hijrah dan alat Al-Quran percuma."),
 }
-KICKER = {"nama-bayi": "Nama Bayi Islam", "quran-doa": "Al-Quran & Doa", "kisah-nabi": "Kisah Nabi", "panduan-ibadah": "Panduan Ibadah"}
-QURAN_DOA = ("surah-", "ayat-kursi", "amanar-rasul", "doa-", "zikir-", "tahlil-", "tahiyat-", "asmaul-husna")
+KICKER = {"surah": "Surah Al-Quran", "nama-bayi": "Nama Bayi Islam", "quran-doa": "Al-Quran & Doa", "kisah-nabi": "Kisah Nabi", "panduan-ibadah": "Panduan Ibadah"}
+QURAN_DOA = ("ayat-kursi", "amanar-rasul", "doa-", "zikir-", "tahlil-", "tahiyat-", "asmaul-husna")
 DEEP_SKIP = ("waktu-solat/", "waktu-berbuka-puasa/", "cari-masjid/", "zakat-fitrah/")
 
 
@@ -28,6 +29,8 @@ def board(pg):
         return "nama-bayi"
     if p.startswith("kisah-nabi/"):
         return "kisah-nabi"
+    if p.startswith("surah-"):
+        return "surah"
     if p.startswith(QURAN_DOA):
         return "quran-doa"
     return "panduan-ibadah"
