@@ -15,7 +15,7 @@ from pages11 import build_pages11
 from pages12 import build_faraid
 from pages13 import build_pages13
 from pages14 import build_pages14
-from pages15 import build_pages15, PATH as SURAH_PAGE
+from pages15 import build_pages15, PATH as SURAH_PAGE, INDEXED as SURAH_INDEXED
 from pages16 import build_pages16
 from pages17 import build_pages17
 from pages18 import build_pages18
@@ -78,7 +78,7 @@ for n in range(1, 115):
         f'<span class="sa" lang="ar" dir="rtl">{e(ar)}</span>'
         f'<span class="sd">{e(mean)} · {AYAT[n]} ayat · {meta}</span></a>{art}</li>'
     )
-    items.append({"@type": "ListItem", "position": n, "name": f"Surah {ru}", "url": SITE + SURAH_PAGE[n] if n in SURAH_PAGE else URLS.get(n, f"{SITE}#surah-{n}")})
+    items.append({"@type": "ListItem", "position": n, "name": f"Surah {ru}", "url": SITE + SURAH_PAGE[n] if n in SURAH_INDEXED else URLS.get(n, f"{SITE}#surah-{n}")})
 GRID = "\n".join(cards)
 
 POP = "".join(f'<li><a href="#surah-{n}">{e(S[n][1])}</a></li>' for n in POPULAR)

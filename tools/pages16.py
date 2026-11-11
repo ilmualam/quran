@@ -305,7 +305,7 @@ def build_doa(pages, ctx, pub, related):
 {side(toc, None)}
 </div>'''
         assert len(d["title"]) <= 70 and len(d["desc"]) <= 160, (path, len(d["title"]), len(d["desc"]))
-        out.append(dict(path=path, kind="tool", data=False, arabic=True, published=d.get("published", pub), nocache=True,
+        out.append(dict(path=path, kind="tool", data=False, arabic=True, published=d.get("published", pub), nocache=True, noindex=d.get("noindex", False),
                         title=d["title"], ogtitle=d["title"].split(":")[0], desc=d["desc"], crumbs=[crumb_hub, (names[path], None)],
                         body=body, faq=d["faq"], about=d["about"], ogcard=(d["title"].split(":")[0], "Teks Arab, Rumi & maksud, dengan rujukan hadis"),
                         llms=d["llms"]))

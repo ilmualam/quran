@@ -311,8 +311,12 @@ PAGES = [
              ("Apakah syarat taubat diterima?", "Berhenti daripada dosa, menyesal, berazam tidak mengulanginya dan mengembalikan hak orang lain jika ada. Taubat diterima selagi nyawa belum sampai ke kerongkong.")],
         about=["Doa taubat", "Istighfar", "Sayyidul Istighfar"], llms="Doa taubat: Sayyidul Istighfar (HR Al-Bukhari 6306), Al-A'raf 7:23 (Nabi Adam), Al-Qasas 28:16 (Nabi Musa); syarat taubat nasuha (At-Tahrim 66:8).")),
 ]
-for _, d in PAGES:
+# www.ilmualam.com already has a Sulvo-monetised article for these searches; noindex,follow until this subdomain shows ads
+OVERLAP = {"doa-bangun-tidur/", "doa-keluar-rumah/", "doa-naik-kenderaan/", "doa-ziarah-kubur/", "doa-untuk-ibu-bapa/", "doa-belajar/",
+           "doa-hilangkan-resah/", "doa-murah-rezeki/"}
+for _p, d in PAGES:
     d["published"] = PUB
+    d["noindex"] = _p in OVERLAP
 
 
 def build_pages18(ctx):
