@@ -62,7 +62,7 @@ function build(){
 <div class="player"><button class="pp" type="button" data-a="play" aria-label="Mainkan bacaan">▶</button>
 <div class="info"><div class="bar" data-a="seek" aria-hidden="true"><i></i></div><div class="tmeta"><span id="rlab">Ayat 1</span><span id="rtime">0:00</span></div></div>
 <select id="qs" aria-label="Pilih qari">${QARI.map(q=>`<option value="${q[0]}">${q[1]}</option>`).join("")}</select>
-<button class="chip" type="button" data-a="close" aria-label="Tutup pembaca">✕</button></div>
+<button class="chip x" type="button" data-a="close" aria-label="Tutup pembaca" title="Tutup">✕</button></div>
 <nav class="tools" aria-label="Kawalan paparan"><div class="tabs" role="group" aria-label="Paparan teks">${[["all","Semua"],["ar","Arab"],["rumi","Rumi"],["ms","Melayu"]].map(v=>`<button class="tab" type="button" data-v="${v[0]}" aria-pressed="false">${v[1]}</button>`).join("")}</div>
 <div class="act"><button class="chip" type="button" data-a="prev">‹ Surah</button><button class="chip" type="button" data-a="next">Surah ›</button></div></nav>
 <details class="set"><summary>Tetapan bacaan</summary><div class="row"><label>Saiz Arab <input id="fz" type="range" min="24" max="60" step="2"></label><label><input id="an" type="checkbox"> Main ayat seterusnya</label></div></details>
@@ -190,20 +190,26 @@ function togglePlay(){
 
 /* ---------- routing ---------- */
 const RE=/^#surah-(\d{1,3})(?:-ayat-(\d{1,3}))?$/;
+/* Landed here from another page on this site (e.g. an article's "Al-A'raf 7:73" ref): ✕ returns to that page, not the homepage. */
+const backTo=(()=>{try{const r=new URL(document.referrer);return r.origin===location.origin&&r.pathname!==location.pathname?r.href:""}catch{return""}})();
+let fromRef=false;
 function route(initial){
   const m=RE.exec(location.hash);
   if(!m){if(dlg?.open){pushed=false;dlg.close()}return}
   const n=+m[1];if(n<1||n>114)return;
   if(!initial&&!dlg?.open)pushed=true;
-  openSurah(n,m[2]?+m[2]:0);
+  if(initial&&backTo)fromRef=true;
+  openSurah(n,m[2]?+m[2]:0).then(()=>{const x=$('[data-a="close"]',dlg);if(x){x.setAttribute("aria-label",fromRef?"Tutup & kembali ke artikel":"Tutup pembaca");x.title=fromRef?"Kembali ke artikel":"Tutup"}});
 }
 function closeReader(){
-  if(pushed&&RE.test(location.hash)){history.back()}else dlg.close();
+  if(pushed&&RE.test(location.hash))return history.back();
+  if(fromRef){fromRef=false;stopAudio();if(history.length>1)history.back();else location.href=backTo;return}
+  dlg.close();
 }
 function onClose(){
   stopAudio();document.title=prevTitle;
   if(RE.test(location.hash))history.replaceState(null,"",location.pathname+location.search);
-  pushed=false;
+  pushed=false;fromRef=false;
 }
 addEventListener("hashchange",()=>route(false));
 document.addEventListener("click",e=>{const r=e.target.closest("[data-retry]");if(r){e.preventDefault();route(false)}});
