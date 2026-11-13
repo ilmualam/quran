@@ -229,6 +229,8 @@ details.q .an p{margin:0}
 .rd .ilmq[data-surah] .player .info{min-width:60px}
 .rd .ilmq[data-surah] .player select{flex:0 1 128px;width:auto;min-width:0;max-width:128px}
 .rd .ilmq[data-surah] .player .chip{width:auto;flex:none;padding:8px 12px;font-size:13px}
+.rd .ilmq[data-surah] .player .chip.x{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:800}
+.rd .ilmq[data-surah] .player .chip.x:hover{opacity:.85;background:var(--text)}
 .rd .ilmq[data-surah] .tab[aria-pressed=true]{background:var(--card);color:var(--text);border-color:rgba(36,151,73,.3);box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .rd .ilmq[data-surah] .v{scroll-margin-top:118px}
 .rd .ilmq[data-surah] .tmeta{white-space:nowrap}

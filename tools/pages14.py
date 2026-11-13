@@ -22,6 +22,10 @@ TODAY_CLS = ' class="today"'
 
 STATE = {s[0]: s for s in SL.STATES}  # slug -> (slug, name, capital, capital zone)
 OGS = ("waktu-solat-zon", ("Waktu Solat Ikut Zon JAKIM", "Jadual rasmi setiap zon: hari ini, sebulan, setahun dan arah kiblat setiap bandar."))
+# Per-zone berbuka pages drew 2 impressions in 16 days (GSC, Oct 27-Nov 10) while the state pages and the
+# /waktu-berbuka-puasa/ hub carry the queries. noindex,follow keeps them for readers and passes links on without
+# splitting the hub's signals. Set True around mid-January, before Ramadan zone searches start.
+INDEX_RAMADAN_ZONES = False
 OGR = ("waktu-berbuka-puasa-zon", ("Waktu Berbuka Puasa Ikut Zon", "Jadual imsak & berbuka Ramadan setiap zon JAKIM, dengan malam Lailatul Qadar."))
 
 
@@ -372,7 +376,7 @@ def build_ramadan_zones(ctx, AREA, day):
 </div>
 {side([("kira", "Jadual imsakiyah"), ("tarikh", "Tarikh penting"), ("lailatul-qadar", "Malam ganjil"), ("zon", "Zon lain"), ("niat", "Doa berbuka"), ("faq", "Soalan lazim")], "waktu-berbuka-puasa/")}
 </div>'''
-        pages.append(dict(path=url, kind="tool", data=False, arabic=True, published=PUB, nocache=True, extra_data=f'<script type="application/json" id="rd">{data}</script>',
+        pages.append(dict(path=url, kind="tool", data=False, arabic=True, published=PUB, nocache=True, noindex=not INDEX_RAMADAN_ZONES, extra_data=f'<script type="application/json" id="rd">{data}</script>',
                           title=title, ogtitle=f"Waktu Berbuka Puasa {tname(code, 2)} {yr}", desc=desc, og=OGR[0], ogcard=OGR[1],
                           crumbs=crumbs, body=body, faq=faq, about=[f"Ramadan {yr}", f"Waktu berbuka puasa {t0[0]}", f"Zon {code}", name],
                           nodes=[place_node(SITE + url, code, name, area, lat, lng)], about_ref=SITE + url + "#zon",
