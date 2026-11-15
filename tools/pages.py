@@ -36,6 +36,7 @@ TOOLS = [
     ("faraid/", "⚖️", "Kalkulator Faraid", "Bahagian harta pusaka setiap waris mengikut mazhab Syafi'i, waris terhalang dan Baitulmal."),
     ("zakat-fitrah/", "🌾", "Zakat Fitrah", "Kadar zakat fitrah semua negeri, kalkulator keluarga, berat beras dan tarikh bayaran Ramadan akan datang."),
     ("solat-jamak-qasar/", "🚗", "Solat Jamak & Qasar", "Kalkulator musafir 2 marhalah, waktu jamak hari ini di destinasi, niat dan cara setiap gabungan solat."),
+    ("haji-umrah/", "🕋", "Panduan Haji & Umrah", "Cara umrah & haji, niat ihram, talbiah, larangan ihram, penyemak dam, kaunter tawaf & sa'ie dan tarikh haji."),
     ("solat-sunat/", "🌙", "Solat Sunat", "Taubat, dhuha, hajat, jenazah, witir, istikharah, tahajjud & tarawih: cara, niat, doa dan waktu hari ini."),
     ("kalendar-hijrah/", "🗓", "Kalendar Hijrah", "Tarikh Hijrah hari ini rasmi JAKIM, puasa sunat, hari kebesaran Islam, penukar tarikh dan umur Hijrah."),
     ("tahlil-ringkas/", "🤲", "Tahlil Ringkas", "Bacaan tahlil lengkap dengan nama arwah, doa ikut lelaki/perempuan, audio, buku cetak dan mod majlis."),

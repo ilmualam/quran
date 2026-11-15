@@ -459,3 +459,24 @@ body:has(.tlb) .hero{display:none!important}
 .nbpair span{font-size:.86rem;color:var(--sub)}
 .jzs{margin:28px 0 4px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between}
 .jzn{grid-template-columns:repeat(auto-fill,minmax(52px,1fr))}
+/* haji & umrah widgets (assets/js/haji.js) */
+.hu-ctr{text-align:center}
+.hu-ctr .chips2{justify-content:center}
+.hu-ctr__btn{display:flex;flex-direction:column;align-items:center;justify-content:center;width:200px;height:200px;margin:4px auto 10px;border:0;border-radius:50%;background:radial-gradient(circle at 50% 35%,var(--hero1),var(--hero2));color:#fff;box-shadow:0 10px 30px rgba(12,56,8,.25);-webkit-tap-highlight-color:transparent;user-select:none}
+.hu-ctr__btn:active{transform:scale(.97)}
+.hu-ctr__btn:disabled{opacity:.75}
+.hu-ctr__n{font-size:4rem;font-weight:800;line-height:1}
+.hu-ctr__of{font-size:.9rem;opacity:.85}
+.hu-ctr__dots{display:flex;justify-content:center;gap:6px;list-style:none;padding:0;margin:0 0 10px}
+.hu-ctr__dots li{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;border:2px solid var(--bd);font-size:.8rem;font-weight:700;color:var(--sub)}
+.hu-ctr__dots li.on{background:var(--g);border-color:var(--g);color:#04130a}
+.hu-ctr__hint{min-height:3.2em;max-width:52ch;margin:0 auto 10px;font-weight:600}
+.hu-ctr .act{justify-content:center}
+.hu-dam .sum{margin-top:12px}
+.hu-chk{list-style:none;padding:0;margin:0 0 14px}
+.hu-chk li{border-bottom:1px dashed var(--bd)}
+.hu-chk label{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;min-height:44px;padding:6px 0;cursor:pointer}
+.hu-chk input{width:20px;height:20px;accent-color:var(--g);flex:none}
+.hu-chk input:checked+span{text-decoration:line-through;color:var(--sub)}
+.hu-chk small{flex-basis:100%;padding-left:30px;color:var(--sub);font-size:.82rem}
+@media print{.mn>.ct>section.hu-print{display:block!important}.hu-chk label{min-height:0;padding:3px 0}}
