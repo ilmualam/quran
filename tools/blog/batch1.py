@@ -529,7 +529,7 @@ POSTS.append(("khusyuk-solat", base(
     ns=P, url=KHUSYUK, published="2018-01-17", pubms="17 Januari 2018",
     title="Cara Khusyuk dalam Solat: 10 Langkah daripada Al-Quran & Sunnah",
     desc="Cara khusyuk dalam solat: maksud dan hukum khusyuk, 10 langkah praktikal daripada Al-Quran dan hadis, gangguan Khinzab dan perkara yang menghilangkan khusyuk.",
-    h1="Cara Khusyuk dalam Solat", img=img("khusyuk-dalam-solat", "Panduan Solat", "Cara Khusyuk dalam Solat", "10 langkah praktikal daripada Al-Quran dan Sunnah", "الْخُشُوعُ"),
+    h1="Cara Khusyuk dalam Solat", img="khusyuk-solat-ilustrasi.webp",
     alt="Cara mendapat khusyuk dalam solat", refshort="Al-Quran, Sahih Al-Bukhari & Muslim",
     lead="Khusyuk ialah ruh solat. Maksudnya, hukumnya menurut fiqh, dan sepuluh langkah praktikal yang diajar Al-Quran dan Sunnah untuk mencapainya.",
     crumb=("Ibadah", W + "search/label/Ibadah"), about=["Khusyuk", "Solat"],
