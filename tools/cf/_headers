@@ -1,11 +1,10 @@
 # Cache policy for Cloudflare (copied into dist/ by tools/cf/pack.sh). Asset URLs are not fingerprinted, so nothing
-# here is "immutable": JS/CSS/JSON revalidate hourly, images and fonts daily or monthly. HTML is always revalidated
-# (Cloudflare still serves it from the nearest edge; the ETag makes a revalidation a tiny 304).
+# here is "immutable": JS/CSS/JSON revalidate hourly, images and fonts daily or monthly. HTML keeps Cloudflare's default
+# (public, max-age=0, must-revalidate). Never put Cache-Control on /*: matching rules' values are joined, not overridden.
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), payment=(), usb=(), geolocation=(self)
-  Cache-Control: public, max-age=0, must-revalidate
 
 /sw.js
   Cache-Control: no-cache
