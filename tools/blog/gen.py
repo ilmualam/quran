@@ -351,9 +351,17 @@ POST3 = dict(
              (Q + "doa-harian/", "Himpunan Doa Harian", "Doa daripada hadis dan Al-Quran dengan rujukan"),
              (Q + "doa-orang-sakit/", "Doa Orang Sakit", "Doa ketika sakit dan menziarahi pesakit")])
 
-for slug, p in [("hutang-puasa", POST1), ("al-fatihah", POST2), ("doa-al-afiyah", POST3)]:
-    h = build(p)
-    open(f"{OUT}/{slug}.html", "w", encoding="utf8").write(h)
-    json.dump({k: p[k] for k in ("url", "title", "desc", "img", "alt", "published")}, open(f"{OUT}/{slug}.json", "w"), ensure_ascii=False, indent=1)
-    t = re.sub(r"<style.*?</style>|<script.*?</script>", " ", h, flags=re.S); t = re.sub(r"<[^>]+>", " ", t)
-    print(slug, "words", len(t.split()), "| html KB", round(len(h) / 1024, 1), "| title", len(p["title"]), "| desc", len(p["desc"]))
+def write(items):
+    """items: [(slug, post dict)] -> out/<slug>.html + out/<slug>.json; prints a size/word report."""
+    for slug, p in items:
+        h = build(p)
+        open(f"{OUT}/{slug}.html", "w", encoding="utf8").write(h)
+        json.dump({k: p[k] for k in ("url", "title", "desc", "img", "alt", "published")}, open(f"{OUT}/{slug}.json", "w"), ensure_ascii=False, indent=1)
+        t = re.sub(r"<style.*?</style>|<script.*?</script>", " ", h, flags=re.S); t = re.sub(r"<[^>]+>", " ", t)
+        assert len(p["title"]) <= 70 and len(p["desc"]) <= 160, (slug, len(p["title"]), len(p["desc"]))
+        print(slug, "words", len(t.split()), "| html KB", round(len(h) / 1024, 1), "| title", len(p["title"]), "| desc", len(p["desc"]))
+
+
+PILOT = [("hutang-puasa", POST1), ("al-fatihah", POST2), ("doa-al-afiyah", POST3)]
+if __name__ == "__main__":
+    write(PILOT)
