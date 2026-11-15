@@ -1,0 +1,66 @@
+# Cache policy for Cloudflare (copied into dist/ by tools/cf/pack.sh). Asset URLs are not fingerprinted, so nothing
+# here is "immutable": JS/CSS/JSON revalidate hourly, images and fonts daily or monthly. HTML is always revalidated
+# (Cloudflare still serves it from the nearest edge; the ETag makes a revalidation a tiny 304).
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), payment=(), usb=(), geolocation=(self)
+  Cache-Control: public, max-age=0, must-revalidate
+
+/sw.js
+  Cache-Control: no-cache
+
+/manifest.webmanifest
+  Cache-Control: no-cache
+
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000
+  Access-Control-Allow-Origin: *
+
+/assets/icons/*
+  Cache-Control: public, max-age=2592000
+
+/favicon.ico
+  Cache-Control: public, max-age=2592000
+
+/assets/og/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/assets/pin/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/*.png
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/assets/js/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+
+/assets/css/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+
+/engine/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+
+/micro/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+
+/assets/data/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/data-surah/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+  Access-Control-Allow-Origin: *
+
+/feed/*
+  Cache-Control: public, max-age=3600
+
+/*.xml
+  Cache-Control: public, max-age=3600
+
+# test hostnames must never be indexed (duplicate of quran.ilmualam.com)
+https://quran-ilmualam.:sub.workers.dev/*
+  X-Robots-Tag: noindex

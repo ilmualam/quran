@@ -1,0 +1,13 @@
+// Cloudflare Workers static assets: serves the generated site from ./dist (built by tools/cf/pack.sh, never committed).
+// Deployed by .github/workflows/deploy-cloudflare.yml on every push to main.
+{
+  "name": "quran-ilmualam",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true,
+  "preview_urls": false
+}
