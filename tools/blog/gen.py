@@ -295,7 +295,7 @@ POST3 = dict(
     ns=P3, url="https://www.ilmualam.com/2020/07/doa-al-afiyah-ringkas-tapi-power.html", published="2020-07-08", pubms="8 Julai 2020",
     title="Doa Al-Afiyah: Bacaan Arab, Rumi, Maksud & Kelebihan (Hadis Sahih)",
     desc="Doa Al-Afiyah yang diamalkan Rasulullah SAW pagi dan petang, dengan tulisan Arab, Rumi, maksud, maksud afiyah, empat lafaz doa afiyah dan kelebihannya.",
-    h1="Doa Al-Afiyah: Bacaan Penuh & Kelebihannya", img="doa-al-afiyah.webp",
+    h1="Doa Al-Afiyah: Bacaan Penuh & Kelebihannya", img="doa-al-afiyah-ilustrasi.webp",
     alt="Doa Al-Afiyah memohon keselamatan di dunia dan akhirat",
     lead="Doa memohon afiyah yang tidak pernah ditinggalkan Rasulullah SAW pada waktu pagi dan petang, dengan empat lafaz daripada hadis dan cara mengamalkannya.",
     badges=["Hadis Sahih", "Zikir Pagi & Petang", "Arab · Rumi · Maksud", "Dikemas kini 2026"],
