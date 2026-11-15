@@ -159,7 +159,9 @@ Install it once in Blogger (**Layout → Add a Gadget → HTML/JavaScript**, or 
 
 ## Deployment
 
-GitHub Pages serves the `main` branch root as-is: `.nojekyll` turns Jekyll off because the Python build already produces the final HTML, sitemap, canonical tags and JSON-LD (Jekyll would only add build time and ignore files it doesn't understand); `CNAME` points it at `quran.ilmualam.com`. Pushing to `main` deploys within about a minute. Each build changes the service worker's version hash, so returning visitors get the new version on their next visit.
+**Cloudflare Workers (static assets)** serves `quran.ilmualam.com` (Worker `quran-ilmualam`, custom domain attached in Workers → Domains). `.github/workflows/deploy-cloudflare.yml` runs on every push to `main`, after the Daily refresh / JAKIM / masjid data workflows (their `GITHUB_TOKEN` pushes fire no push event) and on manual dispatch: `tools/cf/pack.sh` copies the generated site into `dist/` (sources excluded) and `wrangler deploy` uploads it; a deploy takes about 40 seconds. Config: `wrangler.jsonc` (404 page, trailing-slash URLs). Browser caching and security headers: `tools/cf/_headers` (fonts 1 y, data-surah 7 d, JS/CSS/JSON 1 h + stale-while-revalidate, HTML always revalidated, `sw.js` never cached; never put `Cache-Control` on `/*`, matching rules are joined). The test host `quran-ilmualam.bukitbesi.workers.dev` sends `X-Robots-Tag: noindex`. Repo secrets: `CLOUDFLARE_API_TOKEN` (Workers Scripts edit, Workers Routes, DNS edit) and `CLOUDFLARE_ACCOUNT_ID`. Each build changes the service worker's version hash, so returning visitors get the new version on their next visit.
+
+**Rollback to GitHub Pages:** Pages still builds `main` (`CNAME`, `.nojekyll` kept). In Cloudflare, remove the custom domain from the Worker, then add DNS `CNAME quran → ilmualam.github.io` (proxied).
 
 ## Cloudflare
 
