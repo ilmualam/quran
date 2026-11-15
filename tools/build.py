@@ -112,12 +112,18 @@ def sha(s):
 THEME_JS = 'try{var t=localStorage.getItem("ilmq:theme");if(t){t=JSON.parse(t);if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}}catch(e){}'
 
 # Google Tag Manager. Shared tahlil links carry the deceased's name in the hash (#nama=...), and GA4 can record the
-# full URL, so those views load no tags. The snippet's hash goes in the CSP, so any edit here is picked up by the build.
+# full URL, so those views load no tags. Deferred like AdSense: GTM (and the GA4 tag it loads, ~190 KB) starts on the
+# first tap, key, scroll or touch, or 3.5 s after the load event, so it never competes with first paint (mobile
+# Lighthouse: ~300-600 ms less blocking time). Visitors who leave within ~5 s without touching the page are not counted.
+# The snippet's hash goes in the CSP, so any edit here is picked up by the build.
 GTM_ID = "GTM-WSR3DZ2D"
-GTM_JS = ("if(!/[#&]nama=/.test(location.hash))(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});"
-          "var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;"
-          "j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})"
-          f"(window,document,'script','dataLayer','{GTM_ID}');")
+GTM_JS = ("if(!/[#&]nama=/.test(location.hash))(function(w,d,i){var on=0,ev=['pointerdown','keydown','scroll','touchstart'];"
+          "function go(){if(on)return;on=1;ev.forEach(function(e){w.removeEventListener(e,go,true)});"
+          "w.dataLayer=w.dataLayer||[];w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});"
+          "var j=d.createElement('script');j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;d.head.appendChild(j)}"
+          "ev.forEach(function(e){w.addEventListener(e,go,{capture:true,passive:true})});"
+          "w.addEventListener('load',function(){setTimeout(go,3500)})})"
+          f"(window,document,'{GTM_ID}');")
 
 from cssbuild import build as build_css, mini
 css = build_css(f"{SCR}/home.css", f"{REPO}/assets/css/quran.min.css")
