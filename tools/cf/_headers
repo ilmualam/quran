@@ -62,5 +62,5 @@
   Cache-Control: public, max-age=3600
 
 # test hostnames must never be indexed (duplicate of quran.ilmualam.com)
-https://quran-ilmualam.:sub.workers.dev/*
+https://quran-ilmualam.bukitbesi.workers.dev/*
   X-Robots-Tag: noindex
