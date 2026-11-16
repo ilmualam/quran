@@ -385,7 +385,7 @@ POSTS.append(("solat-gerhana", base(
     ns=P, url=W + "2018/01/allahuakhbar-inilah-sebab-rasulullah.html", published="2018-01-31", pubms="31 Januari 2018",
     title="Solat Sunat Gerhana: Cara, Niat & Amalan Ketika Gerhana",
     desc="Cara solat sunat gerhana matahari dan bulan: dua rakaat dengan dua rukuk setiap rakaat, lafaz niat, khutbah, amalan ketika gerhana dan mitos yang tiada asas.",
-    h1="Solat Sunat Gerhana: Cara, Niat & Amalan", img=img("solat-gerhana", "Solat Sunat", "Solat Sunat Gerhana", "Cara dua rukuk setiap rakaat, niat dan amalan ketika gerhana", "صَلَاةُ الْكُسُوفِ"),
+    h1="Solat Sunat Gerhana: Cara, Niat & Amalan", img="solat-gerhana-ilustrasi.webp",
     alt="Cara solat sunat gerhana matahari dan bulan", refshort="Sahih Al-Bukhari & Muslim",
     lead="Kenapa Rasulullah SAW keluar dalam keadaan cemas ketika gerhana, cara solat gerhana yang unik dengan dua rukuk setiap rakaat, dan amalan yang Baginda perintahkan.",
     crumb=("Ibadah", W + "search/label/Ibadah"), about=["Solat gerhana", "Gerhana matahari", "Gerhana bulan"],
