@@ -1,0 +1,52 @@
+.ilmx{all:initial;display:block;box-sizing:border-box;font-family:-apple-system,'Inter',Roboto,sans-serif;font-size:16px;line-height:1.7;color:#1a1a1a;background:#fff;max-width:min(768px,100%);margin:0 auto;padding:10px}
+.ilmx *{box-sizing:border-box}
+.ilmx p{margin:0 0 1rem}
+.ilmx a{color:#1f7a3c;text-decoration:underline;text-underline-offset:2px}
+.ilmx h2{font-size:1.35rem;font-weight:800;color:#0c3808;margin:2rem 0 .8rem;line-height:1.3;scroll-margin-top:70px}
+.ilmx h3{font-size:1.1rem;font-weight:700;color:#1f7a3c;margin:1.3rem 0 .5rem}
+.ilmx strong{color:#0c3808}
+.ilmx ul,.ilmx ol{padding-left:1.3rem;margin:0 0 1rem}
+.ilmx li{margin:0 0 .5rem}
+.ilmx img{display:block;width:100%;height:auto;border-radius:12px;margin:0 0 1rem;aspect-ratio:16/9;object-fit:cover}
+.ilmx-hero{background:linear-gradient(135deg,#0c3808,#1f7a3c);color:#fff;border-radius:14px;padding:22px 18px;margin:0 0 1rem}
+.ilmx-hero h2{color:#fff;margin:.4rem 0 .5rem;font-size:1.45rem}
+.ilmx-hero p{color:#e3f3e6;margin:0;font-size:.95rem}
+.ilmx-badges{display:flex;flex-wrap:wrap;gap:6px}
+.ilmx-badge{font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.16);color:#fff}
+.ilmx-meta{font-size:.82rem;color:#5b6b60;margin:0 0 1rem;padding:8px 12px;border-left:3px solid #c9a227;background:#fbf8ee;border-radius:6px}
+.ilmx-answer{background:#effaf2;border:1px solid #bfe3c9;border-left:5px solid #1f7a3c;border-radius:12px;padding:14px 16px;margin:0 0 1.2rem}
+.ilmx-answer p{margin:0}
+.ilmx-toc{background:#f6f8f6;border:1px solid #e1e8e3;border-radius:12px;padding:12px 16px;margin:0 0 1rem;font-size:.92rem}
+.ilmx-toc strong{display:block;margin-bottom:4px}
+.ilmx-toc ol{margin:0}
+.ilmx-card{border:1px solid #e1e8e3;border-radius:14px;padding:14px 16px;margin:0 0 1rem;background:#fff;box-shadow:0 1px 3px rgba(12,56,8,.06)}
+.ilmx-card h3{margin-top:0}
+.ilmx-ar{font-family:'Amiri','Traditional Arabic','Scheherazade New',serif;font-size:1.7rem;line-height:2.2;direction:rtl;text-align:right;color:#0c3808;margin:.3rem 0 .6rem}
+.ilmx-ru{font-style:italic;color:#38503f;margin:0 0 .5rem}
+.ilmx-mn{margin:0 0 .5rem}
+.ilmx-src{font-size:.82rem;color:#5b6b60;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;border-top:1px dashed #d5ded8;padding-top:8px;margin-top:6px}
+.ilmx-btn{font:inherit;font-size:.82rem;font-weight:700;border:1px solid #bfe3c9;background:#effaf2;color:#0c3808;border-radius:8px;padding:6px 12px;cursor:pointer}
+.ilmx-tw{overflow-x:auto;margin:0 0 1rem;border:1px solid #e1e8e3;border-radius:12px}
+.ilmx table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+.ilmx th{background:#0c3808;color:#fff;text-align:left;padding:9px 10px;font-weight:700}
+.ilmx td{padding:9px 10px;border-top:1px solid #e1e8e3;vertical-align:top}
+.ilmx tr:nth-child(even) td{background:#f8fbf9}
+.ilmx-box{border-radius:12px;padding:12px 16px;margin:0 0 1rem;font-size:.95rem}
+.ilmx-box.amber{background:#fff8e6;border:1px solid #f0d9a0}
+.ilmx-box.blue{background:#eef5fd;border:1px solid #c7dcf5}
+.ilmx-calc{border:2px solid #1f7a3c;border-radius:14px;padding:16px;margin:0 0 1.2rem;background:#f8fcf9}
+.ilmx-calc h3{margin-top:0}
+.ilmx-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin:0 0 10px}
+.ilmx-grid label{display:block;font-weight:700;font-size:.85rem;margin-bottom:3px}
+.ilmx-grid input{width:100%;height:44px;border:1px solid #c8d6cc;border-radius:10px;padding:0 10px;font:inherit;background:#fff}
+.ilmx-out{background:#0c3808;color:#fff;border-radius:12px;padding:12px 14px;font-size:.95rem}
+.ilmx-out strong{color:#ffe27a}
+.ilmx-faq details{border:1px solid #e1e8e3;border-radius:12px;margin:0 0 8px;background:#fff}
+.ilmx-faq summary{cursor:pointer;font-weight:700;padding:12px 14px;color:#0c3808;list-style:none}
+.ilmx-faq summary::-webkit-details-marker{display:none}
+.ilmx-faq summary::after{content:'+';float:right;font-weight:800;color:#1f7a3c}
+.ilmx-faq details[open] summary::after{content:'–'}
+.ilmx-faq details>p{padding:0 14px 12px;margin:0}
+.ilmx-refs{font-size:.85rem;color:#38503f}
+.ilmx-cta{display:block;background:#effaf2;border:1px solid #bfe3c9;border-radius:12px;padding:12px 14px;margin:0 0 1rem;text-decoration:none!important;color:#0c3808!important;font-weight:700}
+.ilmx-cta span{display:block;font-weight:400;font-size:.88rem;color:#38503f}

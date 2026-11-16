@@ -1,5 +1,5 @@
 """Builds the 3 pilot refresh posts for www.ilmualam.com (Blogger HTML, self-contained like the 2026 posts):
-namespaced CSS, one <style>, JSON-LD (Article + FAQPage + BreadcrumbList), copy buttons, and for hutang puasa a fidyah
+one shared namespaced stylesheet (assets/blog/post.css, linked from the post), JSON-LD (Article + FAQPage + BreadcrumbList), copy buttons, and for hutang puasa a fidyah
 calculator. Quranic text comes from the quran repo's data-surah/, doa text from tools/ibadah.py (already verified)."""
 import json, html, os, re, sys
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -11,6 +11,8 @@ os.makedirs(OUT, exist_ok=True)
 MOD = "2026-11-15"
 MODMS = "15 November 2026"
 IMG = "https://quran.ilmualam.com/assets/blog/"
+NS = "ilmx"  # every post shares this class namespace and assets/blog/post.css
+CSSV = "1"  # bump when CSS changes so browsers fetch the new file
 Q = "https://quran.ilmualam.com/"
 e = lambda s: html.escape(str(s), quote=True)
 Z = {z[0]: z for z in I.Z_PAGI_PETANG}
@@ -110,7 +112,7 @@ def build(p):
     related = "".join(f'<a class="{P}-cta" href="{u}">{e(t)}<span>{e(d)}</span></a>' for u, t, d in p["related"])
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "Article", "headline": p["title"][:110], "description": p["desc"], "image": [IMG + p["img"]],
-         "datePublished": p["published"], "dateModified": MOD, "inLanguage": "ms-MY", "mainEntityOfPage": p["url"],
+         "datePublished": p["published"], "dateModified": p.get("modified", MOD), "inLanguage": "ms-MY", "mainEntityOfPage": p["url"],
          "author": {"@type": "Organization", "name": "The Ilmu Alam", "url": "https://www.ilmualam.com/"},
          "publisher": {"@type": "Organization", "name": "The Ilmu Alam", "url": "https://www.ilmualam.com/"},
          "about": [{"@type": "Thing", "name": a} for a in p["about"]]},
@@ -121,8 +123,8 @@ def build(p):
             {"@type": "ListItem", "position": 3, "name": p["title"], "item": p["url"]}]}]}
     body = f'''<div class="{P}">
 <img src="{IMG}{p["img"]}" alt="{e(p["alt"])}" width="1200" height="675" title="{e(p["title"])}">
-<div class="{P}-hero"><div class="{P}-badges">{badges}</div><h2>{e(p["h1"])}</h2><p>{e(p["lead"])}</p></div>
-<p class="{P}-meta">✍️ Disediakan oleh <strong>Pasukan Editorial The Ilmu Alam</strong> · Dikemas kini {MODMS} (asal {p["pubms"]}) · Rujukan: {p["refshort"]}</p>
+<div class="{P}-hero"><h2>{e(p["h1"])}</h2><p>{e(p["lead"])}</p><div class="{P}-badges">{badges}</div></div>
+<p class="{P}-meta">✍️ Disediakan oleh <strong>Pasukan Editorial The Ilmu Alam</strong> · Dikemas kini {p.get("modms", MODMS)} (asal {p["pubms"]}) · Rujukan: {p["refshort"]}</p>
 <div class="{P}-answer"><p><strong>Jawapan ringkas:</strong> {p["answer"]}</p></div>
 <nav class="{P}-toc" aria-label="Isi kandungan"><strong>Isi kandungan</strong><ol>{toc}<li><a href="#{P}-faq">Soalan lazim</a></li></ol></nav>
 {secs}
@@ -133,8 +135,15 @@ def build(p):
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 {JS.replace("{P}", P).replace("{EXTRA}", p.get("js", ""))}
 </div>'''
-    body = body.replace('class="TW"', f'class="{P}-tw"')
-    return f"<style>{CSS.replace('{P}', P)}</style>\n" + body
+    body = body.replace('class="TW"', f'class="{P}-tw"').replace(P, NS)
+    # one shared, cached stylesheet instead of an inline <style>: the body then opens with the headline and lead, so Blogger's
+    # auto-snippet (feeds, related posts) is readable text, not CSS. A body <link> blocks rendering of what follows, so no flash.
+    return f'<link rel="stylesheet" href="{IMG}post.css?v={CSSV}">\n' + body
+
+
+def write_css():
+    """assets/blog/post.css, served from quran.ilmualam.com (Cloudflare) and shared by every refreshed post."""
+    open(f"{REPO}/assets/blog/post.css", "w", encoding="utf8").write(CSS.replace("{P}", NS).strip() + "\n")
 
 
 # ============================ POST 1: hutang puasa ============================
@@ -354,11 +363,12 @@ POST3 = dict(
 
 def write(items):
     """items: [(slug, post dict)] -> out/<slug>.html + out/<slug>.json; prints a size/word report."""
+    write_css()
     for slug, p in items:
         h = build(p)
         open(f"{OUT}/{slug}.html", "w", encoding="utf8").write(h)
         json.dump({k: p[k] for k in ("url", "title", "desc", "img", "alt", "published")}, open(f"{OUT}/{slug}.json", "w"), ensure_ascii=False, indent=1)
-        t = re.sub(r"<style.*?</style>|<script.*?</script>", " ", h, flags=re.S); t = re.sub(r"<[^>]+>", " ", t)
+        t = re.sub(r"<style.*?</style>|<script.*?</script>|<link[^>]*>", " ", h, flags=re.S); t = re.sub(r"<[^>]+>", " ", t)
         assert len(p["title"]) <= 70 and len(p["desc"]) <= 160, (slug, len(p["title"]), len(p["desc"]))
         print(slug, "words", len(t.split()), "| html KB", round(len(h) / 1024, 1), "| title", len(p["title"]), "| desc", len(p["desc"]))
 
