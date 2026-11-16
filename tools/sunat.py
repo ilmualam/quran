@@ -131,6 +131,18 @@ DOA_DHUHA = ("doa-dhuha", "Doa Selepas Solat Dhuha",
              "dengan hak waktu dhuha-Mu, keagungan-Mu, keindahan-Mu, kekuatan-Mu dan kekuasaan-Mu, kurniakanlah kepadaku apa yang Engkau kurniakan kepada hamba-hamba-Mu yang soleh.",
              "Doa amalan ulama (dinukil dalam I'anah at-Talibin), bukan hadis Nabi SAW. Boleh juga berdoa dengan bahasa sendiri",
              "")
+ZIKIR_SUBUH = ("zikir-subuh", "Zikir Selepas Subuh (10 kali sebelum bercakap)",
+               "لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، يُحْيِي وَيُمِيتُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+               "La ilaha illallahu wahdahu la syarika lah, lahul-mulku wa lahul-hamd, yuhyi wa yumit, wa huwa 'ala kulli syai'in qadir.",
+               "Tiada tuhan melainkan Allah, Yang Esa, tiada sekutu bagi-Nya. Bagi-Nya kerajaan dan bagi-Nya segala puji. Dia menghidupkan dan mematikan, dan Dia Maha Berkuasa atas segala sesuatu.",
+               "HR At-Tirmizi, no. 3474 (hasan sahih): dibaca 10 kali selepas Subuh sebelum bercakap; dicatat 10 kebaikan, dihapus 10 kesalahan dan dilindungi daripada syaitan hari itu",
+               "Antara zikir yang sesuai sementara menunggu matahari naik; sambung dengan zikir pagi, tasbih, tahmid dan bacaan Al-Quran.")
+DOA_ISYRAQ = ("doa-isyraq", "Doa Selepas Solat Isyraq (Doa Pagi daripada Hadis)",
+              "اللّٰهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا",
+              "Allahumma inni as'aluka 'ilman nafi'a, wa rizqan tayyiba, wa 'amalan mutaqabbala.",
+              "Ya Allah, aku memohon kepada-Mu ilmu yang bermanfaat, rezeki yang baik dan amalan yang diterima.",
+              "HR Ibn Majah, no. 925 (sahih): doa yang dibaca Rasulullah SAW selepas solat Subuh",
+              "Tiada doa khusus untuk solat Isyraq dalam hadis. Doa pagi ini sahih dan sesuai dibaca selepas salam; anda juga boleh berdoa dengan bahasa sendiri.")
 DOA_WITIR = ("doa-witir", "Selepas Witir: Subḥānal-Malikil-Quddūs", "سُبْحَانَ الْمَلِكِ الْقُدُّوسِ", "Subhanal-malikil-quddus. (3×, dipanjangkan pada kali ketiga)",
              "Maha Suci Allah, Raja Yang Maha Suci.", "HR Abu Daud, no. 1430; An-Nasa'i, no. 1699", "")
 DOA_TAUBAT = ("sayyidul", "Sayyidul Istighfar (penghulu istighfar)", SAYYIDUL[2], SAYYIDUL[3], SAYYIDUL[4],
@@ -143,6 +155,7 @@ HUB = "solat-sunat/"
 PRAYERS = [
     ("taubat", "solat-taubat", "Solat Taubat", "2 rakaat selepas melakukan dosa, diikuti istighfar"),
     ("dhuha", "solat-dhuha", "Solat Dhuha", "2–8 rakaat selepas matahari naik hingga sebelum Zohor"),
+    ("isyraq", "solat-isyraq", "Solat Isyraq", "2 rakaat kira-kira 20 minit selepas syuruk, selepas berzikir sejak Subuh"),
     ("hajat", "solat-hajat", "Solat Hajat", "2 rakaat (hingga 12) apabila berhajat kepada Allah"),
     ("jenazah", "solat-jenazah", "Solat Jenazah", "4 takbir berdiri, fardu kifayah"),
     ("witir", "solat-witir", "Solat Witir", "Rakaat ganjil (1–11) selepas Isyak hingga Subuh"),

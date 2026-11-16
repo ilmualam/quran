@@ -70,6 +70,12 @@ def sw_card(kind, t, tn, zone, day):
         rows += [("Dhuha bermula", hmx(t[2] + 20), f"kira-kira 20 minit selepas syuruk ({hmx(t[2])}), apabila matahari naik setinggi tombak"),
                  ("Dhuha paling afdal", hmx(t[2] + (t[5] - t[2]) // 4), "suku siang, ketika panas mula terasa"),
                  ("Dhuha berakhir", hmx(t[3]), "sebelum masuk Zohor; elakkan beberapa minit sebelumnya (istiwa')")]
+    if kind == "isyraq":
+        rows += [("Duduk berzikir", f"{hmx(t[1])}–{hmx(t[2] + 20)}", "selepas solat Subuh hingga matahari naik; solat sunat dilarang dalam tempoh ini"),
+                 ("Syuruk", hmx(t[2]), "matahari terbit"),
+                 ("Isyraq bermula", hmx(t[2] + 20), "kira-kira 20 minit selepas syuruk, apabila matahari naik setinggi tombak"),
+                 ("Dhuha paling afdal", hmx(t[2] + (t[5] - t[2]) // 4), "suku siang; jika terlepas Isyraq, solat Dhuha masih boleh hingga Zohor"),
+                 ("Dhuha berakhir", hmx(t[3]), "masuk waktu Zohor")]
     if kind in ("tahajjud", "witir", "hub"):
         night = tn[1] + 1440 - t[5]
         last = tn[1] + 1440 - night // 3
@@ -97,7 +103,7 @@ def sw_html(kind, day, AREA):
     t, off = R.day_times(DEF_ZONE, day)
     tn, _ = R.day_times(DEF_ZONE, day + dt.timedelta(1))
     opts = "".join(f'<option value="{z[0]}"{" selected" if z[0] == DEF_ZONE else ""}>{z[0]} · {e(AREA[z[0]][:48])}</option>' for z in SL.ZONES)
-    title = {"dhuha": "Waktu Solat Dhuha Hari Ini", "tahajjud": "Sepertiga Malam Terakhir Malam Ini", "witir": "Waktu Solat Witir Malam Ini",
+    title = {"dhuha": "Waktu Solat Dhuha Hari Ini", "isyraq": "Waktu Solat Isyraq Hari Ini", "tahajjud": "Sepertiga Malam Terakhir Malam Ini", "witir": "Waktu Solat Witir Malam Ini",
              "hub": "Waktu Solat Sunat & Waktu Dilarang Hari Ini"}[kind]
     return (f'<div class="sw2" id="sw2" data-k="{kind}"><h3 id="h-sw">🕰 {title}</h3><div class="fl"><label for="swz">Zon waktu solat</label><select id="swz">{opts}</select></div>'
             f'<div id="swo" aria-live="polite">{sw_card(kind, t, tn, DEF_ZONE, day)}</div>'
@@ -130,6 +136,7 @@ def plinks(skip):
 # ---------------- per-prayer content ----------------
 NIAT = {
     "dhuha": S.niat("سُنَّةَ الضُّحَى", "sunnatad-dhuha", "sunat Dhuha"),
+    "isyraq": S.niat("سُنَّةَ الْإِشْرَاقِ", "sunnatal-isyraqi", "sunat Isyraq"),
     "taubat": S.niat("سُنَّةَ التَّوْبَةِ", "sunnatat-taubati", "sunat Taubat"),
     "hajat": S.niat("سُنَّةَ الْحَاجَةِ", "sunnatal-hajati", "sunat Hajat"),
     "istikharah": S.niat("سُنَّةَ الْاِسْتِخَارَةِ", "sunnatal-istikharati", "sunat Istikharah"),
@@ -174,6 +181,28 @@ CONTENT = {
              ("Apakah surah yang dibaca dalam solat dhuha?", "Tiada surah khusus yang wajib. Amalan biasa di Malaysia ialah Asy-Syams pada rakaat pertama dan Ad-Dhuha pada rakaat kedua; Al-Kafirun dan Al-Ikhlas atau mana-mana surah juga sah."),
              ("Bolehkah solat dhuha selepas pukul 12 tengah hari?", "Boleh, selagi belum masuk waktu Zohor, tetapi elakkan beberapa minit sebelum Zohor (waktu istiwa') kerana solat ketika itu dilarang."),
              ("Adakah doa dhuha daripada hadis?", "Doa “Allahumma innad-dhuha'a dhuha'uk” ialah doa amalan ulama, bukan hadis Nabi SAW. Ia boleh dibaca, dan anda juga boleh berdoa dengan bahasa sendiri.")]),
+    "isyraq": dict(
+        variants=[("isyraq", "2 rakaat", 2, NIAT["isyraq"], S.steps(KC), "Rakaat")],
+        title="Solat Isyraq: Waktu Hari Ini (JAKIM), Cara, Niat & Doa",
+        desc="Waktu solat isyraq hari ini ikut zon JAKIM, cara solat isyraq 2 rakaat, niat, doa, zikir selepas Subuh, beza isyraq dan dhuha, dan hadis pahala haji dan umrah.",
+        lead="Waktu isyraq hari ini bagi zon anda, cara solat langkah demi langkah, niat, zikir sementara menunggu matahari naik dan doa selepas solat.",
+        answer="Waktu solat isyraq bermula <strong>kira-kira 20 minit selepas syuruk</strong>, apabila matahari naik setinggi tombak. Ia dikerjakan <strong>2 rakaat</strong> selepas seseorang solat Subuh dan <strong>duduk berzikir</strong> hingga matahari terbit. "
+               "Nabi SAW menjanjikan <strong>pahala seperti haji dan umrah yang sempurna</strong> bagi amalan ini <em>(HR At-Tirmizi, no. 586; hasan)</em>. Ulama berbeza sama ada isyraq solat tersendiri atau solat dhuha yang dikerjakan di awal waktu; kedua-duanya diamalkan di Malaysia.",
+        info=[("Bilangan rakaat", "2 rakaat, satu salam (boleh 4)"), ("Waktu", "≈20 minit selepas syuruk (matahari setinggi tombak), di awal waktu dhuha"),
+              ("Hukum", "Sunat"), ("Syarat fadhilat hadis", "Solat Subuh berjemaah, duduk berzikir hingga matahari terbit, kemudian solat 2 rakaat"),
+              ("Surah", "Bebas; contoh Al-Kafirun dan Al-Ikhlas")],
+        dalil=["“Sesiapa yang solat Subuh berjemaah, kemudian duduk berzikir kepada Allah hingga matahari terbit, kemudian solat dua rakaat, baginya pahala seperti pahala haji dan umrah: sempurna, sempurna, sempurna” (HR At-Tirmizi, no. 586; At-Tirmizi menilainya hasan gharib, dan dinilai hasan oleh ramai ulama hadis).",
+               "Rasulullah SAW apabila selesai solat Subuh, duduk di tempat solatnya hingga matahari terbit dengan sempurna (HR Muslim, no. 670).",
+               "Solat dilarang selepas Subuh hingga matahari terbit dan naik setinggi tombak (HR Muslim, no. 832, hadis 'Amr bin 'Abasah): sebab itu isyraq ditunaikan kira-kira 20 minit selepas syuruk.",
+               "Hadis qudsi: “Wahai anak Adam, solatlah untuk-Ku empat rakaat di awal siang, Aku cukupkan engkau hingga akhirnya” (HR At-Tirmizi, no. 475; hasan gharib). Ulama mengaitkannya dengan solat isyraq dan dhuha.",
+               "Ulama berbeza pandangan: sebahagian menganggap isyraq ialah solat dhuha yang dikerjakan di awal waktu, manakala sebahagian ulama Syafi'iyyah seperti Imam Al-Ghazali (Ihya' 'Ulum Ad-Din) menyebutnya solat yang tersendiri. Niat isyraq atau dhuha kedua-duanya sah."],
+        doa=[S.ZIKIR_SUBUH, S.DOA_ISYRAQ], widget="isyraq", modified=True,
+        faq=[("Pukul berapa waktu solat isyraq?", "Kira-kira 20 minit selepas syuruk, apabila matahari naik setinggi tombak. Kad di atas mengiranya bagi zon JAKIM anda untuk hari ini; di Kuala Lumpur biasanya sekitar 7:20 hingga 7:30 pagi."),
+             ("Apakah beza solat isyraq dan dhuha?", "Isyraq dikerjakan di awal pagi, sebaik matahari naik, selepas duduk berzikir sejak Subuh. Dhuha pula waktunya hingga sebelum Zohor, dan afdal ketika matahari mula panas. Sebahagian ulama menganggap isyraq ialah dhuha di awal waktu."),
+             ("Berapa rakaat solat isyraq?", "Dua rakaat dengan satu salam, sebagaimana disebut dalam hadis At-Tirmizi no. 586. Ada ulama yang menyebut empat rakaat berdasarkan hadis qudsi At-Tirmizi no. 475."),
+             ("Adakah ada doa khusus solat isyraq?", "Tiada doa khusus untuk isyraq dalam hadis sahih. Doa yang sesuai ialah doa pagi Rasulullah SAW: “Allahumma inni as'aluka 'ilman nafi'a, wa rizqan tayyiba, wa 'amalan mutaqabbala” (HR Ibn Majah 925), atau berdoa dengan bahasa sendiri."),
+             ("Bolehkah solat isyraq di rumah?", "Boleh, dan solatnya sah. Fadhilat dalam hadis disebut bagi orang yang solat Subuh berjemaah dan duduk berzikir hingga matahari terbit; ulama mengharapkan kelebihan bagi sesiapa yang melakukannya di tempat solatnya di rumah, terutama wanita."),
+             ("Apakah lafaz niat solat isyraq?", "“Usolli sunnatal-isyraqi rak'ataini lillahi ta'ala” (sahaja aku solat sunat Isyraq dua rakaat kerana Allah Ta'ala). Niat ialah dalam hati ketika takbiratul ihram.")]),
     "hajat": dict(
         variants=[("hajat", "2 rakaat", 2, NIAT["hajat"], S.steps(KC), "Rakaat")],
         title="Solat Hajat: Cara, Niat, Doa Hajat & Bilangan Rakaat",
@@ -383,7 +412,7 @@ def build_pages7(ctx):
         ("Bolehkah qada solat sunat?", "Solat sunat yang ada waktu tertentu seperti rawatib, dhuha dan witir sunat diqada jika terlepas (pendapat yang muktamad dalam mazhab Syafi'i). Solat sunat yang bersebab seperti tahiyatul masjid tidak diqada."),
     ]
     hub_body = hero("Solat Sunat: Cara, Niat, Doa & Waktu Hari Ini",
-                    "Lapan solat sunat yang paling dicari dengan panduan langkah demi langkah, serta waktu dhuha, sepertiga malam terakhir dan waktu dilarang solat hari ini bagi zon anda.",
+                    "Sembilan solat sunat yang paling dicari dengan panduan langkah demi langkah, serta waktu isyraq, dhuha, sepertiga malam terakhir dan waktu dilarang solat hari ini bagi zon anda.",
                     [("Solat Sunat", None)])
     hub_body += f'''<div class="wrap mn"><div class="ct">
 <section id="waktu" class="tool" aria-labelledby="h-sw">
@@ -428,5 +457,5 @@ def build_pages7(ctx):
                          crumbs=[("Solat Sunat", None)], body=hub_body, faq=hfaq, about=["Solat sunat", "Solat rawatib", "Waktu dilarang solat"], og="solat-sunat",
                          ogcard=("Solat Sunat: Cara, Niat & Doa", "Taubat, Dhuha, Hajat, Jenazah, Witir, Istikharah, Tahajjud dan Tarawih langkah demi langkah."),
                          itemlist=dict(name="Panduan solat sunat", items=[{"@type": "ListItem", "position": i, "name": n, "url": SITE + HUB + s + "/"} for i, (_, s, n, _) in enumerate(S.PRAYERS, 1)]),
-                         llms="Hub solat sunat: waktu dhuha, sepertiga malam terakhir dan waktu dilarang solat hari ini (ikut zon JAKIM), senarai 8 solat sunat dengan rakaat dan waktu, solat rawatib (HR Al-Bukhari 1180, Muslim 728)."))
+                         llms="Hub solat sunat: waktu dhuha, sepertiga malam terakhir dan waktu dilarang solat hari ini (ikut zon JAKIM), senarai 9 solat sunat dengan rakaat dan waktu, solat rawatib (HR Al-Bukhari 1180, Muslim 728)."))
     return pages
