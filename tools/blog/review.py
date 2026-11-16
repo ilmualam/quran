@@ -12,6 +12,9 @@ def page(title, intro, posts, note=""):
     tabs, panes, imgs = [], [], []
     for i, (slug, oldt, oldw, changes) in enumerate(posts):
         m = json.load(open(f"{HERE}/out/{slug}.json")); h = open(f"{HERE}/out/{slug}.html").read()
+        # posts link the shared stylesheet on quran.ilmualam.com; inline it so the preview works before it is deployed
+        css = open(f"{REPO}/assets/blog/post.css", encoding="utf8").read()
+        h = re.sub(r'<link rel="stylesheet" href="https://quran\.ilmualam\.com/assets/blog/post\.css[^"]*">', lambda _: f"<style>{css}</style>", h)
         h = h.replace("https://quran.ilmualam.com/assets/blog/", "img/"); imgs.append(m["img"])
         t = re.sub(r"<style.*?</style>|<script.*?</script>", " ", h, flags=re.S); w = len(re.sub(r"<[^>]+>", " ", t).split())
         tabs.append(f'<button type="button" role="tab" id="t{i}" aria-controls="p{i}" aria-selected="{"true" if i == 0 else "false"}">{e(m["title"].split(":")[0])}</button>')
