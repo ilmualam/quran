@@ -350,13 +350,13 @@ ok(pg.errs.length===0,'mengaji no errors '+pg.errs);
 
 // solat sunat: hub + pages; time cards JS == build and == Python for another zone; player; jenazah pronouns; hajat text; tarawih counter
 {
-  for(const p of ['solat-sunat/','solat-sunat/solat-dhuha/','solat-sunat/solat-tahajjud/','solat-sunat/solat-witir/']){
+  for(const p of ['solat-sunat/','solat-sunat/solat-dhuha/','solat-sunat/solat-isyraq/','solat-sunat/solat-tahajjud/','solat-sunat/solat-witir/']){
     pg=await open(p);
     ok(await raw(p,'#swo')===await pg.$eval('#swo',e=>e.innerHTML),`sunat ${p} time card JS == build`);
     if(p!=='solat-sunat/')ok(await raw(p,'#spc')===await pg.$eval('#spc',e=>e.innerHTML),`sunat ${p} player JS == build`);
     ok(pg.errs.length===0,`sunat ${p} no errors `+pg.errs);
   }
-  for(const [p,k] of [['solat-sunat/','hub'],['solat-sunat/solat-tahajjud/','tahajjud']]){
+  for(const [p,k] of [['solat-sunat/','hub'],['solat-sunat/solat-isyraq/','isyraq'],['solat-sunat/solat-tahajjud/','tahajjud']]){
     pg=await open(p);await pg.selectOption('#swz','SBH07');await pg.waitForFunction(()=>document.querySelector('#swo').textContent.includes('SBH07'));
     const py=execSync(`cd ${TOOLS} && python3 -c "import pages7 as P,ramadan as R,datetime as d;D=d.date(2026,10,18);print(P.sw_card('${k}',R.day_times('SBH07',D)[0],R.day_times('SBH07',D+d.timedelta(1))[0],'SBH07',D),end='')"`).toString();
     ok(py===await pg.$eval('#swo',e=>e.innerHTML),`sunat ${k} card SBH07 JS == Python`);

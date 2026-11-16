@@ -799,6 +799,9 @@ if(swEl&&swdEl){
     const rows=[];
     if(kind==="dhuha"||kind==="hub")rows.push(["Dhuha bermula",hmx(t[2]+20),`kira-kira 20 minit selepas syuruk (${hmx(t[2])}), apabila matahari naik setinggi tombak`],
       ["Dhuha paling afdal",hmx(t[2]+Math.floor((t[5]-t[2])/4)),"suku siang, ketika panas mula terasa"],["Dhuha berakhir",hmx(t[3]),"sebelum masuk Zohor; elakkan beberapa minit sebelumnya (istiwa')"]);
+    if(kind==="isyraq")rows.push(["Duduk berzikir",`${hmx(t[1])}–${hmx(t[2]+20)}`,"selepas solat Subuh hingga matahari naik; solat sunat dilarang dalam tempoh ini"],["Syuruk",hmx(t[2]),"matahari terbit"],
+      ["Isyraq bermula",hmx(t[2]+20),"kira-kira 20 minit selepas syuruk, apabila matahari naik setinggi tombak"],["Dhuha paling afdal",hmx(t[2]+Math.floor((t[5]-t[2])/4)),"suku siang; jika terlepas Isyraq, solat Dhuha masih boleh hingga Zohor"],
+      ["Dhuha berakhir",hmx(t[3]),"masuk waktu Zohor"]);
     if(kind==="tahajjud"||kind==="witir"||kind==="hub"){
       const night=tn[1]+1440-t[5],last=tn[1]+1440-Math.floor(night/3);
       if(kind==="witir")rows.push(["Witir bermula",hmx(t[6]),"selepas solat Isyak"]);
