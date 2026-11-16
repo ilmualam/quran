@@ -216,7 +216,8 @@ POST1 = dict(
     refs=["Al-Quran: Al-Baqarah 2:184–185.", "Sahih Al-Bukhari, no. 1950, 1952; Sahih Muslim, no. 335, 1146, 1147.", "Sunan Abu Daud, no. 2454; Sunan An-Nasa'i, no. 2331.",
           "Al-Fiqh Al-Manhaji 'ala Mazhab Al-Imam Asy-Syafi'i, bab puasa.", "Kadar fidyah: majlis agama Islam / pusat zakat negeri masing-masing."],
     disclaimer="Panduan umum mengikut mazhab Syafi'i. Untuk kes khusus (contohnya sakit berpanjangan atau hutang si mati), rujuk pejabat mufti atau pejabat agama Islam negeri anda.",
-    related=[("https://www.ilmualam.com/2026/04/cara-solat-qada.html", "Cara Solat Qada & Niat Ganti Solat Tertinggal", "Qada solat bertahun-tahun dengan kalkulator hutang solat"),
+    related=[("https://www.ilmualam.com/2025/11/cara-ganti-puasa-qada.html", "Cara Ganti Puasa (Qada') & Kiraan Fidyah", "Panduan asas qada puasa Ramadan"),
+             ("https://www.ilmualam.com/2026/04/cara-solat-qada.html", "Cara Solat Qada & Niat Ganti Solat Tertinggal", "Qada solat bertahun-tahun dengan kalkulator hutang solat"),
              (Q + "kalendar-hijrah/", "Kalendar Hijrah & Puasa Sunat", "Hari Isnin, Khamis dan hari yang haram berpuasa ikut takwim JAKIM"),
              (Q + "zakat-fitrah/", "Kadar Zakat Fitrah Semua Negeri", "Kadar terkini dan kalkulator keluarga")],
     js=calc_js)

@@ -147,6 +147,20 @@ POSTS.append(("mandi-wajib", base(
                                            ["Mandi ihram", "Sebelum berniat ihram haji atau umrah"], ["Mandi selepas memandikan jenazah", "Bagi orang yang memandikan"],
                                            ["Mandi orang yang baru memeluk Islam", "Jika tidak berjunub sebelumnya"], ["Mandi solat gerhana dan istisqa'", "Sebelum solat tersebut"]])
          + "<p>Perbezaan utama: mandi wajib mengangkat hadas besar dan menjadi syarat sah solat; mandi sunat tidak mengangkat hadas dan tidak memadai untuk solat jika seseorang berjunub, kecuali niat mengangkat hadas besar dibuat.</p>"),
+        ("uzur", "Jika Tidak Boleh Terkena Air: Tayammum",
+         "<p>Orang yang sakit, berbalut atau ketiadaan air boleh bertayammum sebagai ganti mandi wajib" + ref("Al-Ma'idah 5:6") + ". Amr bin Al-'As RA bertayammum kerana sangat sejuk dan bimbang mudarat, "
+         "lalu Nabi SAW tidak menegurnya" + ref("HR Abu Daud, no. 334") + ". Bahagian badan yang boleh dibasuh tetap dibasuh, dan bahagian yang tidak boleh diganti dengan tayammum.</p>"
+         + f'<p>Langkah lengkap: <a href="{W}2026/04/cara-tayammum.html">Cara Tayammum yang Betul</a>.</p>'),
+        ("bila", "Bilakah Mandi Wajib Mesti Dilakukan",
+         table(["Keadaan", "Hukum"], [["Hendak solat, tawaf atau menyentuh mushaf", "Wajib mandi sebelum melakukannya"],
+                                     ["Waktu solat hampir habis", "Wajib segera mandi supaya solat tidak terlepas; melewatkannya hingga solat terlepas berdosa"],
+                                     ["Junub pada malam Ramadan", "Puasa sah walaupun mandi selepas Subuh; Nabi SAW pernah bangun dalam keadaan junub ketika Ramadan (HR Al-Bukhari, no. 1926)"],
+                                     ["Tiada urusan ibadah segera", "Sunat menyegerakan; jika menangguh, berwuduk sebelum tidur atau makan"]])),
+        ("hikmah", "Hikmah Mandi Wajib",
+         "<p>Mandi wajib menyucikan zahir dan memperbaharui kesegaran tubuh selepas hubungan suami isteri, haid atau nifas. Dari sudut rohani, ia mengembalikan seseorang kepada keadaan layak beribadah "
+         "dan mendekatkan diri kepada Allah: “Sesungguhnya Allah menyukai orang yang bertaubat dan menyukai orang yang menyucikan diri”" + ref("Al-Baqarah 2:222") + ".</p>"
+         + "<p>Ulama Syafi'i menganjurkan membaca doa selepas wuduk sejurus selesai mandi:</p>" + hd(P, "selepas-wuduk")
+         + f'<p>Selepas mandi, sempurnakan dengan <a href="{W}2026/04/cara-ambil-wuduk-yang-betul.html">cara ambil wuduk yang betul</a> jika berlaku hadas kecil.</p>'),
         ("larangan", "Larangan Ketika Dalam Junub",
          ul("Solat, sujud tilawah dan sujud syukur.", "Tawaf.", "Menyentuh dan membawa mushaf.", "Membaca Al-Quran dengan niat tilawah; zikir dan doa dibenarkan "
             + f'(<a href="{JUNUB}">huraian</a>).', "Duduk atau beriktikaf di dalam masjid.")
@@ -156,7 +170,10 @@ POSTS.append(("mandi-wajib", base(
          ("Apakah niat mandi wajib?", "Nawaitu raf'al hadathil akbar lillahi ta'ala: sahaja aku mengangkat hadas besar kerana Allah Taala, dihadirkan di hati ketika air pertama mengenai badan."),
          ("Perlukah berwuduk lagi selepas mandi wajib untuk solat?", "Tidak, jika tidak berlaku perkara yang membatalkan wuduk selepas mandi. Mandi wajib sudah mengangkat hadas kecil juga."),
          ("Adakah mimpi basah tanpa air mani perlu mandi?", "Tidak. Nabi SAW bersabda mandi wajib apabila melihat air (mani) (HR Al-Bukhari 282)."),
-         ("Adakah cat kuku membatalkan mandi wajib?", "Cat kuku yang membentuk lapisan menghalang air sampai ke kuku, jadi mandi tidak sah selagi ia tidak ditanggalkan. Inai tidak menghalang.")],
+         ("Adakah cat kuku membatalkan mandi wajib?", "Cat kuku yang membentuk lapisan menghalang air sampai ke kuku, jadi mandi tidak sah selagi ia tidak ditanggalkan. Inai tidak menghalang."),
+         ("Bolehkah mandi wajib menggunakan air panas atau air paip?", "Boleh. Syaratnya air mutlak (air biasa yang suci lagi menyucikan), tidak kira panas, sejuk, air paip, perigi atau hujan."),
+         ("Perlukah membasuh rambut yang panjang hingga ke hujung?", "Ya. Air wajib sampai ke seluruh rambut dan kulit kepala. Rambut yang diikat hanya perlu dirungkai jika air tidak dapat sampai ke pangkalnya (HR Muslim 330)."),
+         ("Adakah sah mandi wajib jika terlupa berkumur?", "Sah. Berkumur dan memasukkan air ke hidung hanya sunat dalam mazhab Syafi'i; rukunnya niat dan meratakan air ke seluruh badan.")],
     refs=["Sahih Al-Bukhari, no. 201, 248, 249, 282, 288.", "Sahih Muslim, no. 305, 316, 349.", "Al-Fiqh Al-Manhaji 'ala Mazhab Al-Imam Asy-Syafi'i, bab mandi."],
     related=[(HAID, "Niat Mandi Wajib Selepas Haid", "Tanda suci dan solat yang wajib diganti"), (JUNUB, "Hukum Baca Doa & Zikir Ketika Junub", "Apa yang boleh dibaca sebelum mandi"),
              (Q + "belajar-solat/", "Cara Solat Lengkap", "Panduan solat langkah demi langkah")])))
@@ -203,6 +220,16 @@ POSTS.append(("masa-nifas", base(
             "Tawaf.", "Menyentuh mushaf dan membaca Al-Quran dengan niat tilawah.", "Duduk di dalam masjid.",
             "Bersetubuh sehingga mandi" + ref("Al-Baqarah 2:222") + ". Bermesra selain itu dibenarkan.")
          + "<p>Zikir, selawat dan doa dibenarkan sepanjang tempoh nifas, malah amat digalakkan.</p>"),
+        ("adat", "Adat Berpantang dan Hukum Syarak",
+         table(["Kepercayaan / adat", "Hukum sebenar"], [
+             ["Tidak boleh solat selama 44 hari walaupun darah sudah berhenti", "Salah. Apabila darah berhenti, wajib mandi dan solat, walaupun pada hari ke-10"],
+             ["Ibu dalam pantang tidak boleh berzikir atau berdoa", "Salah. Zikir, selawat dan doa dibenarkan sepanjang nifas"],
+             ["Suami tidak boleh bersama sehingga 100 hari", "Tiada asas syarak; yang dilarang hanya sebelum nifas berhenti dan mandi. Ikut nasihat doktor dari sudut kesihatan"],
+             ["Amalan pantang makan dan berurut", "Hal adat dan perubatan, harus selagi tidak memudaratkan dan tidak melibatkan unsur khurafat"]])),
+        ("bayi", "Amalan Sunnah Menyambut Bayi",
+         ul("Mendoakan bayi dan mentahnik (melumatkan kurma dan menyapukan ke langit-langit mulut bayi)." + ref("HR Al-Bukhari, no. 5467; Muslim, no. 2145"),
+            "Aqiqah pada hari ketujuh, mencukur rambut dan memberi nama yang baik." + ref("HR Abu Daud, no. 2838"))
+         + f'<p>Panduan lanjut: <a href="{W}2026/10/panduan-aqiqah.html">Panduan Aqiqah</a> dan <a href="{W}2026/05/doa-untuk-bayi-baru-lahir.html">Doa Bayi Baru Lahir</a>.</p>'),
         ("niat", "Niat Mandi Nifas & Wiladah",
          niat(P, "Niat Mandi Nifas", "نَوَيْتُ رَفْعَ الْحَدَثِ الْأَكْبَرِ مِنَ النِّفَاسِ لِلّٰهِ تَعَالَى", "Nawaitu raf'al hadathil akbar minan-nifasi lillahi ta'ala.",
               "Sahaja aku mengangkat hadas besar daripada nifas kerana Allah Taala.", note="Bagi bersalin tanpa darah: “Nawaitu raf'al hadathil akbar minal wiladati lillahi ta'ala”.")
@@ -212,7 +239,9 @@ POSTS.append(("masa-nifas", base(
          ("Bolehkah solat jika nifas berhenti sebelum 40 hari?", "Wajib. Apabila darah benar-benar berhenti, mandi dan terus solat, walaupun belum cukup 40 hari."),
          ("Adakah keguguran mewajibkan mandi nifas?", "Ya, jika janin sudah berbentuk ketulan darah atau daging. Darah selepasnya ialah nifas dan wajib mandi apabila berhenti."),
          ("Adakah ibu yang bersalin caesarean mengalami nifas?", "Ya, jika darah keluar dari faraj selepas bersalin. Jika tiada darah langsung, dia tetap wajib mandi wiladah."),
-         ("Bolehkah suami isteri bersama sebelum 40 hari?", "Boleh selepas nifas berhenti dan isteri sudah mandi, walaupun belum cukup 40 hari, dengan mengambil kira nasihat doktor tentang kesihatan.")],
+         ("Bolehkah suami isteri bersama sebelum 40 hari?", "Boleh selepas nifas berhenti dan isteri sudah mandi, walaupun belum cukup 40 hari, dengan mengambil kira nasihat doktor tentang kesihatan."),
+         ("Perlukah qada solat yang ditinggalkan semasa nifas?", "Tidak. Solat dalam tempoh nifas gugur dan tidak perlu diqada; yang perlu diqada hanya puasa Ramadan."),
+         ("Bagaimana jika darah keluar sedikit-sedikit selepas 40 hari?", "Selagi belum melebihi 60 hari dari bersalin, ia masih nifas. Selepas 60 hari, ia istihadah: berwuduk bagi setiap solat fardu dan terus solat.")],
     refs=["Al-Quran: Al-Baqarah 2:222.", "Sunan Abu Daud, no. 311; Sunan At-Tirmizi, no. 139.", "Al-Fiqh Al-Manhaji 'ala Mazhab Al-Imam Asy-Syafi'i, bab haid dan nifas."],
     related=[(HAID, "Niat Mandi Wajib Selepas Haid", "Tanda suci dan solat yang wajib diganti"), (PUASA, "Cara Bayar Hutang Puasa", "Qada, fidyah dan kalkulator"),
              (Q + "nama-bayi-islam/", "Nama Bayi Islam", "Penjana nama dengan maksud dan ayat Al-Quran")],
@@ -267,6 +296,13 @@ POSTS.append(("batal-puasa", base(
          + card(P, "Doa Berbuka Puasa", "ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللّٰهُ", "Zahabaz-zama'u wabtallatil-'uruqu wa thabatal-ajru in sya Allah.",
                 "Telah hilang dahaga, telah basah urat-urat, dan telah tetap pahala, insya-Allah.", "HR Abu Daud, no. 2357 (hasan)",
                 "Dibaca selepas berbuka. Lafaz popular “Allahumma laka sumtu…” diriwayatkan secara mursal (HR Abu Daud, no. 2358) dan boleh dibaca sebagai doa umum.")),
+        ("uzur", "Golongan yang Dibenarkan Tidak Berpuasa",
+         table(["Golongan", "Ganti"], [["Musafir (perjalanan melebihi 2 marhalah, kira-kira 81 km)", "Qada"], ["Sakit yang memudaratkan jika berpuasa", "Qada apabila sembuh"],
+                                      ["Tua atau sakit tiada harapan sembuh", "Fidyah sahaja"], ["Hamil atau menyusu", "Qada, dan fidyah jika bimbangkan anak sahaja"],
+                                      ["Haid dan nifas", "Wajib berbuka; qada"]])
+         + qcard(P, "Al-Baqarah 2:185: Allah menghendaki kemudahan", 2, 185, 185, "Surah Al-Baqarah, ayat 185")
+         + f'<p>Cara mengira qada dan fidyah: <a href="{PUASA}">Hutang Puasa Bertahun-tahun</a> dan <a href="{W}2025/11/cara-ganti-puasa-qada.html">Cara Ganti Puasa & Fidyah</a>. '
+           f'Lafaz niat dan doa berbuka: <a href="{W}2025/12/niat-puasa-ramadan.html">Niat Puasa Ramadan</a> · <a href="{W}2025/12/doa-berbuka-niat-puasa.html">Doa Berbuka Puasa</a>.</p>'),
         ("niat", "Niat Puasa Ramadan",
          niat(P, "Niat Puasa Ramadan", "نَوَيْتُ صَوْمَ غَدٍ عَنْ أَدَاءِ فَرْضِ شَهْرِ رَمَضَانَ هٰذِهِ السَّنَةِ لِلّٰهِ تَعَالَى",
               "Nawaitu sauma ghadin 'an ada'i fardhi syahri Ramadhana hazihis-sanati lillahi ta'ala.",
@@ -414,6 +450,12 @@ POSTS.append(("solat-gerhana", base(
          ul("Solat gerhana.", "Berdoa dan beristighfar.", "Bertakbir.", "Bersedekah." + ref("HR Al-Bukhari, no. 1044: “berdoalah kepada Allah, bertakbirlah, solatlah dan bersedekahlah”"),
             "Membebaskan hamba (pada zaman itu) dan mengingati azab kubur, sebagaimana khutbah Nabi SAW ketika gerhana.")
          + "<p>Tarikh dan waktu gerhana yang kelihatan di Malaysia diumumkan oleh JAKIM dan Planetarium Negara; masjid lazimnya mengumumkan solat gerhana berjemaah.</p>"),
+        ("khutbah", "Isi Khutbah Nabi SAW Ketika Gerhana",
+         "<p>Selepas solat gerhana, Nabi SAW berkhutbah, memuji Allah dan menegaskan bahawa gerhana bukan kerana kematian sesiapa. Baginda bersabda: “Wahai umat Muhammad, demi Allah, tiada yang lebih cemburu "
+         "daripada Allah apabila hamba-Nya lelaki atau perempuan berzina. Wahai umat Muhammad, demi Allah, jika kamu mengetahui apa yang aku ketahui, nescaya kamu sedikit ketawa dan banyak menangis.”"
+         + ref("HR Al-Bukhari, no. 1044; Muslim, no. 901") + "</p>"
+         "<p>Dalam riwayat lain, Baginda menceritakan diperlihatkan syurga dan neraka ketika solat itu, dan menyuruh orang ramai berlindung daripada azab kubur" + ref("HR Al-Bukhari, no. 1052, 1050") + ". "
+         "Inilah tujuan gerhana: mengingatkan manusia kepada akhirat, taubat dan amal soleh.</p>"),
         ("sendiri", "Jika Tidak Dapat Berjemaah",
          "<p>Solat gerhana sah dilakukan seorang diri di rumah, oleh lelaki dan wanita, dengan cara yang sama. Wanita boleh hadir berjemaah di masjid; Asma' binti Abi Bakr RA solat gerhana bersama orang ramai pada zaman Nabi SAW"
          + ref("HR Al-Bukhari, no. 1053") + ". Jika gerhana berlaku pada waktu yang dilarang solat, solat gerhana tetap dibenarkan dalam mazhab Syafi'i kerana ia mempunyai sebab.</p>"
