@@ -463,8 +463,9 @@ POSTS.append(("ruqyah", base(
          ("Apakah doa pendinding diri setiap hari?", "Bismillahillazi la yadhurru ma'asmihi syai'un… tiga kali pagi dan petang (HR Abu Daud 5088; At-Tirmizi 3388), Ayat Kursi, dan tiga Qul.")],
     refs=["Sahih Al-Bukhari, no. 2311, 5007, 5009, 5017.", "Sahih Muslim, no. 2186, 2200.", "Sunan Abu Daud, no. 3855, 5088; Sunan At-Tirmizi, no. 3388.", "Musnad Ahmad, no. 17422."],
     disclaimer="Artikel ini panduan agama, bukan nasihat perubatan. Dapatkan rawatan doktor untuk sebarang simptom fizikal atau emosi yang berpanjangan.",
-    related=[(Q + "ayat-kursi/", "Ayat Kursi", "Bacaan, maksud dan kelebihan"), (Q + "zikir-pagi-petang/", "Zikir Pagi & Petang", "Pendinding harian dengan kaunter"),
-             (Q + "doa-orang-sakit/", "Doa Orang Sakit", "Doa ketika sakit dan menziarahi pesakit")])))
+    related=[(W + "2026/07/4-ayat-al-quran-penangkal-sihir.html", "4 Ayat Al-Quran Penangkal Sihir", "Cara ruqyah sendiri dengan 4 ayat"),
+             (W + "2025/12/ruqyah-ikhlas-falaq-nas.html", "Ruqyah 3 Surah Perlindungan", "Al-Ikhlas, Al-Falaq dan An-Nas"),
+             (W + "2026/07/doa-elak-gangguan-jin-syaitan.html", "Doa Elak Gangguan Jin & Syaitan", "Doa perlindungan mengikut sunnah")])))
 
 # 10 ---------------------------------------------------------------- syirik
 P = "ilmx-sy"
