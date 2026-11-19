@@ -11,6 +11,7 @@ os.makedirs(OUT, exist_ok=True)
 MOD = "2026-11-15"
 MODMS = "15 November 2026"
 IMG = "https://quran.ilmualam.com/assets/blog/"
+RAW = "https://raw.githubusercontent.com/ilmualam/quran/main/assets/blog/"
 NS = "ilmx"  # every post shares this class namespace and assets/blog/post.css
 CSSV = "1"  # bump when CSS changes so browsers fetch the new file
 Q = "https://quran.ilmualam.com/"
@@ -102,6 +103,18 @@ def table(head, rows):
             + "".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>" for r in rows) + "</tbody></table></div>")
 
 
+# Blogger only gives a post a feed thumbnail (media$thumbnail, used by related-post and load-more widgets) when its first image is
+# Google-hosted. thumbs.json maps each card to Blogger's own proxy of it (taken from the live post's og:image), so the hero image
+# goes through lh3.googleusercontent.com; new cards fall back to quran.ilmualam.com until the post is live and the map is refreshed.
+_TH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "thumbs.json")
+THUMBS = json.load(open(_TH)) if os.path.exists(_TH) else {}
+
+
+def hero_src(img):
+    # until a post is live (and its proxy is known), serve the card from GitHub raw so it never depends on the Cloudflare deploy
+    return THUMBS[img] + "=w1200-h675-p-k-no-nu" if img in THUMBS else RAW + img
+
+
 def build(p):
     P = p["ns"]
     toc = "".join(f'<li><a href="#{P}-{sid}">{e(h)}</a></li>' for sid, h, _ in p["sections"])
@@ -122,7 +135,7 @@ def build(p):
             {"@type": "ListItem", "position": 2, "name": p["crumb"][0], "item": p["crumb"][1]},
             {"@type": "ListItem", "position": 3, "name": p["title"], "item": p["url"]}]}]}
     body = f'''<div class="{P}">
-<img src="{IMG}{p["img"]}" alt="{e(p["alt"])}" width="1200" height="675" title="{e(p["title"])}">
+<img src="{hero_src(p["img"])}" alt="{e(p["alt"])}" width="1200" height="675" title="{e(p["title"])}">
 <div class="{P}-hero"><h2>{e(p["h1"])}</h2><p>{e(p["lead"])}</p><div class="{P}-badges">{badges}</div></div>
 <p class="{P}-meta">✍️ Disediakan oleh <strong>Pasukan Editorial The Ilmu Alam</strong> · Dikemas kini {p.get("modms", MODMS)} (asal {p["pubms"]}) · Rujukan: {p["refshort"]}</p>
 <div class="{P}-answer"><p><strong>Jawapan ringkas:</strong> {p["answer"]}</p></div>

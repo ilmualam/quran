@@ -6,9 +6,10 @@ from cards import card as img
 from batch3 import ul, ref, dc, grade, base, SAHIH, HASAN, DHAIF, qcard, table
 
 W = "https://www.ilmualam.com/"
-MOD, MODMS = "2026-11-19", "19 November 2026"
+MOD, MODMS = "2026-11-20", "20 November 2026"
 NEW = {"solat-berjemaah": ("Solat Berjemaah", W + "2026/11/solat-berjemaah.html"),
        "imam-mahdi": ("Imam Mahdi", W + "2026/11/imam-mahdi.html")}
+WHEN = {"solat-berjemaah": "2026-11-20T20:30:00+08:00", "imam-mahdi": "2026-11-21T12:30:00+08:00"}
 KIAMAT = W + "2017/12/tanda-tanda-kiamat-kecil-telah-lengkap.html"
 SOLAT_PAHALA = W + "2018/02/9-kemuliaan-orang-menjaga-solat.html"
 MAKMUM = W + "2018/02/makmum-batal-lewat-depan-makmum-lainnya.html"
