@@ -239,6 +239,12 @@ def build_ramadan(ctx):
                       llms=f"Jadual waktu berbuka puasa dan imsak Ramadan {y}H ({yr}) bagi semua {len(zones)} zon JAKIM. 1 Ramadan {'(rasmi takwim JAKIM)' if s['official'] else '(jangkaan, imkanur rukyah MABIMS)'}: {s['start'].isoformat()}; Aidilfitri: {eid.isoformat()}. Kuala Lumpur (WLY01): berbuka {SL.hm(min(mag))}–{SL.hm(max(mag))}. Imsak = Subuh − 10 minit. Termasuk niat puasa, doa berbuka (Abu Daud 2357), malam ganjil Lailatul Qadar, perkara membatalkan puasa dan fidyah."))
 
     # ======== per state ========
+    # Each state's main berbuka page is the www.ilmualam.com post (rebuilt by tools/blog/berbuka.py with the same JAKIM data);
+    # these pages stay as tools but point their canonical there so the two sites do not compete. Labuan has no www post.
+    BERBUKA_WWW = {s: f"https://www.ilmualam.com/2022/03/waktu-berbuka-puasa-{w}.html" for s, w in (
+        ("johor", "johor"), ("kedah", "kedah"), ("kelantan", "kelantan"), ("melaka", "melaka"), ("negeri-sembilan", "negeri-sembilan"),
+        ("pahang", "pahang"), ("perak", "perak"), ("perlis", "perlis"), ("pulau-pinang", "penang"), ("sabah", "sabah"), ("sarawak", "sarawak"),
+        ("selangor", "selangor"), ("terengganu", "terengganu"), ("kuala-lumpur", "kl-putrajaya"))}
     for slug, name, cap, capz in SL.STATES:
         sz = [z for z in SL.ZONES if z[1] == slug]
         tool, data, rows = ramadan_tool(sz, capz, AREA, s, day, "puasa-" + slug, name)
@@ -316,7 +322,7 @@ def build_ramadan(ctx):
 </div>
 {side([("kira", "Jadual imsakiyah"), ("zon", "Semua zon" if many else "Zon"), ("niat", "Niat & doa berbuka"), ("faq", "Soalan lazim"), ("negeri", "Negeri lain")], "waktu-berbuka-puasa/")}
 </div>'''
-        pages.append(dict(path=url, kind="tool", data=False, arabic=True, published=PUB, extra_data=f'<script type="application/json" id="rd">{data}</script>',
+        pages.append(dict(path=url, kind="tool", data=False, arabic=True, published=PUB, canonical=BERBUKA_WWW.get(slug), extra_data=f'<script type="application/json" id="rd">{data}</script>',
                           title=title, ogtitle=f"Waktu Berbuka Puasa {name} {yr}", desc=desc,
                           crumbs=[("Waktu Berbuka Puasa", "waktu-berbuka-puasa/"), (name, None)], body=body, faq=faq,
                           about=[f"Ramadan {yr}", f"Waktu berbuka puasa {name}", name], og=f"waktu-berbuka-puasa-{slug}",

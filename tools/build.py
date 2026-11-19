@@ -293,7 +293,7 @@ for pg in PAGES:
         "{{SCRIPTS}}": ('<script src="/assets/js/alat.js" defer></script>\n' if pg["kind"] == "tool" else "") + "".join(f'<script src="{u}" defer></script>\n' for u in pg.get("scripts", [])),
         "{{PRELOAD}}": FONT_PRELOAD if pg.get("arabic") else "", "{{ICONS}}": ICON_LINKS, "{{ADMETA}}": ADMETA, "{{CSP}}": csp,
         "{{ROBOTS}}": "noindex,follow" if pg.get("noindex") else "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
-        "{{OGTYPE}}": "website", "{{TITLE}}": e(pg["title"]), "{{OGTITLE}}": e(pg["ogtitle"]), "{{DESC}}": e(pg["desc"]), "{{URL}}": url, "{{OGIMG}}": ogimg,
+        "{{OGTYPE}}": "website", "{{TITLE}}": e(pg["title"]), "{{OGTITLE}}": e(pg["ogtitle"]), "{{DESC}}": e(pg["desc"]), "{{URL}}": url, "{{CANON}}": pg.get("canonical") or url, "{{OGIMG}}": ogimg,
         "{{CSS}}": css_page, "{{THEMEJS}}": THEME_JS, "{{GTMJS}}": GTM_JS, "{{JSONLD}}": page_graph(pg, url, ogimg, mod), "{{TODAY}}": mod, "{{MAIN}}": MAIN})
     assert len(pg["title"]) <= 70 and len(pg["desc"]) <= 160, (pg["path"], len(pg["title"]), len(pg["desc"]))
     out = f"{REPO}/{pg['path']}" + ("index.html" if pg["path"].endswith("/") else "")
@@ -324,7 +324,8 @@ SEARCH += [[f"Surah {S[n][1]} ({n})", f"/#surah-{n}", f"{S[n][2]} · {AYAT[n]} a
 open(f"{REPO}/assets/data/cari.json", "w", encoding="utf8", newline="\n").write(json.dumps(SEARCH, ensure_ascii=False, separators=(",", ":")))
 
 # ---- supporting files ----
-INDEXED = [("", TODAY)] + [(p["path"], p.get("modified", TODAY)) for p in PAGES if not p.get("noindex")]
+# pages whose canonical points elsewhere (the state berbuka pages -> www.ilmualam.com posts) stay out of the sitemap
+INDEXED = [("", TODAY)] + [(p["path"], p.get("modified", TODAY)) for p in PAGES if not p.get("noindex") and not p.get("canonical")]
 BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User", "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended"]
 robots = f"# robots.txt for {SITE}\n# Everything is public. Search engines and AI answer engines are welcome.\n\nUser-agent: *\nAllow: /\n\n"
 robots += "".join(f"User-agent: {b}\nAllow: /\n\n" for b in BOTS) + f"Sitemap: {SITE}sitemap.xml\n"
