@@ -11,6 +11,7 @@ os.makedirs(OUT, exist_ok=True)
 MOD = "2026-11-15"
 MODMS = "15 November 2026"
 IMG = "https://quran.ilmualam.com/assets/blog/"
+RAW = "https://raw.githubusercontent.com/ilmualam/quran/main/assets/blog/"
 NS = "ilmx"  # every post shares this class namespace and assets/blog/post.css
 CSSV = "1"  # bump when CSS changes so browsers fetch the new file
 Q = "https://quran.ilmualam.com/"
@@ -110,7 +111,8 @@ THUMBS = json.load(open(_TH)) if os.path.exists(_TH) else {}
 
 
 def hero_src(img):
-    return THUMBS[img] + "=w1200-h675-p-k-no-nu" if img in THUMBS else IMG + img
+    # until a post is live (and its proxy is known), serve the card from GitHub raw so it never depends on the Cloudflare deploy
+    return THUMBS[img] + "=w1200-h675-p-k-no-nu" if img in THUMBS else RAW + img
 
 
 def build(p):

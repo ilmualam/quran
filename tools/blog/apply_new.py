@@ -2,7 +2,7 @@
 title at first publish), then PATCH the full title and body. If Blogger's URL differs from the one the build assumed (canonical, JSON-LD),
 the body is rebuilt with the real URL before the PATCH. Skips any slug already in out/new-applied.json.
 Run from the repo root: PYTHONPATH=tools python3 tools/blog/apply_new.py [--dry]"""
-import json, os, sys
+import json, os, sys, urllib.parse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import apply_triage as A
 import batch5
@@ -19,12 +19,15 @@ def main():
         short, want = batch5.NEW[slug]
         if A.DRY:
             print("would create", slug, "as", repr(short), "->", want); continue
-        made = A.call(f"{A.API}/blogs/{A.B}/posts/", json.dumps({"title": short, "content": build(p), "labels": [p["crumb"][0]]}).encode(), "POST")
+        made = A.call(f"{A.API}/blogs/{A.B}/posts/?isDraft=true", json.dumps({"title": short, "content": build(p), "labels": [p["crumb"][0]]}).encode(), "POST")
+        when = batch5.WHEN.get(slug)  # RFC3339 schedule time, or None to publish now
+        q = f"?publishDate={urllib.parse.quote(when)}" if when else ""
+        made = A.call(f"{A.API}/blogs/{A.B}/posts/{made['id']}/publish{q}", b"", "POST")
         url = made["url"]
         if url != want:
             p = dict(p, url=url)
         r = A.patch(made["id"], {"title": p["title"], "content": build(p)})
-        done[slug] = {"id": made["id"], "url": url, "title_ok": r.get("title") == p["title"], "url_as_planned": url == want}
+        done[slug] = {"id": made["id"], "url": url, "status": made.get("status"), "when": when, "title_ok": r.get("title") == p["title"], "url_as_planned": url == want}
         json.dump(done, open(LOG, "w"), ensure_ascii=False, indent=1)
         print("published", slug, url, done[slug])
 
