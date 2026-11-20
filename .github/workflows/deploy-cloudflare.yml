@@ -1,13 +1,10 @@
 name: Deploy to Cloudflare (Workers static assets)
 
-# Deploys the committed site to the quran-ilmualam Worker. Pushes made by the data/refresh workflows use GITHUB_TOKEN,
-# which does not fire "push" events, so those workflows trigger a deploy through workflow_run instead.
+# Manual fallback only. Production deploys are done by Cloudflare Workers Builds (Cloudflare dashboard → Workers & Pages →
+# quran-ilmualam → Settings → Builds), which builds and deploys every push to main, including the data/refresh workflows'
+# commits, with no API token stored in GitHub. Run this by hand only if Builds is unavailable; it needs the repository
+# secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID to be valid.
 on:
-  push:
-    branches: [main]
-  workflow_run:
-    workflows: ["Daily refresh (hari ini)", "Prayer times (JAKIM)", "Masjid & surau (OpenStreetMap)"]
-    types: [completed]
   workflow_dispatch:
 
 concurrency:
@@ -19,7 +16,6 @@ permissions:
 
 jobs:
   deploy:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
