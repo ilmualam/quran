@@ -1,10 +1,15 @@
 name: Deploy to Cloudflare (Workers static assets)
 
-# Manual fallback only. Production deploys are done by Cloudflare Workers Builds (Cloudflare dashboard → Workers & Pages →
-# quran-ilmualam → Settings → Builds), which builds and deploys every push to main, including the data/refresh workflows'
-# commits, with no API token stored in GitHub. Run this by hand only if Builds is unavailable; it needs the repository
-# secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID to be valid.
+# Deploys the committed site to the quran-ilmualam Worker. Pushes made by the data/refresh workflows use GITHUB_TOKEN,
+# which does not fire "push" events, so those workflows trigger a deploy through workflow_run instead.
+# Needs the repository secrets CLOUDFLARE_API_TOKEN (an API token, not the Global API Key; never "rolled" after saving)
+# and CLOUDFLARE_ACCOUNT_ID.
 on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ["Daily refresh (hari ini)", "Prayer times (JAKIM)", "Masjid & surau (OpenStreetMap)"]
+    types: [completed]
   workflow_dispatch:
 
 concurrency:
@@ -16,6 +21,7 @@ permissions:
 
 jobs:
   deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -29,6 +35,14 @@ jobs:
         run: tools/cf/pack.sh
       - name: Deploy
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npx --yes wrangler@4.162.0 deploy
+          RAW_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          RAW_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # secrets pasted from a phone often carry spaces, line breaks, quotes or a "Bearer " prefix: strip them
+          T="$(printf %s "$RAW_TOKEN" | tr -d '[:space:]"' | sed 's/^Bearer//')"
+          A="$(printf %s "$RAW_ACCOUNT" | tr -d '[:space:]"')"
+          echo "token length ${#T} (API tokens are 40), account id length ${#A} (32)"
+          echo -n "user-token check: "; curl -s -H "Authorization: Bearer $T" https://api.cloudflare.com/client/v4/user/tokens/verify | jq -c '{success, status: .result.status, errors: [.errors[]?.message]}'
+          echo -n "account-token check: "; curl -s -H "Authorization: Bearer $T" "https://api.cloudflare.com/client/v4/accounts/$A/tokens/verify" | jq -c '{success, status: .result.status, errors: [.errors[]?.message]}'
+          echo "token starts with letters: $(printf %s "$T" | head -c 4 | tr -c 'A-Za-z_' '*' | sed 's/[A-Za-z]/a/g')"
+          CLOUDFLARE_API_TOKEN="$T" CLOUDFLARE_ACCOUNT_ID="$A" npx --yes wrangler@4.162.0 deploy
