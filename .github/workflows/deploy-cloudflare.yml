@@ -42,5 +42,7 @@ jobs:
           T="$(printf %s "$RAW_TOKEN" | tr -d '[:space:]"' | sed 's/^Bearer//')"
           A="$(printf %s "$RAW_ACCOUNT" | tr -d '[:space:]"')"
           echo "token length ${#T} (API tokens are 40), account id length ${#A} (32)"
-          curl -s -H "Authorization: Bearer $T" https://api.cloudflare.com/client/v4/user/tokens/verify | jq -c '{success, status: .result.status, errors: [.errors[]?.message]}'
+          echo -n "user-token check: "; curl -s -H "Authorization: Bearer $T" https://api.cloudflare.com/client/v4/user/tokens/verify | jq -c '{success, status: .result.status, errors: [.errors[]?.message]}'
+          echo -n "account-token check: "; curl -s -H "Authorization: Bearer $T" "https://api.cloudflare.com/client/v4/accounts/$A/tokens/verify" | jq -c '{success, status: .result.status, errors: [.errors[]?.message]}'
+          echo "token starts with letters: $(printf %s "$T" | head -c 4 | tr -c 'A-Za-z_' '*' | sed 's/[A-Za-z]/a/g')"
           CLOUDFLARE_API_TOKEN="$T" CLOUDFLARE_ACCOUNT_ID="$A" npx --yes wrangler@4.162.0 deploy
