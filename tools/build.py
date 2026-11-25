@@ -1,7 +1,7 @@
 import json, re, hashlib, html, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from surahs import S, MADANI, ALIAS, POPULAR, ARTICLES
-from pages import build_pages, tool_cards
+from pages import build_pages, tool_cards, hero, meta_line
 from pages2 import build_pages2
 from pages3 import build_state_pages
 from pages4 import build_pages4
@@ -280,6 +280,53 @@ PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "a
          ogtitle="Al-Quran Online", desc="Halaman tidak dijumpai. Baca Al-Quran online atau gunakan alat khatam, hafazan, tasbih dan carian ayat.",
          crumbs=[("404", None)], body=NOTFOUND, faq=[], about=[]),
 ]
+# ---- /peta-laman/: HTML sitemap generated from PAGES, so it lists exactly what sitemap.xml lists ----
+PETA_GROUPS = [
+    ("quran", "Al-Quran, Surah & Tajwid", lambda s: s.startswith(("surah-", "juz-")) or s in {"ayat-kursi", "amanar-rasul", "senarai-juzuk-al-quran", "cari-ayat-al-quran", "jadual-khatam-al-quran", "jadual-hafazan-al-quran", "belajar-tajwid", "belajar-iqra", "belajar-mengaji"}),
+    ("doa", "Doa, Zikir & Tasbih", lambda s: s.startswith("doa-") or s in {"zikir-pagi-petang", "tahiyat-akhir", "tahlil-ringkas", "tasbih-digital", "asmaul-husna"}),
+    ("solat", "Panduan Solat", lambda s: s in {"belajar-solat", "solat-jamak-qasar", "solat-sunat"}),
+    ("waktu", "Waktu Solat, Berbuka & Kalendar Hijrah", lambda s: s in {"waktu-solat", "waktu-berbuka-puasa", "kalendar-hijrah"}),
+    ("masjid", "Cari Masjid & Surau", lambda s: s == "cari-masjid"),
+    ("zakat", "Zakat & Faraid", lambda s: s.startswith("zakat-") or s == "faraid"),
+    ("haji", "Haji & Umrah", lambda s: s == "haji-umrah"),
+    ("nabi", "Kisah 25 Nabi", lambda s: s == "kisah-nabi"),
+    ("nama", "Nama Bayi Islam", lambda s: s == "nama-bayi-islam"),
+    ("laman", "Alat & Maklumat Laman", lambda s: True),
+]
+
+
+def peta_laman(pages):
+    listed = [p for p in pages if not p.get("noindex") and not p.get("canonical") and "/maksud-nama-" not in p["path"]]
+    maksud = sum(1 for p in pages if "/maksud-nama-" in p["path"] and not p.get("noindex"))
+    groups = {k: [] for k, _, _ in PETA_GROUPS}
+    for p in listed + [dict(path="peta-laman/", ogtitle="Peta Laman")]:
+        seg = p["path"].split("/")[0].replace(".html", "")
+        groups[next(k for k, _, f in PETA_GROUPS if f(seg))].append(p)
+    toc = "".join(f'<li><a href="#{k}">{e(n)}</a> ({len(groups[k])})</li>' for k, n, _ in PETA_GROUPS if groups[k])
+    secs = ""
+    for k, n, _ in PETA_GROUPS:
+        if not groups[k]:
+            continue
+        lis = "".join(f'<li><a href="/{p["path"]}">{e(p["ogtitle"])}</a></li>' for p in groups[k])
+        note = (f'<p>Serta {maksud} halaman maksud nama, dipautkan dari setiap halaman huruf di atas.</p>' if k == "nama" and maksud else "")
+        secs += f'<section aria-labelledby="{k}"><h2 id="{k}">{e(n)}</h2><ul class="pl">{lis}</ul>{note}</section>'
+    total = sum(len(v) for v in groups.values()) + 1
+    body = hero("Peta Laman", "Semua halaman Al-Quran Online di quran.ilmualam.com, disusun mengikut topik.", [("Peta Laman", None)])
+    body += f'''<div class="wrap mn pg1"><div class="ct prose">
+{meta_line(TODAY, TODAYMS)}
+<style>.pl{{columns:2 240px;column-gap:24px;padding-left:1.2em!important}}.pl li{{break-inside:avoid;margin:0 0 6px!important}}.pltoc{{columns:2 220px}}</style>
+<div class="box"><p><strong>Ringkasan:</strong> laman ini mempunyai {total + maksud} halaman awam: pembaca <a href="/">Al-Quran 114 surah</a>, alat ibadah, panduan dan rujukan. Untuk enjin carian, lihat <a href="/sitemap.xml">sitemap.xml</a>. Artikel penuh diterbitkan di <a href="{MAIN}">www.ilmualam.com</a> (<a href="{MAIN}p/sitemap.html">peta laman artikel</a>).</p></div>
+<nav aria-label="Kandungan peta laman"><ul class="pltoc">{toc}</ul></nav>
+{secs}
+</div></div>'''
+    return dict(path="peta-laman/", kind="info", schema="CollectionPage", data=False, arabic=False,
+                title="Peta Laman – Al-Quran Online (The Ilmu Alam)", ogtitle="Peta Laman Al-Quran Online",
+                desc="Senarai semua halaman Al-Quran Online: 114 surah, doa, waktu solat, zakat, haji & umrah, kisah nabi, nama bayi Islam dan alat ibadah.",
+                crumbs=[("Peta Laman", None)], body=body, faq=[], about=["Peta laman"],
+                llms="Peta laman: senarai semua halaman quran.ilmualam.com mengikut topik.")
+
+
+PAGES.append(peta_laman(PAGES))
 OUTPUTS = {"": PAGE}
 for pg in PAGES:
     url = SITE + pg["path"]
