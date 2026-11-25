@@ -767,8 +767,48 @@ def build_pages(ctx):
     body = hero("Hubungi Kami", "Laporkan kesilapan, cadangkan alat baharu atau bertanya tentang kerjasama.", [("Hubungi Kami", None)])
     body += f'''<div class="wrap mn pg1"><div class="ct prose">
 {meta_line(T, TMS)}
-<div class="box"><p><strong>Cara paling cepat:</strong> gunakan <a href="{MAIN}p/contact.html">borang hubungi di ilmualam.com</a>. Borang itu meliputi laman Al-Quran Online ini juga.</p></div>
-<p><a class="btn3" href="{MAIN}p/contact.html">✉️ Buka borang hubungi</a></p>
+<div class="box"><p><strong>Jawapan ringkas:</strong> isi borang di bawah atau e-mel <a href="mailto:salam@ilmualam.com">salam@ilmualam.com</a>. Kami membalas setiap mesej yang tulen, biasanya dalam 2 hari bekerja.</p></div>
+<style>
+.cf{{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:18px;margin:0 0 28px;box-shadow:var(--sh)}}
+.cf h2{{margin-top:0!important}}
+.cf-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}}
+.cf-f{{margin:0 0 14px}}
+.cf-f label{{display:block;font-weight:700;margin:0 0 6px}}
+.cf-f label span{{font-weight:400;color:var(--sub)}}
+.cf-f input,.cf-f select,.cf-f textarea{{width:100%;box-sizing:border-box;min-height:46px;padding:10px 12px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--text);font:inherit}}
+.cf-f textarea{{min-height:150px;resize:vertical}}
+.cf-f :is(input,select,textarea):focus-visible{{outline:2px solid var(--g);outline-offset:1px}}
+.cf-hp{{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}}
+.cf-note{{font-size:.9rem;color:var(--sub)}}
+.cf button{{border:0;cursor:pointer;font:inherit}}
+.cf button:disabled{{opacity:.6;cursor:wait}}
+.cf-status{{margin:12px 0 0;font-weight:700}}
+.cf-status:empty{{display:none}}
+.cf-status--err{{color:#b42318}}
+.cf-done h2{{margin-top:0!important}}
+@media (max-width:640px){{.cf-grid{{grid-template-columns:minmax(0,1fr)}}}}
+</style>
+<form class="cf" id="borang" action="/api/contact" method="post" data-contact>
+<h2>Hantar Mesej</h2>
+<div class="cf-grid">
+<div class="cf-f"><label for="cf-name">Nama</label><input id="cf-name" name="name" autocomplete="name" required minlength="2" maxlength="100"></div>
+<div class="cf-f"><label for="cf-email">E-mel</label><input id="cf-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200"></div>
+</div>
+<div class="cf-f"><label for="cf-topic">Topik</label><select id="cf-topic" name="topic">
+<option value="kesilapan">Laporan kesilapan (teks, terjemahan, audio)</option>
+<option value="alat">Cadangan alat baharu</option>
+<option value="kerjasama">Kerjasama, masjid &amp; sekolah</option>
+<option value="iklan">Pengiklanan &amp; tajaan</option>
+<option value="umum" selected>Soalan umum</option>
+</select></div>
+<div class="cf-f"><label for="cf-message">Mesej <span>(sertakan rujukan ayat atau pautan halaman jika berkaitan)</span></label><textarea id="cf-message" name="message" rows="6" required minlength="10" maxlength="5000"></textarea></div>
+<div class="cf-hp" aria-hidden="true"><label for="cf-website">Biarkan kosong</label><input id="cf-website" name="website" tabindex="-1" autocomplete="off"></div>
+<input type="hidden" name="t" value=""><input type="hidden" name="page" value="">
+<p class="cf-note">Nama dan e-mel anda hanya digunakan untuk membalas mesej ini. Ia tidak dikongsi dan tidak dimasukkan ke dalam senarai mel. Lihat <a href="/dasar-privasi.html">Dasar Privasi</a>.</p>
+<p><button class="btn3" type="submit">✉️ Hantar mesej</button></p>
+<p class="cf-status" role="status" aria-live="polite" data-status></p>
+<noscript><p class="cf-note">JavaScript dimatikan: borang tetap berfungsi, dan anda akan dibawa semula ke halaman ini selepas menghantar.</p></noscript>
+</form>
 
 <h2 id="kesilapan">Laporkan Kesilapan Teks, Terjemahan atau Audio</h2>
 <p>Kami amat menghargai laporan kesilapan kerana ia melibatkan kalam Allah. Sertakan:</p>
@@ -777,13 +817,13 @@ def build_pages(ctx):
 <li>apa yang salah (teks Arab, Rumi, terjemahan, audio atau kiraan jadual);</li>
 <li>sumber rujukan jika ada (contohnya mushaf bercetak yang disahkan).</li>
 </ul>
-<p>Laporan yang disahkan akan dibetulkan dan tarikh “Dikemas kini” halaman berkenaan diubah. Lihat <a href="/tentang-kami/#semakan">cara kami menyemak kandungan</a>.</p>
+<p>Laporan yang disahkan akan dibetulkan dan tarikh “Dikemas kini” halaman berkenaan diubah. Lihat <a href="/tentang-kami/#semakan">cara kami menyemak kandungan</a>. <a href="/hubungi-kami/?topic=kesilapan#borang">Laporkan kesilapan</a>.</p>
 
 <h2 id="cadangan">Cadangkan Alat Baharu</h2>
-<p>Beritahu kami alat Al-Quran atau ibadah yang anda perlukan dan untuk siapa (diri sendiri, anak-anak, kelas tahfiz, surau). Cadangan yang paling banyak diminta akan dibina dahulu.</p>
+<p>Beritahu kami alat Al-Quran atau ibadah yang anda perlukan dan untuk siapa (diri sendiri, anak-anak, kelas tahfiz, surau). Cadangan yang paling banyak diminta akan dibina dahulu. <a href="/hubungi-kami/?topic=alat#borang">Cadangkan alat</a>.</p>
 
 <h2 id="kerjasama">Kerjasama, Masjid & Sekolah</h2>
-<p>Masjid, surau, sekolah dan kelas tahfiz dipersilakan berkongsi pautan laman ini. Untuk kerjasama kandungan atau pengiklanan, gunakan borang yang sama. Iklan tidak dipaparkan di dalam paparan ayat Al-Quran.</p>
+<p>Masjid, surau, sekolah dan kelas tahfiz dipersilakan berkongsi pautan laman ini. Untuk <a href="/hubungi-kami/?topic=kerjasama#borang">kerjasama kandungan</a> atau <a href="/hubungi-kami/?topic=iklan#borang">pengiklanan</a>, gunakan borang di atas. Iklan tidak dipaparkan di dalam paparan ayat Al-Quran.</p>
 
 <h2 id="sosial">Media Sosial</h2>
 <ul>
@@ -800,8 +840,8 @@ def build_pages(ctx):
                       title="Hubungi Kami – Al-Quran Online (The Ilmu Alam)",
                       ogtitle="Hubungi Al-Quran Online (Ilmu Alam)",
                       desc="Hubungi Al-Quran Online oleh The Ilmu Alam untuk melaporkan kesilapan teks, terjemahan atau audio, mencadangkan alat baharu, atau kerjasama.",
-                      crumbs=[("Hubungi Kami", None)], body=body, faq=[], about=["The Ilmu Alam"],
-                      llms="Hubungi: borang di ilmualam.com/p/contact.html untuk laporan kesilapan, cadangan alat dan kerjasama."))
+                      crumbs=[("Hubungi Kami", None)], body=body, faq=[], about=["The Ilmu Alam"], scripts=["/assets/js/hubungi.js"],
+                      llms="Hubungi: borang di quran.ilmualam.com/hubungi-kami/ atau e-mel salam@ilmualam.com untuk laporan kesilapan, cadangan alat, kerjasama dan pengiklanan."))
 
     # ---------------- terma ----------------
     body = hero("Terma Penggunaan & Penafian", "Syarat menggunakan Al-Quran Online dan alat-alatnya.", [("Terma Penggunaan", None)])

@@ -187,7 +187,7 @@ if ADS_ON:
     # AdSense loads scripts, frames and pixels from many rotating Google hosts, so the strict policy is relaxed
     csp = (f"default-src 'self'; script-src 'self' '{sha(THEME_JS)}' '{sha(GTM_JS)}' 'unsafe-inline' 'unsafe-eval' https:; style-src 'unsafe-inline' https:; "
            "img-src 'self' data: https:; font-src 'self' https:; frame-src https:; connect-src 'self' https:; worker-src 'self'; "
-           "media-src https://everyayah.com; object-src 'none'; base-uri 'self'; form-action https://api.follow.it")
+           "media-src https://everyayah.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.follow.it")
 else:
     # Google hosts from developers.google.com/tag-platform/security/guides/csp: GTM, its preview mode, and GA4 with Ads endpoints (.com.my = Malaysian visitors).
     # Inline code stays blocked, so GTM Custom HTML tags and Custom JavaScript variables will not run.
@@ -196,7 +196,7 @@ else:
            "style-src 'unsafe-inline' https://www.googletagmanager.com https://tagmanager.google.com https://fonts.googleapis.com; "
            f"img-src 'self' data: {G_HITS} https://ssl.gstatic.com https://www.gstatic.com; font-src 'self' data: https://fonts.gstatic.com; worker-src 'self'; "
            f"media-src https://everyayah.com; connect-src 'self' https://www.e-solat.gov.my https://overpass-api.de https://overpass.kumi.systems {G_HITS} https://pagead2.googlesyndication.com; "
-           "frame-src https://www.googletagmanager.com; manifest-src 'self'; base-uri 'self'; form-action https://api.follow.it")
+           "frame-src https://www.googletagmanager.com; manifest-src 'self'; base-uri 'self'; form-action 'self' https://api.follow.it")
 ADMETA = f'<meta name="google-adsense-account" content="{e(ADS_CLIENT)}">\n' if ADS_CLIENT else ""
 HEADER = open(f"{SCR}/header.html", encoding="utf8").read()
 FOOTER = open(f"{SCR}/footer.html", encoding="utf8").read()
