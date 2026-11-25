@@ -1,13 +1,19 @@
-// Cloudflare Workers static assets: serves the generated site from ./dist (built by tools/cf/pack.sh, never committed).
-// Deployed by .github/workflows/deploy-cloudflare.yml on every push to main.
+// Cloudflare Worker for quran.ilmualam.com: static assets from ./dist (built by tools/cf/pack.sh, never committed)
+// plus worker/index.js, which runs only for /api/* (the contact form) and sends mail through Email Routing.
+// Secret CONTACT_TO (set in the dashboard: Workers > quran-ilmualam > Settings > Variables and Secrets) must be a
+// verified Email Routing destination address. Deployed by .github/workflows/deploy-cloudflare.yml on every push to main.
 {
   "name": "quran-ilmualam",
+  "main": "worker/index.js",
   "compatibility_date": "2026-11-01",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
   },
+  "send_email": [{ "name": "MAILER" }],
   "workers_dev": true,
   "preview_urls": false
 }
