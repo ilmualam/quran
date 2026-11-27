@@ -845,7 +845,7 @@ Laman utama menerangkan hukum membaca Al-Quran secara digital mengikut mazhab Sy
 - [Tentang Kami – Al-Quran Online oleh The Ilmu Alam](https://quran.ilmualam.com/tentang-kami/): Tentang laman: projek The Ilmu Alam (ilmualam.com, sejak 2020), sumber data (AlQuran Cloud, EveryAyah.com, Tanzil/quran-meta, Amiri), proses semakan dan dasar pembetulan.
 - [Hubungi Kami – Al-Quran Online (The Ilmu Alam)](https://quran.ilmualam.com/hubungi-kami/): Hubungi: borang di quran.ilmualam.com/hubungi-kami/ atau e-mel salam@ilmualam.com untuk laporan kesilapan, cadangan alat, kerjasama dan pengiklanan.
 - [Terma Penggunaan & Penafian – Al-Quran Online](https://quran.ilmualam.com/terma-penggunaan/): Terma penggunaan dan penafian: kegunaan peribadi/pendidikan, rujuk mushaf bercetak, kandungan hukum bukan fatwa, undang-undang Malaysia.
-- [Dasar Privasi – Al-Quran Online | Ilmu Alam](https://quran.ilmualam.com/dasar-privasi.html): Dasar privasi: tiada akaun; tetapan, tanda bacaan, kiraan tasbih dan kemajuan khatam disimpan dalam localStorage; pihak ketiga (Google AdSense, EveryAyah.com, GitHub Pages); hak di bawah PDPA 2010.
+- [Dasar Privasi – Al-Quran Online | Ilmu Alam](https://quran.ilmualam.com/dasar-privasi.html): Dasar privasi: tiada akaun; tetapan, tanda bacaan, kiraan tasbih dan kemajuan khatam disimpan dalam localStorage; borang hubungi (nama dan e-mel, dihantar melalui Cloudflare Email Routing); pihak ketiga (Google AdSense, EveryAyah.com, Cloudflare); hak di bawah PDPA 2010.
 - [Peta Laman – Al-Quran Online (The Ilmu Alam)](https://quran.ilmualam.com/peta-laman/): Peta laman: senarai semua halaman quran.ilmualam.com mengikut topik.
 
 ## Data

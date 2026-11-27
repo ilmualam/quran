@@ -262,7 +262,7 @@ def page_graph(pg, url, ogimg, mod):
     return json.dumps({"@context": "https://schema.org", "@graph": nodes}, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
 
-PRIV_DATE, PRIV_DATEMS = "2026-11-06", "6 November 2026"  # effective date: change when the policy text changes
+PRIV_DATE, PRIV_DATEMS = "2026-11-27", "27 November 2026"  # effective date: change when the policy text changes
 PRIV_BODY = render(open(f"{SCR}/privacy.html", encoding="utf8").read(), {"{{MAIN}}": MAIN, "{{TODAYMS}}": PRIV_DATEMS, "{{TODAY}}": PRIV_DATE})
 NOTFOUND = ('<div class="hero sm"><div class="wrap"><h1>Halaman Tidak Dijumpai (404)</h1><p class="lead">Pautan ini mungkin telah berubah. '
             'Cuba salah satu pautan di bawah.</p></div></div><div class="wrap mn pg1"><div class="ct"><section aria-labelledby="h-404">'
@@ -275,7 +275,7 @@ PAGES = build_pages2({"TODAY": TODAY, "TODAYMS": TODAYMS, "share": share_bar, "a
          ogtitle="Dasar Privasi – Al-Quran Online",
          desc="Dasar privasi Al-Quran Online (quran.ilmualam.com): data yang disimpan dalam pelayar anda, kuki, iklan Google AdSense dan hak anda di bawah PDPA 2010.",
          crumbs=[("Dasar Privasi", None)], body=PRIV_BODY, faq=[], about=["Dasar privasi"],
-         llms="Dasar privasi: tiada akaun; tetapan, tanda bacaan, kiraan tasbih dan kemajuan khatam disimpan dalam localStorage; pihak ketiga (Google AdSense, EveryAyah.com, GitHub Pages); hak di bawah PDPA 2010."),
+         llms="Dasar privasi: tiada akaun; tetapan, tanda bacaan, kiraan tasbih dan kemajuan khatam disimpan dalam localStorage; borang hubungi (nama dan e-mel, dihantar melalui Cloudflare Email Routing); pihak ketiga (Google AdSense, EveryAyah.com, Cloudflare); hak di bawah PDPA 2010."),
     dict(path="404.html", kind="info", data=False, arabic=False, noindex=True, title="Halaman Tidak Dijumpai – Al-Quran Online",
          ogtitle="Al-Quran Online", desc="Halaman tidak dijumpai. Baca Al-Quran online atau gunakan alat khatam, hafazan, tasbih dan carian ayat.",
          crumbs=[("404", None)], body=NOTFOUND, faq=[], about=[]),
